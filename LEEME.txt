@@ -1,0 +1,41 @@
+ESTE ARCHIVO CONTIENE TEXTO UNICODE
+
+PseudoD
+creado por Alejandro Linarez Rangel
+
+QUE ES
+	PseudoD es un lenguaje de programación en español.
+	Para ver sobre PseudoD, ver http://pseudod.sourceforge.net/
+
+COMPILAR
+	PseudoD fue probado con el compilador de la Gcc, G++4.8.
+	PseudoD esta escrito en C++11, NO COMPILAR SIN SOPORTE PARA ESTE.
+	
+	PseudoD incluye un Makefile, este compila PseudoD suponiendo que se tiene g++
+	4.8 o superior y genera dos archivos: libpseudod.so y PseudoD.
+	
+	PseudoD es el ejecutable,(el interprete) este depende del NEA que es libpseudod.so.
+
+INTERPRETE
+	Sintaxis:
+		PseudoD (archivo) (ruta de la biblioteca estandar) (NEA)
+	
+		archivo: el archivo a ejecutar
+		ruta: rta de la biblioteca estandar, si no se ha instalado la biblioteca
+					estandar, escribir "nulo".
+		NEA: la ruta de libpseudod.so
+	Ejemplo:
+		Para ejecutar un archivo llamado prg.pd, suponiendo que PseudoD y libpseudod
+		estan en el directoria actual:
+			./PseudoD prg.pd "nulo" "./libpseudod.so"
+		Si se tiene la biblioteca estandar en, por ejemplo "/home/user/PseudoD",(o
+		en Windows, "C:\\Users\\User\\PseudoD")
+			./PseudoD prg.pd "/home/user/PseudoD" "./libpseudod.so"
+		PseudoD por defecto supone que libpseudod.so esta en /usr/lib/libpseudod.so
+		(ALERTA usuarios multisistema, esto no cambia si estas en Windows o Macintosh
+		en ese caso, es obligatorio especificar la ruta) asi que si se mueve libpseudod
+		a /usr/lib/libpseudod.so, no sera necesario el ultimo parametro.
+
+PseudoD fue creado por Alejandro Linarez Rangel
+
+Gracias por usar PseudoD
