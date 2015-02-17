@@ -148,15 +148,8 @@ extern "C" void PDEjecutar(string o,istream& i)
 		int v1,v2;
 		v1 = stoi(va);
 		v2 = stoi(vb);
-		if(!(v1 > v2))
-		{
 			int v3 = v1 - v2;
 			vr = eas(v3);
-		}
-		else
-		{
-			vr = ":C++:error:";
-		}
 	}
 	else if(o == PDS("Ent.Multiplicar"))
 	{
@@ -183,7 +176,7 @@ extern "C" void PDEjecutar(string o,istream& i)
 		int v1,v2;
 		v1 = stoi(va);
 		v2 = stoi(vb);
-		if(!(v1 == 0))
+		if(!(v2 == 0))
 		{
 			int v3 = v1 / v2;
 			vr = eas(v3);

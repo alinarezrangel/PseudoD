@@ -185,10 +185,17 @@ namespace PDvar
 			/**
 			* @brief Crea una nueva variable o puntero
 			* @param n Nombre de la nueva variable o puntero
-			* @param t Tipo, "ariable" para crear una variable o "Puntero" para crear un puntero.
+			* @param t Tipo, "Variable" para crear una variable o "Puntero" para crear un puntero.
 			* @param va Si es un puntero, direccion a la que apunta.
 			*/
 			void CrearVariable(string n,string t = "Variable", int va = 0);
+			/**
+			* @brief Obtiene el indice de la variable o puntero
+			* @param t tipo, "Variable" para una variable y "Puntero" para un puntero.
+			* @param n Nombre a buscar
+			* @return indice
+			*/
+			int BuscarIndice(string t,string n);
 		public:
 			/**
 			* @brief puntero a los nombres de variable

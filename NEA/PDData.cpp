@@ -5,6 +5,8 @@
 #ifndef PDDATA_DEFINED_H
 #define PDDATA_DEFINED_H
 
+#include "PDData.hh"
+
 template<class T>
 int buscar(std::vector<T> a,T b)
 {
@@ -135,6 +137,20 @@ namespace PDvar
 			(*this->nombrev).push_back(n);
 			(*this->valorv).push_back(string("nulo"));
 		}
+	}
+	
+	int PDDatos::BuscarIndice(string t,string n)
+	{
+		int ind;
+		if(t == "Variable")
+		{
+			ind = buscar((*this->nombrev),n);
+		}
+		else
+		{
+			ind = buscar((*this->nombrep),n);
+		}
+		return ind;
 	}
 }
 

@@ -8,20 +8,21 @@ QUE ES
 	Para ver sobre PseudoD, ver http://pseudod.sourceforge.net/
 
 COMPILAR
-	PseudoD fue probado con el compilador de la Gcc, G++4.8.
+	PseudoD fue probado con el compilador de la GCC, G++4.8.
 	PseudoD esta escrito en C++11, NO COMPILAR SIN SOPORTE PARA ESTE.
 	
 	PseudoD incluye un Makefile, este compila PseudoD suponiendo que se tiene g++
 	4.8 o superior y genera dos archivos: libpseudod.so y PseudoD.
 	
 	PseudoD es el ejecutable,(el interprete) este depende del NEA que es libpseudod.so.
+	Datos.o es la biblioteca de manipulacion de datos de PseudoD, esta no es dinamica.
 
 INTERPRETE
 	Sintaxis:
 		PseudoD (archivo) (ruta de la biblioteca estandar) (NEA)
 	
 		archivo: el archivo a ejecutar
-		ruta: rta de la biblioteca estandar, si no se ha instalado la biblioteca
+		ruta: ruta de la biblioteca estandar, si no se ha instalado la biblioteca
 					estandar, escribir "nulo".
 		NEA: la ruta de libpseudod.so
 	Ejemplo:
@@ -35,6 +36,32 @@ INTERPRETE
 		(ALERTA usuarios multisistema, esto no cambia si estas en Windows o Macintosh
 		en ese caso, es obligatorio especificar la ruta) asi que si se mueve libpseudod
 		a /usr/lib/libpseudod.so, no sera necesario el ultimo parametro.
+
+COMPILAR
+	Primero se debe generar Datos.o, en este caso se genera de forma similar a
+		g++ -fPIC -c -std=c++11 NEA/PDData.hh -ldl -o Datos.o
+			-fPIC: Necesario, para codigo sin posicion.
+			-c:Necesario, para generar codigo objeto.
+			-std=c++11: NECESARIO EN TODOS
+			-ldl: link con <dlopen>(http://linux.die.net/man/3/dlopen)
+			-o: salida en
+	Hecho esto solo queda generar el resto,(el NEA y el Main).
+	El NEA se genera de forma similar:
+		g++ -fPIC -shared -std=c++11 pseudod.cpp -ldl Datos.o -o libpseudod.so
+			-fPIC: Necesario, para codigo sin posicion
+			-shared: genera un Shared Object
+			-std=c++11 NECESARIO EN TODOS
+			-ldl: link con <dlopen>(http://linux.die.net/man/3/dlopen)
+			Datos.o: link con el sistema de datos
+			-o: salida en
+	Y el Main asi:
+		g++ -std=c++11 Main.cpp -ldl Datos.o -o PseudoD
+			-std=c++11: NECESARIO EN TODOS
+			-ldl: link con <dlopen>(http://linux.die.net/man/3/dlopen)
+			Datos.o: link con el sistema de datos
+	-std=c++11 fija el estandar a C++11
+	Si tu compilador no posee alguna de estas opciones, remplacala por su equivalente
+	(para eso el significado de la orden el final).
 
 PseudoD fue creado por Alejandro Linarez Rangel
 

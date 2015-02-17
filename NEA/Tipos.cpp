@@ -7,8 +7,6 @@ std::string eas(int i)
 	return to_string(i);
 }
 
-#include "PDData.cpp"
-
 namespace PDTipos
 {
 	PDOrden::PDOrden() : PDObjeto()
@@ -165,11 +163,114 @@ namespace PDTipos
 	void PseudoDebug::InscribirInstancia(PDDatos* data)
 	{
 		cout << endl << "Debugger de PseudoD" << endl;
+		cout << "PseudoD y el NEA de PseudoD fueron creados por Alejandro Linarez Rangel" << endl;
+		cout << "junto con este debugger" << endl;
 		cout << "Al salir con la orden salir se seguira ejecutando el programa" << endl;
 		string i;
 		while(i != "salir")
 		{
-			
+			cout << ">>>";
+			cin >> i;
+			if(i == "variable")
+			{
+				string var;
+				cin >> var;
+				int ind = data->BuscarIndice("Variable",var);
+				if(ind == -1)
+				{
+					cout << "NO EXISTE" << endl;
+				}
+				cout << "Variable [" << var << "]: valor[\"" << data->ObtenerVariable(var) << "\"] indice [" << ind << "]" << endl;
+			}
+			if(i == "puntero")
+			{
+				string var,var2 = "NO EXISTE";
+				cin >> var;
+				int ind = data->BuscarIndice("Puntero",var);
+				if(ind == -1)
+				{
+					cout << "NO EXISTE" << endl;
+				}
+				else
+				{
+					var2 = (*data->nombrev)[(*data->nvapunt)[ind]];
+				}
+				cout << "Puntero [" << var << "]: valor[\"" << data->ObtenerPuntero(var)
+					<< "\"] indice [" << ind << "] apunta a " << var2 << endl;
+			}
+			if(i == "pila")
+			{
+				int pil;
+				cin >> pil;
+				if((pil < 0)||(pil > (*data->pilas).size()))
+				{
+					cout << "NO EXISTE" << endl;
+				}
+				auto buffer = (*data->pilas)[pil];
+				cout << "+----------PILA " << pil << "-------+" << endl;
+				while(!buffer.empty())
+				{
+					cout << "|" << buffer.top() << "|" << endl;
+					buffer.pop();
+				}
+			}
+			if(i == "cantidad-de")
+			{
+				string que;
+				cin >> que;
+				if(que == "variables")
+				{
+					cout << "Hay " << (*data->nombrev).size() << " variables" << endl;
+				}
+				if(que == "punteros")
+				{
+					cout << "Hay " << (*data->nombrep).size() << " punteros" << endl;
+				}
+				if(que == "pilas")
+				{
+					cout << "Hay " << (*data->pilas).size() << " pilas" << endl;
+				}
+			}
+			if((i == "estructura")||(i == "clase"))
+			{
+				string est;
+				cin >> est;
+				int ind = data->BuscarIndice("Variable",est);
+				if(ind == -1)
+				{
+					cout << "NO EXISTE" << endl;
+				}
+				else
+				{
+					cout << "La estructura " << est << " tiene los siguientes campos:" << endl;
+					for(int i = 0;i < stoi(data->ObtenerVariable(est));i++)
+					{
+						cout << "    " << data->ObtenerVariable(est+"#("+eas(i)+").") << endl;
+					}
+				}
+			}
+			if(i == "instancia")
+			{
+				cout << "ADVERTENCIA: termporalmente se supone que TODAS las estructuras derivan de Objeto..." << endl;
+				string var;
+				cin >> var;
+				string tipo = data->ObtenerVariable(var+"#Tipo.");
+				cout << "La instancia del tipo " << tipo << " nombrada " << var << " tiene los campos:" << endl;
+				int met = stoi(data->ObtenerVariable(tipo));
+				for (int i = 0; i < met; i += 1)
+				{
+					string campo = data->ObtenerVariable(tipo+"#("+eas(i)+").");
+					string valor = data->ObtenerVariable(var+"#"+campo+".");
+					cout << "    " << campo << "  =  " << valor << endl;
+				}
+				cout << "    [VALOR BRUTO]  =  " << data->ObtenerVariable(var) << endl;
+			}
+			if(i == "ejecutar")
+			{
+				string ord;
+				cin >> ord;
+				(*data->PROCESAR)(ord,cin,data->PROCESO);
+			}
 		}
 	}
 	
@@ -232,10 +333,10 @@ namespace PDTipos
 	
 	void PseudoBorrarVariable::InscribirInstancia(PDDatos* data)
 	{
-		int i = buscar((*data->nombrev),this->nm);
+		int i = data->BuscarIndice("Variable",this->nm);
 		if(i == -1)
 		{
-			i = buscar((*data->nombrep),this->nm);
+			i = data->BuscarIndice("Puntero",this->nm);
 			if(i == -1)
 			{
 				cerr << "ERROR EN " << this->ObtenerClave() << " ,LA VARIABLE O PUNTERO " << this->nm << " NO EXISTE." << endl;
@@ -321,14 +422,14 @@ namespace PDTipos
 	
 	void PseudoDireccionarPuntero::InscribirInstancia(PDDatos* data)
 	{
-		int i = buscar((*data->nombrep),this->nmp);
+		int i = data->BuscarIndice("Puntero",this->nmp);
 		int oi;
 		if(i == -1)
 		{
 			cerr << "Error en " << this->ObtenerClave() << " ,No existe el puntero " << this->nmp << endl;
 			return;
 		}
-		oi = buscar((*data->nombrev),this->nmv);
+		oi = data->BuscarIndice("Variable",this->nmv);
 		if(oi == -1)
 		{
 			cerr << "Error en " << this->ObtenerClave() << " ,No existe la variable,(NOTA:variable no puntero) " << this->nmv << endl;

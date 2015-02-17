@@ -10,3 +10,4 @@
 */
 #include "NEA/Tipos.hh"
 #include "NEA/BibliotecaDinamica.h"
+#include "NEA/PDData.hh"

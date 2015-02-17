@@ -17,8 +17,9 @@ Define la macro INTERACTIVO a 1 para un interprete en linea de comandos
 #include <dlfcn.h>
 
 #include "pseudod.hh"
+#include "NEA/PDData.hh"
 using namespace std;
-
+using namespace PDvar;
 
 template<class T>
 int buscar(vector<T> a,T b)
@@ -46,12 +47,16 @@ vector<int> valor;
 vector< stack<string> > pilas;
 bool Ejecutar = true;
 
+PDDatos DATOS_INT(nombres,valores,punteros,valor,pilas);
+
 void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 {
 	static string espacio = "";
 	static int indicepi = 0;
 	static string archivo;
 	static vector<int> AMBITO(2);
+	if(!Ejecutar)
+		return;
 	if(o == "adquirir")
 	{
 		string a;
@@ -94,25 +99,13 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 	{
 		string h;
 		e >> h;
-		int i = buscar(nombres,h);
-		if(i == -1)
-		{
-			i = buscar(punteros,h);
-			i = valor[i];
-		}
-		cout << valores[i];
+		cout << DATOS_INT.ObtenerVariable(h);
 	}
 	else if(o == "ejecutar")
 	{
 		string h;
 		e >> h;
-		int i = buscar(nombres,h);
-		if(i == -1)
-		{
-			i = buscar(punteros,h);
-			i = valor[i];
-		}
-		istringstream entrada(valores[i]);
+		istringstream entrada(DATOS_INT.ObtenerVariable(h));
 		while(entrada >> h)
 			procesar(h,entrada, FUNCION);
 	}
@@ -124,42 +117,41 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 	{
 		string variable1,oper,h;
 		e  >> variable1 >> oper >> h;
-		int i = buscar(nombres, variable1);
-		if(i == -1)
-		{
-			i = buscar(punteros, variable1);
-			i = valor[i];
-		}
-		string& a = valores[i];
-		if(oper == "=*")
+		string& a = DATOS_INT.ObtenerVariable(variable1);
+		if(oper == "=*") // oper A =* LIT
 		{
 			string B;
 			getline(e,B,'\n');
 			h += B;
 			a = h;
 		}
-		else if(oper == "=?")
+		else if((oper == "=?")||(oper == "=¿?")) // oper A =? B
 		{
-			int y = buscar(nombres, h);
-			if(y == -1)
+			a = DATOS_INT.ObtenerVariable(h);
+		}
+		else if(oper[0] == '=')
+		{
+			if(oper.size() > 1)
+				oper = oper.substr(1,oper.size());
+			if(oper == "=")
+				oper = "igualA";
+			if(oper == "¡!")
+				oper = "igual";
+			string orden = DATOS_INT.ObtenerVariable(variable1+"#Tipo.")+"."+oper+"#cod. "+variable1+"#NOMBRE. "+h+"#NOMBRE. #(Final).";
+			istringstream in(orden);
+			procesar("llamar",in,FUNCION);
+			if(oper == "igualA")
 			{
-				y = buscar(punteros, h);
-				y = valor[y];
+				a = (*DATOS_INT.pilas)[indicepi].top();
+				(*DATOS_INT.pilas)[indicepi].pop();
 			}
-			a = valores[y];
 		}
 	}
 	else if(o == "leer")
 	{
 		string variable1;
 		e >> variable1;
-		int i = buscar(nombres, variable1);
-		if(i == -1)
-		{
-			i = buscar(punteros, variable1);
-			i = valor[i];
-		}
-		string& a = valores[i];
+		string& a = DATOS_INT.ObtenerVariable(variable1);
 		cin >> a;
 	}
 	else if(o == "utilizar")
@@ -168,6 +160,18 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 		e >> func;
 		string funcion = func;
 		ifstream en(funcion.c_str());
+		if(!en)
+		{
+			// el archivo no esta en una ruta actual, ejecutalo desde BEPD
+			funcion = valores[1] + funcion;
+			en.close();
+			en.open(funcion.c_str());
+			if(!en)
+			{
+				cout << "ERROR EN \'utilizar " << func << "\' se traduce a \'utilizar " << funcion << "\' no existe el archivo " << funcion << endl;
+				return;
+			}
+		}
 		string a = valores[buscar(nombres,string("__ARCH__"))];
 		valores[buscar(nombres,string("__ARCH__"))] = funcion;
 		string h;
@@ -181,13 +185,7 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 	{
 		string var;
 		e >> var;
-		int ji = buscar(nombres, var);
-		if(ji == -1)
-		{
-			ji = buscar(punteros, var);
-			ji = valor[ji];
-		}
-		string a = valores[ji];
+		string a = DATOS_INT.ObtenerVariable(var);
 		//*
 		string b = "";
 		e >> b;
@@ -199,13 +197,7 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 		}
 		for(int i = 0;i < param.size();i++)
 		{
-			int j = buscar(nombres, param[i]);
-			if(j == -1)
-			{
-				j = buscar(punteros, param[i]);
-				j = valor[j];
-			}
-			string& a = valores[j];
+			string& a = DATOS_INT.ObtenerVariable(param[i]);
 			pilas[indicepi].push(a);
 		}
 		//*/
@@ -268,51 +260,36 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 	{
 		string variable1;
 		e >> variable1;
-		int i = buscar(nombres, variable1);
-		if(i == -1)
-		{
-			i = buscar(punteros, variable1);
-			i = valor[i];
-		}
-		string& a = valores[i];
+		string& a = DATOS_INT.ObtenerVariable(variable1);
 		pilas[indicepi].push(a);
 	}
 	else if(o == "sacar")
 	{
 		string variable1;
 		e >> variable1;
-		int i = buscar(nombres, variable1);
-		if(i == -1)
-		{
-			i = buscar(punteros, variable1);
-			i = valor[i];
-		}
-		string& a = valores[i];
+		string& a = DATOS_INT.ObtenerVariable(variable1);
 		a = pilas[indicepi].top();
 		pilas[indicepi].pop();
 	}
 	else if(o == "usar_pila")
 	{
 		e >> indicepi;
+			DATOS_INT.ObtenerVariable("VG_PILA_ACTUAL") = to_string(indicepi);
 	}
 	else if(o == "crear_pila")
 	{
 		stack<string> t;
 		pilas.push_back(t);
+			DATOS_INT.ObtenerVariable("VG_NUMERO_PILAS") = to_string(pilas.size());
 	}
 	else if(o == "si")
 	{
 		string variable1;
 		e >> variable1;
-		int i = buscar(nombres, variable1);
-		if(i == -1)
-		{
-			i = buscar(punteros, variable1);
-			i = valor[i];
-		}
-		string& val = valores[i];
+		string& val = DATOS_INT.ObtenerVariable(variable1);
 		string cond = ((val == "verdadero")? "si" : "no");
 		string ord;
+		int i = 0;
 		i = AMBITO.size();
 		AMBITO.push_back(0);
 		while(AMBITO.size() != i)
@@ -336,21 +313,16 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 	{
 		string variable1;
 		e >> variable1;
-		int i = buscar(nombres, variable1);
-		if(i == -1)
-		{
-			i = buscar(punteros, variable1);
-			i = valor[i];
-		}
-		string& val = valores[i];
-		string cond = ((val == "verdadero")? "si" : "no");
+		string& val = DATOS_INT.ObtenerVariable(variable1);
+		string cond = ((val == "falso")? "si" : "no");
 		string ord;
+		int i = 0;
 		i = AMBITO.size();
 		AMBITO.push_back(0);
 		while(AMBITO.size() != i)
 		{
 			e >> ord;
-			if(cond == "no")
+			if(cond == "si")
 			{
 				procesar(ord, e, FUNCION);
 			}
@@ -372,29 +344,11 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 	{
 		string variable1;
 		e >> variable1;
-		int i = buscar(nombres, variable1);
-		if(i == -1)
-		{
-			i = buscar(punteros, variable1);
-			i = valor[i];
-		}
-		string& a = valores[i];
+		string& a = DATOS_INT.ObtenerVariable(variable1);
 		string var1, var2;
 		e >> var1 >> var2;
-		i = buscar(nombres, var1);
-		if(i == -1)
-		{
-			i = buscar(punteros, var1);
-			i = valor[i];
-		}
-		string& b = valores[i];
-		i = buscar(nombres, var2);
-		if(i == -1)
-		{
-			i = buscar(punteros, var2);
-			i = valor[i];
-		}
-		string& c = valores[i];
+		string& b = DATOS_INT.ObtenerVariable(var1);
+		string& c = DATOS_INT.ObtenerVariable(var2);
 		a = "falso";
 		if(b == c)
 		{
@@ -457,6 +411,10 @@ int main(int argc,char* argv[])
 	valores.push_back(string(((argc >= 3)? argv[2] : "nulo")));
 	nombres.push_back(string("__ARCH__"));
 	valores.push_back(string(argv[1]));
+	nombres.push_back("VG_PILA_ACTUAL");
+	valores.push_back("0");
+	nombres.push_back("VG_NUMERO_PILAS");
+	valores.push_back("0");
 	string a(argv[1]);
 #ifndef INTERACTIVO
 	ifstream en(a.c_str());
@@ -469,7 +427,7 @@ int main(int argc,char* argv[])
 #else
 	cout << "Interprete en linea de comandos de PseudoD" << endl;
 	cout << "Creado por Alejandro Linarez Rangel" << endl;
-	cout << "PseudoD version 1.8.0 en C++11" << endl;
+	cout << "PseudoD version 1.9.0 en C++11" << endl;
 	cout << ">>> ";
 	string base;
 	(*funcion)(nombres,valores,punteros,valor,pilas,procesar);
