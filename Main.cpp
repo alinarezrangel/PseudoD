@@ -68,6 +68,10 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 			nombres.push_back(a+string("#Tipo."));
 			valores.push_back(string("PseudoVariable"));
 	}
+	else if(o == "instancia") // alias de Importar.Tipos.Instancia
+	{
+		(*FUNCION)("Importar.Tipos.Instancia",e);
+	}
 	else if(o == "puntero")
 	{
 		string var,val;
@@ -87,6 +91,10 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 		e >> h;
 		int i = buscar(punteros,h);
 		valor[i]++;
+		if(valor[i] >= nombres.size())
+		{
+			valor[i]--;
+		}
 	}
 	else if(o == "decrementar_p")
 	{
@@ -94,6 +102,11 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 		e >> h;
 		int i = buscar(punteros,h);
 		valor[i]--;
+		valor[i]++;
+		if(valor[i] < 0)
+		{
+			valor[i]++;
+		}
 	}
 	else if(o == "escribir")
 	{
@@ -229,7 +242,7 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 			func += lineas[i] + "\n";
 		}
 		nombres.push_back(nom);
-		valores.push_back(nom);
+		valores.push_back(func);
 		nombres.push_back(nom+"#NOMBRE.");
 		valores.push_back(nom);
 		nombres.push_back(nom+"#Tipo.");
@@ -340,7 +353,7 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 	{
 		AMBITO.pop_back();
 	}
-	else if(o == "comparar_i")
+	else if((o == "comparar_i")||(o == "¿son_iguales?"))
 	{
 		string variable1;
 		e >> variable1;
@@ -359,7 +372,7 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 	{
 		cout << " ";
 	}
-	else if(o == "sal")
+	else if((o == "sal")||(o == "salir"))
 	{
 		Ejecutar=false;
 	}
