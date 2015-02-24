@@ -72,6 +72,14 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 	{
 		(*FUNCION)("Importar.Tipos.Instancia",e);
 	}
+	else if(o == "estructura")
+	{
+		(*FUNCION)("Importar.Tipos.Estructura",e);
+	}
+	else if(o == "liberar")
+	{
+		(*FUNCION)("Importar.Tipos.Borrar",e);
+	}
 	else if(o == "puntero")
 	{
 		string var,val;
@@ -85,7 +93,7 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 		e >> h;
 		espacio = h;
 	}
-	else if(o == "incrementar_p")
+	else if((o == "incrementar_p")||(o == "incrementar_puntero"))
 	{
 		string h;
 		e >> h;
@@ -96,7 +104,7 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 			valor[i]--;
 		}
 	}
-	else if(o == "decrementar_p")
+	else if((o == "decrementar_p")||(o == "decrementar_puntero"))
 	{
 		string h;
 		e >> h;
@@ -126,7 +134,7 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 	{
 		cout << endl;
 	}
-	else if(o == "oper")
+	else if((o == "oper")||(o == "operador"))
 	{
 		string variable1,oper,h;
 		e  >> variable1 >> oper >> h;
@@ -142,14 +150,12 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 		{
 			a = DATOS_INT.ObtenerVariable(h);
 		}
-		else if(oper[0] == '=')
+		else
 		{
-			if(oper.size() > 1)
-				oper = oper.substr(1,oper.size());
-			if(oper == "=")
-				oper = "igualA";
-			if(oper == "¡!")
+			if((oper == "igual")||(oper == "copiar"))
 				oper = "igual";
+			if(oper == "¿iguales?")
+				oper = "igualA";
 			string orden = DATOS_INT.ObtenerVariable(variable1+"#Tipo.")+"."+oper+"#cod. "+variable1+"#NOMBRE. "+h+"#NOMBRE. #(Final).";
 			istringstream in(orden);
 			procesar("llamar",in,FUNCION);
