@@ -469,7 +469,7 @@ int main(int argc,char* argv[])
 	while((cin >> base)&&(Ejecutar))
 	{
 		procesar(base, cin, func2);
-		cout << endl << ">>> ";
+		cout << endl <<  ">>> ";
 	}
 #endif
 	(*func3)();
