@@ -72,9 +72,25 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 	{
 		(*FUNCION)("Importar.Tipos.Instancia",e);
 	}
-	else if(o == "estructura")
+	else if((o == "estructura")||(o == "clase"))
 	{
 		(*FUNCION)("Importar.Tipos.Estructura",e);
+	}
+	else if((o == "heredar"))
+	{
+		(*FUNCION)("Importar.Tipos.Heredar",e);
+	}
+	else if((o == "contiene"))
+	{
+		(*FUNCION)("Importar.Tipos.EstrucEstruc",e);
+	}
+	else if((o == "redireccionar"))
+	{
+		(*FUNCION)("Importar.Tipos.Redireccionar",e);
+	}
+	else if((o == "mientras"))
+	{
+		(*FUNCION)("Importar.Tipos.Mientras",e);
 	}
 	else if(o == "liberar")
 	{
@@ -453,7 +469,7 @@ int main(int argc,char* argv[])
 	while((cin >> base)&&(Ejecutar))
 	{
 		procesar(base, cin, func2);
-		cout << ">>> ";
+		cout << endl << ">>> ";
 	}
 #endif
 	(*func3)();
