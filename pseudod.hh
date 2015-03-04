@@ -13,6 +13,9 @@
 	#include <string>
 	#include <cstring>
 	#include <cstdio>
+	#include <algorithm>
+	#include <cctype>
+	#include <sstream>
 	
 	#include "./includefilelib.hh"
 	

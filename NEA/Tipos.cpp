@@ -142,6 +142,13 @@ namespace PDTipos
 				this->methods[i].replace(0,1,"");
 				data->CrearVariable(this->ni+string("#")+this->methods[i]+string("."),"Puntero",0);
 			}
+			else if(this->methods[i][0] == ':')
+			{
+				this->methods[i].replace(0,1,"");
+				data->CrearVariable(this->ni+string("#")+this->methods[i]+string("."));
+				data->ObtenerVariable(this->ni+string("#")+this->methods[i]+string("."))
+	      = data->ObtenerVariable(this->nm+string("#")+this->methods[i]+string(".#cod."));
+			}
 			else
 			{
 				data->CrearVariable(this->ni+string("#")+this->methods[i]+string("."));
@@ -550,7 +557,17 @@ namespace PDTipos
 		long lg = stoi(data->ObtenerVariable(tipo));
 		for (int i = 0; i < lg; i += 1)
 		{
-			metodos.push_back(data->ObtenerVariable(tipo+string("#(")+eas(i)+string(").")));
+			if((data->ObtenerVariable(tipo+string("#(")+eas(i)+string(")."))[0] == ';')
+				||(data->ObtenerVariable(tipo+string("#(")+eas(i)+string(")."))[0] == ':'))
+			{
+				string G = data->ObtenerVariable(tipo+string("#(")+eas(i)+string(")."));
+				G.replace(0,1,"");
+				metodos.push_back(G);
+			}
+			else
+			{
+				metodos.push_back(data->ObtenerVariable(tipo+string("#(")+eas(i)+string(").")));
+			}
 		}
 		for (int i = 0; i < metodos.size(); i += 1)
 		{
