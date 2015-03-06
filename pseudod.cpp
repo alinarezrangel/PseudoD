@@ -73,8 +73,11 @@ extern "C" void PDEjecutar(string o,istream& i)
 		if((v1 + v2)<=vr2.size())
 			vr = vr2.substr(v1,v2);
 		else
+		{
 			vr = ":C++:error:";
-	}
+			throw string("En el modulo Cad, en Sub_Cadena v1 v2 r1 r2: v1+v2 > longitud(r1).");
+		}
+	} // TODO BUG 004
 	else if(o == PDS("Cad.Reemplazar"))
 	{
 		string a,b,r;
@@ -106,8 +109,11 @@ extern "C" void PDEjecutar(string o,istream& i)
 		else if(va == "CV")
 			vr = "";
 		else
+		{
 			vr = ":C++:error:";
-	}
+			throw string("Error en el modulo Cad, Caracter_Especial a r: no se reconoce a");
+		}
+	} // TODO BUG 003
 	else if(o == PDS("Cad.Buscar"))
 	{
 		string a,b,c,r;
@@ -119,7 +125,7 @@ extern "C" void PDEjecutar(string o,istream& i)
 		vc = PDDATA->ObtenerVariable(c);
 		int v1 = stoi(vb);
 		if(!(vc.find(va,v1) == string::npos))
-			vr = eas(vc.find(va,v1));
+			vr = eas(vc.find(va.c_str(),v1));
 		else
 			vr = ":C++:error:";
 	}
@@ -214,7 +220,10 @@ extern "C" void PDEjecutar(string o,istream& i)
 		else if(c == "?>")
 			vr = eas(((v1 >= v2)? v1 : v2));
 		else
+		{
 			vr = ":C++:error:";
+			throw string("Error en el modulo Ent, Comparar a OP b r: no se reconoce OP");
+		}
 	}
 	#include "./codefile.cpp"
 }

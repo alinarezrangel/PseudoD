@@ -14,6 +14,7 @@ Define la macro INTERACTIVO a 1 para un interprete en linea de comandos
 #include <algorithm>
 #include <cctype>
 #include <sstream>
+#include <exception>
 #include <dlfcn.h>
 
 #include "pseudod.hh"
@@ -90,7 +91,7 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 	}
 	else if((o == "mientras"))
 	{
-		(*FUNCION)("Importar.Tipos.Mientras",e);
+		(*FUNCION)("Importar.PseudoD.Mientras",e);
 	}
 	else if(o == "liberar")
 	{
@@ -204,7 +205,7 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 			if(!en)
 			{
 				cout << "ERROR EN \'utilizar " << func << "\' se traduce a \'utilizar " << funcion << "\' no existe el archivo " << funcion << endl;
-				return;
+				throw string("Se intento importar un archivo inexistente");
 			}
 		}
 		string a = valores[buscar(nombres,string("__ARCH__"))];
@@ -455,9 +456,27 @@ int main(int argc,char* argv[])
 	ifstream en(a.c_str());
 	string base;
 	(*funcion)(nombres,valores,punteros,valor,pilas,procesar);
-	while((en >> base)&&(Ejecutar))
+	try
 	{
-		procesar(base, en, func2);
+		while((en >> base)&&(Ejecutar))
+		{
+			procesar(base, en, func2);
+		}
+	}
+	catch(const exception& e)
+	{
+		if(string(e.what()) == "stoi")
+		{
+			cerr << "Error al convertir numeros" << endl;
+		}
+		else
+		{
+			cerr << e.what() << endl;
+		}
+	}
+	catch(const string& e)
+	{
+		cerr << "PseudoD lanzo un error fatal: " << e << endl;
 	}
 #else
 	cout << "Interprete en linea de comandos de PseudoD" << endl;
@@ -466,10 +485,28 @@ int main(int argc,char* argv[])
 	cout << ">>> ";
 	string base;
 	(*funcion)(nombres,valores,punteros,valor,pilas,procesar);
-	while((cin >> base)&&(Ejecutar))
+	try
 	{
-		procesar(base, cin, func2);
-		cout << endl <<  ">>> ";
+		while((cin >> base)&&(Ejecutar))
+		{ // TODO AGREGAR try-catch
+			procesar(base, cin, func2);
+			cout << endl <<  ">>> ";
+		}
+	}
+	catch(const exception& e)
+	{
+		if(string(e.what()) == "stoi")
+		{
+			cerr << "Error al convertir numeros" << endl;
+		}
+		else
+		{
+			cerr << e.what() << endl;
+		}
+	}
+	catch(const string& e)
+	{
+		cerr << "PseudoD lanzo un error fatal: " << e << endl;
 	}
 #endif
 	(*func3)();

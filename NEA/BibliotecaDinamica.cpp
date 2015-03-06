@@ -20,6 +20,7 @@ namespace BibliotecaDinamica
 		if(!(in >> this->var))
 		{
 			cerr << "Error en " << this->ObtenerClave() << ", no se pudo leer bien el fichero de entrada." << endl;
+			throw string("Error en el la parte " + this->ObtenerClave() + " EOF inesperado");
 			return;
 		}
 		string p;
@@ -41,6 +42,7 @@ namespace BibliotecaDinamica
 			}
 			cerr << endl;
 			cerr << "No se pudo cargar la biblioteca de carga dinamica por el error:" << dlerror() << endl;
+			throw string("Error en el la parte " + this->ObtenerClave() + " Error en la carga dinamica");
 			return;
 		}
 		typedef void(*pdfun_t)(PDDatos**,vector<string>);
@@ -54,6 +56,7 @@ namespace BibliotecaDinamica
 			}
 			cerr << endl;
 			cerr << "No se pudo cargar el simbolo de la biblioteca de carga dinamica por el error:" << dlerror() << endl;
+			throw string("Error en el la parte " + this->ObtenerClave() + " Error en la carga dinamica");
 			dlclose(con);
 			return;
 		}

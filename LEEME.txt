@@ -12,7 +12,7 @@ COMPILAR
 	PseudoD esta escrito en C++11, NO COMPILAR SIN SOPORTE PARA ESTE.
 	
 	PseudoD incluye un Makefile, este compila PseudoD suponiendo que se tiene g++
-	4.8 o superior y genera dos archivos: libpseudod.so y PseudoD.
+	con soporte de C++11 y genera dos archivos: libpseudod.so y PseudoD.
 	
 	PseudoD es el ejecutable,(el interprete) este depende del NEA que es libpseudod.so.
 	Datos.o es la biblioteca de manipulacion de datos de PseudoD, esta no es dinamica.
