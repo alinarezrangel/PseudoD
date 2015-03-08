@@ -62,12 +62,16 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 	{
 		string a;
 		e >> a;
-			nombres.push_back(a);
-			valores.push_back(string("nulo"));
+		if(DATOS_INT.ObtenerVariable(a) == ":C++:error:")
+		{
+			throw string("¡SISTEMA CORRUPTOOOOO! en adquirir "+a);
+		}
 			nombres.push_back(a+string("#NOMBRE."));
 			valores.push_back(a);
 			nombres.push_back(a+string("#Tipo."));
-			valores.push_back(string("PseudoVariable"));
+			valores.push_back("PseudoVariable");
+			nombres.push_back(a);
+			valores.push_back(string("nulo"));
 	}
 	else if(o == "instancia") // alias de Importar.Tipos.Instancia
 	{
@@ -101,6 +105,10 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 	{
 		string var,val;
 		e >> var >> val;
+		if(DATOS_INT.ObtenerVariable(var) == ":C++:error:")
+		{
+			throw string("¡SISTEMA CORRUPTOOOOO! en puntero "+var);
+		}
 			punteros.push_back(var);
 			valor.push_back(buscar(nombres,val));
 	}
@@ -171,9 +179,9 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 		{
 			if((oper == "igual")||(oper == "copiar"))
 				oper = "igual";
-			if(oper == "¿iguales?")
+			if(oper == "¿es_igual_a?")
 				oper = "igualA";
-			string orden = DATOS_INT.ObtenerVariable(variable1+"#Tipo.")+"."+oper+"#cod. "+variable1+"#NOMBRE. "+h+"#NOMBRE. #(Final).";
+			string orden = variable1+"#"+oper+". "+variable1+"#NOMBRE. "+h+"#NOMBRE. #(Final).";
 			istringstream in(orden);
 			procesar("llamar",in,FUNCION);
 			if(oper == "igualA")
@@ -229,7 +237,10 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 		while(b != "#(Final).")
 		{
 			param.push_back(b);
-			e >> b;
+			if(!e >> b)
+			{
+				throw string("Error en llamar "+var+" : no se encontro #(Final). pero si un EOF");
+			}
 		}
 		for(int i = 0;i < param.size();i++)
 		{
@@ -473,10 +484,26 @@ int main(int argc,char* argv[])
 		{
 			cerr << e.what() << endl;
 		}
+		cerr << "EN " << DATOS_INT.ObtenerVariable("__ARCH__") << endl;
 	}
 	catch(const string& e)
 	{
 		cerr << "PseudoD lanzo un error fatal: " << e << endl;
+		cerr << "EN " << DATOS_INT.ObtenerVariable("__ARCH__") << endl;
+	}
+	catch(...)
+	{
+		cout << "¡Error no identificado!" << endl;
+		cout << "Siga los siguientes pasos:" << endl;
+		cout << "1). Verifique la documentacion de los agregados del NEA" << endl;
+		cout << "2). Verifique la documentacion de los agregados dinamicos" << endl;
+		cout << "3). Verifique la documentacion de las bibiotecas usadas," << endl;
+		cout << "    incluso si estan escritas en PseudoD." << endl;
+		cout << "Este error solo puede ser causado a nivel C++11,(codigo casi maquina)." << endl;
+		cout << "Si o es ninguno de los pasos de arriba, contactese por los foros de" << endl;
+		cout << "\"discussion\" en <https://www.sourceforge.net/projects/pseudod/>" << endl;
+		cout << "Disculpe las molestias." << endl;
+		
 	}
 #else
 	cout << "Interprete en linea de comandos de PseudoD" << endl;
@@ -503,10 +530,26 @@ int main(int argc,char* argv[])
 		{
 			cerr << e.what() << endl;
 		}
+		cerr << "EN " << DATOS_INT.ObtenerVariable("__ARCH__") << endl;
 	}
 	catch(const string& e)
 	{
 		cerr << "PseudoD lanzo un error fatal: " << e << endl;
+		cerr << "EN " << DATOS_INT.ObtenerVariable("__ARCH__") << endl;
+	}
+	catch(...)
+	{
+		cout << "¡Error no identificado!" << endl;
+		cout << "Siga los siguientes pasos:" << endl;
+		cout << "1). Verifique la documentacion de los agregados del NEA" << endl;
+		cout << "2). Verifique la documentacion de los agregados dinamicos" << endl;
+		cout << "3). Verifique la documentacion de las bibiotecas usadas," << endl;
+		cout << "    incluso si estan escritas en PseudoD." << endl;
+		cout << "Este error solo puede ser causado a nivel C++11,(codigo casi maquina)." << endl;
+		cout << "Si o es ninguno de los pasos de arriba, contactese por los foros de" << endl;
+		cout << "\"discussion\" en <https://www.sourceforge.net/projects/pseudod/>" << endl;
+		cout << "Disculpe las molestias." << endl;
+		
 	}
 #endif
 	(*func3)();

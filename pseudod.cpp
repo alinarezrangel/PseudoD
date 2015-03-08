@@ -129,6 +129,27 @@ extern "C" void PDEjecutar(string o,istream& i)
 		else
 			vr = ":C++:error:";
 	}
+	else if(o == PDS("Cad.Tamaño"))
+	{
+		string a,r;
+		i >> a >> r;
+		PDDATA->ObtenerVariable(r) = eas(PDDATA->ObtenerVariable(a).size());
+	}
+	else if(o == PDS("Cad.Caracter"))
+	{
+		string a,r,r2;
+		i >> a >> r >> r2;
+		int v = stoi(PDDATA->ObtenerVariable(a));
+		string v2 = PDDATA->ObtenerVariable(r);
+		string& v3 = PDDATA->ObtenerVariable(r2);
+		if(v < v2.size())
+			v3 += v2[v];
+		else
+		{
+			cerr << "Error en Cad.Caracter a r r2: longitud(r2) > a" << endl;
+			throw string("Error en Cad.Caracter: Posicion invalida");
+		}
+	}
 	else if(o == PDS("Ent.Sumar"))
 	{
 		string a,b,r;
@@ -224,6 +245,26 @@ extern "C" void PDEjecutar(string o,istream& i)
 			vr = ":C++:error:";
 			throw string("Error en el modulo Ent, Comparar a OP b r: no se reconoce OP");
 		}
+	} // TODO TERMINAR
+	else if(o == PDS("Dec.Sumar"))
+	{
+		
+	}
+	else if(o == PDS("Dec.Restar"))
+	{
+		
+	}
+	else if(o == PDS("Dec.Multiplicar"))
+	{
+		
+	}
+	else if(o == PDS("Dec.Dividir"))
+	{
+		
+	}
+	else if(o == PDS("Dec.Comparar"))
+	{
+		
 	}
 	#include "./codefile.cpp"
 }

@@ -12,8 +12,9 @@ COMPILAR
 	PseudoD esta escrito en C++11, NO COMPILAR SIN SOPORTE PARA ESTE.
 	
 	PseudoD incluye un Makefile, este compila PseudoD suponiendo que se tiene g++
-	con soporte de C++11 y genera dos archivos: libpseudod.so y PseudoD.
+	con soporte de C++11 y genera tres archivos: Datos.o,libpseudod.so y PseudoD.
 	
+	libpseudod.so es el nucleo externo NEA de PseudoD
 	PseudoD es el ejecutable,(el interprete) este depende del NEA que es libpseudod.so.
 	Datos.o es la biblioteca de manipulacion de datos de PseudoD, esta no es dinamica.
 
@@ -21,7 +22,7 @@ INTERPRETE
 	Sintaxis:
 		PseudoD (archivo) (ruta de la biblioteca estandar) (NEA)
 	
-		archivo: el archivo a ejecutar
+		archivo: el archivo a ejecutar, un *.pd o *.psd (*.pseudo es para bibliotecas).
 		ruta: ruta de la biblioteca estandar, si no se ha instalado la biblioteca
 					estandar, escribir "nulo".
 		NEA: la ruta de libpseudod.so
@@ -31,7 +32,8 @@ INTERPRETE
 			./PseudoD prg.pd "nulo" "./libpseudod.so"
 		Si se tiene la biblioteca estandar en, por ejemplo "/home/user/PseudoD",(o
 		en Windows, "C:\\Users\\User\\PseudoD")
-			./PseudoD prg.pd "/home/user/PseudoD" "./libpseudod.so"
+			./PseudoD prg.pd "/home/user/PseudoD/" "./libpseudod.so"
+		La diagonal(/) al final de la ruta de la biblioteca estandar es muy importante.
 		PseudoD por defecto supone que libpseudod.so esta en /usr/lib/libpseudod.so
 		(ALERTA usuarios multisistema, esto no cambia si estas en Windows o Macintosh
 		en ese caso, es obligatorio especificar la ruta) asi que si se mueve libpseudod
