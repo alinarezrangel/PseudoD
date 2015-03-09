@@ -20,6 +20,26 @@ int buscar(std::vector<T> a,T b)
 	return -1;
 }
 
+std::string eas(int i)
+{
+	return std::to_string(i);
+}
+
+std::string dac(float i)
+{
+	return std::to_string(i);
+}
+
+int cae(std::string i)
+{
+	return std::stoi(i);
+}
+
+float caf(std::string i)
+{
+	return std::stof(i);
+}
+
 namespace PDvar
 {
 	template<typename RV,typename AT>

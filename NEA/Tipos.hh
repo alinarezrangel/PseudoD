@@ -13,7 +13,6 @@
 #include <cstring>
 #include <cstdio>
 	
-std::string eas(int i);
 
 #include "PDData.hh"
 

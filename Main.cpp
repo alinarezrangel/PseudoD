@@ -231,13 +231,13 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 		e >> var;
 		string a = DATOS_INT.ObtenerVariable(var);
 		//*
-		string b = "";
-		e >> b;
+		string bpalab = "";
+		e >> bpalab;
 		vector<string> param;
-		while(b != "#(Final).")
+		while(bpalab != "#(Final).")
 		{
-			param.push_back(b);
-			if(!e >> b)
+			param.push_back(bpalab);
+			if(!(e >> bpalab))
 			{
 				throw string("Error en llamar "+var+" : no se encontro #(Final). pero si un EOF");
 			}
@@ -321,13 +321,13 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 	else if(o == "usar_pila")
 	{
 		e >> indicepi;
-			DATOS_INT.ObtenerVariable("VG_PILA_ACTUAL") = to_string(indicepi);
+			DATOS_INT.ObtenerVariable("VG_PILA_ACTUAL") = eas(indicepi);
 	}
 	else if(o == "crear_pila")
 	{
 		stack<string> t;
 		pilas.push_back(t);
-			DATOS_INT.ObtenerVariable("VG_NUMERO_PILAS") = to_string(pilas.size());
+			DATOS_INT.ObtenerVariable("VG_NUMERO_PILAS") = eas(pilas.size());
 	}
 	else if(o == "si")
 	{

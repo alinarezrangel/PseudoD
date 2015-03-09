@@ -2,10 +2,6 @@
 **PseudoD 1.5.0
 **Creado por Alejandro Linarez Rangel
 */
-std::string eas(int i)
-{
-	return to_string(i);
-}
 
 namespace PDTipos
 {
@@ -131,7 +127,7 @@ namespace PDTipos
 	{
 		data->CrearVariable(this->ni);
 		data->ObtenerVariable(this->ni)=this->ni;
-		int lg = stoi(data->ObtenerVariable(this->nm));
+		int lg = cae(data->ObtenerVariable(this->nm));
 		
 		for(int i = 0;i < lg;i++)
 		{
@@ -256,7 +252,7 @@ namespace PDTipos
 					try
 					{
 						cout << "La estructura " << est << " tiene los siguientes campos:" << endl;
-						for(int i = 0;i < stoi(data->ObtenerVariable(est));i++)
+						for(int i = 0;i < cae(data->ObtenerVariable(est));i++)
 						{
 							cout << "    " << data->ObtenerVariable(est+"#("+eas(i)+").") << endl;
 						}
@@ -283,7 +279,7 @@ namespace PDTipos
 				{
 					string tipo = data->ObtenerVariable(var+"#Tipo.");
 					cout << "La instancia del tipo " << tipo << " nombrada " << var << " tiene los campos:" << endl;
-					int met = stoi(data->ObtenerVariable(tipo));
+					int met = cae(data->ObtenerVariable(tipo));
 					for (int i = 0; i < met; i += 1)
 					{
 						string campo = data->ObtenerVariable(tipo+"#("+eas(i)+").");
@@ -352,7 +348,7 @@ namespace PDTipos
 	
 	void PseudoArrayEstructura::InscribirInstancia(PDDatos* data)
 	{
-		int tme = stoi(data->ObtenerVariable(this->nme));
+		int tme = cae(data->ObtenerVariable(this->nme));
 		int tmt = tme + this->tma + 1;// El 1 es de estruc#array#longitud
 		data->ObtenerVariable(this->nme) = eas(tmt+1);
 		int ind = 0;
@@ -444,8 +440,8 @@ namespace PDTipos
 	void PseudoHerencia::InscribirInstancia(PDDatos* data)
 	{
 		int tmb,tmh,tmha;
-		tmb = stoi(data->ObtenerVariable(this->nmb));
-		tmh = stoi(data->ObtenerVariable(this->nmh));
+		tmb = cae(data->ObtenerVariable(this->nmb));
+		tmh = cae(data->ObtenerVariable(this->nmh));
 		tmha = tmh;
 		tmh += tmb;
 		data->ObtenerVariable(this->nmh) = eas(tmh);
@@ -559,8 +555,8 @@ namespace PDTipos
 	void PseudoClaseContenida::InscribirInstancia(PDDatos* data)
 	{
 		int tme,ttpe,ate;
-		tme = stoi(data->ObtenerVariable(this->nme));
-		ttpe = stoi(data->ObtenerVariable(this->tpe));
+		tme = cae(data->ObtenerVariable(this->nme));
+		ttpe = cae(data->ObtenerVariable(this->tpe));
 		ate = tme;
 		tme += ttpe;
 		data->ObtenerVariable(this->nme) = eas(tme);
@@ -611,7 +607,7 @@ namespace PDTipos
 		bt.InscribirInstancia(data);
 		//*/
 		vector<string> metodos;
-		long lg = stoi(data->ObtenerVariable(tipo));
+		long lg = cae(data->ObtenerVariable(tipo));
 		for (int i = 0; i < lg; i += 1)
 		{
 			if((data->ObtenerVariable(tipo+string("#(")+eas(i)+string(")."))[0] == ';')

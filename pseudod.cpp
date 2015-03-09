@@ -68,8 +68,8 @@ extern "C" void PDEjecutar(string o,istream& i)
 		vb = PDDATA->ObtenerVariable(b);
 		string& vr2 = PDDATA->ObtenerVariable(r2);
 		int v1,v2;
-		v1 = stoi(va);
-		v2 = stoi(vb);
+		v1 = cae(va);
+		v2 = cae(vb);
 		if((v1 + v2)<=vr2.size())
 			vr = vr2.substr(v1,v2);
 		else
@@ -123,7 +123,7 @@ extern "C" void PDEjecutar(string o,istream& i)
 		va = PDDATA->ObtenerVariable(a);
 		vb = PDDATA->ObtenerVariable(b);
 		vc = PDDATA->ObtenerVariable(c);
-		int v1 = stoi(vb);
+		int v1 = cae(vb);
 		if(!(vc.find(va,v1) == string::npos))
 			vr = eas(vc.find(va.c_str(),v1));
 		else
@@ -139,7 +139,7 @@ extern "C" void PDEjecutar(string o,istream& i)
 	{
 		string a,r,r2;
 		i >> a >> r >> r2;
-		int v = stoi(PDDATA->ObtenerVariable(a));
+		int v = cae(PDDATA->ObtenerVariable(a));
 		string v2 = PDDATA->ObtenerVariable(r);
 		string& v3 = PDDATA->ObtenerVariable(r2);
 		if(v < v2.size())
@@ -159,8 +159,8 @@ extern "C" void PDEjecutar(string o,istream& i)
 		va = PDDATA->ObtenerVariable(a);
 		vb = PDDATA->ObtenerVariable(b);
 		int v1,v2;
-		v1 = stoi(va);
-		v2 = stoi(vb);
+		v1 = cae(va);
+		v2 = cae(vb);
 		int v3 = v1 + v2;
 		vr = eas(v3);
 	}
@@ -173,8 +173,8 @@ extern "C" void PDEjecutar(string o,istream& i)
 		va = PDDATA->ObtenerVariable(a);
 		vb = PDDATA->ObtenerVariable(b);
 		int v1,v2;
-		v1 = stoi(va);
-		v2 = stoi(vb);
+		v1 = cae(va);
+		v2 = cae(vb);
 			int v3 = v1 - v2;
 			vr = eas(v3);
 	}
@@ -187,8 +187,8 @@ extern "C" void PDEjecutar(string o,istream& i)
 		va = PDDATA->ObtenerVariable(a);
 		vb = PDDATA->ObtenerVariable(b);
 		int v1,v2;
-		v1 = stoi(va);
-		v2 = stoi(vb);
+		v1 = cae(va);
+		v2 = cae(vb);
 		int v3 = v1 * v2;
 		vr = eas(v3);
 	}
@@ -201,8 +201,8 @@ extern "C" void PDEjecutar(string o,istream& i)
 		va = PDDATA->ObtenerVariable(a);
 		vb = PDDATA->ObtenerVariable(b);
 		int v1,v2;
-		v1 = stoi(va);
-		v2 = stoi(vb);
+		v1 = cae(va);
+		v2 = cae(vb);
 		if(!(v2 == 0))
 		{
 			int v3 = v1 / v2;
@@ -222,8 +222,8 @@ extern "C" void PDEjecutar(string o,istream& i)
 		va = PDDATA->ObtenerVariable(a);
 		vb = PDDATA->ObtenerVariable(b);
 		int v1,v2;
-		v1 = stoi(va);
-		v2 = stoi(vb);
+		v1 = cae(va);
+		v2 = cae(vb);
 		if(c == "=")
 			vr = ((v1 == v2)? "verdadero" : "falso");
 		else if(c == "<")
@@ -248,23 +248,97 @@ extern "C" void PDEjecutar(string o,istream& i)
 	} // TODO TERMINAR
 	else if(o == PDS("Dec.Sumar"))
 	{
-		
+		string a,b,r;
+		i >> a >> b >> r;
+		string va,vb;
+		string& vr = PDDATA->ObtenerVariable(r);
+		va = PDDATA->ObtenerVariable(a);
+		vb = PDDATA->ObtenerVariable(b);
+		float v1,v2;
+		v1 = caf(va);
+		v2 = caf(vb);
+			float v3 = v1 + v2;
+			vr = dac(v3);
 	}
 	else if(o == PDS("Dec.Restar"))
 	{
-		
+		string a,b,r;
+		i >> a >> b >> r;
+		string va,vb;
+		string& vr = PDDATA->ObtenerVariable(r);
+		va = PDDATA->ObtenerVariable(a);
+		vb = PDDATA->ObtenerVariable(b);
+		float v1,v2;
+		v1 = caf(va);
+		v2 = caf(vb);
+			float v3 = v1 - v2;
+			vr = dac(v3);
 	}
 	else if(o == PDS("Dec.Multiplicar"))
 	{
-		
+		string a,b,r;
+		i >> a >> b >> r;
+		string va,vb;
+		string& vr = PDDATA->ObtenerVariable(r);
+		va = PDDATA->ObtenerVariable(a);
+		vb = PDDATA->ObtenerVariable(b);
+		float v1,v2;
+		v1 = caf(va);
+		v2 = caf(vb);
+			float v3 = v1 * v2;
+			vr = dac(v3);
 	}
 	else if(o == PDS("Dec.Dividir"))
 	{
-		
+		string a,b,r;
+		i >> a >> b >> r;
+		string va,vb;
+		string& vr = PDDATA->ObtenerVariable(r);
+		va = PDDATA->ObtenerVariable(a);
+		vb = PDDATA->ObtenerVariable(b);
+		float v1,v2;
+		v1 = caf(va);
+		v2 = caf(vb);
+		if(v2 == 0)
+		{
+			cerr << "Error en Dec.Dividir a b r: b == 0: no se divide entre cero" << endl;
+			throw string("Error en Dec.Dividir: division entre cero");
+		}
+			float v3 = v1 - v2;
+			vr = dac(v3);
 	}
 	else if(o == PDS("Dec.Comparar"))
 	{
-		
+		string c,a,b,r;
+		i >> a >> c >> b >> r;
+		string va,vb;
+		string& vr = PDDATA->ObtenerVariable(r);
+		va = PDDATA->ObtenerVariable(a);
+		vb = PDDATA->ObtenerVariable(b);
+		float v1,v2;
+		v1 = caf(va);
+		v2 = caf(vb);
+		if(c == "=")
+			vr = ((v1 == v2)? "verdadero" : "falso");
+		else if(c == "<")
+			vr = ((v1 < v2)? "verdadero" : "falso");
+		else if(c == "<=")
+			vr = ((v1 <= v2)? "verdadero" : "falso");
+		else if(c == ">")
+			vr = ((v1 > v2)? "verdadero" : "falso");
+		else if(c == ">=")
+			vr = ((v1 >= v2)? "verdadero" : "falso");
+		else if(c == "!=")
+			vr = ((v1 != v2)? "verdadero" : "falso");
+		else if(c == "<?")
+			vr = dac(((v1 <= v2)? v1 : v2));
+		else if(c == "?>")
+			vr = dac(((v1 >= v2)? v1 : v2));
+		else
+		{
+			vr = ":C++:error:";
+			throw string("Error en el modulo Dec, Comparar a OP b r: no se reconoce OP");
+		}
 	}
 	#include "./codefile.cpp"
 }
