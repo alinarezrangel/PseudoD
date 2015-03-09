@@ -77,7 +77,7 @@ extern "C" void PDEjecutar(string o,istream& i)
 			vr = ":C++:error:";
 			throw string("En el modulo Cad, en Sub_Cadena v1 v2 r1 r2: v1+v2 > longitud(r1).");
 		}
-	} // TODO BUG 004
+	}
 	else if(o == PDS("Cad.Reemplazar"))
 	{
 		string a,b,r;
@@ -113,7 +113,7 @@ extern "C" void PDEjecutar(string o,istream& i)
 			vr = ":C++:error:";
 			throw string("Error en el modulo Cad, Caracter_Especial a r: no se reconoce a");
 		}
-	} // TODO BUG 003
+	}
 	else if(o == PDS("Cad.Buscar"))
 	{
 		string a,b,c,r;
@@ -124,7 +124,7 @@ extern "C" void PDEjecutar(string o,istream& i)
 		vb = PDDATA->ObtenerVariable(b);
 		vc = PDDATA->ObtenerVariable(c);
 		int v1 = cae(vb);
-		if(!(vc.find(va,v1) == string::npos))
+		if(vc.find(va,v1) != string::npos)
 			vr = eas(vc.find(va.c_str(),v1));
 		else
 			vr = ":C++:error:";
@@ -245,7 +245,7 @@ extern "C" void PDEjecutar(string o,istream& i)
 			vr = ":C++:error:";
 			throw string("Error en el modulo Ent, Comparar a OP b r: no se reconoce OP");
 		}
-	} // TODO TERMINAR
+	}
 	else if(o == PDS("Dec.Sumar"))
 	{
 		string a,b,r;
