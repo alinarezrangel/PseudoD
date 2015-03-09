@@ -22,22 +22,42 @@ int buscar(std::vector<T> a,T b)
 
 std::string eas(int i)
 {
+#ifndef MINGW
 	return std::to_string(i);
+#else
+	char buffer[21];
+	sprintf(buffer,"%d",i);
+	return string(buffer);
+#endif
 }
 
 std::string dac(float i)
 {
+#ifndef MINGW
 	return std::to_string(i);
+#else
+	char buffer[21];
+	sprintf(buffer,"%f",i);
+	return string(buffer);
+#endif
 }
 
 int cae(std::string i)
 {
+#ifndef MINGW
 	return std::stoi(i);
+#else
+	return atoi(i.c_str());
+#endif
 }
 
 float caf(std::string i)
 {
+#ifndef MINGW
 	return std::stof(i);
+#else
+	return atof(i.c_str());
+#endif
 }
 
 namespace PDvar
