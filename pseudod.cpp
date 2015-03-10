@@ -158,10 +158,10 @@ extern "C" void PDEjecutar(string o,istream& i)
 		string& vr = PDDATA->ObtenerVariable(r);
 		va = PDDATA->ObtenerVariable(a);
 		vb = PDDATA->ObtenerVariable(b);
-		int v1,v2;
+		long long int v1,v2;
 		v1 = cae(va);
 		v2 = cae(vb);
-		int v3 = v1 + v2;
+		long long int v3 = v1 + v2;
 		vr = eas(v3);
 	}
 	else if(o == PDS("Ent.Restar"))
@@ -172,10 +172,10 @@ extern "C" void PDEjecutar(string o,istream& i)
 		string& vr = PDDATA->ObtenerVariable(r);
 		va = PDDATA->ObtenerVariable(a);
 		vb = PDDATA->ObtenerVariable(b);
-		int v1,v2;
+		long long int v1,v2;
 		v1 = cae(va);
 		v2 = cae(vb);
-			int v3 = v1 - v2;
+			long long int v3 = v1 - v2;
 			vr = eas(v3);
 	}
 	else if(o == PDS("Ent.Multiplicar"))
@@ -186,10 +186,10 @@ extern "C" void PDEjecutar(string o,istream& i)
 		string& vr = PDDATA->ObtenerVariable(r);
 		va = PDDATA->ObtenerVariable(a);
 		vb = PDDATA->ObtenerVariable(b);
-		int v1,v2;
+		long long int v1,v2;
 		v1 = cae(va);
 		v2 = cae(vb);
-		int v3 = v1 * v2;
+		long long int v3 = v1 * v2;
 		vr = eas(v3);
 	}
 	else if(o == PDS("Ent.Dividir"))
@@ -200,12 +200,12 @@ extern "C" void PDEjecutar(string o,istream& i)
 		string& vr = PDDATA->ObtenerVariable(r);
 		va = PDDATA->ObtenerVariable(a);
 		vb = PDDATA->ObtenerVariable(b);
-		int v1,v2;
+		long long int v1,v2;
 		v1 = cae(va);
 		v2 = cae(vb);
 		if(!(v2 == 0))
 		{
-			int v3 = v1 / v2;
+			long long int v3 = v1 / v2;
 			vr = eas(v3);
 		}
 		else
@@ -221,7 +221,7 @@ extern "C" void PDEjecutar(string o,istream& i)
 		string& vr = PDDATA->ObtenerVariable(r);
 		va = PDDATA->ObtenerVariable(a);
 		vb = PDDATA->ObtenerVariable(b);
-		int v1,v2;
+		long long int v1,v2;
 		v1 = cae(va);
 		v2 = cae(vb);
 		if(c == "=")
@@ -254,10 +254,10 @@ extern "C" void PDEjecutar(string o,istream& i)
 		string& vr = PDDATA->ObtenerVariable(r);
 		va = PDDATA->ObtenerVariable(a);
 		vb = PDDATA->ObtenerVariable(b);
-		float v1,v2;
+		long double v1,v2;
 		v1 = caf(va);
 		v2 = caf(vb);
-			float v3 = v1 + v2;
+			long double v3 = v1 + v2;
 			vr = dac(v3);
 	}
 	else if(o == PDS("Dec.Restar"))
@@ -268,10 +268,10 @@ extern "C" void PDEjecutar(string o,istream& i)
 		string& vr = PDDATA->ObtenerVariable(r);
 		va = PDDATA->ObtenerVariable(a);
 		vb = PDDATA->ObtenerVariable(b);
-		float v1,v2;
+		long double v1,v2;
 		v1 = caf(va);
 		v2 = caf(vb);
-			float v3 = v1 - v2;
+			long double v3 = v1 - v2;
 			vr = dac(v3);
 	}
 	else if(o == PDS("Dec.Multiplicar"))
@@ -282,10 +282,10 @@ extern "C" void PDEjecutar(string o,istream& i)
 		string& vr = PDDATA->ObtenerVariable(r);
 		va = PDDATA->ObtenerVariable(a);
 		vb = PDDATA->ObtenerVariable(b);
-		float v1,v2;
+		long double v1,v2;
 		v1 = caf(va);
 		v2 = caf(vb);
-			float v3 = v1 * v2;
+			long double v3 = v1 * v2;
 			vr = dac(v3);
 	}
 	else if(o == PDS("Dec.Dividir"))
@@ -296,7 +296,7 @@ extern "C" void PDEjecutar(string o,istream& i)
 		string& vr = PDDATA->ObtenerVariable(r);
 		va = PDDATA->ObtenerVariable(a);
 		vb = PDDATA->ObtenerVariable(b);
-		float v1,v2;
+		long double v1,v2;
 		v1 = caf(va);
 		v2 = caf(vb);
 		if(v2 == 0)
@@ -304,7 +304,7 @@ extern "C" void PDEjecutar(string o,istream& i)
 			cerr << "Error en Dec.Dividir a b r: b == 0: no se divide entre cero" << endl;
 			throw string("Error en Dec.Dividir: division entre cero");
 		}
-			float v3 = v1 - v2;
+			long double v3 = v1 - v2;
 			vr = dac(v3);
 	}
 	else if(o == PDS("Dec.Comparar"))
@@ -315,7 +315,7 @@ extern "C" void PDEjecutar(string o,istream& i)
 		string& vr = PDDATA->ObtenerVariable(r);
 		va = PDDATA->ObtenerVariable(a);
 		vb = PDDATA->ObtenerVariable(b);
-		float v1,v2;
+		long double v1,v2;
 		v1 = caf(va);
 		v2 = caf(vb);
 		if(c == "=")

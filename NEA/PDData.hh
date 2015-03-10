@@ -16,10 +16,10 @@
 
 template<class T>
 int buscar(std::vector<T> a,T b);
-std::string eas(int i);
-std::string dac(float i);
-int cae(std::string i);
-float caf(std::string i);
+std::string eas(long long int i);
+std::string dac(long double i);
+long long int cae(std::string i);
+long double caf(std::string i);
 
 /**
 * @brief Representa el tipo de datos nativo del interprete.
