@@ -360,7 +360,7 @@ namespace PDTipos
 			* @param a variable que contiene el valor
 			* @param b meta-funcion a ejecutar
 			*/
-			PseudoMientras(string a = "____",string b = "____");
+			PseudoMientras(string b = "____",string f = "____");
 			/**
 			* @brief destructor
 			*/
@@ -378,6 +378,7 @@ namespace PDTipos
 		private:
 			string nma;
 			string nmv;
+			string func;
 	};
 	
 	/**

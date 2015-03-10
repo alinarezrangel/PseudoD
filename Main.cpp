@@ -515,7 +515,7 @@ int main(int argc,char* argv[])
 	try
 	{
 		while((cin >> base)&&(Ejecutar))
-		{ // TODO AGREGAR try-catch
+		{
 			procesar(base, cin, func2);
 			cout << endl <<  ">>> ";
 		}

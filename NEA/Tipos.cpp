@@ -495,10 +495,10 @@ namespace PDTipos
 		(*data->nvapunt)[i] = oi;
 	}
 	
-	PseudoMientras::PseudoMientras(string f,string v) : PDInstancia()
+	PseudoMientras::PseudoMientras(string v,string f) : PDInstancia()
 	{
-		this->nma = f;
 		this->nmv = v;
+		this->func = f;
 		this->FijarClave(string("Mientras"),string("PseudoD"));
 	}
 	PseudoMientras::~PseudoMientras()
@@ -508,19 +508,34 @@ namespace PDTipos
 	
 	void PseudoMientras::LeerParametros(istream& in)
 	{
-		if(!(in >> this->nmv >> this->nma))
+		if(!(in >> this->nmv))
 		{
 			cerr << "Error en " << this->ObtenerClave() << " ,no se pudo leer bien el fichero fuente." << endl;
 			throw string("Error en el la parte " + this->ObtenerClave() + " EOF inesperado");
+		}
+		vector<string> lineas;
+		string lin = "";
+		while(lin != "finbucle")
+		{
+			getline(in,lin,'\n');
+			lineas.push_back(lin);
+			lin.erase(std::remove_if(lin.begin(), 
+                              lin.end(),
+                              [](char x){return std::isspace(x);}),
+                lin.end());
+		}
+		this->func = "";
+		for(int i = 0;i < lineas.size();i++)
+		{
+			this->func += lineas[i] + "\n";
 		}
 	}
 	
 	void PseudoMientras::InscribirInstancia(PDDatos* data)
 	{
-		string var = data->ObtenerVariable(this->nma);
 		while((data->ObtenerVariable(this->nmv)) == data->VERDADERO)
 		{
-			std::istringstream in(var);
+			std::istringstream in(this->func);
 			string v;
 			while(in >> v)
 			{
