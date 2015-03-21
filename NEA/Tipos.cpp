@@ -359,7 +359,7 @@ namespace PDTipos
 			ind++;
 		}
 		data->CrearVariable(this->nme+string("#(")+eas(tmt)+string(")."));
-		data->ObtenerVariable(this->nme+string("#(")+eas(tmt)+string(")."))=this->nma+string("#longitud");
+		data->ObtenerVariable(this->nme+string("#(")+eas(tmt)+string(")."))=this->nma+string("#longitud.");
 	}
 	
 	PseudoBorrarVariable::PseudoBorrarVariable(string n) : PDInstancia()
