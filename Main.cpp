@@ -342,6 +342,11 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 		while(AMBITO.size() != i)
 		{
 			e >> ord;
+			if(ord == "=*")
+			{
+				getline(e,ord,'\n');
+				e >> ord;
+			}
 			if(cond == "si")
 			{
 				procesar(ord, e, FUNCION);
@@ -369,6 +374,11 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 		while(AMBITO.size() != i)
 		{
 			e >> ord;
+			if(ord == "=*")
+			{
+				getline(e,ord,'\n');
+				e >> ord;
+			}
 			if(cond == "si")
 			{
 				procesar(ord, e, FUNCION);
@@ -476,7 +486,7 @@ int main(int argc,char* argv[])
 	}
 	catch(const exception& e)
 	{
-		if(string(e.what()) == "stoi")
+		if((string(e.what()) == "stoi")||(string(e.what()) == "stoll"))
 		{
 			cerr << "Error al convertir numeros" << endl;
 		}
@@ -508,7 +518,7 @@ int main(int argc,char* argv[])
 #else
 	cout << "Interprete en linea de comandos de PseudoD" << endl;
 	cout << "Creado por Alejandro Linarez Rangel" << endl;
-	cout << "PseudoD version 1.9.0 en C++11" << endl;
+	cout << "PseudoD version u1.9.3 en C++11" << endl;
 	cout << ">>> ";
 	string base;
 	(*funcion)(nombres,valores,punteros,valor,pilas,procesar);
@@ -522,7 +532,7 @@ int main(int argc,char* argv[])
 	}
 	catch(const exception& e)
 	{
-		if(string(e.what()) == "stoi")
+		if((string(e.what()) == "stoi")||(string(e.what()) == "stoll"))
 		{
 			cerr << "Error al convertir numeros" << endl;
 		}
