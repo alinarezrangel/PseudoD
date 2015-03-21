@@ -355,11 +355,11 @@ namespace PDTipos
 		for(int i = tme; i < tmt; i++)
 		{
 			data->CrearVariable(this->nme+string("#(")+eas(i)+string(")."));
-			data->ObtenerVariable(this->nme+string("#(")+eas(i)+string(").")) = this->nma+string("#(")+eas(ind)+string(").");
+			data->ObtenerVariable(this->nme+string("#(")+eas(i)+string(").")) = this->nma+string("#(")+eas(ind)+string(")");
 			ind++;
 		}
 		data->CrearVariable(this->nme+string("#(")+eas(tmt)+string(")."));
-		data->ObtenerVariable(this->nme+string("#(")+eas(tmt)+string(")."))=this->nma+string("#longitud.");
+		data->ObtenerVariable(this->nme+string("#(")+eas(tmt)+string(")."))=this->nma+string("#longitud");
 	}
 	
 	PseudoBorrarVariable::PseudoBorrarVariable(string n) : PDInstancia()
