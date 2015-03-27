@@ -62,7 +62,13 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 	{
 		string a;
 		e >> a;
-		if(DATOS_INT.ObtenerVariable(a) == ":C++:error:")
+		bool existe = false;
+		for (int i = 0; i < nombres.size(); i += 1)
+		{
+			if(nombres[i] == a)
+				existe = true;
+		}
+		if(existe)
 		{
 			throw string("¡SISTEMA CORRUPTOOOOO! en adquirir "+a);
 		}
@@ -105,7 +111,13 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 	{
 		string var,val;
 		e >> var >> val;
-		if(DATOS_INT.ObtenerVariable(var) == ":C++:error:")
+		bool existe = false;
+		for (int i = 0; i < punteros.size(); i += 1)
+		{
+			if(punteros[i] == var)
+				existe = true;
+		}
+		if(existe)
 		{
 			throw string("¡SISTEMA CORRUPTOOOOO! en puntero "+var);
 		}
@@ -159,36 +171,25 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 	{
 		cout << endl;
 	}
-	else if((o == "oper")||(o == "operador"))
+	else if(((o == "oper")||(o == "operador"))||(o == "fijar"))
 	{
 		string variable1,oper,h;
 		e  >> variable1 >> oper >> h;
 		string& a = DATOS_INT.ObtenerVariable(variable1);
-		if(oper == "=*") // oper A =* LIT
+		if(oper == "=*") // fijar A =* hola
 		{
 			string B;
 			getline(e,B,'\n');
 			h += B;
 			a = h;
 		}
-		else if((oper == "=?")||(oper == "=¿?")) // oper A =? B
+		else if((oper == "=?")||(oper == "=¿?")) // fijar A =? B
 		{
 			a = DATOS_INT.ObtenerVariable(h);
 		}
 		else
 		{
-			if((oper == "igual")||(oper == "copiar"))
-				oper = "igual";
-			if(oper == "¿es_igual_a?")
-				oper = "igualA";
-			string orden = variable1+"#"+oper+". "+variable1+"#NOMBRE. "+h+"#NOMBRE. #(Final).";
-			istringstream in(orden);
-			procesar("llamar",in,FUNCION);
-			if(oper == "igualA")
-			{
-				a = (*DATOS_INT.pilas)[indicepi].top();
-				(*DATOS_INT.pilas)[indicepi].pop();
-			}
+			throw string("No se detecta el operador "+oper);
 		}
 	}
 	else if(o == "leer")
@@ -212,7 +213,7 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 			en.open(funcion.c_str());
 			if(!en)
 			{
-				cout << "ERROR EN \'utilizar " << func << "\' se traduce a \'utilizar " << funcion << "\' no existe el archivo " << funcion << endl;
+				cerr << "ERROR EN \'utilizar " << func << "\' se traduce a \'utilizar " << funcion << "\' no existe el archivo " << funcion << endl;
 				throw string("Se intento importar un archivo inexistente");
 			}
 		}
@@ -242,7 +243,7 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 				throw string("Error en llamar "+var+" : no se encontro #(Final). pero si un EOF");
 			}
 		}
-		for(int i = 0;i < param.size();i++)
+		for(int i = (param.size()-1);i >= 0;i--)
 		{
 			string& a = DATOS_INT.ObtenerVariable(param[i]);
 			pilas[indicepi].push(a);
@@ -303,14 +304,14 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 			e >> h;
 		}
 	}
-	else if(o == "empujar")
+	else if((o == "empujar")||(o == "enviar_parametro"))
 	{
 		string variable1;
 		e >> variable1;
 		string& a = DATOS_INT.ObtenerVariable(variable1);
 		pilas[indicepi].push(a);
 	}
-	else if(o == "sacar")
+	else if((o == "sacar")||(o == "recibir_resultado"))
 	{
 		string variable1;
 		e >> variable1;

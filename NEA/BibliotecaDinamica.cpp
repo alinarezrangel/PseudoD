@@ -4,9 +4,10 @@
 */
 namespace BibliotecaDinamica
 {
-	PseudoLlamar::PseudoLlamar(string var)
+	PseudoLlamar::PseudoLlamar(string var, vector<string> args)
 	{
 		this->var = var;
+		this->param = args;
 		this->FijarClave("Llamar","BibliotecasDinamicas");
 	}
 	

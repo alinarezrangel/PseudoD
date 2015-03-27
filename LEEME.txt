@@ -8,13 +8,14 @@ QUE ES
 	Para ver sobre PseudoD, ver http://pseudod.sourceforge.net/
 
 COMPILAR
-	PseudoD fue probado con el compilador de la GCC, G++4.8.
+	PseudoD fue probado con el compilador de la GCC, G++4.8, G++4.7 y G++4.9,
+	aunque se puede compilar en otros.
 	PseudoD esta escrito en C++11, NO COMPILAR SIN SOPORTE PARA ESTE.
 	
 	PseudoD incluye un Makefile, este compila PseudoD suponiendo que se tiene g++
 	con soporte de C++11 y genera tres archivos: Datos.o,libpseudod.so y PseudoD.
 	
-	libpseudod.so es el nucleo externo NEA de PseudoD
+	libpseudod.so es el NEA de PseudoD
 	PseudoD es el ejecutable,(el interprete) este depende del NEA que es libpseudod.so.
 	Datos.o es la biblioteca de manipulacion de datos de PseudoD, esta no es dinamica.
 
@@ -40,8 +41,11 @@ INTERPRETE
 		a /usr/lib/libpseudod.so, no sera necesario el ultimo parametro.
 
 COMPILAR
+	DEPENDENCIAS
+		dlopen -> http://linux.die.net/man/3/dlopen
+		Biblioteca estandar de C++11
 	Primero se debe generar Datos.o, en este caso se genera de forma similar a
-		g++ -fPIC -c -std=c++11 NEA/PDData.hh -ldl -o Datos.o
+		g++ -fPIC -c -std=c++11 NEA/PDData.cpp -ldl -o Datos.o
 			-fPIC: Necesario, para codigo sin posicion.
 			-c:Necesario, para generar codigo objeto.
 			-std=c++11: NECESARIO EN TODOS

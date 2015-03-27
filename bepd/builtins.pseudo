@@ -1,0 +1,121 @@
+[ ******************************************************************************
+*****************************************
+*********
+** builtins.pd: Archivo built-ins de PseudoD
+** Declara sistemas esenciales de PseudoD
+** PseudoD fue creado por Alejandro Linarez Rangel
+** builtins.pd fue creado por Alejandro Linarez Rangel
+** Puede copiar, redistribuir y modificar este archivo con permiso de
+** <proyectopseudod@gmail.com>.
+*****************************************
+****************************************************************************** ]
+
+[DOCUMENTA
+@brief Representa un valor nulo.
+Es el valor que toman las variables, antes de ser inicializadas.
+DOCUMENTA]
+adquirir NULO
+[DOCUMENTA
+@brief Representa el valor de Boole 1 o verdadero.
+Es utilizada para sentencias si - si_no. Tambien es devuelto por algunas
+funciones para indicar un afirmativo o que el resultado es verdadero,(como
+<a href="ref_tipos.html#EsNulo">EsNulo</a>).
+DOCUMENTA]
+adquirir VERDADERO
+	operador VERDADERO =* verdadero
+[DOCUMENTA
+@brief Representa el valor de Boole 0 o falso.
+Es utilizada para sentencias si - si_no. Tambien es devuelto por algunas
+funciones para indicar un negativo o que el resultado es falso,(como
+<a href="ref_tipos.html#EsNulo">EsNulo</a>).
+DOCUMENTA]
+adquirir FALSO
+	operador FALSO =* falso
+[DOCUMENTA
+@brief Es el numero 0.
+Se inserto por simetria con UNO, DOS, UNON, TRES y CUATRO.
+DOCUMENTA]
+adquirir CERO [ cero,(0) ]
+	operador CERO =* 0
+[DOCUMENTA
+@brief Es el numero 1.
+Es utilizado para incrementar, decrementar, entre otros.
+DOCUMENTA]
+adquirir UNO [ uno,(1) ]
+	operador UNO =* 1
+[DOCUMENTA
+@brief Es el numero -1.
+Es utilizado para incrementar, decrementar e invertir fracciones,(
+ver la clase <a href="ref_clases.html#FraccionNElevarP">Fraccion</a>).
+DOCUMENTA]
+adquirir UNON [ menos uno,(-1) ]
+	operador UNON =* -1
+[DOCUMENTA
+@brief Es el numero 2.
+Es comunmente utilizado para calcular mitades, dobles.
+DOCUMENTA]
+adquirir DOS [ Para mitades ]
+	operador DOS =* 2
+[DOCUMENTA
+@brief Es el numero 3.
+Tal como el <a href="#DOS">DOS</a>, el TRES es utilizado para tercios y triples.
+DOCUMENTA]
+adquirir TRES [ Para tercios ]
+	operador TRES =* 3
+[DOCUMENTA
+@brief Es el numero 5.
+Utilizado para calcular quintas partes, y quintuples.
+DOCUMENTA]
+adquirir CINCO [ Para x/5 ]
+	operador CINCO =* 5
+[DOCUMENTA
+@brief Version de PseudoD actualmente estandar.
+Es la version de PseudoD actualmente estandar.
+DOCUMENTA]
+adquirir PSEUDOD [ version de PseudoD ]
+	operador PSEUDOD =* 1.9.3
+[DOCUMENTA
+@brief Ruta donde PseudoD busca los archivos de BEPD
+Tambien se puede utilizar <a href="ref_clases.html#ProgramaNDirLibP">Programa#DirLib.</a>
+DOCUMENTA]
+puntero RUTA_BEPD __LIB__
+
+[DOCUMENTA
+@brief Es la clase base de PseudoD.
+Define atributos basicos, que PseudoD utiliza. Dado esto,
+se recomienda que todas las clases hereden a esta para evitar errores.
+DOCUMENTA]
+clase Objeto
+	NOMBRE
+	Tipo
+#(Final).
+[ No hereda ]
+
+[DOCUMENTA
+@brief Es la clase principal de instancias.
+Cada instancia creada con adquirir es una instancia de esta.
+DOCUMENTA]
+clase PseudoVariable
+#(Final).
+heredar Objeto PseudoVariable
+
+[DOCUMENTA
+@brief Es la clase donde se almacenan las funciones.
+Cada funcion declarada, se almacena en un objeto de esta clase.
+DOCUMENTA]
+clase PseudoFuncion
+	cod
+#(Final).
+heredar Objeto PseudoFuncion
+
+[ TODO: no se documenta dado que es "privado" ]
+clase __ptr_vacio__
+	;direccion
+#(Final).
+heredar Objeto __ptr_vacio__
+
+crear_pila
+usar_pila 0
+empujar NULO
+
+

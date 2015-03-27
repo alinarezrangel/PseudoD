@@ -1,8 +1,5 @@
 ## PseudoD fue creado por Alejandro Linarez Rangel
 
-## g++ -fPIC -shared pseudod.cpp -ldl -o libpseudod.so
-## g++ Main.cpp -ldl -o PseudoD
-
 CC = g++
 CFLAGS = -fPIC
 SHARED = -shared

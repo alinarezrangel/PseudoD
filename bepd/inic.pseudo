@@ -1,0 +1,87 @@
+[ ******************************************************************************
+*****************************************
+*********
+** inic.pseudo: Archivo variables comunes de PseudoD
+** Declara sistemas esenciales de PseudoD
+** PseudoD fue creado por Alejandro Linarez Rangel
+** builtins.pd fue creado por Alejandro Linarez Rangel
+** Puede copiar, redistribuir y modificar este archivo con permiso de
+** <proyectopseudod@gmail.com>.
+*****************************************
+****************************************************************************** ]
+[ Crear e inicializar las Constantes super-globales ]
+
+[DOCUMENTA
+@brief Valor retornado por las funciones de C++ al lanzar un error no fatal.
+Este valor tambien suele ser devuelto por algunas funciones de la biblioteca
+estandar al lanzar un error algunas de sus palabras claves.
+DOCUMENTA]
+adquirir CMMERROR
+	oper CMMERROR =* :C++:error:
+[DOCUMENTA
+@brief Version de BEPD actualmente utilizada.
+DOCUMENTA]
+adquirir BEPD [ version de BEPD ]
+	oper BEPD =* 1.9.0
+[DOCUMENTA
+@brief Representa el fin de una sentencia si o si_no en ofrma de cadena.
+DOCUMENTA]
+adquirir FIN
+	oper FIN =* fin
+[DOCUMENTA
+@brief Representa el fin de una sentencia funcion en forma de cadena.
+DOCUMENTA]
+adquirir FINFUN
+	oper FINFUN =* finfun
+adquirir NL [ NOTA: el valor de NUEVALINEA cambia de acuerdo al sistema operativo, este valor se representa como \r\n siguiendo
+las convenciones de la organizacion internacional de codificacion, tambien se puede usar la orden nl ]
+	oper NL =* CV
+[DOCUMENTA
+@brief Representa el caracter de nueva linea,(\r\n).
+DOCUMENTA]
+adquirir NUEVALINEA
+[DOCUMENTA
+@brief Representa un espacio en blanco
+DOCUMENTA]
+adquirir ESP
+	Importar.Cad.Caracter_Especial NL NUEVALINEA [ Vacia NUEVALINEA ]
+	Importar.Cad.Caracter_Especial NL ESP
+	oper NL =* RC
+	Importar.Cad.Caracter_Especial NL NUEVALINEA [ Le fija el caracter \r ]
+	oper NL =* NL
+	Importar.Cad.Caracter_Especial NL NUEVALINEA [ Le fija el caracter \n ]
+	oper NL =* EB
+	Importar.Cad.Caracter_Especial NL ESP
+Importar.Tipos.BorrarSimple NL
+Importar.Tipos.BorrarSimple NL#NOMBRE.
+Importar.Tipos.BorrarSimple NL#Tipo.
+[DOCUMENTA
+@brief Sistema de respuestas S/N, representa el afirmativo
+DOCUMENTA]
+adquirir SI [ S y N para respuestas ]
+	oper SI =* S
+[DOCUMENTA
+@brief Sistema de respuestas S/N, representa el negativo
+DOCUMENTA]
+adquirir NO
+	oper NO =* N
+[ Crear e inicializar las variables super-globales ]
+[DOCUMENTA
+@brief Buffer de datos simples
+DOCUMENTA]
+adquirir VG_BUFFER_DATOS [ Buffer ]
+	oper VG_BUFFER_DATOS =? NULO
+[DOCUMENTA
+@brief Puntero al buffer de datos
+DOCUMENTA]
+puntero VG_BUFFER VG_BUFFER_DATOS [ VG_BUFFER es un puntero/sinonimo de VG_BUFFER_DATOS ]
+[DOCUMENTA
+@brief Flag indicador si se deberian guardar los datos en el bufferantes de reescribirlo.
+DOCUMENTA]
+adquirir VG_BUFFER_DATOS_DATA [ Si se tienen datos especiales en el buffer ]
+	oper VG_BUFFER_DATOS_DATA =? FALSO
+[DOCUMENTA
+@brief Puntero al flag de buffer
+DOCUMENTA]
+puntero VG_BUFFER_DATA VG_BUFFER_DATOS_DATA
+[ VG_BUFFER_DATA es un puntero/sinonimo de VG_BUFFER_DATOS_DATA ]

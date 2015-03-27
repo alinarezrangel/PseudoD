@@ -1,0 +1,17 @@
+ESTE ARCHIVO CONTIENE TEXTO UNICODE
+
+PseudoD
+creado por Alejandro Linarez Rangel
+
+QUE ES
+	PseudoD es un lenguaje de programación en español.
+	Para ver sobre PseudoD, ver http://pseudod.sourceforge.net/
+
+Estructura del arbol de documentos y carpetas:
+	./                    Código principal de PseudoD, tiene el NEA
+	                            de bajo nivel y el NIA.
+	./NEA/                Código de alto nivel del NEA.
+	./Ejemplos/           Ejemplos de código en PseudoD.
+	./bepd/               Biblioteca estandar de PseudoD.
+	./bepd/doc/           Documentación de BEPD.
+	./ipdc                Intermedio entre PseudoD y la consola.

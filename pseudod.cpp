@@ -67,7 +67,7 @@ extern "C" void PDEjecutar(string o,istream& i)
 		va = PDDATA->ObtenerVariable(a);
 		vb = PDDATA->ObtenerVariable(b);
 		string& vr2 = PDDATA->ObtenerVariable(r2);
-		int v1,v2;
+		long long int v1,v2;
 		v1 = cae(va);
 		v2 = cae(vb);
 		if((v1 + v2)<=vr2.size())
@@ -88,8 +88,8 @@ extern "C" void PDEjecutar(string o,istream& i)
 		vb = PDDATA->ObtenerVariable(b);
 		while(vr.find(va.c_str(),0) != string::npos)
 		{
-			int i = vr.find(va.c_str(),0);
-			vr.replace(i,va.size(),vb);
+			int i2 = vr.find(va.c_str(),0);
+			vr.replace(i2,va.size(),vb);
 		}
 	}
 	else if(o == PDS("Cad.Caracter_Especial"))
@@ -123,7 +123,7 @@ extern "C" void PDEjecutar(string o,istream& i)
 		va = PDDATA->ObtenerVariable(a);
 		vb = PDDATA->ObtenerVariable(b);
 		vc = PDDATA->ObtenerVariable(c);
-		int v1 = cae(vb);
+		long long int v1 = cae(vb);
 		if(vc.find(va,v1) != string::npos)
 			vr = eas(vc.find(va.c_str(),v1));
 		else
@@ -139,7 +139,7 @@ extern "C" void PDEjecutar(string o,istream& i)
 	{
 		string a,r,r2;
 		i >> a >> r >> r2;
-		int v = cae(PDDATA->ObtenerVariable(a));
+		long long int v = cae(PDDATA->ObtenerVariable(a));
 		string v2 = PDDATA->ObtenerVariable(r);
 		string& v3 = PDDATA->ObtenerVariable(r2);
 		if(v < v2.size())
@@ -304,7 +304,7 @@ extern "C" void PDEjecutar(string o,istream& i)
 			cerr << "Error en Dec.Dividir a b r: b == 0: no se divide entre cero" << endl;
 			throw string("Error en Dec.Dividir: division entre cero");
 		}
-			long double v3 = v1 - v2;
+			long double v3 = v1 / v2;
 			vr = dac(v3);
 	}
 	else if(o == PDS("Dec.Comparar"))

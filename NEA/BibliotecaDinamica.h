@@ -4,7 +4,9 @@
 */
 #ifndef __BIBLIOTECADINAMICO_H__
 #define __BIBLIOTECADINAMICO_H__
-
+/**
+* @brief Aqui se encuentran todos lo referente a bibliotecas de carga dinamica.
+*/
 namespace BibliotecaDinamica
 {
 	using namespace PDvar;
@@ -16,9 +18,25 @@ namespace BibliotecaDinamica
 	class PseudoLlamar : public PDInstancia
 	{
 		public:
-			PseudoLlamar(string var = "____");
+			/**
+			* @brief Inicializa la instancia.
+			* @arg var Nombre de la instancia de BibliotecaDinamica
+			* @arg args Argumentos a pasar a la biblioteca
+			*/
+			PseudoLlamar(string var = "____", vector<string> args = vector<string>());
+			/**
+			* @brief Destruye la instancia.
+			*/
 			~PseudoLlamar();
+			/**
+			* @brief Lee los parametros del flujo.
+			* @arg in Flujo del cual leer.
+			*/
 			void LeerParametros(istream& in);
+			/**
+			* @brief Ejecuta el llamado a la biblioteca dinamica.
+			* @arg data Memoria del interprete.
+			*/
 			void InscribirInstancia(PDDatos* data);
 		private:
 			string var;

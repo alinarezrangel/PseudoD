@@ -1,0 +1,613 @@
+[ ******************************************************************************
+*****************************************
+*********
+** clases.pseudo: Archivo clases estandares de PseudoD de PseudoD
+** Declara la jerarquía de clases estandar.
+** PseudoD fue creado por Alejandro Linarez Rangel
+** builtins.pd fue creado por Alejandro Linarez Rangel
+** Puede copiar, redistribuir y modificar este archivo con permiso de
+** <proyectopseudod@gmail.com>.
+*****************************************
+****************************************************************************** ]
+
+[DOCUMENTA
+@brief Representa informacion sobre el programa.
+Es utilizado por plug-ins para obtener distintos datos.
+DOCUMENTA]
+clase Programa
+	Nombre
+	Proveedor
+	Main
+	DirLib
+	;BEPD
+#(Final).
+heredar Objeto Programa
+
+[DOCUMENTA
+@brief Intancia de Programa.
+Esta instancia es la que representa el programa.
+DOCUMENTA]
+instancia Programa yo
+operador yo#Nombre. =¿? __MAIN__
+operador yo#Main. =¿? __MAIN__
+operador yo#DirLib. =¿? __LIB__
+redireccionar yo#BEPD. yo#DirLib.
+
+[DOCUMENTA
+@brief Clase con un atributo valor.
+Representa un objeto con un valor simple, estando en su campo valor.
+DOCUMENTA]
+clase __TIPO_VALOR__
+	valor
+#(Final).
+heredar Objeto __TIPO_VALOR__
+
+[DOCUMENTA
+@brief Numero representa un numero del conjunto Z.
+DOCUMENTA]
+clase Numero
+	:sumar
+	:restar
+	:multiplicar
+	:dividir
+#(Final).
+heredar __TIPO_VALOR__ Numero
+
+[DOCUMENTA
+@brief Suma el contenido de dos Numeros.
+Se basa en el atributo #valor.
+@arg Yo Objeto numero 1 a sumar
+@arg Tu Objeto numero 2 a sumar
+@dev Un valor listo para ser escrito sobre el campo #valor.
+DOCUMENTA]
+funcion Numero#sumar. [ Yo, Tu ]
+	adquirir __NSA__
+	adquirir __NSB__
+	adquirir __NSC__
+	sacar __NSA__
+	sacar __NSB__
+	Importar.Ent.Sumar __NSA__ __NSB__ __NSC__
+	empujar __NSC__
+	liberar __NSA__
+	liberar __NSB__
+	liberar __NSC__
+finfun
+
+[DOCUMENTA
+@brief Resta el contenido de dos Numeros.
+Se basa en el atributo #valor.
+@arg Yo Objeto numero 1 a restar
+@arg Tu Objeto numero 2 a restar
+@dev Un valor listo para ser escrito sobre el campo #valor.
+DOCUMENTA]
+funcion Numero#restar. [ Yo, Tu ]
+	adquirir __NSA__
+	adquirir __NSB__
+	adquirir __NSC__
+	sacar __NSA__
+	sacar __NSB__
+	Importar.Ent.Restar __NSA__ __NSB__ __NSC__
+	empujar __NSC__
+	liberar __NSA__
+	liberar __NSB__
+	liberar __NSC__
+finfun
+
+[DOCUMENTA
+@brief Multiplica el contenido de dos Numeros.
+Se basa en el atributo #valor.
+@arg Yo Objeto numero 1 a multiplicar
+@arg Tu Objeto numero 2 a multiplicar
+@dev Un valor listo para ser escrito sobre el campo #valor.
+DOCUMENTA]
+funcion Numero#multiplicar. [ Yo, Tu ]
+	adquirir __NSA__
+	adquirir __NSB__
+	adquirir __NSC__
+	sacar __NSA__
+	sacar __NSB__
+	Importar.Ent.Multiplicar __NSA__ __NSB__ __NSC__
+	empujar __NSC__
+	liberar __NSA__
+	liberar __NSB__
+	liberar __NSC__
+finfun
+
+[DOCUMENTA
+@brief Divide el contenido de dos Numeros.
+Se basa en el atributo #valor.
+@arg Yo Objeto numero 1 a dividir
+@arg Tu Objeto numero 2 a dividir
+@dev Un valor listo para ser escrito sobre el campo #valor.
+DOCUMENTA]
+funcion Numero#dividir. [ Yo, Tu ]
+	adquirir __NSA__
+	adquirir __NSB__
+	adquirir __NSC__
+	sacar __NSA__
+	sacar __NSB__
+	Importar.Ent.Dividir __NSA__ __NSB__ __NSC__
+	empujar __NSC__
+	liberar __NSA__
+	liberar __NSB__
+	liberar __NSC__
+finfun
+
+[DOCUMENTA
+@brief Representa un numero del conjunto Q en forma decimal.
+A diferencia de <a href="ref_clases.html#Fraccion">Fraccion</a>, la representacion
+decimal no es en base a fracciones sino a reales como en otros lenguajes(6.7 8.1).
+DOCUMENTA]
+clase Decimal
+#(Final).
+heredar Numero Decimal
+
+[DOCUMENTA
+@brief Suma el contenido de dos Decimales.
+Se basa en el atributo #valor.
+@arg Yo Objeto numero 1 a sumar
+@arg Tu Objeto numero 2 a sumar
+@dev Un valor listo para ser escrito sobre el campo #valor.
+DOCUMENTA]
+funcion Decimal#sumar. [ Yo, Tu ]
+	adquirir __NSA__
+	adquirir __NSB__
+	adquirir __NSC__
+	sacar __NSA__
+	sacar __NSB__
+	Importar.Dec.Sumar __NSA__ __NSB__ __NSC__
+	empujar __NSC__
+	liberar __NSA__
+	liberar __NSB__
+	liberar __NSC__
+finfun
+
+[DOCUMENTA
+@brief Resta el contenido de dos Decimales.
+Se basa en el atributo #valor.
+@arg Yo Objeto numero 1 a restar
+@arg Tu Objeto numero 2 a restar
+@dev Un valor listo para ser escrito sobre el campo #valor.
+DOCUMENTA]
+funcion Decimal#restar. [ Yo, Tu ]
+	adquirir __NSA__
+	adquirir __NSB__
+	adquirir __NSC__
+	sacar __NSA__
+	sacar __NSB__
+	Importar.Dec.Restar __NSA__ __NSB__ __NSC__
+	empujar __NSC__
+	liberar __NSA__
+	liberar __NSB__
+	liberar __NSC__
+finfun
+
+[DOCUMENTA
+@brief Multiplica el contenido de dos Decimales.
+Se basa en el atributo #valor.
+@arg Yo Objeto numero 1 a multiplicar
+@arg Tu Objeto numero 2 a multiplicar
+@dev Un valor listo para ser escrito sobre el campo #valor.
+DOCUMENTA]
+funcion Decimal#multiplicar. [ Yo, Tu ]
+	adquirir __NSA__
+	adquirir __NSB__
+	adquirir __NSC__
+	sacar __NSA__
+	sacar __NSB__
+	Importar.Dec.Multiplicar __NSA__ __NSB__ __NSC__
+	empujar __NSC__
+	liberar __NSA__
+	liberar __NSB__
+	liberar __NSC__
+finfun
+
+[DOCUMENTA
+@brief Divide el contenido de dos Decimales.
+Se basa en el atributo #valor.
+@arg Yo Objeto numero 1 a dividir
+@arg Tu Objeto numero 2 a dividir
+@dev Un valor listo para ser escrito sobre el campo #valor.
+DOCUMENTA]
+funcion Decimal#dividir. [ Yo, Tu ]
+	adquirir __NSA__
+	adquirir __NSB__
+	adquirir __NSC__
+	sacar __NSA__
+	sacar __NSB__
+	Importar.Dec.Dividir __NSA__ __NSB__ __NSC__
+	empujar __NSC__
+	liberar __NSA__
+	liberar __NSB__
+	liberar __NSC__
+finfun
+
+[DOCUMENTA
+@brief Representa un numero en el conjunto Q, en forma de fraccion.
+A diferencia de Decimal, este utiliza una representacion en forma de fraccion
+y no una representacion decimal.
+DOCUMENTA]
+clase Fraccion
+	numerador
+	denominador
+	:sumar
+	:restar
+	:multiplicar
+	:dividir
+#(Final).
+heredar Objeto Fraccion
+
+[ Fraccion#a. Yo#NOMBRE. Tu#NOMBRE. ]
+
+[DOCUMENTA
+@brief Suma dos fracciones.
+Aplica la forma de a/b + c/d = (ad + bc)/bd.
+Almacena el resultado en el argumento Yo.
+@arg Yo primer elemento, debe ser una <a href="ref_referencias.html">referencia</a>.
+@arg Tu segundo elemento, debe ser una <a href="ref_referencias.html">referencia</a>.
+DOCUMENTA]
+funcion Fraccion#sumar. [ Yo, Tu ]
+	adquirir __REF_YO__
+	adquirir __REF_TU__
+	adquirir __BUFFER_A__
+	adquirir __BUFFER_B__
+	adquirir __BUFFER_RA__
+	adquirir __BUFFER_RB__
+	adquirir __BUFFER_RC__
+	sacar __REF_YO__
+	sacar __REF_TU__
+	empujar __REF_TU__
+	empujar __REF_YO__
+	operador __BUFFER_A__ =* #numerador.
+	operador __BUFFER_B__ =* #denominador.
+	Importar.Cad.Concatenar __REF_YO__ __BUFFER_A__ __REF_YO__
+	Importar.Cad.Concatenar __REF_TU__ __BUFFER_B__ __REF_TU__
+	operador __BUFFER_A__ =* Importar.Ent.Multiplicar
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __REF_YO__ __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __REF_TU__ __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_RA__#NOMBRE. __BUFFER_A__
+	ejecutar __BUFFER_A__
+	sacar __REF_YO__
+	sacar __REF_TU__
+	empujar __REF_TU__
+	empujar __REF_YO__
+	operador __BUFFER_A__ =* #denominador.
+	operador __BUFFER_B__ =* #numerador.
+	Importar.Cad.Concatenar __REF_YO__ __BUFFER_A__ __REF_YO__
+	Importar.Cad.Concatenar __REF_TU__ __BUFFER_B__ __REF_TU__
+	operador __BUFFER_A__ =* Importar.Ent.Multiplicar
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __REF_YO__ __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __REF_TU__ __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_RB__#NOMBRE. __BUFFER_A__
+	ejecutar __BUFFER_A__
+	sacar __REF_YO__
+	sacar __REF_TU__
+	empujar __REF_TU__
+	empujar __REF_YO__
+	operador __BUFFER_A__ =* #denominador.
+	operador __BUFFER_B__ =* #denominador.
+	Importar.Cad.Concatenar __REF_YO__ __BUFFER_A__ __REF_YO__
+	Importar.Cad.Concatenar __REF_TU__ __BUFFER_B__ __REF_TU__
+	operador __BUFFER_A__ =* Importar.Ent.Multiplicar
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __REF_YO__ __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __REF_TU__ __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_RC__#NOMBRE. __BUFFER_A__
+	ejecutar __BUFFER_A__
+	Importar.Ent.Sumar __BUFFER_RA__ __BUFFER_RB__ __BUFFER_RA__
+	sacar __REF_YO__
+	sacar __REF_TU__
+	operador __BUFFER_A__ =* operador
+	operador __BUFFER_B__ =* #numerador.
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __REF_YO__ __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	operador __BUFFER_B__ =* =¿?
+	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_RA__#NOMBRE. __BUFFER_A__
+	ejecutar __BUFFER_A__
+	operador __BUFFER_A__ =* operador
+	operador __BUFFER_B__ =* #denominador.
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __REF_YO__ __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	operador __BUFFER_B__ =* =¿?
+	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_RC__#NOMBRE. __BUFFER_A__
+	ejecutar __BUFFER_A__
+	liberar __REF_YO__
+	liberar __REF_TU__
+	liberar __BUFFER_A__
+	liberar __BUFFER_B__
+	liberar __BUFFER_RA__
+	liberar __BUFFER_RB__
+	liberar __BUFFER_RC__
+finfun
+
+[DOCUMENTA
+@brief Resta dos fracciones.
+Aplica la forma de a/b - c/d = (ad - bc)/bd.
+Almacena el resultado en el argumento Yo.
+@arg Yo primer elemento, debe ser una <a href="ref_referencias.html">referencia</a>.
+@arg Tu segundo elemento, debe ser una <a href="ref_referencias.html">referencia</a>.
+DOCUMENTA]
+funcion Fraccion#restar. [ Yo, Tu ]
+	adquirir __REF_YO__
+	adquirir __REF_TU__
+	adquirir __BUFFER_A__
+	adquirir __BUFFER_B__
+	adquirir __BUFFER_RA__
+	adquirir __BUFFER_RB__
+	adquirir __BUFFER_RC__
+	sacar __REF_YO__
+	sacar __REF_TU__
+	empujar __REF_TU__
+	empujar __REF_YO__
+	operador __BUFFER_A__ =* #numerador.
+	operador __BUFFER_B__ =* #denominador.
+	Importar.Cad.Concatenar __REF_YO__ __BUFFER_A__ __REF_YO__
+	Importar.Cad.Concatenar __REF_TU__ __BUFFER_B__ __REF_TU__
+	operador __BUFFER_A__ =* Importar.Ent.Multiplicar
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __REF_YO__ __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __REF_TU__ __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_RA__#NOMBRE. __BUFFER_A__
+	ejecutar __BUFFER_A__
+	sacar __REF_YO__
+	sacar __REF_TU__
+	empujar __REF_TU__
+	empujar __REF_YO__
+	operador __BUFFER_A__ =* #denominador.
+	operador __BUFFER_B__ =* #numerador.
+	Importar.Cad.Concatenar __REF_YO__ __BUFFER_A__ __REF_YO__
+	Importar.Cad.Concatenar __REF_TU__ __BUFFER_B__ __REF_TU__
+	operador __BUFFER_A__ =* Importar.Ent.Multiplicar
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __REF_YO__ __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __REF_TU__ __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_RB__#NOMBRE. __BUFFER_A__
+	ejecutar __BUFFER_A__
+	sacar __REF_YO__
+	sacar __REF_TU__
+	empujar __REF_TU__
+	empujar __REF_YO__
+	operador __BUFFER_A__ =* #denominador.
+	operador __BUFFER_B__ =* #denominador.
+	Importar.Cad.Concatenar __REF_YO__ __BUFFER_A__ __REF_YO__
+	Importar.Cad.Concatenar __REF_TU__ __BUFFER_B__ __REF_TU__
+	operador __BUFFER_A__ =* Importar.Ent.Multiplicar
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __REF_YO__ __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __REF_TU__ __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_RC__#NOMBRE. __BUFFER_A__
+	ejecutar __BUFFER_A__
+	Importar.Ent.Restar __BUFFER_RA__ __BUFFER_RB__ __BUFFER_RA__
+	sacar __REF_YO__
+	sacar __REF_TU__
+	operador __BUFFER_A__ =* operador
+	operador __BUFFER_B__ =* #numerador.
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __REF_YO__ __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	operador __BUFFER_B__ =* =¿?
+	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_RA__#NOMBRE. __BUFFER_A__
+	ejecutar __BUFFER_A__
+	operador __BUFFER_A__ =* operador
+	operador __BUFFER_B__ =* #denominador.
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __REF_YO__ __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	operador __BUFFER_B__ =* =¿?
+	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_RC__#NOMBRE. __BUFFER_A__
+	ejecutar __BUFFER_A__
+	liberar __REF_YO__
+	liberar __REF_TU__
+	liberar __BUFFER_A__
+	liberar __BUFFER_B__
+	liberar __BUFFER_RA__
+	liberar __BUFFER_RB__
+	liberar __BUFFER_RC__
+finfun
+
+[DOCUMENTA
+@brief Multiplica dos fracciones.
+Aplica la forma de a/b * c/d = ac/bd.
+Almacena el resultado en el argumento Yo.
+@arg Yo primer elemento, debe ser una <a href="ref_referencias.html">referencia</a>.
+@arg Tu segundo elemento, debe ser una <a href="ref_referencias.html">referencia</a>.
+DOCUMENTA]
+funcion Fraccion#multiplicar. [ Yo, Tu ]
+	adquirir __REF_YO__
+	adquirir __REF_TU__
+	adquirir __BUFFER_A__
+	adquirir __BUFFER_B__
+	adquirir __BUFFER_RA__
+	adquirir __BUFFER_RB__
+	adquirir __BUFFER_RC__
+	sacar __REF_YO__
+	sacar __REF_TU__
+	empujar __REF_TU__
+	empujar __REF_YO__
+	operador __BUFFER_A__ =* #numerador.
+	operador __BUFFER_B__ =* #numerador.
+	Importar.Cad.Concatenar __REF_YO__ __BUFFER_A__ __REF_YO__
+	Importar.Cad.Concatenar __REF_TU__ __BUFFER_B__ __REF_TU__
+	operador __BUFFER_A__ =* Importar.Ent.Multiplicar
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __REF_YO__ __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __REF_TU__ __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_RA__#NOMBRE. __BUFFER_A__
+	ejecutar __BUFFER_A__
+	sacar __REF_YO__
+	sacar __REF_TU__
+	empujar __REF_TU__
+	empujar __REF_YO__
+	operador __BUFFER_A__ =* #denominador.
+	operador __BUFFER_B__ =* #denominador.
+	Importar.Cad.Concatenar __REF_YO__ __BUFFER_A__ __REF_YO__
+	Importar.Cad.Concatenar __REF_TU__ __BUFFER_B__ __REF_TU__
+	operador __BUFFER_A__ =* Importar.Ent.Multiplicar
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __REF_YO__ __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __REF_TU__ __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_RB__#NOMBRE. __BUFFER_A__
+	ejecutar __BUFFER_A__
+	sacar __REF_YO__
+	sacar __REF_TU__
+	operador __BUFFER_A__ =* operador
+	operador __BUFFER_B__ =* #numerador.
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __REF_YO__ __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	operador __BUFFER_B__ =* =¿?
+	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_RA__#NOMBRE. __BUFFER_A__
+	ejecutar __BUFFER_A__
+	operador __BUFFER_A__ =* operador
+	operador __BUFFER_B__ =* #denominador.
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __REF_YO__ __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	operador __BUFFER_B__ =* =¿?
+	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_RB__#NOMBRE. __BUFFER_A__
+	ejecutar __BUFFER_A__
+	liberar __REF_YO__
+	liberar __REF_TU__
+	liberar __BUFFER_A__
+	liberar __BUFFER_B__
+	liberar __BUFFER_RA__
+	liberar __BUFFER_RB__
+	liberar __BUFFER_RC__
+finfun
+
+[DOCUMENTA
+@brief Divide dos fracciones.
+Aplica la forma de a/b * c/d = ad/bc.
+Almacena el resultado en el argumento Yo.
+@arg Yo primer elemento, debe ser una <a href="ref_referencias.html">referencia</a>.
+@arg Tu segundo elemento, debe ser una <a href="ref_referencias.html">referencia</a>.
+DOCUMENTA]
+funcion Fraccion#dividir. [ Yo, Tu ]
+	adquirir __REF_YO__
+	adquirir __REF_TU__
+	adquirir __BUFFER_A__
+	adquirir __BUFFER_B__
+	adquirir __BUFFER_RA__
+	adquirir __BUFFER_RB__
+	adquirir __BUFFER_RC__
+	sacar __REF_YO__
+	sacar __REF_TU__
+	empujar __REF_TU__
+	empujar __REF_YO__
+	operador __BUFFER_A__ =* #numerador.
+	operador __BUFFER_B__ =* #denominador.
+	Importar.Cad.Concatenar __REF_YO__ __BUFFER_A__ __REF_YO__
+	Importar.Cad.Concatenar __REF_TU__ __BUFFER_B__ __REF_TU__
+	operador __BUFFER_A__ =* Importar.Ent.Multiplicar
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __REF_YO__ __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __REF_TU__ __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_RA__#NOMBRE. __BUFFER_A__
+	ejecutar __BUFFER_A__
+	sacar __REF_YO__
+	sacar __REF_TU__
+	empujar __REF_TU__
+	empujar __REF_YO__
+	operador __BUFFER_A__ =* #denominador.
+	operador __BUFFER_B__ =* #numerador.
+	Importar.Cad.Concatenar __REF_YO__ __BUFFER_A__ __REF_YO__
+	Importar.Cad.Concatenar __REF_TU__ __BUFFER_B__ __REF_TU__
+	operador __BUFFER_A__ =* Importar.Ent.Multiplicar
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __REF_YO__ __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __REF_TU__ __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_RB__#NOMBRE. __BUFFER_A__
+	ejecutar __BUFFER_A__
+	sacar __REF_YO__
+	sacar __REF_TU__
+	operador __BUFFER_A__ =* operador
+	operador __BUFFER_B__ =* #numerador.
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __REF_YO__ __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	operador __BUFFER_B__ =* =¿?
+	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_RA__#NOMBRE. __BUFFER_A__
+	ejecutar __BUFFER_A__
+	operador __BUFFER_A__ =* operador
+	operador __BUFFER_B__ =* #denominador.
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __REF_YO__ __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	operador __BUFFER_B__ =* =¿?
+	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_RB__#NOMBRE. __BUFFER_A__
+	ejecutar __BUFFER_A__
+	liberar __REF_YO__
+	liberar __REF_TU__
+	liberar __BUFFER_A__
+	liberar __BUFFER_B__
+	liberar __BUFFER_RA__
+	liberar __BUFFER_RB__
+	liberar __BUFFER_RC__
+finfun
+
+[
+clase Cadena
+	:concatenar
+	:sub_cadena
+#(Final).
+heredar __TIPO_VALOR__ Cadena
+[]
+
+[
+clase Boole
+	:verdadero
+	:falso
+	:Y
+	:O
+	:O-EXCLUSIVA
+#(Final).
+heredar __TIPO_VALOR__ Boole
+[]

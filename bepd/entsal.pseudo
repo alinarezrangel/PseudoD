@@ -1,0 +1,66 @@
+[ ******************************************************************************
+*****************************************
+*********
+** entsal.pseudo: Archivo Entrada/salida de PseudoD
+** Declara sistemas esenciales de PseudoD
+** PseudoD fue creado por Alejandro Linarez Rangel
+** builtins.pd fue creado por Alejandro Linarez Rangel
+** Puede copiar, redistribuir y modificar este archivo con permiso de
+** <proyectopseudod@gmail.com>.
+*****************************************
+****************************************************************************** ]
+
+funcion Escribir [ Objeto texto ]
+	adquirir __ESA__
+	sacar __ESA__
+	escribir __ESA__
+	liberar __ESA__
+finfun
+
+funcion EscribirLinea [ Objeto texto ]
+	adquirir __ESA__
+	sacar __ESA__
+	escribir __ESA__
+	nl
+	liberar __ESA__
+finfun
+
+funcion LeerPalabra [ -> Objeto resultado ]
+	adquirir __ESA__
+	leer __ESA__
+	empujar __ESA__
+	liberar __ESA__
+finfun
+
+funcion EscribirEnBuffer [ Objeto buffer, Objeto texto -> Objeto buffer ]
+	adquirir __ESA__
+	adquirir __ESB__
+	adquirir __ESC__
+	sacar __ESA__
+	sacar __ESB__
+	Importar.Cad.Concatenar __ESA__ __ESB__ __ESA__
+	empujar __ESA__
+	liberar __ESA__
+	liberar __ESB__
+	liberar __ESC__
+finfun
+
+funcion EscribirLineaEnBuffer [ Objeto buffer, Objeto texto -> Objeto buffer ]
+	adquirir __ESA__
+	adquirir __ESB__
+	adquirir __ESC__
+	sacar __ESA__
+	sacar __ESB__
+	Importar.Cad.Concatenar __ESA__ __ESB__ __ESA__
+	Importar.Cad.Concatenar __ESA__ NUEVALINEA __ESA__
+	empujar __ESA__
+	liberar __ESA__
+	liberar __ESB__
+	liberar __ESC__
+finfun
+
+[ NOTA: terminar: LeerPalabraEnBuffer(deberia ser facil) ]
+
+funcion LeerPalabraEnBuffer [ Objeto buffer -> Objeto palabra, Objeto buffer ]
+	
+finfun

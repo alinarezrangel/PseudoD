@@ -1,0 +1,102 @@
+#!/bin/bash
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#########################################################
+########                                         ########
+# ipdc: Intermedio entre PseudoD y la consola           #
+# Desarrollado por Alejandro Linarez Rangel             #
+# Para indicar la ruta de instalacion, cambiar el       #
+# valor de RUTA_PSEUDOD a la ruta donde se              #
+# instalo y se extrajo BEPD, fijar RUTA_LIB             #
+# a donde se movio libpseudod.so y fijar FIJO a         #
+# "si". Se supondra que se movio el ejecutable          #
+# PseudoD y ipd a /home/$USER/bin/                      #
+# Gracias por usar PseudoD                              #
+########                                         ########
+#########################################################
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+#RUTA_PSEUDOD="$HOME/bin/bepd/BEPD/"
+RUTA_PSEUDOD=""   # Ruta donde se movio el ejecutable PseudoD
+RUTA_LIB="/usr/lib/libpseudod.so" # Ruta donde se movio la biblioteca libpseudod.so
+FIJO="no"
+if [ "$FIJO" = "no" ]
+	then
+		echo "Advertencia de ipdc: No se configuro ipdc"
+		echo "Modifique el archivo ipdc y cambie las variables RUTA_PSEUDOD y RUTA_LIB"
+		echo "Abortado..."
+		exit
+fi
+
+param1=$1
+param2=$2
+param3=$3
+param4=$4
+
+function ayuda() {
+	echo "Ayuda del Intermedio entre PseudoD y la Consola"
+	echo "-----------------------------------------------"
+	echo "	$0 -d :Muestra la ruta predeterminada de bepd"
+	echo "	$0 -s (ruta) :Fija la ruta de bepd a (ruta)"
+	echo "	$0 -f (archivo) :Ejecuta archivo con PseudoD"
+	echo "	$0 -i :Inicia el interactivo de PseudoD"
+	echo "Combinaciones:---------------------------------"
+	echo "	$0 -s (ruta) (opciones) (parametros)"
+	echo "	$0 (opciones) -s (ruta) (parametros)"
+	echo "	$0 (opciones) (parametros) -s (ruta)"
+	echo "Donde:-----------------------------------------"
+	echo "	(opciones) -> (-i|-f)"
+	echo "	(parametros) -> parametros de la opcion seleccionada"
+	echo "	(ruta) -> Ruta de bepd"
+	echo "La opcion -s no es obligatorio"
+	exit
+}
+
+if [ "$param1" = "--help" ]
+	then
+		ayuda
+fi
+if [ "$param1" = "-h" ]
+	then
+		ayuda
+fi
+if [ "$param1" = "--ayuda" ]
+	then
+		ayuda
+fi
+
+if [ "$param1" = "-d" ] # -d
+	then
+		echo "Ruta lib predeterminada:"
+		echo "$RUTA_PSEUDOD"
+		echo "Ruta de NEA predeterminada:"
+		echo "$RUTA_LIB"
+		exit
+fi
+
+if [ "$param1" = "-s" ] # -s RUTA (-f|-i|-fo) (a)
+	then
+		RUTA_PSEUDOD=$param2
+		param1=$param3
+		param2=$param4
+fi
+
+if [ "$param2" = "-s" ] # (-f|-i|-fo) -s RUTA (a)
+	then
+		RUTA_PSEUDOD=$param3
+		param2=$param4
+fi
+
+if [ "$param3" = "-s" ] # (-f|-i|-fo) (a) (-s) RUTA
+	then
+		RUTA_PSEUDOD=$param4
+fi
+if [ "$param1" = "-f" ]
+	then
+		PseudoD "$param2" "$RUTA_PSEUDOD" "$RUTA_LIB";
+fi
+if [ "$param1" = "-i" ]
+	then
+		ipd nulo "$RUTA_PSEUDOD" "$RUTA_LIB";
+fi
+ 
