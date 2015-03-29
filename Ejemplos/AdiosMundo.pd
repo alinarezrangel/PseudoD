@@ -1,0 +1,24 @@
+[ ***************************************************
+**************
+** AdiosMundo.pd: Ejemplos de PseudoD.
+** Creador: Alejandro Linarez Rangel
+** Imprime "¡Hola Mundo!" y despues "¡Adios Mundo!".
+** Serie de ejemplos de PseudoD.
+** Contacto a <proyectopseudod@gmail.com> y a los
+** foros de discución en
+**    <https://sourceforge.net/p/pseudod/discussion/?source=navbar>
+**************
+*************************************************** ]
+
+adquirir Mensaje [ Creamos la variable Mensaje ]
+	[ Fijamos su contenido a ¡Hola Mundo!
+	(las sentencias fijar/oper/operador no aceptan comentarios al final de linea)
+	]
+	fijar Mensaje =* ¡Hola Mundo!
+	escribir Mensaje [ Escribimos su contenido ]
+	nl [ E imprimimos los caracteres nueva linea ]
+	[ NOTA: a partir de aqui, se modifico el archivo ]
+	[ Fijamos su contenido a ¡Adios Mundo!, borrando su contenido anterior ]
+	fijar Mensaje =* ¡Adios Mundo!
+	escribir Mensaje [ Volvemos a escribir su contenido ]
+	nl [ Y otros caracteres nueva linea ]

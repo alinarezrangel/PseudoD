@@ -15,3 +15,45 @@ Estructura del arbol de documentos y carpetas:
 	./bepd/               Biblioteca estandar de PseudoD.
 	./bepd/doc/           Documentación de BEPD.
 	./ipdc                Intermedio entre PseudoD y la consola.
+
+Estructura donde estarian los archivos despues de compilar:
+	./PseudoD							Podria estan en /usr/bin/ o en /home/$USER/bin/
+	./libpseudod.so				Debe estar en /usr/lib/ como libpseudod.so
+	./Data.o							¡Donde usted quiera!, es el código objeto del
+	        							manipulador de datos de PseudoD, es necesario para
+	        							escribir plugins.
+	./bepd/							todo su contenido deberia estar en /usr/lib/pseudod/1.9.3/
+
+Algunas preguntas que se podria hacer:
+	
+	¿Que flags deberia definir en el Makefile?
+		El Makefile lo indica.
+	
+	¿Que valor deberia tener `ruta de bepd`?
+		Deberia tener preferiblemente su valor por defecto: /usr/lib/pseudod/1.9.3/,
+		(No olvide la diagonal al final, ¡es importante!).
+	
+	¿Donde agrego mis plugins escritos en PseudoD para poderlos utilizar junto
+	con `utilizar`?
+		Deberia agregarlos en /usr/lib/pseudod/1.9.3/, dentro de una carpeta con el
+		nombre del plugin. Es importante la carpeta ya que allí, se almacena
+		principalmente la biblioteca estándar de PseudoD.
+	
+	¿Donde agrego mis plugins en C++11 para poderlos utilizar junto con PseudoD?
+		La ubicación de este tipo de plugin no importa, mientras se conozca de forma
+		total. Aunque si deseara tener una ubicación especial deberia estar en
+		/usr/lib/pseudod/plugins/, dentro de una carpeta con su nombre.
+	
+	¿Donde deberia estar el archivo builtins.pseudo?
+		Este archivo debe estar en /usr/lib/pseudod/1.9.3/, junto a la biblioeca
+		estandar.
+	
+	¿Que versión de BEPD es la que trae este código?
+		BEPD 1.9.0:1.9.0 (BEPD 1.9.0 diseñada para PseudoD 1.9.0-1.9.3).
+	
+	¿Como se usa ipdc?
+		ipdc supone que ya se tiene PseudoD(el ejecutable) en /usr/bin/ o en
+		/home/$USER/bin/. Su uso se puede ver con:
+			ipdc --help
+		o:
+			ipd --ayuda

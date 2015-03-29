@@ -440,16 +440,35 @@ int main(int argc,char* argv[])
 	if(!(argc >= 2))
 	{
 		cout << "Insuficientes parametros." << endl << "Uso:" << argv[0] << " (archivo)[.pd|.pseudo] (ruta de bepd) [ruta de libpseudod.so]" << endl;
+		return 1;
 	}
+	if((string(argv[1]) == "--help")||(string(argv[1]) == "-h"))
+	{
+		cout << "Interprete de PseudoD, version 1.9.3(u1.9.3)" << endl;
+		cout << "Uso: " << argv[0] << " (archivo a ejecutar) (ruta de bepd) [ruta de libpseudod.so]" << endl;
+		cout << "PseudoD no tiene opciones excepto -h o --help" << endl;
+		cout << "PseudoD fue creado por Alejandro Linarez Rangel" << endl;
+		cout << endl;
+		cout << "Pagina del proyecto: <https://sourceforge.net/projects/pseudod/>" << endl;
+		cout << "Valores por defecto:" << endl;
+		cout << "\truta de libpseudod.so: /usr/lib/libpseudod.so o"
+						"/Library/libpseudod.dylib" << endl;
+		cout << "\truta de bepd: /usr/lib/pseudod/1.9.3/" << endl;
+		return 0;
+	}
+#ifdef MACOSX
+	string libpseudod = "/Library/libpseudod.dylib";
+#else
 	string libpseudod = "/usr/lib/libpseudod.so";
+#endif
 	if(argc >= 4)
 	{
 		libpseudod = argv[3];
-	}
+	}https://sourceforge.net/projects/pseudod/
 	void* dll = dlopen(libpseudod.c_str(), RTLD_LAZY);
 	if(dll == NULL)
 	{
-		cout << dlerror() << endl;
+		cout << "Error al cargar libpseudod.so:" << dlerror() << endl;
 		return 1;
 	}
 	void(*funcion)(vector<string>&,vector<string>&,vector<string>&,vector<int>&,vector<stack<string> >&,void (*procesar)(string o,istream& e, void(*FUNCION)(string,istream&)));
@@ -460,13 +479,14 @@ int main(int argc,char* argv[])
 	func3 = (void(*)(void))dlsym(dll,"PDFinal");
 	if((funcion == NULL)||(func2 == NULL)||(func3==NULL))
 	{
-		cout << "Error al usar libpseudod.so" << endl;
+		cout << "Error al usar libpseudod.so:" << dlerror() << endl;
 		return 1;
 	}
+	(*funcion)(nombres,valores,punteros,valor,pilas,procesar);
 	nombres.push_back(string("__MAIN__"));
 	valores.push_back(string(argv[1]));
 	nombres.push_back(string("__LIB__"));
-	valores.push_back(string(((argc >= 3)? argv[2] : "nulo")));
+	valores.push_back(string(((argc >= 3)? argv[2] : "/usr/lib/pseudod/1.9.3/")));
 	nombres.push_back(string("__ARCH__"));
 	valores.push_back(string(argv[1]));
 	nombres.push_back("VG_PILA_ACTUAL");
@@ -474,10 +494,66 @@ int main(int argc,char* argv[])
 	nombres.push_back("VG_NUMERO_PILAS");
 	valores.push_back("0");
 	string a(argv[1]);
+	{
+		if(DATOS_INT.ObtenerVariable("__LIB__") != "nulo")
+		{
+			try
+			{
+				istringstream en("builtins.pseudo");
+				procesar("utilizar", en, func2);
+			}
+			catch(const std::exception& e)
+			{
+				if((string(e.what()) == "stoi")||(string(e.what()) == "stoll"))
+				{
+					cerr << "Error al convertir numeros" << endl;
+				}
+				else
+				{
+					cerr << e.what() << endl;
+				}
+				cerr << "EN " << DATOS_INT.ObtenerVariable("__ARCH__") << endl;
+				cerr << "Error cargando builtins.pseudo, ¡alto!" << endl;
+				cerr << "Error cargando el archivo builtins.pseudo en "
+						 << DATOS_INT.ObtenerVariable("__LIB__") << endl;
+				(*func3)();
+				dlclose(dll);
+				return 1;
+			}
+			catch(const string& e)
+			{
+				cerr << "PseudoD lanzo un error fatal: " << e << endl;
+				cerr << "EN " << DATOS_INT.ObtenerVariable("__ARCH__") << endl;
+				cerr << "Error cargando el archivo builtins.pseudo en "
+						 << DATOS_INT.ObtenerVariable("__LIB__") << endl;
+				(*func3)();
+				dlclose(dll);
+				return 1;
+			}
+			catch(...)
+			{
+				cerr << "Error no identificado, ¡builtins.pseudo no aprovado!" << endl;
+				cerr << "Verifique la version de BEPD, y verifique la fuente de descarga."
+							<< endl;
+				cerr << "Error cargando el archivo builtins.pseudo en "
+						 << DATOS_INT.ObtenerVariable("__LIB__") << endl;
+				(*func3)();
+				dlclose(dll);
+				return 1;
+			}
+		}
+		else
+		{
+			cerr << "Error cargando el archivo builtins.pseudo en "
+					 << DATOS_INT.ObtenerVariable("__LIB__") << endl;
+			(*func3)();
+			dlclose(dll);
+			return 1;
+		}
+	}
 #ifndef INTERACTIVO
 	ifstream en(a.c_str());
 	string base;
-	(*funcion)(nombres,valores,punteros,valor,pilas,procesar);
 	try
 	{
 		while((en >> base)&&(Ejecutar))
@@ -485,44 +561,12 @@ int main(int argc,char* argv[])
 			procesar(base, en, func2);
 		}
 	}
-	catch(const exception& e)
-	{
-		if((string(e.what()) == "stoi")||(string(e.what()) == "stoll"))
-		{
-			cerr << "Error al convertir numeros" << endl;
-		}
-		else
-		{
-			cerr << e.what() << endl;
-		}
-		cerr << "EN " << DATOS_INT.ObtenerVariable("__ARCH__") << endl;
-	}
-	catch(const string& e)
-	{
-		cerr << "PseudoD lanzo un error fatal: " << e << endl;
-		cerr << "EN " << DATOS_INT.ObtenerVariable("__ARCH__") << endl;
-	}
-	catch(...)
-	{
-		cout << "¡Error no identificado!" << endl;
-		cout << "Siga los siguientes pasos:" << endl;
-		cout << "1). Verifique la documentacion de los agregados del NEA" << endl;
-		cout << "2). Verifique la documentacion de los agregados dinamicos" << endl;
-		cout << "3). Verifique la documentacion de las bibiotecas usadas," << endl;
-		cout << "    incluso si estan escritas en PseudoD." << endl;
-		cout << "Este error solo puede ser causado a nivel C++11,(codigo casi maquina)." << endl;
-		cout << "Si o es ninguno de los pasos de arriba, contactese por los foros de" << endl;
-		cout << "\"discussion\" en <https://www.sourceforge.net/projects/pseudod/>" << endl;
-		cout << "Disculpe las molestias." << endl;
-		
-	}
 #else
 	cout << "Interprete en linea de comandos de PseudoD" << endl;
 	cout << "Creado por Alejandro Linarez Rangel" << endl;
 	cout << "PseudoD version u1.9.3 en C++11" << endl;
 	cout << ">>> ";
 	string base;
-	(*funcion)(nombres,valores,punteros,valor,pilas,procesar);
 	try
 	{
 		while((cin >> base)&&(Ejecutar))
@@ -531,6 +575,7 @@ int main(int argc,char* argv[])
 			cout << endl <<  ">>> ";
 		}
 	}
+#endif
 	catch(const exception& e)
 	{
 		if((string(e.what()) == "stoi")||(string(e.what()) == "stoll"))
@@ -562,7 +607,6 @@ int main(int argc,char* argv[])
 		cout << "Disculpe las molestias." << endl;
 		
 	}
-#endif
 	(*func3)();
 	return dlclose(dll);
 }
