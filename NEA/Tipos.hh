@@ -379,6 +379,15 @@ namespace PDTipos
 			string nma;
 			string nmv;
 			string func;
+			string orden;
+			string oper;
+			string var1;
+			string var2;
+			string var3;
+			bool llamada;
+			bool igualdad;
+			bool comparar;
+			bool ejecutar;
 	};
 	
 	/**

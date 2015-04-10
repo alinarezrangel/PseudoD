@@ -2,6 +2,7 @@
 **PseudoD 1.5.0
 **Creado por Alejandro Linarez Rangel
 Define la macro INTERACTIVO a 1 para un interprete en linea de comandos
+https://sourceforge.net/projects/pseudod/
 */
 #include <iostream>
 #include <fstream>
@@ -332,10 +333,41 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 	}
 	else if(o == "si")
 	{
-		string variable1;
+		string variable1,val;
 		e >> variable1;
-		string& val = DATOS_INT.ObtenerVariable(variable1);
-		string cond = ((val == "verdadero")? "si" : "no");
+		if(variable1 == "llamar")
+		{
+			procesar("llamar",e,FUNCION);
+			val = pilas[indicepi].top();
+			pilas[indicepi].pop();
+		}
+		else if(variable1 == "¿son_iguales?")
+		{
+			string var1,var2;
+			e >> var1 >> var2;
+			val = ((DATOS_INT.ObtenerVariable(var1) == DATOS_INT.ObtenerVariable(var2))? DATOS_INT.VERDADERO : DATOS_INT.FALSO);
+		}
+		else if(variable1 == "ejecutar")
+		{
+			string var1,var2,ord,es,valor;
+			e >> ord >> var1 >> var2 >> es >> valor;
+			if(es != "es")
+				throw string("Error en si ejecutar "+ord+": Su sintaxis es: variable variable \"es\" resultado: no se escribio es, se escribio:" + es);
+			istringstream in(var1 + " " + var2 + " ___codigo_pseudod_buffer_interno___");
+			procesar(ord,in,FUNCION);
+			val = ((DATOS_INT.ObtenerVariable("___codigo_pseudod_buffer_interno___") == DATOS_INT.ObtenerVariable(valor))? DATOS_INT.VERDADERO : DATOS_INT.FALSO);
+		}
+		else if(variable1 == "comparar")
+		{
+			string var1,op,var2,ord;
+			e >> ord >> var1 >> op >> var2;
+			istringstream in(var1 + " " + op + " " + var2 + " ___codigo_pseudod_buffer_interno___");
+			procesar(ord,in,FUNCION);
+			val = DATOS_INT.ObtenerVariable("___codigo_pseudod_buffer_interno___");
+		}
+		else
+			val = DATOS_INT.ObtenerVariable(variable1);
+		string cond = ((val == DATOS_INT.VERDADERO)? "si" : "no");
 		string ord;
 		int i = 0;
 		i = AMBITO.size();
@@ -364,10 +396,41 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 	}
 	else if(o == "si_no")
 	{
-		string variable1;
+		string variable1,val;
 		e >> variable1;
-		string& val = DATOS_INT.ObtenerVariable(variable1);
-		string cond = ((val == "falso")? "si" : "no");
+		if(variable1 == "llamar")
+		{
+			procesar("llamar",e,FUNCION);
+			val = pilas[indicepi].top();
+			pilas[indicepi].pop();
+		}
+		else if(variable1 == "¿son_iguales?")
+		{
+			string var1,var2;
+			e >> var1 >> var2;
+			val = ((DATOS_INT.ObtenerVariable(var1) == DATOS_INT.ObtenerVariable(var2))? DATOS_INT.VERDADERO : DATOS_INT.FALSO);
+		}
+		else if(variable1 == "ejecutar")
+		{
+			string var1,var2,ord,es,valor;
+			e >> ord >> var1 >> var2 >> es >> valor;
+			if(es != "es")
+				throw string("Error en si ejecutar "+ord+": Su sintaxis es: variable variable \"es\" resultado: no se escribio es, se escribio:" + es);
+			istringstream in(var1 + " " + var2 + " ___codigo_pseudod_buffer_interno___");
+			procesar(ord,in,FUNCION);
+			val = ((DATOS_INT.ObtenerVariable("___codigo_pseudod_buffer_interno___") == DATOS_INT.ObtenerVariable(valor))? DATOS_INT.VERDADERO : DATOS_INT.FALSO);
+		}
+		else if(variable1 == "comparar")
+		{
+			string var1,op,var2,ord;
+			e >> ord >> var1 >> op >> var2;
+			istringstream in(var1 + " " + op + " " + var2 + " ___codigo_pseudod_buffer_interno___");
+			procesar(ord,in,FUNCION);
+			val = DATOS_INT.ObtenerVariable("___codigo_pseudod_buffer_interno___");
+		}
+		else
+			val = DATOS_INT.ObtenerVariable(variable1);
+		string cond = ((val == DATOS_INT.FALSO)? "si" : "no");
 		string ord;
 		int i = 0;
 		i = AMBITO.size();
@@ -398,19 +461,19 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 	{
 		AMBITO.pop_back();
 	}
-	else if((o == "comparar_i")||(o == "¿son_iguales?"))
+	else if((o == "comparar_i")||(o == "¿son_iguales?")) // var1 var2 res
 	{
+		string var1, var2;
+		e >> var1 >> var2;
 		string variable1;
 		e >> variable1;
 		string& a = DATOS_INT.ObtenerVariable(variable1);
-		string var1, var2;
-		e >> var1 >> var2;
 		string& b = DATOS_INT.ObtenerVariable(var1);
 		string& c = DATOS_INT.ObtenerVariable(var2);
-		a = "falso";
+		a = DATOS_INT.FALSO;
 		if(b == c)
 		{
-			a = "verdadero";
+			a = DATOS_INT.VERDADERO;
 		}
 	}
 	else if(o == "escribir_esp")
@@ -464,7 +527,7 @@ int main(int argc,char* argv[])
 	if(argc >= 4)
 	{
 		libpseudod = argv[3];
-	}https://sourceforge.net/projects/pseudod/
+	}
 	void* dll = dlopen(libpseudod.c_str(), RTLD_LAZY);
 	if(dll == NULL)
 	{
@@ -495,7 +558,7 @@ int main(int argc,char* argv[])
 	valores.push_back("0");
 	string a(argv[1]);
 	{
-		if(DATOS_INT.ObtenerVariable("__LIB__") != "nulo")
+		if(DATOS_INT.ObtenerVariable("__LIB__") != "")
 		{
 			try
 			{
@@ -596,6 +659,8 @@ int main(int argc,char* argv[])
 	catch(...)
 	{
 		cout << "¡Error no identificado!" << endl;
+		cout << "Puede ser un error en plugin o un ¡intento de acceso no permitido!"
+				 << endl;
 		cout << "Siga los siguientes pasos:" << endl;
 		cout << "1). Verifique la documentacion de los agregados del NEA" << endl;
 		cout << "2). Verifique la documentacion de los agregados dinamicos" << endl;

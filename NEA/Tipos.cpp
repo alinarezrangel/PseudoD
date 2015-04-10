@@ -176,7 +176,7 @@ namespace PDTipos
 		string i;
 		while(i != "salir")
 		{
-			cout << ">>>";
+			cout << "DEBUG>> ";
 			cin >> i;
 			if(i == "variable")
 			{
@@ -259,7 +259,7 @@ namespace PDTipos
 					}
 					catch(const exception& e)
 					{
-						if(string(e.what()) == "stoi")
+						if((string(e.what()) == "stoi")||(string(e.what()) == "stoll"))
 						{
 							cerr << "Error, la clase no existe." << endl;
 						}
@@ -305,7 +305,7 @@ namespace PDTipos
 				}
 				catch(const exception& e)
 				{
-					if(string(e.what()) == "stoi")
+					if((string(e.what()) == "stoi")||(string(e.what()) == "stoll"))
 					{
 						cerr << "No existe la instancia" << endl;
 					}
@@ -499,6 +499,10 @@ namespace PDTipos
 	{
 		this->nmv = v;
 		this->func = f;
+		this->llamada = false;
+		this->igualdad = false;
+		this->ejecutar = false;
+		this->comparar = false;
 		this->FijarClave(string("Mientras"),string("PseudoD"));
 	}
 	PseudoMientras::~PseudoMientras()
@@ -512,6 +516,36 @@ namespace PDTipos
 		{
 			cerr << "Error en " << this->ObtenerClave() << " ,no se pudo leer bien el fichero fuente." << endl;
 			throw string("Error en el la parte " + this->ObtenerClave() + " EOF inesperado");
+		}
+		if(this->nmv == "llamar")
+		{
+			string g;
+			while(g != "#(Final).")
+			{
+				string h;
+				in >> h;
+				g += " "+h;
+			}
+			this->var1 = g;
+			this->llamada = true;
+		}
+		else if(this->nmv == "¿son_iguales?")
+		{
+			in >> this->var1 >> this->var2;
+			this->igualdad = true;
+		}
+		else if(this->nmv == "ejecutar")
+		{
+			string es;
+			in >> this->orden >> this->var1 >> this->var2 >> es >> this->var3;
+			if(es != "es")
+				throw string("Error de sintaxis en " + this->ObtenerClave() + ": mientras ejecutar oden var var  \"es\" var: no se escribio es, se escribio "+es);
+			this->ejecutar = true;
+		}
+		else if(this->nmv == "comparar")
+		{
+			in >> this->orden >> this->var1 >> this->oper >> this->var2;
+			this->comparar = true;
 		}
 		vector<string> lineas;
 		string lin = "";
@@ -533,14 +567,76 @@ namespace PDTipos
 	
 	void PseudoMientras::InscribirInstancia(PDDatos* data)
 	{
-		while((data->ObtenerVariable(this->nmv)) == data->VERDADERO)
+		bool exec = false;
+		if(this->llamada)
 		{
-			std::istringstream in(this->func);
+			istringstream in(this->var1+" #(Final).");
+			(*data->PROCESAR)("llamar",in,(*data->PROCESO));
+			exec = ((((*data->pilas)[cae(data->ObtenerVariable("VG_PILA_ACTUAL"))].top()) == data->VERDADERO)? true : false);
+		}
+		else if(this->igualdad)
+		{
+			exec = data->ObtenerVariable(this->var1) == data->ObtenerVariable(this->var2);
+		}
+		else if(this->comparar)
+		{
+			istringstream in(this->var1 + " " + this->oper + " " + this->var2
+													+ " ___codigo_pseudod_buffer_interno___");
+			(*data->PROCESAR)(this->orden,in,(*data->PROCESO));
+			exec = ((data->ObtenerVariable("___codigo_pseudod_buffer_interno___") == data->VERDADERO)? true : false);
+		}
+		else if(this->ejecutar)
+		{
+			istringstream in(this->var1 + " " + this->var2
+													+ " ___codigo_pseudod_buffer_interno___");
+			(*data->PROCESAR)(this->orden,in,(*data->PROCESO));
+			exec = ((data->ObtenerVariable("___codigo_pseudod_buffer_interno___") == data->ObtenerVariable(this->var3))? true : false);
+		}
+		else
+		{
+			exec = ((data->ObtenerVariable(this->nmv) == data->VERDADERO)? true : false);
+		}
+		while(exec)
+		{
+			std::istringstream in2(this->func);
 			string v;
-			while(in >> v)
+			while(in2 >> v)
 			{
-				(*data->PROCESAR)(v,in,(*data->PROCESO));
+				(*data->PROCESAR)(v,in2,(*data->PROCESO));
 			}
+			if(this->llamada)
+			{
+			istringstream in(this->var1+" #(Final).");
+				(*data->PROCESAR)("llamar",in,(*data->PROCESO));
+	//			exec = ((data->ObtenerVariable("___codigo_pseudod_buffer_interno___")));
+					exec = (((*data->pilas)[cae(data->ObtenerVariable("VG_PILA_ACTUAL"))].top() == data->VERDADERO)? true : false);
+			}
+			else if(this->igualdad)
+			{
+				exec = data->ObtenerVariable(this->var1) == data->ObtenerVariable(this->var2);
+			}
+			else if(this->comparar)
+			{
+				istringstream in(this->var1 + " " + this->oper + " " + this->var2
+														+ " ___codigo_pseudod_buffer_interno___");
+				(*data->PROCESAR)(this->orden,in,(*data->PROCESO));
+				exec = ((data->ObtenerVariable("___codigo_pseudod_buffer_interno___") == data->VERDADERO)? true : false);
+			}
+			else if(this->ejecutar)
+			{
+				istringstream in(this->var1 + " " + this->var2
+														+ " ___codigo_pseudod_buffer_interno___");
+				(*data->PROCESAR)(this->orden,in,(*data->PROCESO));
+				exec = ((data->ObtenerVariable("___codigo_pseudod_buffer_interno___") == data->ObtenerVariable(this->var3))? true : false);
+			}
+			else
+			{
+				exec = ((data->ObtenerVariable(this->nmv) == data->VERDADERO)? true : false);
+			}
+		}
+		if(this->llamada)
+		{
+			(*data->pilas)[cae(data->ObtenerVariable("VG_PILA_ACTUAL"))].pop();
 		}
 	}
 	
