@@ -1,0 +1,21 @@
+[ ******************************************************************************
+*****************************************
+*********
+** plugins.pseudo: Sistema de carga de plug-ins dinamicos de PseudoD.
+** Sistema estandar parautilizar agregados dinamicos.
+** PseudoD fue creado por Alejandro Linarez Rangel
+** plugins.pseudo fue creado por Alejandro Linarez Rangel
+** Puede copiar, redistribuir y modificar este archivo con permiso de
+** <proyectopseudod@gmail.com>.
+*****************************************
+****************************************************************************** ]
+
+[DOCUMENTA
+@brief Representa un plug in dinamico.
+Se puede utilizar este plugin con Importar.BibliotecasDinamicas.Cargar.
+DOCUMENTA]
+clase BibliotecaDinamica
+	lib
+	sim
+#(Final).
+heredar Objeto BibliotecaDinamica

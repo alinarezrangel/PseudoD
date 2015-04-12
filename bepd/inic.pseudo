@@ -2,9 +2,9 @@
 *****************************************
 *********
 ** inic.pseudo: Archivo variables comunes de PseudoD
-** Declara sistemas esenciales de PseudoD
+** Declara sistemas esenciales de BEPD.
 ** PseudoD fue creado por Alejandro Linarez Rangel
-** builtins.pd fue creado por Alejandro Linarez Rangel
+** inic.pseudo fue creado por Alejandro Linarez Rangel
 ** Puede copiar, redistribuir y modificar este archivo con permiso de
 ** <proyectopseudod@gmail.com>.
 *****************************************
@@ -24,7 +24,7 @@ DOCUMENTA]
 adquirir BEPD [ version de BEPD ]
 	oper BEPD =* 1.9.0
 [DOCUMENTA
-@brief Representa el fin de una sentencia si o si_no en ofrma de cadena.
+@brief Representa el fin de una sentencia si o si_no en forma de cadena.
 DOCUMENTA]
 adquirir FIN
 	oper FIN =* fin
@@ -33,8 +33,10 @@ adquirir FIN
 DOCUMENTA]
 adquirir FINFUN
 	oper FINFUN =* finfun
-adquirir NL [ NOTA: el valor de NUEVALINEA cambia de acuerdo al sistema operativo, este valor se representa como \r\n siguiendo
-las convenciones de la organizacion internacional de codificacion, tambien se puede usar la orden nl ]
+adquirir NL [ NOTA: el valor de NUEVALINEA cambia de acuerdo al sistema
+operativo, este valor se representa como \r\n siguiendo las convenciones
+de la organizacion internacional de codificacion, tambien se puede usar
+la orden nl ]
 	oper NL =* CV
 [DOCUMENTA
 @brief Representa el caracter de nueva linea,(\r\n).

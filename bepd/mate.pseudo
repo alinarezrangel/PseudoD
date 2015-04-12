@@ -1,0 +1,162 @@
+[ ******************************************************************************
+*****************************************
+*********
+** mate.pseudo: Funciones matematicas de PseudoD
+** Declara funciones matemáticas.
+** PseudoD fue creado por Alejandro Linarez Rangel
+** mate.pseudo fue creado por Alejandro Linarez Rangel
+** Puede copiar, redistribuir y modificar este archivo con permiso de
+** <proyectopseudod@gmail.com>.
+*****************************************
+****************************************************************************** ]
+
+[DOCUMENTA
+@brief Valor PI.
+Es el valor 3.14159265
+DOCUMENTA]
+adquirir PI
+operador PI =* 3.141595
+
+[DOCUMENTA
+@brief Constante de Napier.
+Es el valor 2.718281
+DOCUMENTA]
+adquirir E
+operador E =* 2.718281
+
+[DOCUMENTA
+@brief Valor para redondear decimales.
+Es aproximadamente 0.5.
+DOCUMENTA]
+adquirir DELTA
+operador DELTA =* 0.000005
+
+[DOCUMENTA
+@brief Mayor cantidad de decimales que puede almacenar un numero.
+Es el limite visualizable de <code class="cpp">long double</code>,(para numeros
+mayores, se visualizaran con notacion cientifica).
+DOCUMENTA]
+adquirir PRECISION_DECIMAL
+operador PRECISION_DECIMAL =* 6
+
+[DOCUMENTA
+@brief Calcula el valor de una base elevado a un exponente.
+@arg base Base de la potencia
+@arg exponente Exponente de la potencia
+@dev El resultado de base^exponente.
+DOCUMENTA]
+funcion Elevar_valor
+	adquirir __BASE__
+	adquirir __EXPONENTE__
+	adquirir __BUFFER_A__
+	adquirir __BUFFER_B__
+	adquirir __MENOR__
+	sacar __BASE__
+	sacar __EXPONENTE__
+	operador __BUFFER_A__ =* 1
+	operador __BUFFER_B__ =¿? __BASE__
+	operador __MENOR__ =¿? VERDADERO
+	mientras __MENOR__
+		Importar.Ent.Multiplicar __BUFFER_B__ __BASE__ __BUFFER_B__
+		Importar.Ent.Sumar __BUFFER_A__ UNO __BUFFER_A__
+		Importar.Ent.Comparar __BUFFER_A__ < __EXPONENTE__ __MENOR__
+	finbucle
+	empujar __BUFFER_B__
+	liberar __BASE__
+	liberar __EXPONENTE__
+	liberar __BUFFER_A__
+	liberar __BUFFER_B__
+	liberar __MENOR__
+finfun
+
+[DOCUMENTA
+@brief Calcula el factorial de un numero n.
+Si n < 0,  devuelve 1 al igual que si n == 0 o 1.
+@arg n Numero a calcular el factorial.
+@dev El factorial de dicho numero, o 1.
+DOCUMENTA]
+funcion Factorial
+	adquirir __¿MAYOR_A_CERO?__
+	adquirir __NUMERO_N__
+	adquirir __CUENTA__
+	sacar __NUMERO_N__
+	operador __CUENTA__ =¿? __NUMERO_N__
+	Importar.Ent.Comparar __NUMERO_N__ > UNO __¿MAYOR_A_CERO?__
+	si_no __¿MAYOR_A_CERO?__
+		operador __CUENTA__ =¿? UNO
+	fin
+	mientras __¿MAYOR_A_CERO?__
+		Importar.Ent.Restar __NUMERO_N__ UNO __NUMERO_N__
+		Importar.Ent.Multiplicar __CUENTA__ __NUMERO_N__ __CUENTA__
+		Importar.Ent.Comparar __NUMERO_N__ > UNO __¿MAYOR_A_CERO?__
+	finbucle
+	empujar __CUENTA__
+	liberar __¿MAYOR_A_CERO?__
+	liberar __NUMERO_N__
+	liberar __CUENTA__
+finfun
+
+[DOCUMENTA
+@brief Convierte grados sexadecimales a radianes.
+@arg grados Grados a convertir
+@dev El valor en Radianes
+DOCUMENTA]
+funcion Grados_A_Radianes
+	adquirir __GRADOS__
+	adquirir __RADIANES__
+	adquirir __DIVIDE__
+	sacar __GRADOS__
+	Importar.Dec.Multiplicar __GRADOS__ PI __GRADOS__
+	operador __DIVIDE__ =* 180
+	Importar.Dec.Dividir __GRADOS__ __DIVIDE__ __RADIANES__
+	empujar __RADIANES__
+	liberar __GRADOS__
+	liberar __RADIANES__
+	liberar __DIVIDE__
+finfun
+
+[DOCUMENTA
+@brief Convierte radianes a grados sexadecimales.
+@arg radianes Valor en radianes a convertir
+@dev El valor en Grados sexadecimales
+DOCUMENTA]
+funcion Radianes_A_Grados
+	adquirir __GRADOS__
+	adquirir __RADIANES__
+	adquirir __DIVIDE__
+	sacar __GRADOS__
+	operador __DIVIDE__ =* 180
+	Importar.Dec.Multiplicar __GRADOS__ __DIVIDE__ __GRADOS__
+	Importar.Dec.Dividir __GRADOS__ PI __RADIANES__
+	empujar __RADIANES__
+	liberar __GRADOS__
+	liberar __RADIANES__
+	liberar __DIVIDE__
+finfun
+
+[DOCUMENTA
+@brief Aproxima un decimal.
+@arg dec Decimal a redondear
+@dev Valor redondeado.
+DOCUMENTA]
+funcion Redondear
+	adquirir __VAL_ENT__
+	adquirir __VAL_DEC__
+	adquirir __MAYOR__
+	adquirir __BUFFER_A__
+	sacar __VAL_DEC__
+	Importar.Ent.Sumar __VAL_DEC__ CERO __VAL_ENT__ [ Selecciona la parte entera ]
+	Importar.Dec.Sumar __VAL_ENT__ DELTA __VAL_ENT__ [ Le suma delta ]
+	Importar.Dec.Comparar __VAL_DEC__ > __VAL_ENT__ __MAYOR__
+	si __MAYOR__
+		Importar.Ent.Sumar __VAL_DEC__ CERO __VAL_ENT__
+		Importar.Dec.Restar __VAL_DEC__ __VAL_ENT__ __VAL_ENT__
+		Importar.Dec.Restar __VAL_DEC__ __VAL_ENT__ __VAL_DEC__
+		Importar.Dec.Sumar __VAL_DEC__ UNO __VAL_DEC__
+	fin
+	empujar __VAL_DEC__
+	liberar __VAL_ENT__
+	liberar __VAL_DEC__
+	liberar __MAYOR__
+	liberar __BUFFER_A__
+finfun

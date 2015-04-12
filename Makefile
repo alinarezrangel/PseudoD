@@ -10,7 +10,7 @@ COMP =
 # Fijar INTE a -DINTERACTIVO=1 para compilar un interactivo
 # y agrege -DMACOSX=1 para que PseudoD busque las bibliotecas en sistemas
 #  Mac OS X
-INTE =
+INTE = -DINTERACTIVO=1
 
 PseudoD:	libpseudod.so Data.o Main.cpp
 	echo "Trabajando el Main"
