@@ -461,28 +461,22 @@ finfun
 
 [DOCUMENTA
 @brief Representa un valor de Boole.
-:verdadero y :falso son constantes, que representan los valores VERDADERO
-y FALSO.
+Esta clase puede tener dos valores, verdadero y falso.
+No hay atributos donde almacenar los valores, se acceden cual si
+fueran <a href="ref_builtins.html#PseudoVariable">PseudoVariables</a>.
 DOCUMENTA]
 clase Boole
-	:verdadero
-	:falso
 	:Y
 	:O
 	:NO
+	:O-EXCLUSIVO
 #(Final).
 heredar Objeto Boole
-
-instancia PseudoFuncion Boole#verdadero.
-operador Boole#verdadero.#cod. =¿? VERDADERO
-
-instancia PseudoFuncion Boole#falso.
-operador Boole#falso.#cod. =¿? VERDADERO
 
 [DOCUMENTA
 @brief Operacion Y entre dos valores de Boole.
 Devuelve verdadero si a y b son verdadero.
-@arg a <a href="ref_referencias.html">Referencia</a> al valor numero 1 a comparar.
+@arg Yo <a href="ref_referencias.html">Referencia</a> al valor numero 1 a comparar.
 @arg b <a href="ref_referencias.html">Referencia</a> al valor numero 2 a comparar.
 @dev Verdadero o Falso.
 DOCUMENTA]
@@ -534,7 +528,7 @@ finfun
 [DOCUMENTA
 @brief Operacion O entre dos valores de Boole.
 Devuelve verdadero si a es verdadero, b es verdadero, o ambos son verdadero.
-@arg a <a href="ref_referencias.html">Referencia</a> al valor numero 1 a comparar.
+@arg Yo <a href="ref_referencias.html">Referencia</a> al valor numero 1 a comparar.
 @arg b <a href="ref_referencias.html">Referencia</a> al valor numero 2 a comparar.
 @dev Verdadero o Falso.
 DOCUMENTA]
@@ -582,9 +576,59 @@ funcion Boole#O.
 finfun
 
 [DOCUMENTA
+@brief Operacion O-EXCLUSIVO entre dos valores de Boole.
+Devuelve verdadero si a y b son distintos.
+@arg Yo <a href="ref_referencias.html">Referencia</a> al valor numero 1 a comparar.
+@arg b <a href="ref_referencias.html">Referencia</a> al valor numero 2 a comparar.
+@dev Verdadero o Falso.
+DOCUMENTA]
+funcion Boole#O-EXCLUSIVO.
+	adquirir __VAL_YO__
+	adquirir __VAL_TU__
+	adquirir __BUFFER_A__
+	adquirir __BUFFER_B__
+	adquirir __BUFFER_C__
+	adquirir __VALOR__
+	operador __VALOR__ =¿? FALSO
+	sacar __VAL_YO__
+	sacar __VAL_TU__
+	operador __BUFFER_A__ =* operador
+	operador __BUFFER_B__ =* =¿?
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__#NOMBRE. __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __VAL_YO__ __BUFFER_A__
+	ejecutar __BUFFER_A__
+	operador __BUFFER_A__ =* operador
+	operador __BUFFER_C__ =* =¿?
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_C__#NOMBRE. __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_C__ __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
+	Importar.Cad.Concatenar __BUFFER_A__ __VAL_TU__ __BUFFER_A__
+	ejecutar __BUFFER_A__
+	si ¿son_iguales? __BUFFER_B__ __BUFFER_C__
+		operador __VALOR__ =¿? FALSO
+	fin
+	si_no ¿son_iguales? __BUFFER_B__ __BUFFER_C__
+		operador __VALOR__ =¿? VERDADERO
+	fin
+	empujar __VALOR__
+	liberar __VAL_YO__
+	liberar __VAL_TU__
+	liberar __BUFFER_A__
+	liberar __BUFFER_B__
+	liberar __BUFFER_C__
+	liberar __VALOR__
+finfun
+
+[DOCUMENTA
 @brief Operacion NO de un valor de Boole.
 Devuelve verdadero si a es falso, y falso si a es verdadero.
-@arg a <a href="ref_referencias.html">Referencia</a> al valor a negar.
+@arg Yo <a href="ref_referencias.html">Referencia</a> al valor a negar.
 @dev Verdadero o Falso.
 DOCUMENTA]
 funcion Boole#NO.
@@ -620,6 +664,7 @@ finfun
 @brief Representa un numero en Z.
 Para un numero en Q, se pueden utilizar las clases <a href="ref_clases.html#Fraccion">Fraccion</a>
 y <a href="ref_clases.html#Decimal">Decimal</a>.
+El valor se almacena en el campo valor, como en Decimal.
 DOCUMENTA]
 clase Numero
 	valor
@@ -632,7 +677,7 @@ heredar Objeto Numero
 
 [DOCUMENTA
 @brief Suma dos Numeros.
-@arg a <a href="ref_referencias.html">Referencia</a> a el primer numero a sumar.
+@arg Yo <a href="ref_referencias.html">Referencia</a> a el primer numero a sumar.
 @arg b <a href="ref_referencias.html">Referencia</a> a el segundo numero a sumar.
 @arg res <a href="ref_referencias.html">Referencia</a> a donde se almacenara el resultado.
 DOCUMENTA]
@@ -663,7 +708,7 @@ finfun
 
 [DOCUMENTA
 @brief Resta dos Numeros.
-@arg a <a href="ref_referencias.html">Referencia</a> a el primer numero a restar.
+@arg Yo <a href="ref_referencias.html">Referencia</a> a el primer numero a restar.
 @arg b <a href="ref_referencias.html">Referencia</a> a el segundo numero a restar.
 @arg res <a href="ref_referencias.html">Referencia</a> a donde se almacenara el resultado.
 DOCUMENTA]
@@ -694,7 +739,7 @@ finfun
 
 [DOCUMENTA
 @brief Multiplica dos Numeros.
-@arg a <a href="ref_referencias.html">Referencia</a> a el primer numero a multiplicar.
+@arg Yo <a href="ref_referencias.html">Referencia</a> a el primer numero a multiplicar.
 @arg b <a href="ref_referencias.html">Referencia</a> a el segundo numero a multiplicar.
 @arg res <a href="ref_referencias.html">Referencia</a> a donde se almacenara el resultado.
 DOCUMENTA]
@@ -725,7 +770,7 @@ finfun
 
 [DOCUMENTA
 @brief Divide dos Numeros.
-@arg a <a href="ref_referencias.html">Referencia</a> a el primer numero a dividir.
+@arg Yo <a href="ref_referencias.html">Referencia</a> a el primer numero a dividir.
 @arg b <a href="ref_referencias.html">Referencia</a> a el segundo numero a dividir.
 @arg res <a href="ref_referencias.html">Referencia</a> a donde se almacenara el resultado.
 DOCUMENTA]
@@ -771,7 +816,7 @@ heredar Objeto Decimal
 
 [DOCUMENTA
 @brief Suma dos Numeros Decimales.
-@arg a <a href="ref_referencias.html">Referencia</a> a el primer numero a sumar.
+@arg Yo <a href="ref_referencias.html">Referencia</a> a el primer numero a sumar.
 @arg b <a href="ref_referencias.html">Referencia</a> a el segundo numero a sumar.
 @arg res <a href="ref_referencias.html">Referencia</a> a donde se almacenara el resultado.
 DOCUMENTA]
@@ -802,7 +847,7 @@ finfun
 
 [DOCUMENTA
 @brief Resta dos Numeros Decimales.
-@arg a <a href="ref_referencias.html">Referencia</a> a el primer numero a restar.
+@arg Yo <a href="ref_referencias.html">Referencia</a> a el primer numero a restar.
 @arg b <a href="ref_referencias.html">Referencia</a> a el segundo numero a restar.
 @arg res <a href="ref_referencias.html">Referencia</a> a donde se almacenara el resultado.
 DOCUMENTA]
@@ -833,7 +878,7 @@ finfun
 
 [DOCUMENTA
 @brief Multiplica dos Numeros Decimales.
-@arg a <a href="ref_referencias.html">Referencia</a> a el primer numero a multiplicar.
+@arg Yo <a href="ref_referencias.html">Referencia</a> a el primer numero a multiplicar.
 @arg b <a href="ref_referencias.html">Referencia</a> a el segundo numero a multiplicar.
 @arg res <a href="ref_referencias.html">Referencia</a> a donde se almacenara el resultado.
 DOCUMENTA]
@@ -864,7 +909,7 @@ finfun
 
 [DOCUMENTA
 @brief Divide dos Numeros decimales.
-@arg a <a href="ref_referencias.html">Referencia</a> a el primer numero a dividir.
+@arg Yo <a href="ref_referencias.html">Referencia</a> a el primer numero a dividir.
 @arg b <a href="ref_referencias.html">Referencia</a> a el segundo numero a dividir.
 @arg res <a href="ref_referencias.html">Referencia</a> a donde se almacenara el resultado.
 DOCUMENTA]

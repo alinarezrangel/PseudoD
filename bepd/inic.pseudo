@@ -14,7 +14,7 @@
 [DOCUMENTA
 @brief Valor retornado por las funciones de C++ al lanzar un error no fatal.
 Este valor tambien suele ser devuelto por algunas funciones de la biblioteca
-estandar al lanzar un error algunas de sus palabras claves.
+estandar al lanzar un error algunas de sus funciones llamadas.
 DOCUMENTA]
 adquirir CMMERROR
 	oper CMMERROR =* :C++:error:

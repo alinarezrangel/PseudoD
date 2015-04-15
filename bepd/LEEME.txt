@@ -31,10 +31,8 @@ PAG. ANCHO 80 caracteres
 La Biblioteca Estandar de PseudoD(BEPD) es una colección de archivos y
 directorios destinados a ser utilizados por cualquier programador de PseudoD.
 
-Esta es la versión de BEPD 1.9.0:1.9.0, siguiendo las convenciones de nombres de
-PseudoD (ver <https://www.pseudod.sourceforge.net/convenciones_nombres.html>),
-donde la versión de BEPD tiene relación con la versión de PseudoD para la que
-fue diseñada. 
+Esta es la versión de BEPD 1.9.0:1.9.0, diseñada para ser usada, con minimo
+PseudoD 1.9.0.
 
 Tabla de archivos:
 
@@ -43,10 +41,12 @@ Nombre        | Descripción                                       |  Versión
 inic.pseudo   | Inicializa BEPD.                                  | 1.2.0
 clases.pseudo | Declara la jerarquía de clases.                   | 1.4.0
 entsal.pseudo | Funciones de E/S, y E/S en buffer.                | 1.0.0
-mate.pseudo   | Funciones matemáticas avanzadas y basicas.        | 1.0.0
+mate.pseudo   | Funciones matemáticas avanzadas y basicas.        | 1.0.0 *1
 tipos.pseudo  | Funciones mixtas modificadoras.                   | 1.0.0
 algor.pseudo  | Algoritmos basicos y avanzados.                   | 1.0.0
 plugins.pseudo| Sistema de carga de plug-ins.                     | 1.4.0
+  *1: mate.pseudo esta en una version incompleta, faltan las funciones seno,
+	coseno y tangente.
 
 Archivos obsoletos:
 
@@ -60,6 +60,4 @@ errores.pseudo   | Manejo de errores por "valores magicos".          | 1.0.0
 Esta versión de BEPD fue diseñada para usarse con PseudoD 1.9, preferiblemente
 con la versión más reciente.
 
-Esta biblioteca cumple con los requisitos impuestos por la [declaración de
-bibliotecas estandares de PseudoD]
-(http://www.pseudod.sourceforge.net/Declaracion-estandar-de-BEPD.txt).
+http://www.pseudod.sourceforge.net/referencia.html

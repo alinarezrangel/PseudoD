@@ -133,30 +133,3 @@ funcion Radianes_A_Grados
 	liberar __RADIANES__
 	liberar __DIVIDE__
 finfun
-
-[DOCUMENTA
-@brief Aproxima un decimal.
-@arg dec Decimal a redondear
-@dev Valor redondeado.
-DOCUMENTA]
-funcion Redondear
-	adquirir __VAL_ENT__
-	adquirir __VAL_DEC__
-	adquirir __MAYOR__
-	adquirir __BUFFER_A__
-	sacar __VAL_DEC__
-	Importar.Ent.Sumar __VAL_DEC__ CERO __VAL_ENT__ [ Selecciona la parte entera ]
-	Importar.Dec.Sumar __VAL_ENT__ DELTA __VAL_ENT__ [ Le suma delta ]
-	Importar.Dec.Comparar __VAL_DEC__ > __VAL_ENT__ __MAYOR__
-	si __MAYOR__
-		Importar.Ent.Sumar __VAL_DEC__ CERO __VAL_ENT__
-		Importar.Dec.Restar __VAL_DEC__ __VAL_ENT__ __VAL_ENT__
-		Importar.Dec.Restar __VAL_DEC__ __VAL_ENT__ __VAL_DEC__
-		Importar.Dec.Sumar __VAL_DEC__ UNO __VAL_DEC__
-	fin
-	empujar __VAL_DEC__
-	liberar __VAL_ENT__
-	liberar __VAL_DEC__
-	liberar __MAYOR__
-	liberar __BUFFER_A__
-finfun
