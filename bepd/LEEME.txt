@@ -61,3 +61,6 @@ Esta versión de BEPD fue diseñada para usarse con PseudoD 1.9, preferiblemente
 con la versión más reciente.
 
 http://www.pseudod.sourceforge.net/referencia.html
+
+Esta version de BEPD esta incompleta, aún faltan los archivos tipos.pseudo y
+algor.pseudo junto con faltas a mate.pseudo.

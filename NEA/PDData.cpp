@@ -27,7 +27,7 @@ std::string eas(long long int i)
 #else
 	char buffer[50];
 	sprintf(buffer,"%d",i);
-	return string(buffer);
+	return std::string(buffer);
 #endif
 }
 
@@ -38,7 +38,7 @@ std::string dac(long double i)
 #else
 	char buffer[50];
 	sprintf(buffer,"%a",i);
-	return string(buffer);
+	return std::string(buffer);
 #endif
 }
 
@@ -137,7 +137,7 @@ namespace PDvar
 		int i = buscar((*this->nombrep),n);
 		if(i == -1)
 		{
-			return PDDatos::ERROR;
+			throw std::string("Error en el manejador de memoria de PseudoD: No existe la variable o puntero "+n);
 		}
 		else
 		{

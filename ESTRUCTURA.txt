@@ -13,10 +13,10 @@ Estructura del arbol de documentos y carpetas:
 	./NEA/                Código de alto nivel del NEA.
 	./Ejemplos/           Ejemplos de código en PseudoD.
 	./bepd/               Biblioteca estandar de PseudoD.
-	./bepd/doc/           Documentación de BEPD.
+	./bepd/doc/           Documentación de BEPD(proximamente).
 	./ipdc                Intermedio entre PseudoD y la consola.
 
-Estructura donde estarian los archivos despues de compilar:
+Estructura donde estarían los archivos despues de compilar:
 	./PseudoD							Podria estan en /usr/bin/ o en /home/$USER/bin/
 	./libpseudod.so				Debe estar en /usr/lib/ como libpseudod.so
 	./Data.o							¡Donde usted quiera!, es el código objeto del
@@ -36,8 +36,7 @@ Algunas preguntas que se podria hacer:
 	¿Donde agrego mis plugins escritos en PseudoD para poderlos utilizar junto
 	con `utilizar`?
 		Deberia agregarlos en /usr/lib/pseudod/1.9.3/, dentro de una carpeta con el
-		nombre del plugin. Es importante la carpeta ya que allí, se almacena
-		principalmente la biblioteca estándar de PseudoD.
+		nombre del libs.
 	
 	¿Donde agrego mis plugins en C++11 para poderlos utilizar junto con PseudoD?
 		La ubicación de este tipo de plugin no importa, mientras se conozca de forma
@@ -57,3 +56,12 @@ Algunas preguntas que se podria hacer:
 			ipdc --help
 		o:
 			ipd --ayuda
+		Recuerde configurarlo modificando el archivo ipdc,(es un archivo Bash).
+	
+	¿Como puedo modificar PseudoD?
+		Cualquier duda será bienvenida en los foros de PseudoD, allí se pueden
+		solicitar tutoriales o soluciones pequeñas.
+	
+	¿Como pertenecer al equipo desarrollador de PseudoD?
+		Si se tiene algún interes en desarrollar PseudoD, se puede contactar por
+		<proyectopseudod@gmail.com>.

@@ -25,14 +25,7 @@ fijar paso =* 1
 [ El valor cambiante, debe ser fijado al minimo ]
 fijar cuenta =¿? desde
 
-adquirir ¿menor? [ Resultado de la verificacion de cuenta <= hasta ]
-fijar ¿menor? =¿? VERDADERO
-
-mientras ¿menor?
-	Importar.Ent.Comparar cuenta < hasta ¿menor? [ Compara los valores de cuenta,
-y verifica que cuenta < hasta, almacena el resultado en ¿menor?, si fueran
-decimales, cambie Ent por Dec o vea la referencia de paquetes
-(http://www.pseudod.sourceforge.net/ref_paquetes.html) ]
+mientras comparar Importar.Ent.Comparar cuenta <= hasta
 	escribir cuenta [ escribimos la iteración actual ]
 	escribir_esp [ Escribimos un espacio en blanco ]
 	Importar.Ent.Sumar cuenta paso cuenta [ Le suma a cuenta el valor de paso y lo

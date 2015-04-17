@@ -159,6 +159,9 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 		string h;
 		e >> h;
 		cout << DATOS_INT.ObtenerVariable(h);
+		#ifdef INTERACTIVO
+			cout << endl;
+		#endif
 	}
 	else if(o == "ejecutar")
 	{
@@ -635,7 +638,7 @@ int main(int argc,char* argv[])
 		while((cin >> base)&&(Ejecutar))
 		{
 			procesar(base, cin, func2);
-			cout << endl <<  ">>> ";
+			cout <<  ">>> ";
 		}
 	}
 #endif
