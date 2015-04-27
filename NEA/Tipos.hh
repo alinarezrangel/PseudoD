@@ -66,8 +66,6 @@ namespace PDTipos
 	
 	/**
 	* @brief Clase base para todos los tipos de datos no declarados nativos de PseudoD.
-	* 
-	* NOTA: Todas las demas funciones, por cuestiones de compatibilidad, como las modificadoras, de acceso entre otras deben definirse manualmente. Se recomienda tener su propio vector clave-valor para almacenar los datos complicados.
 	*/
 	class PDInstancia : virtual public PDOrden
 	{

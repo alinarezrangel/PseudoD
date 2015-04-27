@@ -192,6 +192,16 @@ namespace PDvar
 		}
 		return ind;
 	}
+	
+	void PDDatos::Ejecutar(string ord)
+	{
+		istringstream in(ord);
+		string orden = "";
+		while(in >> orden)
+		{
+			(*(this->PROCESAR))(orden,in,this->PROCESO);
+		}
+	}
 }
 
 #endif

@@ -139,7 +139,7 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 		valor[i]++;
 		if(valor[i] >= nombres.size())
 		{
-			valor[i]--;
+			throw string("Error incrementando el puntero "+h+": acceso denegado a memoria prohibida");
 		}
 	}
 	else if((o == "decrementar_p")||(o == "decrementar_puntero"))
@@ -148,10 +148,9 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 		e >> h;
 		int i = buscar(punteros,h);
 		valor[i]--;
-		valor[i]++;
 		if(valor[i] < 0)
 		{
-			valor[i]++;
+			throw string("Error decrementando el puntero "+h+": acceso denegado a memoria prohibida");
 		}
 	}
 	else if(o == "escribir")

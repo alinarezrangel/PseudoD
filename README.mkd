@@ -1,0 +1,12 @@
+### README.mkd
+##### PseudoD
+PseudoD es un lenguaje de programación interpretado, escrito en C++11 con sintaxis completamente en español.
+
+Tiene un nucleo externo, llamado NEA(**N**ucleo **E**xtensible de la **A**plicación), el cual esta diseñado para agregar funcionalidades al lenguaje. Tambien extrae de [Python](https://www.python.org/ "Python.org") la capacidad de escribir agregados en C/C++.
+
+Parte de la sintaxis de PseudoD esta inspirada en [Ada](http://es.wikipedia.org/wiki/Ada_%28lenguaje_de_programaci%C3%B3n%29 "Lenguaje de programacion Ada") y en [D](http://es.wikipedia.org/wiki/D_%28lenguaje_de_programaci%C3%B3n%29 "Lenguaje de programacion D").
+Para extender el lenguaje, ya sea por el NEA, o por agregados dinámicos, existe una interfaz simple y orientada a objetos.
+
+PseudoD intenta romper los lazos de la programación con el idioma en general.
+
+##### 

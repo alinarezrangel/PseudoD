@@ -7,12 +7,16 @@
 
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <cstdlib>
 #include <vector>
 #include <stack>
 #include <string>
 #include <cstring>
 #include <cstdio>
+
+typedef long long int PDentero;
+typedef long double PDdecimal;
 
 template<class T>
 int buscar(std::vector<T> a,T b);
@@ -200,6 +204,11 @@ namespace PDvar
 			* @return indice
 			*/
 			int BuscarIndice(string t,string n);
+			/**
+			* @brief ejecuta una orden como interprete.
+			* @param ord Orden a ejecutar.
+			*/
+			void Ejecutar(string ord);
 		public:
 			/**
 			* @brief puntero a los nombres de variable
