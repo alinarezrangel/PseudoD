@@ -9,4 +9,67 @@ Para extender el lenguaje, ya sea por el NEA, o por agregados dinámicos, existe
 
 PseudoD intenta romper los lazos de la programación con el idioma en general.
 
-##### 
+##### El Interprete
+###### Uso
+<code>**PseudoD** *archivo* *ruta de BEPD* *ruta de libpseudod.so*</code>
+
+* *archivo*: archivo a ejecutar,(*.pd o *.psd, *.pseudo es para bliotecas).
+* *ruta de BEPD*: Ruta de la **B**iblioteca **E**standar de **P**seudo**D**, o **BEPD**, por defecto es `/usr/lib/pseudod/1.9.3/`.
+* *ruta de libpseudod.so*: Ruta del NEA de PseudoD, `libpseudod.so`. Por defecto es `/usr/lib/`.
+
+###### Compilar
+<code>**make**</code>
+
+**Notas**: Si el usuario no esta compilando en sistemas GNU, se debe modificar el Makefile en la linea 9: modifique la linea 9 de `COMP = ` a `COMP = -DMINGW=1` o `COMP = -DNUMEROS_EN_C=1`,(ambos preferiblemente). Tambien es importante decir que **PseudoD solo compila en Windows, bajo cygwin**, y este debe tener instalados G++4.7 o superior, GCC4.7 o superior, y make.
+
+###### Archivos
+Despues de compilar, este directorio tendra 3 archivos más: el ejecutable `PseudoD`, la biblioteca de carga dinamica(ver LEEME.txt para referencias) `libpseudod.so` y la biblioteca de datos `Datos.o`.
+
+* Mueva el ejecutable a un punto donde sea facl de llamar(`/home/$USER/bin/`, `/usr/bin/`, entre otros).
+* Mueva `libpseudod.so` a `/usr/lib/`, de no estar en un sistema GNU, dejar en este directorio.
+
+Modifique el archivo `ipdc`:
+
+* Linea 20: Fije el texto entre comillas " a la ruta donde se movio el contenido de la carpeta `bepd`.
+* Linea 21: Fije el texto entre comillas " a la ruta donde se movio el NEA, `libpseudod.so`.
+* Linea 22: Fije el texto entre comillas " a si en vez de no.
+
+###### Ejemplos de código
+
+Hola Mundo:
+<code>
+adquirir mensaje
+fijar mensaje =* ¡Hola Mundo!
+escribir mensaje
+nl
+</code>
+
+Hola X
+<code>
+adquirir mensaje
+adquirir nombre
+fijar mensaje =* Ingrese su nombre:
+escribir mensaje
+leer nombre
+fijar mensaje =* ¡Hola
+escribir mensaje
+escribir_esp
+escribir nombre
+fijar mensaje =* !
+escribir mensaje
+nl
+</code>
+
+Funciones:
+<code>
+funcion foo
+	adquirir msg
+	fijar msg =* Hola desde foo
+	escribir msg
+	nl
+finfun
+
+llamar foo #(Final).
+</code>
+
+PseudoD fue creado por Alejandro Linarez Rangel, la pagina oficial es <www.pseudod.sourceforge.net> y <www.sourceforge.net/projects/pseudod/>, alli estan los foros, la wiki y el blog de PseudoD.

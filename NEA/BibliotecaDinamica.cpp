@@ -33,7 +33,7 @@ namespace BibliotecaDinamica
 	
 	void PseudoLlamar::InscribirInstancia(PDDatos* data)
 	{
-		void* con = dlopen(data->ObtenerVariable(this->var + string("#lib.")).c_str(),RTLD_LAZY);
+		void* con = dlopen(data->ObtenerVariable(this->var + string("#lib")).c_str(),RTLD_LAZY);
 		if(!con)
 		{
 			cerr << "Error en:" << endl << this->ObtenerClave() << " " << this->var;
@@ -47,7 +47,7 @@ namespace BibliotecaDinamica
 			return;
 		}
 		typedef void(*pdfun_t)(PDDatos**,vector<string>);
-		pdfun_t fun = (pdfun_t) dlsym(con,data->ObtenerVariable(this->var + string("#sim.")).c_str());
+		pdfun_t fun = (pdfun_t) dlsym(con,data->ObtenerVariable(this->var + string("#sim")).c_str());
 		if(!fun)
 		{
 			cerr << "Error en:" << endl << this->ObtenerClave() << " " << this->var;
@@ -62,8 +62,15 @@ namespace BibliotecaDinamica
 			return;
 		}
 		
-		(*fun)(&data,this->param);
-		
-		dlclose(con);
+		try
+		{
+			(*fun)(&data,this->param);
+			dlclose(con);
+		}
+		catch(...)
+		{
+			dlclose(con);
+			throw;
+		}
 	}
 }

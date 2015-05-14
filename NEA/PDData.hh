@@ -15,6 +15,13 @@
 #include <cstring>
 #include <cstdio>
 
+#ifdef NUMEROS_EN_C
+# define MINGW
+#endif
+
+#define PDVOID_INIC_VACIO char
+#define PDVOID_INIC_VACIO_NULL ('a')
+
 typedef long long int PDentero;
 typedef long double PDdecimal;
 
@@ -71,7 +78,11 @@ namespace PDvar
 			/**
 			* @brief Inicializador a base de objeto
 			*/
-			explicit PDVoid(T arg) : PDObjeto() {this.args.push_back(arg);}
+			explicit PDVoid(T arg) : PDObjeto() {this->args.push_back(arg);}
+			/**
+			* @brief Inicializador sin base
+			*/
+			explicit PDVoid(void) : PDObjeto() {}
 			/**
 			* @brief Destructor, no hace nada.
 			*/
@@ -81,7 +92,7 @@ namespace PDvar
 			* @param i numero de argumento
 			* @return objeto
 			*/
-			T Obtener(int i = 0){return args[i];}
+			virtual T Obtener(int i = 0){return args[i];}
 		private:
 			vector<T> args;
 	};
@@ -209,6 +220,12 @@ namespace PDvar
 			* @param ord Orden a ejecutar.
 			*/
 			void Ejecutar(string ord);
+			/**
+			* @brief ejecuta una orden como interprete.
+			* @param ord Orden a ejecutar.
+			* @param in Flujo de tokens
+			*/
+			void Ejecutar(string ord,istream& in);
 		public:
 			/**
 			* @brief puntero a los nombres de variable
@@ -245,6 +262,54 @@ namespace PDvar
 			*/
 			void (*PROCESO)(string o,istream& i);
 	};
+	
+	/**
+	* @brief Clase base para funciones PDCallBack en forma de orden(plugins y el NIA).
+	*/
+	class PDEntradaBasica : virtual public PDVoid<PDVOID_INIC_VACIO>
+	{
+		public:
+			/**
+			* @brief Crea la entrada con el token tok, el flujo in, y los datos dat.
+			*/
+			explicit PDEntradaBasica(string tok, istream& in, PDDatos& dat);
+			/**
+			* @brief Destruye la entrada.
+			*/
+			virtual ~PDEntradaBasica(void);
+			/**
+			* @brief Obtiene el flujo de tokens.
+			* @return Flujo de tokens
+			*/
+			istream& ObtenerFlujo(void);
+			/**
+			* @brief Obtiene el puntero a el manejador de memoria del interprete.
+			* @return Puntero al manejador.
+			*/
+			PDDatos* ObtenerMemoria(void);
+			/**
+			* @brief Obtiene el token actual.
+			* @return Token actual.
+			*/
+			string ObtenerToken(void);
+		private:
+			istream* in; // flujo de tokens
+			string token; // token actual
+			PDDatos* data; // datos del interprete
+			
+			explicit PDEntradaBasica(vector<PDVOID_INIC_VACIO> args) : PDVoid(args) {}
+			explicit PDEntradaBasica(PDVOID_INIC_VACIO args) : PDVoid(args) {}
+			explicit PDEntradaBasica(void) : PDVoid() {}
+            virtual PDVOID_INIC_VACIO Obtener(int i = 0) {return PDVOID_INIC_VACIO_NULL;}
+	};
+	
+	/**
+	* @brief Devuelve el valor del token
+	* @param tok Token
+	* @param in Flujo de tokens
+	* @param data Puntero a la memoria del interprete.
+	*/
+	string ValorDelToken(string tok,istream& in,PDDatos* data);
 }
 
 #endif

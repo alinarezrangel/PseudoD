@@ -5,7 +5,7 @@ CFLAGS = -fPIC
 SHARED = -shared
 LIBS = -ldl
 MEM = NEA/PDData.cpp
-# Fijar COMP a -DMINGW=1 para compilar en sistemas Microsoft
+# Fijar COMP a -DMINGW=1 o a -DNUMEROS_EN_C=1 para compilar en sistemas Microsoft
 COMP = 
 # Fijar INTE a -DINTERACTIVO=1 para compilar un interactivo
 # y agrege -DMACOSX=1 para que PseudoD busque las bibliotecas en sistemas

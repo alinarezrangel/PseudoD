@@ -125,13 +125,13 @@ heredar Objeto PunteroInteligente
 @arg Yo <a href="ref_referencias.html">Referencia</a> al puntero a redireccionar
 @arg Variable <a href="ref_referencias.html">Referencia</a> a la nueva variable a ser apuntada.
 DOCUMENTA]
-funcion PunteroInteligente#apuntar. [ Yo, Variable ]
+funcion PunteroInteligente#apuntar [ Yo, Variable ]
 	adquirir __YO__
 	adquirir __OTRO__
 	sacar __YO__
 	sacar __OTRO__
 	adquirir __A__
-	operador __A__ =* #direccion.
+	operador __A__ =* #direccion
 	Importar.Cad.Concatenar __YO__ __A__ __YO__
 	operador __A__ =* redireccionar
 	Importar.Cad.Concatenar __A__ ESP __A__

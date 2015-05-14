@@ -139,22 +139,44 @@ namespace PDTipos
 			if(this->methods[i][0] == ';')
 			{
 				this->methods[i].replace(0,1,"");
-				data->CrearVariable(this->ni+string("#")+this->methods[i]+string("."),"Puntero",0);
+				data->CrearVariable(this->ni+string("#")+this->methods[i],"Puntero",0);
 			}
 			else if(this->methods[i][0] == ':')
 			{
 				this->methods[i].replace(0,1,"");
-				data->CrearVariable(this->ni+string("#")+this->methods[i]+string("."));
-				data->ObtenerVariable(this->ni+string("#")+this->methods[i]+string("."))
-	      = data->ObtenerVariable(this->nm+string("#")+this->methods[i]+string(".#cod."));
+				data->CrearVariable(this->ni+string("#")+this->methods[i]);
+				data->ObtenerVariable(this->ni+string("#")+this->methods[i])
+	      = data->ObtenerVariable(this->nm+string("#")+this->methods[i]+string("#cod"));
+			}
+			else if(this->methods[i].find("#") != std::string::npos) // estructura embebida
+			{
+				string nombre, tipo, attr;
+				PDentero sep = this->methods[i].rfind("#");
+				nombre = this->methods[i].substr(0,sep);
+				attr = this->methods[i].substr(sep + 1);
+				if(attr[0] == ';')
+				{
+					attr.replace(0,1,"");
+					data->CrearVariable(this->ni+string("#")+nombre+string("#")+attr,"Puntero",0);
+				}
+				else
+				{
+					data->CrearVariable(this->ni+string("#")+this->methods[i]);
+				}
+				if(attr == "NOMBRE")
+					data->ObtenerVariable(this->ni+string("#")+this->methods[i]) = nombre;
+				if(attr == "Tipo")
+					data->ObtenerVariable(this->ni+string("#")+this->methods[i]) = data->ObtenerVariable(this->nm+string("#")+nombre+string("#Tipo"));
+				if(attr[0] == ':')
+					data->ObtenerVariable(this->ni+string("#")+this->methods[i]) = data->ObtenerVariable(this->nm+string("#")+nombre+string("#Tipo"));
 			}
 			else
 			{
-				data->CrearVariable(this->ni+string("#")+this->methods[i]+string("."));
+				data->CrearVariable(this->ni+string("#")+this->methods[i]);
 			}
 		}
-		data->ObtenerVariable(this->ni+"#NOMBRE.") = this->ni;
-		data->ObtenerVariable(this->ni+"#Tipo.") = this->nm;
+		data->ObtenerVariable(this->ni+"#NOMBRE") = this->ni;
+		data->ObtenerVariable(this->ni+"#Tipo") = this->nm;
 	}
 	
 	void PseudoReferenciaClase::LeerParametros(istream& in)
@@ -277,7 +299,7 @@ namespace PDTipos
 				cin >> var;
 				try
 				{
-					string tipo = data->ObtenerVariable(var+"#Tipo.");
+					string tipo = data->ObtenerVariable(var+"#Tipo");
 					cout << "La instancia del tipo " << tipo << " nombrada " << var << " tiene los campos:" << endl;
 					int met = cae(data->ObtenerVariable(tipo));
 					for (int i = 0; i < met; i += 1)
@@ -296,9 +318,9 @@ namespace PDTipos
 								cout << "[PUNTERO]";
 							campo.replace(0,1,"");
 						}
-						string valor = data->ObtenerVariable(var+"#"+campo+".");
+						string valor = data->ObtenerVariable(var+"#"+campo);
 						if(b)
-							valor = tipo+"#"+campo+".";
+							valor = tipo+"#"+campo;
 						cout << campo << "  =  " << valor << endl;
 					}
 					cout << "    [VALOR BRUTO]  =  " << data->ObtenerVariable(var) << endl;
@@ -707,8 +729,8 @@ namespace PDTipos
 		// variable #NOMBRE. y #Tipo. sin importar su tipo, si no se encuentra
 		// ignora, se usa PseudoBorrarVariable
 		string tipo,nombre;
-		tipo = data->ObtenerVariable(this->var+string("#Tipo."));
-		nombre = data->ObtenerVariable(this->var+string("#NOMBRE."));
+		tipo = data->ObtenerVariable(this->var+string("#Tipo"));
+		nombre = data->ObtenerVariable(this->var+string("#NOMBRE"));
 		PseudoBorrarVariable bv(this->var);
 		bv.InscribirInstancia(data);
 		/*
@@ -727,16 +749,19 @@ namespace PDTipos
 				string G = data->ObtenerVariable(tipo+string("#(")+eas(i)+string(")."));
 				G.replace(0,1,"");
 				metodos.push_back(G);
+				cout << "METODO O PUNTERO:" << G << endl;
 			}
 			else
 			{
 				metodos.push_back(data->ObtenerVariable(tipo+string("#(")+eas(i)+string(").")));
+				cout << "BORRANDO:" << data->ObtenerVariable(tipo+string("#(")+eas(i)+string(").")) << endl;
 			}
 		}
 		for (int i = 0; i < metodos.size(); i += 1)
 		{
-				PseudoBorrarVariable a(this->var+string("#")+metodos[i]+string("."));
-				a.InscribirInstancia(data);
+			cout << "BOO:" << this->var+string("#")+metodos[i] << endl;
+			PseudoBorrarVariable a(this->var+string("#")+metodos[i]);
+			a.InscribirInstancia(data);
 		}
 	}
 }

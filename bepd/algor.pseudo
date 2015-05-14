@@ -1,0 +1,35 @@
+[ ******************************************************************************
+*****************************************
+*********
+** algor.pseudo: Algoritmos de utilidad.
+** PseudoD fue creado por Alejandro Linarez Rangel
+** algor.pseudo fue creado por Alejandro Linarez Rangel
+** Puede copiar, redistribuir y modificar este archivo con permiso de
+** <proyectopseudod@gmail.com>.
+*****************************************
+****************************************************************************** ]
+
+[
+instacia Iterador iter
+instancia ArrayDinamico arr
+fijar VG_BUFFER =* 10
+llamar arr#crecer. VG_BUFFER #(Final).
+fijar iter#indice. =* 0
+fijar iter#nombre. =* arr
+]
+
+clase Iterador
+	:incrementar
+	:decrementar
+	:fijarDireccionA
+	nombre
+	indice
+#(Final).
+heredar PunteroInteligente Iterador
+
+fijar Iterador#apuntar. =¿? PunteroInteligente#apuntar.
+
+funcion Iterador#incrementar.
+	adquirir __YO__
+	adquirir __DIR__
+	

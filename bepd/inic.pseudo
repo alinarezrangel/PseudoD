@@ -55,8 +55,8 @@ adquirir ESP
 	oper NL =* EB
 	Importar.Cad.Caracter_Especial NL ESP
 Importar.Tipos.BorrarSimple NL
-Importar.Tipos.BorrarSimple NL#NOMBRE.
-Importar.Tipos.BorrarSimple NL#Tipo.
+Importar.Tipos.BorrarSimple NL#NOMBRE
+Importar.Tipos.BorrarSimple NL#Tipo
 [DOCUMENTA
 @brief Sistema de respuestas S/N, representa el afirmativo
 DOCUMENTA]

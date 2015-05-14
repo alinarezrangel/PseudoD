@@ -73,9 +73,9 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 		{
 			throw string("¡SISTEMA CORRUPTOOOOO! en adquirir "+a);
 		}
-			nombres.push_back(a+string("#NOMBRE."));
+			nombres.push_back(a+string("#NOMBRE"));
 			valores.push_back(a);
-			nombres.push_back(a+string("#Tipo."));
+			nombres.push_back(a+string("#Tipo"));
 			valores.push_back("PseudoVariable");
 			nombres.push_back(a);
 			valores.push_back(string("nulo"));
@@ -246,6 +246,14 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 				throw string("Error en llamar "+var+" : no se encontro #(Final). pero si un EOF");
 			}
 		}
+		string nombre_var, tipo_var;
+		int numeral = var.rfind("#");
+		if(numeral == string::npos)
+			numeral = var.size();
+		nombre_var = var.substr(0,numeral);
+		tipo_var = DATOS_INT.ObtenerVariable(nombre_var+string("#Tipo"));
+		if(tipo_var != "PseudoFuncion")
+			pilas[indicepi].push(nombre_var);
 		for(int i = (param.size()-1);i >= 0;i--)
 		{
 			string& a = DATOS_INT.ObtenerVariable(param[i]);
@@ -281,11 +289,11 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 		}
 		nombres.push_back(nom);
 		valores.push_back(func);
-		nombres.push_back(nom+"#NOMBRE.");
+		nombres.push_back(nom+"#NOMBRE");
 		valores.push_back(nom);
-		nombres.push_back(nom+"#Tipo.");
+		nombres.push_back(nom+"#Tipo");
 		valores.push_back("PseudoFuncion");
-		nombres.push_back(nom+"#cod.");
+		nombres.push_back(nom+"#cod");
 		valores.push_back(func);
 	}
 	else if(o == "finfun")
