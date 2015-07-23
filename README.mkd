@@ -22,6 +22,14 @@ PseudoD intenta romper los lazos de la programación con el idioma en general.
 
 **Notas**: Si el usuario no esta compilando en sistemas GNU, se debe modificar el Makefile en la linea 9: modifique la linea 9 de `COMP = ` a `COMP = -DMINGW=1` o `COMP = -DNUMEROS_EN_C=1`,(ambos preferiblemente). Tambien es importante decir que **PseudoD solo compila en Windows, bajo cygwin**, y este debe tener instalados G++4.7 o superior, GCC4.7 o superior, y make.
 
+Hasta ahora, PseudoD **solo ha sido probado** en los sistemas operativos:
+
+* Windows 7
+* Debian wheezy
+* Ubuntu 14
+
+Se agredece probarlo en otros sistemas y reportar **toda falla** a los foros.
+
 ###### Archivos
 Despues de compilar, este directorio tendra 3 archivos más: el ejecutable `PseudoD`, la biblioteca de carga dinamica(ver LEEME.txt para referencias) `libpseudod.so` y la biblioteca de datos `Datos.o`.
 
@@ -72,4 +80,4 @@ finfun
 llamar foo #(Final).
 </code>
 
-PseudoD fue creado por Alejandro Linarez Rangel, la pagina oficial es <www.pseudod.sourceforge.net> y <www.sourceforge.net/projects/pseudod/>, alli estan los foros, la wiki y el blog de PseudoD.
+PseudoD fue creado por Alejandro Linarez Rangel, la pagina oficial es <www.pseudod.com> y <www.sourceforge.net/projects/pseudod/>, alli estan los foros, la wiki y el blog de PseudoD.

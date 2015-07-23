@@ -27,9 +27,9 @@ clase Iterador
 #(Final).
 heredar PunteroInteligente Iterador
 
-fijar Iterador#apuntar. =¿? PunteroInteligente#apuntar.
+fijar Iterador#apuntar =¿? PunteroInteligente#apuntar
 
-funcion Iterador#incrementar.
+funcion Iterador#incrementar
 	adquirir __YO__
 	adquirir __DIR__
 	

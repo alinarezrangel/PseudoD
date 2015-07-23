@@ -1,0 +1,33 @@
+[ ***************************************************
+**************
+** Redireccionar.pd: Ejemplos de PseudoD.
+** Creador: Alejandro Linarez Rangel
+** Redirecciona el valor de varios punteros
+** Serie de ejemplos de PseudoD.
+** Contacto a <proyectopseudod@gmail.com> y a los
+** foros de discución en
+**    <https://sourceforge.net/p/pseudod/discussion/?source=navbar>
+**************
+*************************************************** ]
+utilizar inic.pseudo
+
+adquirir A [ Declaramos las variables A,B y C ]
+adquirir B
+adquirir C
+[ Fijamos sus contenidos a valores distintos ]
+fijar A =* Hola desde A
+fijar B =* Hola desde B
+fijar C =* Hola desde C
+puntero ptr A [ Declaramos un puntero, ptr que inicialmente apunta a A ]
+escribir ptr [ Escribimos su contenido ]
+nl
+redireccionar ptr B [ Lo redireccionamos a B y C y tambien escribimos sus contenidos ]
+escribir ptr
+nl
+redireccionar ptr C
+escribir ptr
+nl
+[ Lo redireccionamos a A#NOMBRE, e imprimimos su valor ]
+redireccionar ptr A#NOMBRE
+escribir ptr
+nl

@@ -48,7 +48,7 @@ Algunas preguntas que se podria hacer:
 		estandar.
 	
 	¿Que versión de BEPD es la que trae este código?
-		BEPD 1.9.0:1.9.0 (BEPD 1.9.0 diseñada para PseudoD 1.9.3).
+		BEPD 1.9.0:1.9.0 (BEPD 1.9.0 diseñada para PseudoD 1.9.3/1.9.5).
 	
 	¿Como se usa ipdc?
 		ipdc supone que ya se tiene PseudoD(el ejecutable) en /usr/bin/ o en
@@ -63,5 +63,6 @@ Algunas preguntas que se podria hacer:
 		solicitar tutoriales o soluciones pequeñas.
 	
 	¿Como pertenecer al equipo desarrollador de PseudoD?
-		Si se tiene algún interes en desarrollar PseudoD, se puede contactar por
+		Si se tiene algún interes en desarrollar, depurar o contribuir con PseudoD, se puede contactar por
 		<proyectopseudod@gmail.com>.
+		<

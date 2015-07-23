@@ -24,13 +24,14 @@
 
 typedef long long int PDentero;
 typedef long double PDdecimal;
+typedef std::string PDcadena;
 
 template<class T>
 int buscar(std::vector<T> a,T b);
-std::string eas(long long int i);
-std::string dac(long double i);
-long long int cae(std::string i);
-long double caf(std::string i);
+PDcadena eas(long long int i);
+PDcadena dac(long double i);
+long long int cae(PDcadena i);
+long double caf(PDcadena i);
 
 /**
 * @brief Representa el tipo de datos nativo del interprete.
@@ -155,6 +156,11 @@ namespace PDvar
 			*/
 			PDDatos(vector<string>& nvar,vector<string>& vvar,vector<string>& npun,vector<int>& vpun,vector< stack<string> >& pil);
 			/**
+			* @brief inicia la instancia como Manejador principal de la memoria.
+			* este tiene acceso a la memoria y la maneja de forma independiente.
+			*/
+			PDDatos(void);
+			/**
 			* @brief Destruye la clase
 			*/
 			~PDDatos();
@@ -181,6 +187,12 @@ namespace PDvar
 			*/
 			string& ObtenerPuntero(string n);
 			/**
+			* @brief devuelve el indice al que apunte el puntero.
+			* @param n nombre del puntero
+			* @return Valor indice al que apunta
+			*/
+			int& ObtenerIndicePuntero(string n);
+			/**
 			* @brief Devuelve el tope de la pila.
 			* @param p Numero de la pila
 			* @return Tope de la pila
@@ -191,6 +203,12 @@ namespace PDvar
 			* @param p Numero de la pila
 			*/
 			void BorrarTope(int p);
+			/**
+			* @brief llama a Tope y BorrarTope.
+			* @param n numero de pila
+			* @return El tope.
+			*/
+			string Sacar(int n);
 			/**
 			* @brief Empuja un valor en una pila
 			* @param n Valor que se empujara
@@ -206,8 +224,9 @@ namespace PDvar
 			* @param n Nombre de la nueva variable o puntero
 			* @param t Tipo, "Variable" para crear una variable o "Puntero" para crear un puntero.
 			* @param va Si es un puntero, direccion a la que apunta.
+			* @param vl Se es una variable, se fija su valor a el valor de vl.
 			*/
-			void CrearVariable(string n,string t = "Variable", int va = 0);
+			void CrearVariable(string n,string t = "Variable", int va = 0,string vl = "nulo");
 			/**
 			* @brief Obtiene el indice de la variable o puntero
 			* @param t tipo, "Variable" para una variable y "Puntero" para un puntero.
@@ -247,6 +266,12 @@ namespace PDvar
 			* @brief Puntero a vector que contiene las pilas.
 			*/
 			vector< stack< string > >* pilas;
+		private:
+			/**
+			* @brief Si esta como manejador principal.
+			*/
+			bool manager;
+		public:
 			/**
 			* @brief Funcion madre, permite ser recursivo en el lenguaje
 			* este puntero a funcion es utilizado para la recursion, se llama de la forma:
@@ -304,12 +329,14 @@ namespace PDvar
 	};
 	
 	/**
-	* @brief Devuelve el valor del token
+	* @brief Devuelve el valor del token.
+	* Diseñado para bucles y condicionales.
 	* @param tok Token
 	* @param in Flujo de tokens
 	* @param data Puntero a la memoria del interprete.
 	*/
 	string ValorDelToken(string tok,istream& in,PDDatos* data);
+	
 }
 
 #endif

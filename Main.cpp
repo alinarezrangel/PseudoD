@@ -1,5 +1,5 @@
 /*
-**PseudoD 1.5.0
+**PseudoD 1.9.5
 **Creado por Alejandro Linarez Rangel
 Define la macro INTERACTIVO a 1 para un interprete en linea de comandos
 https://sourceforge.net/projects/pseudod/
@@ -39,17 +39,9 @@ int buscar(vector<T> a,T b)
 /*,vector<string>,vector<string>,vector<string>,vector<int>,vector<stack<string> >
 ,nombres,valores,punteros,valor,pilas
 */
-
-vector<string> nombres;
-vector<string> valores;
-
-vector<string> punteros;
-vector<int> valor;
-
-vector< stack<string> > pilas;
 bool Ejecutar = true;
 
-PDDatos DATOS_INT(nombres,valores,punteros,valor,pilas);
+PDDatos DATOS_INT;
 
 void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 {
@@ -64,21 +56,18 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 		string a;
 		e >> a;
 		bool existe = false;
-		for (int i = 0; i < nombres.size(); i += 1)
+		for (int i = 0; i < (*DATOS_INT.nombrev).size(); i += 1)
 		{
-			if(nombres[i] == a)
+			if((*DATOS_INT.nombrev)[i] == a)
 				existe = true;
 		}
 		if(existe)
 		{
 			throw string("¡SISTEMA CORRUPTOOOOO! en adquirir "+a);
 		}
-			nombres.push_back(a+string("#NOMBRE"));
-			valores.push_back(a);
-			nombres.push_back(a+string("#Tipo"));
-			valores.push_back("PseudoVariable");
-			nombres.push_back(a);
-			valores.push_back(string("nulo"));
+			DATOS_INT.CrearVariable(a,"Variable",0,a);
+			DATOS_INT.CrearVariable(a+string("#Tipo"),"Variable",0,"PseudoVariable");
+			DATOS_INT.CrearVariable(a+string("#NOMBRE"),"Variable",0,a);
 	}
 	else if(o == "instancia") // alias de Importar.Tipos.Instancia
 	{
@@ -113,17 +102,16 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 		string var,val;
 		e >> var >> val;
 		bool existe = false;
-		for (int i = 0; i < punteros.size(); i += 1)
+		for (int i = 0; i < (*DATOS_INT.nombrep).size(); i += 1)
 		{
-			if(punteros[i] == var)
+			if((*DATOS_INT.nombrep)[i] == var)
 				existe = true;
 		}
 		if(existe)
 		{
 			throw string("¡SISTEMA CORRUPTOOOOO! en puntero "+var);
 		}
-			punteros.push_back(var);
-			valor.push_back(buscar(nombres,val));
+		DATOS_INT.CrearVariable(var,"Puntero",DATOS_INT.BuscarIndice("Variable",val));
 	}
 	else if(o == "usar_espacio")
 	{
@@ -135,9 +123,8 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 	{
 		string h;
 		e >> h;
-		int i = buscar(punteros,h);
-		valor[i]++;
-		if(valor[i] >= nombres.size())
+		DATOS_INT.ObtenerIndicePuntero(h)++;
+		if(DATOS_INT.ObtenerIndicePuntero(h) >= (*DATOS_INT.nombrev).size())
 		{
 			throw string("Error incrementando el puntero "+h+": acceso denegado a memoria prohibida");
 		}
@@ -146,9 +133,8 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 	{
 		string h;
 		e >> h;
-		int i = buscar(punteros,h);
-		valor[i]--;
-		if(valor[i] < 0)
+		DATOS_INT.ObtenerIndicePuntero(h)--;
+		if(DATOS_INT.ObtenerIndicePuntero(h) < 0)
 		{
 			throw string("Error decrementando el puntero "+h+": acceso denegado a memoria prohibida");
 		}
@@ -211,7 +197,7 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 		if(!en)
 		{
 			// el archivo no esta en una ruta actual, ejecutalo desde BEPD
-			funcion = valores[1] + funcion;
+			funcion = DATOS_INT.ObtenerVariable("__LIB__") + funcion;
 			en.close();
 			en.open(funcion.c_str());
 			if(!en)
@@ -220,14 +206,15 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 				throw string("Se intento importar un archivo inexistente");
 			}
 		}
-		string a = valores[buscar(nombres,string("__ARCH__"))];
-		valores[buscar(nombres,string("__ARCH__"))] = funcion;
+		
+		string a = DATOS_INT.ObtenerVariable("__ARCH__");
+		DATOS_INT.ObtenerVariable("__ARCH__") = funcion;
 		string h;
 		while(en >> h)
 		{
 			procesar(h,en, FUNCION);
 		}
-		valores[buscar(nombres,string("__ARCH__"))] = a;
+		DATOS_INT.ObtenerVariable("__ARCH__") = a;
 	}
 	else if(o == "llamar")
 	{
@@ -248,16 +235,21 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 		}
 		string nombre_var, tipo_var;
 		int numeral = var.rfind("#");
+		//clog << numeral << endl;
 		if(numeral == string::npos)
 			numeral = var.size();
 		nombre_var = var.substr(0,numeral);
 		tipo_var = DATOS_INT.ObtenerVariable(nombre_var+string("#Tipo"));
-		if(tipo_var != "PseudoFuncion")
-			pilas[indicepi].push(nombre_var);
+		//clog << tipo_var << endl;
 		for(int i = (param.size()-1);i >= 0;i--)
 		{
 			string& a = DATOS_INT.ObtenerVariable(param[i]);
-			pilas[indicepi].push(a);
+			(*DATOS_INT.pilas)[indicepi].push(a);
+		}
+		if(tipo_var != "PseudoFuncion")
+		{
+			DATOS_INT.Empujar(nombre_var,cae(DATOS_INT.ObtenerVariable("VG_PILA_ACTUAL")));
+			//clog << nombre_var << endl;
 		}
 		//*/
 		istringstream st(a);
@@ -287,14 +279,10 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 		{
 			func += lineas[i] + "\n";
 		}
-		nombres.push_back(nom);
-		valores.push_back(func);
-		nombres.push_back(nom+"#NOMBRE");
-		valores.push_back(nom);
-		nombres.push_back(nom+"#Tipo");
-		valores.push_back("PseudoFuncion");
-		nombres.push_back(nom+"#cod");
-		valores.push_back(func);
+		DATOS_INT.CrearVariable(nom,"Variable",0,func);
+		DATOS_INT.CrearVariable(nom+string("#NOMBRE"),"Variable",0,nom);
+		DATOS_INT.CrearVariable(nom+string("#Tipo"),"Variable",0,"PseudoFuncion");
+		DATOS_INT.CrearVariable(nom+string("#cod"),"Variable",0,func);
 	}
 	else if(o == "finfun")
 	{
@@ -315,20 +303,19 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 			e >> h;
 		}
 	}
-	else if((o == "empujar")||(o == "enviar_parametro"))
+	else if((o == "empujar")||(o == "enviar_parametro")||(o == "devolver"))
 	{
 		string variable1;
 		e >> variable1;
 		string& a = DATOS_INT.ObtenerVariable(variable1);
-		pilas[indicepi].push(a);
+		DATOS_INT.Empujar(a,cae(DATOS_INT.ObtenerVariable("VG_PILA_ACTUAL")));
 	}
-	else if((o == "sacar")||(o == "recibir_resultado"))
+	else if((o == "sacar")||(o == "recibir_resultado")||(o == "recibir_parametro"))
 	{
 		string variable1;
 		e >> variable1;
 		string& a = DATOS_INT.ObtenerVariable(variable1);
-		a = pilas[indicepi].top();
-		pilas[indicepi].pop();
+		a = DATOS_INT.Sacar(cae(DATOS_INT.ObtenerVariable("VG_PILA_ACTUAL")));
 	}
 	else if(o == "usar_pila")
 	{
@@ -337,9 +324,8 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 	}
 	else if(o == "crear_pila")
 	{
-		stack<string> t;
-		pilas.push_back(t);
-			DATOS_INT.ObtenerVariable("VG_NUMERO_PILAS") = eas(pilas.size());
+		DATOS_INT.CrearPila();
+		DATOS_INT.ObtenerVariable("VG_NUMERO_PILAS") = eas((*DATOS_INT.pilas).size());
 	}
 	else if(o == "si")
 	{
@@ -348,8 +334,7 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 		if(variable1 == "llamar")
 		{
 			procesar("llamar",e,FUNCION);
-			val = pilas[indicepi].top();
-			pilas[indicepi].pop();
+			val = DATOS_INT.Sacar(cae(DATOS_INT.ObtenerVariable("VG_PILA_ACTUAL")));
 		}
 		else if(variable1 == "¿son_iguales?")
 		{
@@ -411,8 +396,7 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 		if(variable1 == "llamar")
 		{
 			procesar("llamar",e,FUNCION);
-			val = pilas[indicepi].top();
-			pilas[indicepi].pop();
+			val = DATOS_INT.Sacar(cae(DATOS_INT.ObtenerVariable("VG_PILA_ACTUAL")));
 		}
 		else if(variable1 == "¿son_iguales?")
 		{
@@ -517,7 +501,7 @@ int main(int argc,char* argv[])
 	}
 	if((string(argv[1]) == "--help")||(string(argv[1]) == "-h"))
 	{
-		cout << "Interprete de PseudoD, version 1.9.3(u1.9.3)" << endl;
+		cout << "Interprete de PseudoD, version 1.9.5(u1.9.5)" << endl;
 		cout << "Uso: " << argv[0] << " (archivo a ejecutar) (ruta de bepd) [ruta de libpseudod.so]" << endl;
 		cout << "PseudoD no tiene opciones excepto -h o --help" << endl;
 		cout << "PseudoD fue creado por Alejandro Linarez Rangel" << endl;
@@ -555,17 +539,12 @@ int main(int argc,char* argv[])
 		cout << "Error al usar libpseudod.so:" << dlerror() << endl;
 		return 1;
 	}
-	(*funcion)(nombres,valores,punteros,valor,pilas,procesar);
-	nombres.push_back(string("__MAIN__"));
-	valores.push_back(string(argv[1]));
-	nombres.push_back(string("__LIB__"));
-	valores.push_back(string(((argc >= 3)? argv[2] : "/usr/lib/pseudod/1.9.3/")));
-	nombres.push_back(string("__ARCH__"));
-	valores.push_back(string(argv[1]));
-	nombres.push_back("VG_PILA_ACTUAL");
-	valores.push_back("0");
-	nombres.push_back("VG_NUMERO_PILAS");
-	valores.push_back("0");
+	(*funcion)((*DATOS_INT.nombrev),(*DATOS_INT.valorv),(*DATOS_INT.nombrep),(*DATOS_INT.nvapunt),(*DATOS_INT.pilas),procesar);
+	DATOS_INT.CrearVariable("__MAIN__","Variable",0,argv[1]);
+	DATOS_INT.CrearVariable("__LIB__","Variable",0,((argc >= 3)? argv[2] : "/usr/lib/pseudod/1.9.3/"));
+	DATOS_INT.CrearVariable("__ARCH__","Variable",0,argv[1]);
+	DATOS_INT.CrearVariable("VG_PILA_ACTUAL","Variable",0,"0");
+	DATOS_INT.CrearVariable("VG_NUMERO_PILAS","Variable",0,"0");
 	string a(argv[1]);
 	{
 		if(DATOS_INT.ObtenerVariable("__LIB__") != "")
@@ -626,6 +605,12 @@ int main(int argc,char* argv[])
 	}
 #ifndef INTERACTIVO
 	ifstream en(a.c_str());
+	if(!en)
+	{
+		cerr << "Error interno: no se encontro el archivo " << a << endl;
+		(*func3)();
+		return dlclose(dll);
+	}
 	string base;
 	try
 	{
@@ -637,7 +622,7 @@ int main(int argc,char* argv[])
 #else
 	cout << "Interprete en linea de comandos de PseudoD" << endl;
 	cout << "Creado por Alejandro Linarez Rangel" << endl;
-	cout << "PseudoD version u1.9.3 en C++11" << endl;
+	cout << "PseudoD version u1.9.5 en C++11" << endl;
 	cout << ">>> ";
 	string base;
 	try

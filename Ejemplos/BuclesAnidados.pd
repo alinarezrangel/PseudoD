@@ -1,0 +1,42 @@
+[ ***************************************************
+**************
+** BuclesAnidados.pd: Ejemplos de PseudoD.
+** Creador: Alejandro Linarez Rangel
+** Imprime las tablas de multiplicar del 1 al 9.
+** Serie de ejemplos de PseudoD.
+** Contacto a <proyectopseudod@gmail.com> y a los
+** foros de discución en
+**    <https://sourceforge.net/p/pseudod/discussion/?source=navbar>
+**************
+*************************************************** ]
+utilizar inic.pseudo
+utilizar clases.pseudo
+
+adquirir numero
+adquirir otro
+adquirir resultado
+
+adquirir hasta
+
+adquirir mensaje
+
+fijar numero =* 1
+fijar otro =* 1
+fijar resultado =* 1
+fijar hasta =* 9
+fijar mensaje =* El resultado de:
+
+mientras comparar Importar.Ent.Comparar numero <= hasta
+	mientras comparar Importar.Ent.Comparar otro <= hasta
+		Importar.Ent.Multiplicar numero otro resultado
+		escribir mensaje
+		escribir numero
+		escribir_esp
+		escribir otro
+		escribir_esp
+		escribir resultado
+		nl
+		Importar.Ent.Sumar otro UNO otro
+	finbucle
+	Importar.Ent.Sumar numero UNO numero
+finbucle

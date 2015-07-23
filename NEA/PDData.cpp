@@ -108,15 +108,40 @@ namespace PDvar
 		this->ERROR = ":C++:Error:";
 		this->VERDADERO = "verdadero";
 		this->FALSO = "falso";
+		this->manager = false;
+	}
+	
+	PDDatos::PDDatos(void)
+	{
+		this->nombrev = new vector<string>();
+		this->valorv = new vector<string>();
+		this->nombrep = new vector<string>();
+		this->nvapunt = new vector<int>();
+		this->pilas = new vector< stack<string> >();
+		this->ERROR = ":C++:Error:";
+		this->VERDADERO = "verdadero";
+		this->FALSO = "falso";
+		this->manager = true;
 	}
 
 	PDDatos::~PDDatos()
 	{
-		this->nombrev = NULL;
-		this->valorv = NULL;
-		this->nombrep = NULL;
-		this->nvapunt = NULL;
-		this->pilas = NULL;
+		if(this->manager)
+		{
+			delete this->nombrev;
+			delete this->valorv;
+			delete this->nombrep;
+			delete this->nvapunt;
+			delete this->pilas;
+		}
+		else
+		{
+			this->nombrev = NULL;
+			this->valorv = NULL;
+			this->nombrep = NULL;
+			this->nvapunt = NULL;
+			this->pilas = NULL;
+		}
 	}
 
 	string& PDDatos::ObtenerVariable(string n)
@@ -144,6 +169,19 @@ namespace PDvar
 			return (*this->valorv)[(*this->nvapunt)[i]];
 		}
 	}
+	
+	int& PDDatos::ObtenerIndicePuntero(string n)
+	{
+		int i = buscar((*this->nombrep),n);
+		if(i == -1)
+		{
+			throw std::string("Error en el manejador de memoria de PseudoD: No existe la variable o puntero "+n);
+		}
+		else
+		{
+			return (*this->nvapunt)[i];
+		}
+	}
 
 	string PDDatos::Tope(int p)
 	{
@@ -164,8 +202,15 @@ namespace PDvar
 	{
 		(*this->pilas).push_back(stack<string>());
 	}
+	
+	string PDDatos::Sacar(int n)
+	{
+		string val = this->Tope(n);
+		this->BorrarTope(n);
+		return val;
+	}
 
-	void PDDatos::CrearVariable(string n,string t,int va)
+	void PDDatos::CrearVariable(string n,string t,int va,string vl)
 	{
 		if(t == "Puntero")
 		{
@@ -175,7 +220,7 @@ namespace PDvar
 		else
 		{
 			(*this->nombrev).push_back(n);
-			(*this->valorv).push_back(string("nulo"));
+			(*this->valorv).push_back(vl);
 		}
 	}
 	
@@ -197,10 +242,8 @@ namespace PDvar
 	{
 		istringstream in(ord);
 		string orden = "";
-		while(in >> orden)
-		{
-			(*(this->PROCESAR))(orden,in,this->PROCESO);
-		}
+		in >> orden;
+		(*(this->PROCESAR))(orden,in,this->PROCESO);
 	}
 	
 	void PDDatos::Ejecutar(string ord,istream& in)

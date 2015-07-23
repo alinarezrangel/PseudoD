@@ -49,7 +49,7 @@ namespace PDTipos
 		r = eas(this->cant);
 		for(int  i = 0; i < this->cant;i++)
 		{
-			data->CrearVariable(this->nm + string("#(") + eas(i) + string(")."));
+			data->CrearVariable(this->nm + string("#(") + eas(i) + string(")"));
 		}
 	}
 	
@@ -83,6 +83,10 @@ namespace PDTipos
 			data->CrearVariable(this->nm + string("#(") + eas(i) + string(")."));
 			data->ObtenerVariable(this->nm + string("#(") + eas(i) + string(").")) = this->methods[i];
 		}
+		data->CrearVariable(this->nm + string("#NOMBRE"));
+		data->CrearVariable(this->nm + string("#Tipo"));
+		data->ObtenerVariable(this->nm + string("#NOMBRE")) = this->nm;
+		data->ObtenerVariable(this->nm + string("#Tipo")) = this->nm;
 	}
 	
 	void PseudoClase::LeerParametros(istream& in)
@@ -147,28 +151,6 @@ namespace PDTipos
 				data->CrearVariable(this->ni+string("#")+this->methods[i]);
 				data->ObtenerVariable(this->ni+string("#")+this->methods[i])
 	      = data->ObtenerVariable(this->nm+string("#")+this->methods[i]+string("#cod"));
-			}
-			else if(this->methods[i].find("#") != std::string::npos) // estructura embebida
-			{
-				string nombre, tipo, attr;
-				PDentero sep = this->methods[i].rfind("#");
-				nombre = this->methods[i].substr(0,sep);
-				attr = this->methods[i].substr(sep + 1);
-				if(attr[0] == ';')
-				{
-					attr.replace(0,1,"");
-					data->CrearVariable(this->ni+string("#")+nombre+string("#")+attr,"Puntero",0);
-				}
-				else
-				{
-					data->CrearVariable(this->ni+string("#")+this->methods[i]);
-				}
-				if(attr == "NOMBRE")
-					data->ObtenerVariable(this->ni+string("#")+this->methods[i]) = nombre;
-				if(attr == "Tipo")
-					data->ObtenerVariable(this->ni+string("#")+this->methods[i]) = data->ObtenerVariable(this->nm+string("#")+nombre+string("#Tipo"));
-				if(attr[0] == ':')
-					data->ObtenerVariable(this->ni+string("#")+this->methods[i]) = data->ObtenerVariable(this->nm+string("#")+nombre+string("#Tipo"));
 			}
 			else
 			{
@@ -499,22 +481,19 @@ namespace PDTipos
 	
 	void PseudoDireccionarPuntero::InscribirInstancia(PDDatos* data)
 	{
-		int i = data->BuscarIndice("Puntero",this->nmp);
 		int oi;
-		if(i == -1)
+		if(data->BuscarIndice("Puntero",this->nmp) == -1)
 		{
 			cerr << "Error en " << this->ObtenerClave() << " ,No existe el puntero " << this->nmp << endl;
 			throw string("Error en el la parte " + this->ObtenerClave() + " No existe el puntero");
-			return;
 		}
 		oi = data->BuscarIndice("Variable",this->nmv);
 		if(oi == -1)
 		{
 			cerr << "Error en " << this->ObtenerClave() << " ,No existe la variable,(NOTA:variable no puntero) " << this->nmv << endl;
 			throw string("Error en el la parte " + this->ObtenerClave() + " No existe la variable(no puntero)");
-			return;
 		}
-		(*data->nvapunt)[i] = oi;
+		data->ObtenerIndicePuntero(this->nmp) = oi;
 	}
 	
 	PseudoMientras::PseudoMientras(string v,string f) : PDInstancia()
@@ -561,7 +540,7 @@ namespace PDTipos
 			string es;
 			in >> this->orden >> this->var1 >> this->var2 >> es >> this->var3;
 			if(es != "es")
-				throw string("Error de sintaxis en " + this->ObtenerClave() + ": mientras ejecutar oden var var  \"es\" var: no se escribio es, se escribio "+es);
+				throw string("Error de sintaxis en " + this->ObtenerClave() + ": mientras ejecutar orden var var  \"es\" var: no se escribio es, se escribio "+es);
 			this->ejecutar = true;
 		}
 		else if(this->nmv == "comparar")
@@ -571,7 +550,8 @@ namespace PDTipos
 		}
 		vector<string> lineas;
 		string lin = "";
-		while(lin != "finbucle")
+		int mientras = 1;
+		while(mientras != 0)
 		{
 			getline(in,lin,'\n');
 			lineas.push_back(lin);
@@ -579,6 +559,14 @@ namespace PDTipos
                               lin.end(),
                               [](char x){return std::isspace(x);}),
                 lin.end());
+      if((lin == "mientras") || (lin == "Importar.PseudoD.mientras"))
+      {
+      	mientras++;
+      }
+      if(lin == "finbucle")
+      {
+      	mientras--;
+      }
 		}
 		this->func = "";
 		for(int i = 0;i < lineas.size();i++)
@@ -743,23 +731,20 @@ namespace PDTipos
 		long lg = cae(data->ObtenerVariable(tipo));
 		for (int i = 0; i < lg; i += 1)
 		{
-			if((data->ObtenerVariable(tipo+string("#(")+eas(i)+string(")."))[0] == ';')
-				||(data->ObtenerVariable(tipo+string("#(")+eas(i)+string(")."))[0] == ':'))
+			if((data->ObtenerVariable(tipo+PDcadena("#(")+eas(i)+PDcadena(")."))[0] == ';')
+				||(data->ObtenerVariable(tipo+PDcadena("#(")+eas(i)+string(")."))[0] == ':'))
 			{
 				string G = data->ObtenerVariable(tipo+string("#(")+eas(i)+string(")."));
 				G.replace(0,1,"");
 				metodos.push_back(G);
-				cout << "METODO O PUNTERO:" << G << endl;
 			}
 			else
 			{
 				metodos.push_back(data->ObtenerVariable(tipo+string("#(")+eas(i)+string(").")));
-				cout << "BORRANDO:" << data->ObtenerVariable(tipo+string("#(")+eas(i)+string(").")) << endl;
 			}
 		}
 		for (int i = 0; i < metodos.size(); i += 1)
 		{
-			cout << "BOO:" << this->var+string("#")+metodos[i] << endl;
 			PseudoBorrarVariable a(this->var+string("#")+metodos[i]);
 			a.InscribirInstancia(data);
 		}

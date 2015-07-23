@@ -31,8 +31,8 @@ PAG. ANCHO 80 caracteres
 La Biblioteca Estandar de PseudoD(BEPD) es una colección de archivos y
 directorios destinados a ser utilizados por cualquier programador de PseudoD.
 
-Esta es la versión de BEPD 1.9.0:1.9.0, diseñada para ser usada, con minimo
-PseudoD 1.9.0.
+Esta es la versión de BEPD u1.9.3:u1.9.3, diseñada para ser usada, con minimo
+PseudoD 1.9.3.
 
 Tabla de archivos:
 
