@@ -33,7 +33,3 @@ heredar PunteroInteligente Iterador
 
 fijar Iterador#apuntar =¿? PunteroInteligente#apuntar
 
-funcion Iterador#incrementar
-	adquirir __YO__
-	adquirir __DIR__
-	
