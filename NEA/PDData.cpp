@@ -109,6 +109,7 @@ namespace PDvar
 		this->VERDADERO = "verdadero";
 		this->FALSO = "falso";
 		this->manager = false;
+		this->adver = 1;
 	}
 	
 	PDDatos::PDDatos(void)
@@ -122,6 +123,7 @@ namespace PDvar
 		this->VERDADERO = "verdadero";
 		this->FALSO = "falso";
 		this->manager = true;
+		this->adver = 1;
 	}
 
 	PDDatos::~PDDatos()

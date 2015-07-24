@@ -206,7 +206,14 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 				throw string("Se intento importar un archivo inexistente");
 			}
 		}
-		
+		if(DATOS_INT.BuscarIndice("Variable","utilizar " + funcion) != -1)
+		{
+			if(DATOS_INT.adver > 1)
+			{
+				throw string("Se importo dos veces el mismo archivo");
+			}
+			return;
+		}
 		string a = DATOS_INT.ObtenerVariable("__ARCH__");
 		DATOS_INT.ObtenerVariable("__ARCH__") = funcion;
 		string h;
@@ -215,6 +222,7 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 			procesar(h,en, FUNCION);
 		}
 		DATOS_INT.ObtenerVariable("__ARCH__") = a;
+		DATOS_INT.CrearVariable("utilizar " + funcion,"Variable",0,"nulo");
 	}
 	else if(o == "llamar")
 	{

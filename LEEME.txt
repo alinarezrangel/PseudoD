@@ -25,7 +25,7 @@ INTERPRETE
 	
 		archivo: el archivo a ejecutar, un *.pd o *.psd (*.pseudo es para bibliotecas).
 		ruta: ruta de la biblioteca estandar, si no se ha instalado la biblioteca
-					estandar, escribir "nulo".
+					estandar, escribir "nulo" o "./".
 		NEA: la ruta de libpseudod.so
 	Ejemplo:
 		Para ejecutar un archivo llamado prg.pd, suponiendo que PseudoD y libpseudod
@@ -36,7 +36,7 @@ INTERPRETE
 			./PseudoD prg.pd "/home/user/PseudoD/" "./libpseudod.so"
 		La diagonal(/) al final de la ruta de la biblioteca estandar es muy importante.
 		PseudoD por defecto supone que libpseudod.so esta en /usr/lib/libpseudod.so
-		(ALERTA usuarios multisistema, esto no cambia si estas en Windows o Macintosh
+		(ALERTA usuarios multisistema, esto no cambia si estas en Windows o Mac OS X
 		en ese caso, es obligatorio especificar la ruta) asi que si se mueve libpseudod
 		a /usr/lib/libpseudod.so, no sera necesario el ultimo parametro.
 
@@ -66,7 +66,7 @@ COMPILAR
 			-ldl: link con <dlopen>(http://linux.die.net/man/3/dlopen)
 			Datos.o: link con el sistema de datos
 	-std=c++11 fija el estandar a C++11
-	Si tu compilador no posee alguna de estas opciones, remplacala por su equivalente
+	Si tu compilador no posee alguna de estas opciones, cambiala por su equivalente
 	(para eso el significado de la orden el final).
 
 PseudoD fue creado por Alejandro Linarez Rangel

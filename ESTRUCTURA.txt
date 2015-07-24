@@ -5,7 +5,7 @@ creado por Alejandro Linarez Rangel
 
 QUE ES
 	PseudoD es un lenguaje de programación en español.
-	Para ver sobre PseudoD, ver http://pseudod.sourceforge.net/
+	Para ver sobre PseudoD, ver http://pseudod.sourceforge.net/ o http://www.pseudod.com/
 
 Estructura del arbol de documentos y carpetas:
 	./                    Código principal de PseudoD, tiene el NEA
@@ -60,9 +60,17 @@ Algunas preguntas que se podria hacer:
 	
 	¿Como puedo modificar PseudoD?
 		Cualquier duda será bienvenida en los foros de PseudoD, allí se pueden
-		solicitar tutoriales o soluciones pequeñas.
+		solicitar tutoriales.
 	
 	¿Como pertenecer al equipo desarrollador de PseudoD?
 		Si se tiene algún interes en desarrollar, depurar o contribuir con PseudoD, se puede contactar por
 		<proyectopseudod@gmail.com>.
-		<
+	
+	¿Donde deberia estar el código fuente de PseudoD?
+		Esto debende del sistema operativo, por ejemplo:
+			Si se esta trabajando con GNU/Linux entonces deberia estar en /opt/pseudod/src/
+	
+	¿Donde puedo conseguir tutoriales o guias para programar/modificar PseudoD?
+		En los foros de PseudoD(www.sourcefoge.net/projects/pseudod/) y en la pagina
+		oficial www.pseudod.com, (www.pseudod.sourceforge.net es principalmente para
+		desarrolladores).

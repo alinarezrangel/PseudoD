@@ -266,6 +266,10 @@ namespace PDvar
 			* @brief Puntero a vector que contiene las pilas.
 			*/
 			vector< stack< string > >* pilas;
+			/**
+			* @brief nivel de las advertencias.
+			*/
+			int adver;
 		private:
 			/**
 			* @brief Si esta como manejador principal.

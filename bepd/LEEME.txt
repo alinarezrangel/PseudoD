@@ -43,11 +43,11 @@ clases.pseudo | Declara la jerarquía de clases.                   | 1.4.0
 entsal.pseudo | Funciones de E/S, y E/S en buffer.                | 1.0.0
 mate.pseudo   | Funciones matemáticas avanzadas y basicas.        | 1.0.0 *1
 tipos.pseudo  | Funciones mixtas modificadoras.                   | 1.0.0
-algor.pseudo  | Algoritmos basicos y avanzados.                   | 1.0.0
+algor.pseudo  | Algoritmos basicos y avanzados.                   | 1.0.0 *2
 plugins.pseudo| Sistema de carga de plug-ins.                     | 1.4.0
   *1: mate.pseudo esta en una version incompleta, faltan las funciones seno,
 	coseno y tangente.
-
+  *2: algor.pseudo esta en una version incompleta.
 Archivos obsoletos:
 
 Nombre           | Descripción                                       |  Versión

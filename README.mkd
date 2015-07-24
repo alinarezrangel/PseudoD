@@ -1,10 +1,10 @@
 ### README.mkd
 ##### PseudoD
-PseudoD es un lenguaje de programación interpretado, escrito en C++11 con sintaxis completamente en español.
+PseudoD es un lenguaje de programación interpretado, escrito en C++11 con sintaxis completamente en español y orientado a objetos.
 
 Tiene un nucleo externo, llamado NEA(**N**ucleo **E**xtensible de la **A**plicación), el cual esta diseñado para agregar funcionalidades al lenguaje. Tambien extrae de [Python](https://www.python.org/ "Python.org") la capacidad de escribir agregados en C/C++.
 
-Parte de la sintaxis de PseudoD esta inspirada en [Ada](http://es.wikipedia.org/wiki/Ada_%28lenguaje_de_programaci%C3%B3n%29 "Lenguaje de programacion Ada") y en [D](http://es.wikipedia.org/wiki/D_%28lenguaje_de_programaci%C3%B3n%29 "Lenguaje de programacion D").
+Parte de la sintaxis de PseudoD esta inspirada en [Ada](http://es.wikipedia.org/wiki/Ada_%28lenguaje_de_programaci%C3%B3n%29 "Lenguaje de programacion Ada"), [D](http://es.wikipedia.org/wiki/D_%28lenguaje_de_programaci%C3%B3n%29 "Lenguaje de programacion D") y **REXX**.
 Para extender el lenguaje, ya sea por el NEA, o por agregados dinámicos, existe una interfaz simple y orientada a objetos.
 
 PseudoD intenta romper los lazos de la programación con el idioma en general.
@@ -17,30 +17,40 @@ PseudoD intenta romper los lazos de la programación con el idioma en general.
 * *ruta de BEPD*: Ruta de la **B**iblioteca **E**standar de **P**seudo**D**, o **BEPD**, por defecto es `/usr/lib/pseudod/1.9.3/`.
 * *ruta de libpseudod.so*: Ruta del NEA de PseudoD, `libpseudod.so`. Por defecto es `/usr/lib/`.
 
+###### IPDC
+<code>**ipdc** (\-d | \-s | \-f | \-i) (*archivo* | *ruta*)</code>
+
+Opciones:
+
+* \-d : Muestra la ruta predeterminada de BEPD.
+* \-s *ruta* : Fija la ruta de BEPD.
+* \-f *archivo* : Ejecuta archivo con la ultima version de PseudoD instalada.
+* \-i : Inicia el interprete interactivo.
+
 ###### Compilar
 <code>**make**</code>
 
-**Notas**: Si el usuario no esta compilando en sistemas GNU, se debe modificar el Makefile en la linea 9: modifique la linea 9 de `COMP = ` a `COMP = -DMINGW=1` o `COMP = -DNUMEROS_EN_C=1`,(ambos preferiblemente). Tambien es importante decir que **PseudoD solo compila en Windows, bajo cygwin**, y este debe tener instalados G++4.7 o superior, GCC4.7 o superior, y make.
+**Notas**: Si el usuario no esta compilando en sistemas GNU/Linux, se debe modificar el Makefile en la linea 9: modifique la linea 9 de `COMP = ` a `COMP = -DMINGW=1` o `COMP = -DNUMEROS_EN_C=1`,(ambos preferiblemente). Tambien es importante decir que **PseudoD solo compila en Windows, bajo cygwin**, y este debe tener instalados G++4.7 o superior, GCC4.7 o superior, y make.
 
 Hasta ahora, PseudoD **solo ha sido probado** en los sistemas operativos:
 
-* Windows 7
-* Debian wheezy
-* Ubuntu 14
+* Windows 7 con cygwin
+* Debian wheezy con G++
+* Ubuntu 14 con G++
 
 Se agredece probarlo en otros sistemas y reportar **toda falla** a los foros.
 
 ###### Archivos
 Despues de compilar, este directorio tendra 3 archivos más: el ejecutable `PseudoD`, la biblioteca de carga dinamica(ver LEEME.txt para referencias) `libpseudod.so` y la biblioteca de datos `Datos.o`.
 
-* Mueva el ejecutable a un punto donde sea facl de llamar(`/home/$USER/bin/`, `/usr/bin/`, entre otros).
-* Mueva `libpseudod.so` a `/usr/lib/`, de no estar en un sistema GNU, dejar en este directorio.
+* Mueva el ejecutable a un punto donde sea facil de llamar(`/home/$USER/bin/`, `/usr/bin/`, entre otros).
+* Mueva `libpseudod.so` a `/usr/lib/`, de no estar en un sistema GNU/Linux, dejar en este directorio.
 
 Modifique el archivo `ipdc`:
 
 * Linea 20: Fije el texto entre comillas " a la ruta donde se movio el contenido de la carpeta `bepd`.
 * Linea 21: Fije el texto entre comillas " a la ruta donde se movio el NEA, `libpseudod.so`.
-* Linea 22: Fije el texto entre comillas " a si en vez de no.
+* Linea 22: Fije el texto entre comillas " a "si" en vez de "no".
 
 ###### Ejemplos de código
 
@@ -75,9 +85,30 @@ funcion foo
 	fijar msg =* Hola desde foo
 	escribir msg
 	nl
+	liberar msg
 finfun
 
 llamar foo #(Final).
 </code>
 
+Clases:
+<code>
+clase Foo
+	:bar
+\#(Final).
+
+funcion Foo\#bar
+	adquirir msg
+	fijar msg =* Hola desde Foo, y desde el metodo bar
+	escribir msg
+	nl
+	liberar msg
+finfun
+
+instancia Foo ins
+llamar ins\#bar \#(Final).
+</code>
+
 PseudoD fue creado por Alejandro Linarez Rangel, la pagina oficial es <www.pseudod.com> y <www.sourceforge.net/projects/pseudod/>, alli estan los foros, la wiki y el blog de PseudoD.
+
+Este es PseudoD **u1.9.5**.
