@@ -60,59 +60,59 @@ Modifique el archivo `ipdc`:
 
 Hola Mundo:
 <code>
-adquirir mensaje
-fijar mensaje =* ¡Hola Mundo!
-escribir mensaje
-nl
+adquirir mensaje<br/>
+fijar mensaje =* ¡Hola Mundo!<br/>
+escribir mensaje<br/>
+nl<br/>
 </code>
 
 Hola X
 <code>
-adquirir mensaje
-adquirir nombre
-fijar mensaje =* Ingrese su nombre:
-escribir mensaje
-leer nombre
-fijar mensaje =* ¡Hola
-escribir mensaje
-escribir_esp
-escribir nombre
-fijar mensaje =* !
-escribir mensaje
-nl
+adquirir mensaje<br/>
+adquirir nombre<br/>
+fijar mensaje =* Ingrese su nombre:<br/>
+escribir mensaje<br/>
+leer nombre<br/>
+fijar mensaje =* ¡Hola<br/>
+escribir mensaje<br/>
+escribir_esp<br/>
+escribir nombre<br/>
+fijar mensaje =* !<br/>
+escribir mensaje<br/>
+nl<br/>
 </code>
 
 Funciones:
 <code>
-funcion foo
-	adquirir msg
-	fijar msg =* Hola desde foo
-	escribir msg
-	nl
-	liberar msg
-finfun
-
-llamar foo #(Final).
+funcion foo<br/>
+	adquirir msg<br/>
+	fijar msg =* Hola desde foo<br/>
+	escribir msg<br/>
+	nl<br/>
+	liberar msg<br/>
+finfun<br/>
+<br/>
+llamar foo #(Final).<br/>
 </code>
 
 Clases:
 <code>
-clase Foo
-	:bar
-\#(Final).
-
-funcion Foo\#bar
-	adquirir msg
-	fijar msg =* Hola desde Foo, y desde el metodo bar
-	escribir msg
-	nl
-	liberar msg
-finfun
-
-instancia Foo ins
-llamar ins\#bar \#(Final).
+clase Foo<br/>
+	:bar<br/>
+\#(Final).<br/>
+<br/>
+funcion Foo\#bar<br/>
+	adquirir msg<br/>
+	fijar msg =* Hola desde Foo, y desde el metodo bar<br/>
+	escribir msg<br/>
+	nl<br/>
+	liberar msg<br/>
+finfun<br/>
+<br/>
+instancia Foo ins<br/>
+llamar ins\#bar \#(Final).<br/>
 </code>
 
-PseudoD fue creado por Alejandro Linarez Rangel, la pagina oficial es <www.pseudod.com> y <www.sourceforge.net/projects/pseudod/>, alli estan los foros, la wiki y el blog de PseudoD.
+PseudoD fue creado por Alejandro Linarez Rangel, la pagina oficial es [PseudoD.com](www.pseudod.com) y [PseudoD.sourceforge.net](www.sourceforge.net/projects/pseudod/), alli estan los foros, la wiki y el blog de PseudoD.
 
 Este es PseudoD **u1.9.5**.
