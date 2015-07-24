@@ -33,3 +33,5 @@ heredar PunteroInteligente Iterador
 
 fijar Iterador#apuntar =¿? PunteroInteligente#apuntar
 
+funcion S
+finfun
