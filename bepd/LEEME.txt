@@ -8,8 +8,8 @@ Contancto a <proyectopseudod@gmail.com>
 Y a <https://www.sourceforge.net/projects/pseudod>
 PAG. ANCHO 80 caracteres
 
- Bienvenido a la Biblioteca Estandar de PseudoD(BEPD). Entre estos archivos se
- podrán encontrar:
+ Bienvenido a la Biblioteca Estandar de PseudoD(BEPD). Entre estos archivos
+ se podrán encontrar:
  
   * Inicializadores del sistema
   * Jerarquía de clases
@@ -31,13 +31,13 @@ PAG. ANCHO 80 caracteres
 La Biblioteca Estandar de PseudoD(BEPD) es una colección de archivos y
 directorios destinados a ser utilizados por cualquier programador de PseudoD.
 
-Esta es la versión de BEPD u1.9.3:u1.9.3, diseñada para ser usada, con minimo
-PseudoD 1.9.3.
+Esta es la versión de BEPD u1.9.3:u1.9.5, diseñada para ser usada, con minimo
+PseudoD 1.9.5.
 
 Tabla de archivos:
 
 Nombre        | Descripción                                       |  Versión
------------   | ------------------------------------------------- | ------------
+-----------   | ------------------------------------------------- | ---------
 inic.pseudo   | Inicializa BEPD.                                  | 1.2.0
 clases.pseudo | Declara la jerarquía de clases.                   | 1.4.0
 entsal.pseudo | Funciones de E/S, y E/S en buffer.                | 1.0.0
@@ -48,19 +48,18 @@ plugins.pseudo| Sistema de carga de plug-ins.                     | 1.4.0
   *1: mate.pseudo esta en una version incompleta, faltan las funciones seno,
 	coseno y tangente.
   *2: algor.pseudo esta en una version incompleta.
+
 Archivos obsoletos:
 
-Nombre           | Descripción                                       |  Versión
------------      | ------------------------------------------------- | ---------
-funciones.pseudo | Métodos de las clases.                            | 1.0.0
-es.pseudo        | Sistemas de E/S.                                  | 1.0.0
-dinamico.pseudo  | Sistema de carga dinamica.                        | 1.1.0
-errores.pseudo   | Manejo de errores por "valores magicos".          | 1.0.0
+Nombre           | Descripción                                     |  Versión
+-----------      | ----------------------------------------------- | --------
+funciones.pseudo | Métodos de las clases.                          | 1.0.0
+es.pseudo        | Sistemas de E/S.                                | 1.0.0
+dinamico.pseudo  | Sistema de carga dinamica.                      | 1.1.0
+errores.pseudo   | Manejo de errores por "valores magicos".        | 1.0.0
 
 Esta versión de BEPD fue diseñada para usarse con PseudoD 1.9, preferiblemente
-con la versión más reciente.
-
-http://www.pseudod.sourceforge.net/referencia.html
+con la versión más reciente.(u1.9.5)
 
 Esta version de BEPD esta incompleta, aún faltan los archivos tipos.pseudo y
 algor.pseudo junto con faltas a mate.pseudo.

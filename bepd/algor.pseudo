@@ -9,6 +9,10 @@
 *****************************************
 ****************************************************************************** ]
 
+utilizar inic.pseudo
+utilizar clases.pseudo
+utilizar mate.pseudo
+
 [
 instacia Iterador iter
 instancia ArrayDinamico arr

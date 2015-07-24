@@ -9,6 +9,10 @@ Para extender el lenguaje, ya sea por el NEA, o por agregados dinámicos, existe
 
 PseudoD intenta romper los lazos de la programación con el idioma en general.
 
+###### BEPD
+
+La **B**iblioteca **E**standar de **P**seudo**D**, o **BEPD** se encuentra junto a al código de PseudoD en la carpeta `bepd` y este contiene 7 archivos, cuya definición detallada esta en `bepd/LEEME.txt`.
+
 ##### El Interprete
 ###### Uso
 <code>**PseudoD** *archivo* *ruta de BEPD* *ruta de libpseudod.so*</code>

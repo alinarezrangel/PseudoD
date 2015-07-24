@@ -9,6 +9,9 @@
 *****************************************
 ****************************************************************************** ]
 
+utilizar inic.pseudo
+utilizar clases.pseudo
+
 [DOCUMENTA
 @brief Un objeto que sirve de buffer para operaciones E/S.
 DOCUMENTA]

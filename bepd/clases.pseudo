@@ -10,6 +10,8 @@
 *****************************************
 ****************************************************************************** ]
 
+utilizar inic.pseudo
+
 [DOCUMENTA
 @brief Representa informacion sobre el programa.
 Es utilizado por plug-ins para obtener distintos datos.
