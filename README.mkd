@@ -58,60 +58,57 @@ Modifique el archivo `ipdc`:
 
 ###### Ejemplos de código
 
-Hola Mundo:
-<code>
-adquirir mensaje<br/>
-fijar mensaje =* ¡Hola Mundo!<br/>
-escribir mensaje<br/>
-nl<br/>
-</code>
+Hola Mundo!:
+```
+adquirir mensaje
+fijar mensaje =* Hola Mundo!
+escribir mensaje
+nl
+```
 
-Hola X
-<code>
-adquirir mensaje<br/>
-adquirir nombre<br/>
-fijar mensaje =* Ingrese su nombre:<br/>
-escribir mensaje<br/>
-leer nombre<br/>
-fijar mensaje =* ¡Hola<br/>
-escribir mensaje<br/>
-escribir_esp<br/>
-escribir nombre<br/>
-fijar mensaje =* !<br/>
-escribir mensaje<br/>
-nl<br/>
-</code>
+Adios Mundo!:
+```
+adquirir mensaje
+fijar mensaje =* Hola Mundo!
+escribir mensaje
+nl
+fijar mensaje =* Adios Mundo!
+escribir mensaje
+nl
+```
 
 Funciones:
-<code>
-funcion foo<br/>
-	adquirir msg<br/>
-	fijar msg =* Hola desde foo<br/>
-	escribir msg<br/>
-	nl<br/>
-	liberar msg<br/>
-finfun<br/>
-<br/>
-llamar foo #(Final).<br/>
-</code>
+```
+funcion foo
+    adquirir mensaje
+    fijar mensaje =* Se llamo a foo
+    escribir mensaje
+    nl
+    liberar mensaje
+finfun
 
-Clases:
-<code>
-clase Foo<br/>
-	:bar<br/>
-\#(Final).<br/>
-<br/>
-funcion Foo\#bar<br/>
-	adquirir msg<br/>
-	fijar msg =* Hola desde Foo, y desde el metodo bar<br/>
-	escribir msg<br/>
-	nl<br/>
-	liberar msg<br/>
-finfun<br/>
-<br/>
-instancia Foo ins<br/>
-llamar ins\#bar \#(Final).<br/>
-</code>
+llamar foo #(Final).
+```
+
+Clases y herencia:
+```
+clase foo
+    attr_a
+    :bar
+#(Final).
+heredar Objeto foo
+
+funcion foo#bar
+    adquirir foo_metod_b_msg
+    fijar foo_metod_b_msg =* Hola desde foo#bar
+    escribir foo_metod_b_msg
+    nl
+    liberar foo_metod_b_msg
+finfun
+
+instancia foo MFoo
+llamar MFoo#bar #(Final).
+```
 
 PseudoD fue creado por Alejandro Linarez Rangel, la pagina oficial es [PseudoD.com](www.pseudod.com) y [PseudoD.sourceforge.net](www.sourceforge.net/projects/pseudod/), alli estan los foros, la wiki y el blog de PseudoD.
 
