@@ -16,8 +16,8 @@ COMP =
 INTE = -DINTERACTIVO=1
 
 PseudoD:	libpseudod.so Data.o Main.cpp
-	$(CC) -std=c++11 $(INTE) Main.cpp $(LIBS) Data.o -o PseudoD
-	$(CC) -std=c++11 Main.cpp $(LIBS) Data.o -o ipd
+	$(CC) -std=c++11 $(INTE) Main.cpp $(LIBS) Data.o -o ipd
+	$(CC) -std=c++11 Main.cpp $(LIBS) Data.o -o PseudoD
 
 libpseudod.so:	pseudod.cpp pseudod.hh Data.o
 	$(CC) $(CFLAGS) $(SHARED) -std=c++11 $(INTE) pseudod.cpp $(LIBS) Data.o -o libpseudod.so
