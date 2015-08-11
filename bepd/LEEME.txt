@@ -20,13 +20,13 @@ PAG. ANCHO 80 caracteres
  
  Esta es la lista de clases:
  	
- 	* inic.pseudo: inicializadores del sistema
- 	* clases.pseudo: Jerarquía de clases, métodos y atributos.
- 	* entsal.pseudo: Funciones entrada/salida
- 	* mate.pseudo: Funciones matemáticas
- 	* tipos.pseudo: funciones mixtas 1
- 	* algor.pseudo: funciones mixtas 2
- 	* plugins.pseudo: Carga de plugins.
+ 	* inic.pseudo: inicializadores del sistema(ESP,NULO,...)
+ 	* clases.pseudo: Jerarquía de clases, métodos y atributos.(Numero,Decimal,Fraccion,...)
+ 	* entsal.pseudo: Funciones entrada/salida(EscribirEnBuffer,Leer,...)
+ 	* mate.pseudo: Funciones matemáticas(Redondear,RadianesAGrados,...)
+ 	* tipos.pseudo: funciones mixtas 1(punteros,clases dinamicas,attr. dins.,...)
+ 	* algor.pseudo: funciones mixtas 2(pilas,listas,arreglos,nodos,arboles,iteradores,colas,...)
+ 	* plugins.pseudo: Carga de plugins.(BibliotecaDinamica)
 
 La Biblioteca Estandar de PseudoD(BEPD) es una colección de archivos y
 directorios destinados a ser utilizados por cualquier programador de PseudoD.
@@ -43,11 +43,10 @@ clases.pseudo | Declara la jerarquía de clases.                   | 1.4.0
 entsal.pseudo | Funciones de E/S, y E/S en buffer.                | 1.0.0
 mate.pseudo   | Funciones matemáticas avanzadas y basicas.        | 1.0.0 *1
 tipos.pseudo  | Funciones mixtas modificadoras.                   | 1.0.0
-algor.pseudo  | Algoritmos basicos y avanzados.                   | 1.0.0 *2
+algor.pseudo  | Algoritmos basicos y avanzados.                   | 2.0.0
 plugins.pseudo| Sistema de carga de plug-ins.                     | 1.4.0
   *1: mate.pseudo esta en una version incompleta, faltan las funciones seno,
 	coseno y tangente.
-  *2: algor.pseudo esta en una version incompleta.
 
 Archivos obsoletos:
 
@@ -61,5 +60,4 @@ errores.pseudo   | Manejo de errores por "valores magicos".        | 1.0.0
 Esta versión de BEPD fue diseñada para usarse con PseudoD 1.9, preferiblemente
 con la versión más reciente.(u1.9.5)
 
-Esta version de BEPD esta incompleta, aún faltan los archivos tipos.pseudo y
-algor.pseudo junto con faltas a mate.pseudo.
+Esta version de BEPD esta incompleta.

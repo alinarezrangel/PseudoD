@@ -72,7 +72,7 @@ adquirir CINCO [ Para x/5 ]
 Es la version de PseudoD actualmente estandar.
 DOCUMENTA]
 adquirir PSEUDOD [ version de PseudoD ]
-	operador PSEUDOD =* u1.9.3
+	operador PSEUDOD =* u1.9.5
 [DOCUMENTA
 @brief Ruta donde PseudoD busca los archivos de BEPD.
 Es mutable, si se cambia PseudoD buscara las bibliotecas en el lugar

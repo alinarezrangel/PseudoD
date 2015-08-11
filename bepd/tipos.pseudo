@@ -1,0 +1,41 @@
+[ ******************************************************************************
+*****************************************
+*********
+** tipos.pseudo: Algoritmos de utilidad.
+** PseudoD fue creado por Alejandro Linarez Rangel
+** tipos.pseudo fue creado por Alejandro Linarez Rangel
+** Puede copiar, redistribuir y modificar este archivo con permiso de
+** <proyectopseudod@gmail.com>.
+*****************************************
+****************************************************************************** ]
+
+utilizar inic.pseudo
+
+adquirir __pseudod_ReservarDatos_i__
+fijar __pseudod_ReservarDatos_i__ =* -9223372036854775808
+
+[DOCUMENTA
+@brief Reserva datos de forma dinamica.
+Cuando el nombre de un dato no importa (por ejemplo, en arreglos dinamicos)
+se puede solicitar un dato, que se puede manipular por punteros. Es similar
+a new tipoData en C++ y calloc(1,tipoData) en C.
+@arg tipoData Tipo del dato.
+@dev data Referencia al bloque dinamico.
+DOCUMENTA]
+funcion ReservarDato [ tipoData -> ref data ]
+	adquirir __RESEVAR_DATOS__TIPO_DATA__
+	adquirir __RESEVAR_DATOS__BUFFER__
+	recibir_parametro __RESEVAR_DATOS__TIPO_DATA__
+	fijar __RESEVAR_DATOS__BUFFER__ =* instancia 
+	Importar.Cad.Concatenar __RESEVAR_DATOS__BUFFER__ __RESEVAR_DATOS__TIPO_DATA__ __RESEVAR_DATOS__TIPO_DATA__
+	Importar.Cad.Concatenar __RESEVAR_DATOS__TIPO_DATA__ ESP __RESEVAR_DATOS__TIPO_DATA__
+	Importar.Cad.Concatenar __RESEVAR_DATOS__TIPO_DATA__ __pseudod_ReservarDatos_i__ __RESEVAR_DATOS__TIPO_DATA__
+	ejecutar __RESEVAR_DATOS__TIPO_DATA__
+	fijar __RESEVAR_DATOS__TIPO_DATA__ =¿? __pseudod_ReservarDatos_i__
+	Importar.Ent.Sumar __pseudod_ReservarDatos_i__ UNO __pseudod_ReservarDatos_i__
+	devolver __RESEVAR_DATOS__TIPO_DATA__
+	liberar __RESEVAR_DATOS__BUFFER__
+	liberar __RESEVAR_DATOS__TIPO_DATA__
+finfun
+
+

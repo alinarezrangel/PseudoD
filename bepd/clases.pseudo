@@ -194,7 +194,7 @@ funcion Fraccion#restar [ Yo, Tu ]
 	adquirir __REF_TU__
 	adquirir __REF_RES__
 	adquirir __BUFFER_A__
-	adquirir __BUFFER_B__f
+	adquirir __BUFFER_B__
 	adquirir __BUFFER_RA__
 	[ TODO: identico a Fraccion#sumar., solo que resta en una parte ]
 	adquirir __BUFFER_RB__
