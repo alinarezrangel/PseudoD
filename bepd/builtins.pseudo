@@ -117,6 +117,12 @@ DOCUMENTA]
 clase PunteroInteligente
 	;direccion
 	:apuntar
+	:obtenerAttrStr
+	:obtenerAttr
+	:fijarAttr
+	:redireccionarAttr
+	:llamarMet
+	:obtenerValor
 #(Final).
 heredar Objeto PunteroInteligente
 

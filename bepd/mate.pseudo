@@ -135,3 +135,13 @@ funcion Radianes_A_Grados
 	liberar __RADIANES__
 	liberar __DIVIDE__
 finfun
+
+[DOCUMENTA
+@brief Calcula el seno de un angulo.
+@arg ang Angulo.
+@dev Decimal resultado del seno.
+DOCUMENTA]
+funcion Seno [ ang ]
+	[ sin(x) = -(-((x^i)/(i!))+((x^I)/(I!))) ]
+	adquirir 
+finfun

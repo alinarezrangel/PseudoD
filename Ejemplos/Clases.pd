@@ -1,0 +1,34 @@
+[ ***************************************************
+**************
+** Clases.pd: Ejemplos de PseudoD.
+** Creador: Alejandro Linarez Rangel
+** Declara y utiliza una clase.
+** Serie de ejemplos de PseudoD.
+** Contacto a <proyectopseudod@gmail.com> y a los
+** foros de discución en
+**    <https://sourceforge.net/p/pseudod/discussion/?source=navbar>
+**************
+*************************************************** ]
+utilizar inic.pseudo
+utilizar clases.pseudo
+utilizar tipos.pseudo
+
+[ Igual al struct div_t de C, pero con la siguiente estructura:
+Un atributo res(Resto).
+Un atributo coc(cociente).
+Un metodo div(Divide)
+de esta forma se declara como:
+]
+clase Div
+	res
+	coc
+	:div
+#(Final).
+heredar Objeto Div [ Objeto <- Div ]
+
+funcion Div#div [ Declaramos el metodo div de Div ]
+	[ Los parametros en PseudoD se reciben con recibir_parametro en el
+	orden en que se pasaron ]
+	[ TODO el primer parametro es siempre la referencia a el valor this ]
+	
+finfun
