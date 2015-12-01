@@ -30,14 +30,10 @@ heredar Objeto Programa
 Esta instancia es la que representa el programa.
 DOCUMENTA]
 instancia Programa yo
-operador yo#Nombre =¿? __MAIN__
-operador yo#Main =¿? __MAIN__
-operador yo#DirLib =¿? __LIB__
+fijar yo#Nombre =¿? __MAIN__
+fijar yo#Main =¿? __MAIN__
+fijar yo#DirLib =¿? __LIB__
 redireccionar yo#BEPD yo#DirLib
-
-[DOCUMENTA
-@brief 
-DOCUMENTA]
 
 [DOCUMENTA
 @brief Representa un numero en el conjunto Q, en forma de fraccion.
@@ -60,9 +56,9 @@ heredar Objeto Fraccion
 @brief Suma dos fracciones.
 Aplica la forma de a/b + c/d = (ad + bc)/bd.
 Almacena el resultado en el argumento Yo.
-@arg Yo primer elemento, debe ser una <a href="ref_referencias.html">referencia</a>.
-@arg Tu segundo elemento, debe ser una <a href="ref_referencias.html">referencia</a>.
-@arg res tercer argumento, una <a href="ref_referencias.html">referencia</a> a donde se guardara el resultado.
+@arg Yo primer elemento, debe ser una referencia comun.
+@arg Tu segundo elemento, debe ser una referencia comun.
+@arg res tercer argumento, una referencia comun a donde se guardara el resultado.
 DOCUMENTA]
 funcion Fraccion#sumar [ Yo, Tu ]
 	adquirir __REF_YO__
@@ -73,19 +69,19 @@ funcion Fraccion#sumar [ Yo, Tu ]
 	adquirir __BUFFER_RA__
 	adquirir __BUFFER_RB__
 	adquirir __BUFFER_RC__
-	sacar __REF_YO__ [ sacamos las referencias ]
-	sacar __REF_TU__
-	sacar __REF_RES__
+	recibir_parametro __REF_YO__ [ sacamos las referencias ]
+	recibir_parametro __REF_TU__
+	recibir_parametro __REF_RES__
 	empujar __REF_TU__ [ guardamos las referencias YO y TU para usos posteriores ]
 	empujar __REF_YO__
 	[ fijamos los buffers a los atributos que queremos obtener ]
-	operador __BUFFER_A__ =* #numerador
-	operador __BUFFER_B__ =* #denominador
+	fijar __BUFFER_A__ =* #numerador
+	fijar __BUFFER_B__ =* #denominador
 	Importar.Cad.Concatenar __REF_YO__ __BUFFER_A__ __REF_YO__
 	[ al concatenar la referencia con el atributo, lo podemos fijar y obtener ]
 	Importar.Cad.Concatenar __REF_TU__ __BUFFER_B__ __REF_TU__
 	[ Fijamos otro buffer a la accion a realizar con las referencias ]
-	operador __BUFFER_A__ =* Importar.Ent.Multiplicar
+	fijar __BUFFER_A__ =* Importar.Ent.Multiplicar
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
 	[ Ya le concatenamos un espacio, al concatenar la referencia, (su atributo)
 	podemos fijarla ]
@@ -104,12 +100,12 @@ funcion Fraccion#sumar [ Yo, Tu ]
 	empujar __REF_TU__ [ las volvemos a guardar ]
 	empujar __REF_YO__
 	[ accedemos a los atributos ]
-	operador __BUFFER_A__ =* #denominador
-	operador __BUFFER_B__ =* #numerador
+	fijar __BUFFER_A__ =* #denominador
+	fijar __BUFFER_B__ =* #numerador
 	Importar.Cad.Concatenar __REF_YO__ __BUFFER_A__ __REF_YO__
 	Importar.Cad.Concatenar __REF_TU__ __BUFFER_B__ __REF_TU__
 	[ Tambien multiplicamos ]
-	operador __BUFFER_A__ =* Importar.Ent.Multiplicar
+	fijar __BUFFER_A__ =* Importar.Ent.Multiplicar
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ __REF_YO__ __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
@@ -124,12 +120,12 @@ funcion Fraccion#sumar [ Yo, Tu ]
 	empujar __REF_TU__ [ guardamos las referencias para el ultimo paso ]
 	empujar __REF_YO__
 	[ accedemos a los atributos ]
-	operador __BUFFER_A__ =* #denominador
-	operador __BUFFER_B__ =* #denominador
+	fijar __BUFFER_A__ =* #denominador
+	fijar __BUFFER_B__ =* #denominador
 	Importar.Cad.Concatenar __REF_YO__ __BUFFER_A__ __REF_YO__
 	Importar.Cad.Concatenar __REF_TU__ __BUFFER_B__ __REF_TU__
 	[ Multiplicamos ]
-	operador __BUFFER_A__ =* Importar.Ent.Multiplicar
+	fijar __BUFFER_A__ =* Importar.Ent.Multiplicar
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ __REF_YO__ __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
@@ -144,28 +140,28 @@ funcion Fraccion#sumar [ Yo, Tu ]
 	sacar __REF_YO__
 	sacar __REF_TU__ [ sacamos las referencias para el ultimo paso ]
 	[ Ahora vamos a fijar los valores a __REF_RES__ ]
-	operador __BUFFER_A__ =* operador
-	operador __BUFFER_B__ =* #numerador
+	fijar __BUFFER_A__ =* fijar
+	fijar __BUFFER_B__ =* #numerador
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ __REF_RES__ __BUFFER_A__
 	[ Primero el numerador ]
 	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
 	[ lo fijamos a... ]
-	operador __BUFFER_B__ =* =¿?
+	fijar __BUFFER_B__ =* =¿?
 	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
 	[ La suma de ad y bc ]
 	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_RA__#NOMBRE __BUFFER_A__
 	ejecutar __BUFFER_A__ [ ejecutamos ]
 	[ Ahora fijaremos el denominador a bd ]
-	operador __BUFFER_A__ =* operador
-	operador __BUFFER_B__ =* #denominador
+	fijar __BUFFER_A__ =* fijar
+	fijar __BUFFER_B__ =* #denominador
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ __REF_RES__ __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	operador __BUFFER_B__ =* =¿?
+	fijar __BUFFER_B__ =* =¿?
 	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
 	[ recordar que __BUFFER_RC__ es el resultado de multiplicar bd ]
@@ -185,9 +181,9 @@ finfun
 @brief Resta dos fracciones.
 Aplica la forma de a/b - c/d = (ad - bc)/bd.
 Almacena el resultado en el argumento Yo.
-@arg Yo primer elemento, debe ser una <a href="ref_referencias.html">referencia</a>.
-@arg Tu segundo elemento, debe ser una <a href="ref_referencias.html">referencia</a>.
-@arg res tercer argumento, una <a href="ref_referencias.html">referencia</a> a donde se guardara el resultado.
+@arg Yo primer elemento, debe ser una referencia.
+@arg Tu segundo elemento, debe ser una referencia.
+@arg res tercer argumento, una referencia a donde se guardara el resultado.
 DOCUMENTA]
 funcion Fraccion#restar [ Yo, Tu ]
 	adquirir __REF_YO__
@@ -199,16 +195,16 @@ funcion Fraccion#restar [ Yo, Tu ]
 	[ TODO: identico a Fraccion#sumar., solo que resta en una parte ]
 	adquirir __BUFFER_RB__
 	adquirir __BUFFER_RC__
-	sacar __REF_YO__
-	sacar __REF_TU__
-	sacar __REF_RES__
+	recibir_parametro __REF_YO__
+	recibir_parametro __REF_TU__
+	recibir_parametro __REF_RES__
 	empujar __REF_TU__
 	empujar __REF_YO__
-	operador __BUFFER_A__ =* #numerador
-	operador __BUFFER_B__ =* #denominador
+	fijar __BUFFER_A__ =* #numerador
+	fijar __BUFFER_B__ =* #denominador
 	Importar.Cad.Concatenar __REF_YO__ __BUFFER_A__ __REF_YO__
 	Importar.Cad.Concatenar __REF_TU__ __BUFFER_B__ __REF_TU__
-	operador __BUFFER_A__ =* Importar.Ent.Multiplicar
+	fijar __BUFFER_A__ =* Importar.Ent.Multiplicar
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ __REF_YO__ __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
@@ -220,11 +216,11 @@ funcion Fraccion#restar [ Yo, Tu ]
 	sacar __REF_TU__
 	empujar __REF_TU__
 	empujar __REF_YO__
-	operador __BUFFER_A__ =* #denominador
-	operador __BUFFER_B__ =* #numerador
+	fijar __BUFFER_A__ =* #denominador
+	fijar __BUFFER_B__ =* #numerador
 	Importar.Cad.Concatenar __REF_YO__ __BUFFER_A__ __REF_YO__
 	Importar.Cad.Concatenar __REF_TU__ __BUFFER_B__ __REF_TU__
-	operador __BUFFER_A__ =* Importar.Ent.Multiplicar
+	fijar __BUFFER_A__ =* Importar.Ent.Multiplicar
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ __REF_YO__ __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
@@ -236,11 +232,11 @@ funcion Fraccion#restar [ Yo, Tu ]
 	sacar __REF_TU__
 	empujar __REF_TU__
 	empujar __REF_YO__
-	operador __BUFFER_A__ =* #denominador
-	operador __BUFFER_B__ =* #denominador
+	fijar __BUFFER_A__ =* #denominador
+	fijar __BUFFER_B__ =* #denominador
 	Importar.Cad.Concatenar __REF_YO__ __BUFFER_A__ __REF_YO__
 	Importar.Cad.Concatenar __REF_TU__ __BUFFER_B__ __REF_TU__
-	operador __BUFFER_A__ =* Importar.Ent.Multiplicar
+	fijar __BUFFER_A__ =* Importar.Ent.Multiplicar
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ __REF_YO__ __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
@@ -252,24 +248,24 @@ funcion Fraccion#restar [ Yo, Tu ]
 	Importar.Ent.Restar __BUFFER_RA__ __BUFFER_RB__ __BUFFER_RA__
 	sacar __REF_YO__
 	sacar __REF_TU__
-	operador __BUFFER_A__ =* operador
-	operador __BUFFER_B__ =* #numerador
+	fijar __BUFFER_A__ =* fijar
+	fijar __BUFFER_B__ =* #numerador
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ __REF_RES__ __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	operador __BUFFER_B__ =* =¿?
+	fijar __BUFFER_B__ =* =¿?
 	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_RA__#NOMBRE __BUFFER_A__
 	ejecutar __BUFFER_A__
-	operador __BUFFER_A__ =* operador
-	operador __BUFFER_B__ =* #denominador
+	fijar __BUFFER_A__ =* fijar
+	fijar __BUFFER_B__ =* #denominador
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ __REF_RES__ __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	operador __BUFFER_B__ =* =¿?
+	fijar __BUFFER_B__ =* =¿?
 	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_RC__#NOMBRE __BUFFER_A__
@@ -288,9 +284,9 @@ finfun
 @brief Multiplica dos fracciones.
 Aplica la forma de a/b * c/d = ac/bd.
 Almacena el resultado en el argumento Yo.
-@arg Yo primer elemento, debe ser una <a href="ref_referencias.html">referencia</a>.
-@arg Tu segundo elemento, debe ser una <a href="ref_referencias.html">referencia</a>.
-@arg res tercer argumento, una <a href="ref_referencias.html">referencia</a> a donde se guardara el resultado.
+@arg Yo primer elemento, debe ser una referencia.
+@arg Tu segundo elemento, debe ser una referencia.
+@arg res tercer argumento, una referencia a donde se guardara el resultado.
 DOCUMENTA]
 funcion Fraccion#multiplicar [ Yo, Tu ]
 	adquirir __REF_YO__
@@ -301,19 +297,19 @@ funcion Fraccion#multiplicar [ Yo, Tu ]
 	adquirir __BUFFER_RA__
 	adquirir __BUFFER_RB__
 	adquirir __BUFFER_RC__
-	sacar __REF_YO__
-	sacar __REF_TU__ [ sacamos las referencias ]
-	sacar __REF_RES__
+	recibir_parametro __REF_YO__
+	recibir_parametro __REF_TU__ [ sacamos las referencias ]
+	recibir_parametro __REF_RES__
 	empujar __REF_TU__ [ las guardamos para otras acciones ]
 	empujar __REF_YO__
 	[ Como vamos a multiplicar numerador por numerador,
 	  accedemos a esos atributos ]
-	operador __BUFFER_A__ =* #numerador
-	operador __BUFFER_B__ =* #numerador
+	fijar __BUFFER_A__ =* #numerador
+	fijar __BUFFER_B__ =* #numerador
 	Importar.Cad.Concatenar __REF_YO__ __BUFFER_A__ __REF_YO__
 	Importar.Cad.Concatenar __REF_TU__ __BUFFER_B__ __REF_TU__
 	[ Vamos a multiplicar ]
-	operador __BUFFER_A__ =* Importar.Ent.Multiplicar
+	fijar __BUFFER_A__ =* Importar.Ent.Multiplicar
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ __REF_YO__ __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
@@ -327,11 +323,11 @@ funcion Fraccion#multiplicar [ Yo, Tu ]
 	empujar __REF_TU__ [ y las guardamos ]
 	empujar __REF_YO__
 	[ multiplicamos denominador por denominador ]
-	operador __BUFFER_A__ =* #denominador
-	operador __BUFFER_B__ =* #denominador
+	fijar __BUFFER_A__ =* #denominador
+	fijar __BUFFER_B__ =* #denominador
 	Importar.Cad.Concatenar __REF_YO__ __BUFFER_A__ __REF_YO__
 	Importar.Cad.Concatenar __REF_TU__ __BUFFER_B__ __REF_TU__
-	operador __BUFFER_A__ =* Importar.Ent.Multiplicar
+	fijar __BUFFER_A__ =* Importar.Ent.Multiplicar
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ __REF_YO__ __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
@@ -343,26 +339,26 @@ funcion Fraccion#multiplicar [ Yo, Tu ]
 	sacar __REF_YO__ [ sacamos las referencias ]
 	sacar __REF_TU__
 	[ fijamos el resultado ]
-	operador __BUFFER_A__ =* operador
-	operador __BUFFER_B__ =* #numerador
+	fijar __BUFFER_A__ =* fijar
+	fijar __BUFFER_B__ =* #numerador
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ __REF_RES__ __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
 	[ primero el numerador ]
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	operador __BUFFER_B__ =* =¿?
+	fijar __BUFFER_B__ =* =¿?
 	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_RA__#NOMBRE __BUFFER_A__
 	ejecutar __BUFFER_A__ [ ejecutamos ]
-	operador __BUFFER_A__ =* operador
-	operador __BUFFER_B__ =* #denominador
+	fijar __BUFFER_A__ =* fijar
+	fijar __BUFFER_B__ =* #denominador
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ __REF_RES__ __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
 	[ Despues el denominador ]
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	operador __BUFFER_B__ =* =¿?
+	fijar __BUFFER_B__ =* =¿?
 	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_RB__#NOMBRE __BUFFER_A__
@@ -381,9 +377,9 @@ finfun
 @brief Divide dos fracciones.
 Aplica la forma de a/b * c/d = ad/bc.
 Almacena el resultado en el argumento Yo.
-@arg Yo primer elemento, debe ser una <a href="ref_referencias.html">referencia</a>.
-@arg Tu segundo elemento, debe ser una <a href="ref_referencias.html">referencia</a>.
-@arg res tercer argumento, una <a href="ref_referencias.html">referencia</a> a donde se guardara el resultado.
+@arg Yo primer elemento, debe ser una referencia.
+@arg Tu segundo elemento, debe ser una referencia.
+@arg res tercer argumento, una referencia a donde se guardara el resultado.
 DOCUMENTA]
 funcion Fraccion#dividir [ Yo, Tu ]
 	adquirir __REF_YO__
@@ -394,16 +390,16 @@ funcion Fraccion#dividir [ Yo, Tu ]
 	adquirir __BUFFER_RA__
 	adquirir __BUFFER_RB__
 	adquirir __BUFFER_RC__
-	sacar __REF_YO__
-	sacar __REF_TU__
-	sacar __REF_RES__
+	recibir_parametro __REF_YO__
+	recibir_parametro __REF_TU__
+	recibir_parametro __REF_RES__
 	empujar __REF_TU__
 	empujar __REF_YO__ [ como Fraccion#multiplicar. solo que multiplicamos en X ]
-	operador __BUFFER_A__ =* #numerador
-	operador __BUFFER_B__ =* #denominador
+	fijar __BUFFER_A__ =* #numerador
+	fijar __BUFFER_B__ =* #denominador
 	Importar.Cad.Concatenar __REF_YO__ __BUFFER_A__ __REF_YO__
 	Importar.Cad.Concatenar __REF_TU__ __BUFFER_B__ __REF_TU__
-	operador __BUFFER_A__ =* Importar.Ent.Multiplicar
+	fijar __BUFFER_A__ =* Importar.Ent.Multiplicar
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ __REF_YO__ __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
@@ -415,11 +411,11 @@ funcion Fraccion#dividir [ Yo, Tu ]
 	sacar __REF_TU__
 	empujar __REF_TU__
 	empujar __REF_YO__
-	operador __BUFFER_A__ =* #denominador
-	operador __BUFFER_B__ =* #numerador
+	fijar __BUFFER_A__ =* #denominador
+	fijar __BUFFER_B__ =* #numerador
 	Importar.Cad.Concatenar __REF_YO__ __BUFFER_A__ __REF_YO__
 	Importar.Cad.Concatenar __REF_TU__ __BUFFER_B__ __REF_TU__
-	operador __BUFFER_A__ =* Importar.Ent.Multiplicar
+	fijar __BUFFER_A__ =* Importar.Ent.Multiplicar
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ __REF_YO__ __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
@@ -429,24 +425,24 @@ funcion Fraccion#dividir [ Yo, Tu ]
 	ejecutar __BUFFER_A__
 	sacar __REF_YO__
 	sacar __REF_TU__
-	operador __BUFFER_A__ =* operador
-	operador __BUFFER_B__ =* #numerador
+	fijar __BUFFER_A__ =* fijar
+	fijar __BUFFER_B__ =* #numerador
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ __REF_RES__ __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	operador __BUFFER_B__ =* =¿?
+	fijar __BUFFER_B__ =* =¿?
 	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_RA__#NOMBRE __BUFFER_A__
 	ejecutar __BUFFER_A__
-	operador __BUFFER_A__ =* operador
-	operador __BUFFER_B__ =* #denominador
+	fijar __BUFFER_A__ =* fijar
+	fijar __BUFFER_B__ =* #denominador
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ __REF_RES__ __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	operador __BUFFER_B__ =* =¿?
+	fijar __BUFFER_B__ =* =¿?
 	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_RB__#NOMBRE __BUFFER_A__
@@ -465,7 +461,7 @@ finfun
 @brief Representa un valor de Boole.
 Esta clase puede tener dos valores, verdadero y falso.
 No hay atributos donde almacenar los valores, se acceden cual si
-fueran <a href="ref_builtins.html#PseudoVariable">PseudoVariables</a>.
+fueran PseudoVariables.
 DOCUMENTA]
 clase Boole
 	:Y
@@ -478,8 +474,8 @@ heredar Objeto Boole
 [DOCUMENTA
 @brief Operacion Y entre dos valores de Boole.
 Devuelve verdadero si a y b son verdadero.
-@arg Yo <a href="ref_referencias.html">Referencia</a> al valor numero 1 a comparar.
-@arg b <a href="ref_referencias.html">Referencia</a> al valor numero 2 a comparar.
+@arg Yo Referencia comun al valor numero 1 a comparar.
+@arg b Referencia comun al valor numero 2 a comparar.
 @dev Verdadero o Falso.
 DOCUMENTA]
 funcion Boole#Y
@@ -489,11 +485,11 @@ funcion Boole#Y
 	adquirir __BUFFER_B__
 	adquirir __BUFFER_C__
 	adquirir __VALOR__
-	operador __VALOR__ =¿? FALSO
-	sacar __VAL_YO__
-	sacar __VAL_TU__
-	operador __BUFFER_A__ =* operador
-	operador __BUFFER_B__ =* =¿?
+	fijar __VALOR__ =¿? FALSO
+	recibir_parametro __VAL_YO__
+	recibir_parametro __VAL_TU__
+	fijar __BUFFER_A__ =* fijar
+	fijar __BUFFER_B__ =* =¿?
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__#NOMBRE __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
@@ -501,8 +497,8 @@ funcion Boole#Y
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ __VAL_YO__ __BUFFER_A__
 	ejecutar __BUFFER_A__
-	operador __BUFFER_A__ =* operador
-	operador __BUFFER_C__ =* =¿?
+	fijar __BUFFER_A__ =* fijar
+	fijar __BUFFER_C__ =* =¿?
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_C__#NOMBRE __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
@@ -512,11 +508,11 @@ funcion Boole#Y
 	ejecutar __BUFFER_A__
 	si __BUFFER_C__
 		si __BUFFER_B__
-			operador __VALOR__ =¿? VERDADERO
+			fijar __VALOR__ =¿? VERDADERO
 		fin
 	fin
 	si_no __BUFFER_C__
-		operador __VALOR__ =¿? FALSO
+		fijar __VALOR__ =¿? FALSO
 	fin
 	empujar __VALOR__
 	liberar __VAL_YO__
@@ -530,8 +526,8 @@ finfun
 [DOCUMENTA
 @brief Operacion O entre dos valores de Boole.
 Devuelve verdadero si a es verdadero, b es verdadero, o ambos son verdadero.
-@arg Yo <a href="ref_referencias.html">Referencia</a> al valor numero 1 a comparar.
-@arg b <a href="ref_referencias.html">Referencia</a> al valor numero 2 a comparar.
+@arg Yo Referencia al valor numero 1 a comparar.
+@arg b Referencia al valor numero 2 a comparar.
 @dev Verdadero o Falso.
 DOCUMENTA]
 funcion Boole#O
@@ -541,11 +537,11 @@ funcion Boole#O
 	adquirir __BUFFER_B__
 	adquirir __BUFFER_C__
 	adquirir __VALOR__
-	operador __VALOR__ =¿? FALSO
-	sacar __VAL_YO__
-	sacar __VAL_TU__
-	operador __BUFFER_A__ =* operador
-	operador __BUFFER_B__ =* =¿?
+	fijar __VALOR__ =¿? FALSO
+	recibir_parametro __VAL_YO__
+	recibir_parametro __VAL_TU__
+	fijar __BUFFER_A__ =* fijar
+	fijar __BUFFER_B__ =* =¿?
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__#NOMBRE __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
@@ -553,8 +549,8 @@ funcion Boole#O
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ __VAL_YO__ __BUFFER_A__
 	ejecutar __BUFFER_A__
-	operador __BUFFER_A__ =* operador
-	operador __BUFFER_C__ =* =¿?
+	fijar __BUFFER_A__ =* fijar
+	fijar __BUFFER_C__ =* =¿?
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_C__#NOMBRE __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
@@ -563,10 +559,10 @@ funcion Boole#O
 	Importar.Cad.Concatenar __BUFFER_A__ __VAL_TU__ __BUFFER_A__
 	ejecutar __BUFFER_A__
 	si __BUFFER_C__
-		operador __VALOR__ =¿? VERDADERO
+		fijar __VALOR__ =¿? VERDADERO
 	fin
 	si __BUFFER_B__
-		operador __VALOR__ =¿? VERDADERO
+		fijar __VALOR__ =¿? VERDADERO
 	fin
 	empujar __VALOR__
 	liberar __VAL_YO__
@@ -580,8 +576,8 @@ finfun
 [DOCUMENTA
 @brief Operacion O-EXCLUSIVO entre dos valores de Boole.
 Devuelve verdadero si a y b son distintos.
-@arg Yo <a href="ref_referencias.html">Referencia</a> al valor numero 1 a comparar.
-@arg b <a href="ref_referencias.html">Referencia</a> al valor numero 2 a comparar.
+@arg Yo Referencia al valor numero 1 a comparar.
+@arg b Referencia al valor numero 2 a comparar.
 @dev Verdadero o Falso.
 DOCUMENTA]
 funcion Boole#O-EXCLUSIVO
@@ -591,11 +587,11 @@ funcion Boole#O-EXCLUSIVO
 	adquirir __BUFFER_B__
 	adquirir __BUFFER_C__
 	adquirir __VALOR__
-	operador __VALOR__ =¿? FALSO
-	sacar __VAL_YO__
-	sacar __VAL_TU__
-	operador __BUFFER_A__ =* operador
-	operador __BUFFER_B__ =* =¿?
+	fijar __VALOR__ =¿? FALSO
+	recibir_parametro __VAL_YO__
+	recibir_parametro __VAL_TU__
+	fijar __BUFFER_A__ =* fijar
+	fijar __BUFFER_B__ =* =¿?
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__#NOMBRE __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
@@ -603,8 +599,8 @@ funcion Boole#O-EXCLUSIVO
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ __VAL_YO__ __BUFFER_A__
 	ejecutar __BUFFER_A__
-	operador __BUFFER_A__ =* operador
-	operador __BUFFER_C__ =* =¿?
+	fijar __BUFFER_A__ =* fijar
+	fijar __BUFFER_C__ =* =¿?
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_C__#NOMBRE __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
@@ -613,10 +609,10 @@ funcion Boole#O-EXCLUSIVO
 	Importar.Cad.Concatenar __BUFFER_A__ __VAL_TU__ __BUFFER_A__
 	ejecutar __BUFFER_A__
 	si ¿son_iguales? __BUFFER_B__ __BUFFER_C__
-		operador __VALOR__ =¿? FALSO
+		fijar __VALOR__ =¿? FALSO
 	fin
 	si_no ¿son_iguales? __BUFFER_B__ __BUFFER_C__
-		operador __VALOR__ =¿? VERDADERO
+		fijar __VALOR__ =¿? VERDADERO
 	fin
 	empujar __VALOR__
 	liberar __VAL_YO__
@@ -630,7 +626,7 @@ finfun
 [DOCUMENTA
 @brief Operacion NO de un valor de Boole.
 Devuelve verdadero si a es falso, y falso si a es verdadero.
-@arg Yo <a href="ref_referencias.html">Referencia</a> al valor a negar.
+@arg Yo Referencia al valor a negar.
 @dev Verdadero o Falso.
 DOCUMENTA]
 funcion Boole#NO
@@ -638,10 +634,10 @@ funcion Boole#NO
 	adquirir __BUFFER_A__
 	adquirir __BUFFER_B__
 	adquirir __VALOR__
-	operador __VALOR__ =¿? FALSO
-	sacar __VAL_YO__
-	operador __BUFFER_A__ =* operador
-	operador __BUFFER_B__ =* =¿?
+	fijar __VALOR__ =¿? FALSO
+	recibir_parametro __VAL_YO__
+	fijar __BUFFER_A__ =* fijar
+	fijar __BUFFER_B__ =* =¿?
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__#NOMBRE __BUFFER_A__
 	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
@@ -650,10 +646,10 @@ funcion Boole#NO
 	Importar.Cad.Concatenar __BUFFER_A__ __VAL_YO__ __BUFFER_A__
 	ejecutar __BUFFER_A__
 	si __BUFFER_B__
-		operador __VALOR__ =¿? FALSO
+		fijar __VALOR__ =¿? FALSO
 	fin
 	si_no __BUFFER_B__
-		operador __VALOR__ =¿? VERDADERO
+		fijar __VALOR__ =¿? VERDADERO
 	fin
 	empujar __VALOR__
 	liberar __VAL_YO__
@@ -665,7 +661,7 @@ finfun
 [DOCUMENTA
 @brief Representa un numero en Z.
 Para un numero en Q, se pueden utilizar las clases <a href="ref_clases.html#Fraccion">Fraccion</a>
-y <a href="ref_clases.html#Decimal">Decimal</a>.
+y Decimal.
 El valor se almacena en el campo valor, como en Decimal.
 DOCUMENTA]
 clase Numero
@@ -679,9 +675,9 @@ heredar Objeto Numero
 
 [DOCUMENTA
 @brief Suma dos Numeros.
-@arg Yo <a href="ref_referencias.html">Referencia</a> a el primer numero a sumar.
-@arg b <a href="ref_referencias.html">Referencia</a> a el segundo numero a sumar.
-@arg res <a href="ref_referencias.html">Referencia</a> a donde se almacenara el resultado.
+@arg Yo Referencia a el primer numero a sumar.
+@arg b Referencia a el segundo numero a sumar.
+@arg res Referencia a donde se almacenara el resultado.
 DOCUMENTA]
 funcion Numero#sumar
 	adquirir __REF_YO__
@@ -689,11 +685,11 @@ funcion Numero#sumar
 	adquirir __REF_RES__
 	adquirir __BUFFER_A__
 	adquirir __BUFFER_B__
-	sacar __REF_YO__
-	sacar __REF_TU__
-	sacar __REF_RES__
-	operador __BUFFER_A__ =* #valor 
-	operador __BUFFER_B__ =* Importar.Ent.Sumar 
+	recibir_parametro __REF_YO__
+	recibir_parametro __REF_TU__
+	recibir_parametro __REF_RES__
+	fijar __BUFFER_A__ =* #valor 
+	fijar __BUFFER_B__ =* Importar.Ent.Sumar 
 	Importar.Cad.Concatenar __REF_YO__ __BUFFER_A__ __REF_YO__
 	Importar.Cad.Concatenar __REF_TU__ __BUFFER_A__ __REF_TU__
 	Importar.Cad.Concatenar __REF_RES__ __BUFFER_A__ __REF_RES__
@@ -710,9 +706,9 @@ finfun
 
 [DOCUMENTA
 @brief Resta dos Numeros.
-@arg Yo <a href="ref_referencias.html">Referencia</a> a el primer numero a restar.
-@arg b <a href="ref_referencias.html">Referencia</a> a el segundo numero a restar.
-@arg res <a href="ref_referencias.html">Referencia</a> a donde se almacenara el resultado.
+@arg Yo Referencia a el primer numero a restar.
+@arg b Referencia a el segundo numero a restar.
+@arg res Referencia a donde se almacenara el resultado.
 DOCUMENTA]
 funcion Numero#restar
 	adquirir __REF_YO__
@@ -720,11 +716,11 @@ funcion Numero#restar
 	adquirir __REF_RES__
 	adquirir __BUFFER_A__
 	adquirir __BUFFER_B__
-	sacar __REF_YO__
-	sacar __REF_TU__
-	sacar __REF_RES__
-	operador __BUFFER_A__ =* #valor 
-	operador __BUFFER_B__ =* Importar.Ent.Restar 
+	recibir_parametro __REF_YO__
+	recibir_parametro __REF_TU__
+	recibir_parametro __REF_RES__
+	fijar __BUFFER_A__ =* #valor 
+	fijar __BUFFER_B__ =* Importar.Ent.Restar 
 	Importar.Cad.Concatenar __REF_YO__ __BUFFER_A__ __REF_YO__
 	Importar.Cad.Concatenar __REF_TU__ __BUFFER_A__ __REF_TU__
 	Importar.Cad.Concatenar __REF_RES__ __BUFFER_A__ __REF_RES__
@@ -741,9 +737,9 @@ finfun
 
 [DOCUMENTA
 @brief Multiplica dos Numeros.
-@arg Yo <a href="ref_referencias.html">Referencia</a> a el primer numero a multiplicar.
-@arg b <a href="ref_referencias.html">Referencia</a> a el segundo numero a multiplicar.
-@arg res <a href="ref_referencias.html">Referencia</a> a donde se almacenara el resultado.
+@arg Yo Referencia a el primer numero a multiplicar.
+@arg b Referencia a el segundo numero a multiplicar.
+@arg res Referencia a donde se almacenara el resultado.
 DOCUMENTA]
 funcion Numero#multiplicar
 	adquirir __REF_YO__
@@ -751,11 +747,11 @@ funcion Numero#multiplicar
 	adquirir __REF_RES__
 	adquirir __BUFFER_A__
 	adquirir __BUFFER_B__
-	sacar __REF_YO__
-	sacar __REF_TU__
-	sacar __REF_RES__
-	operador __BUFFER_A__ =* #valor 
-	operador __BUFFER_B__ =* Importar.Ent.Multiplicar 
+	recibir_parametro __REF_YO__
+	recibir_parametro __REF_TU__
+	recibir_parametro __REF_RES__
+	fijar __BUFFER_A__ =* #valor 
+	fijar __BUFFER_B__ =* Importar.Ent.Multiplicar 
 	Importar.Cad.Concatenar __REF_YO__ __BUFFER_A__ __REF_YO__
 	Importar.Cad.Concatenar __REF_TU__ __BUFFER_A__ __REF_TU__
 	Importar.Cad.Concatenar __REF_RES__ __BUFFER_A__ __REF_RES__
@@ -772,9 +768,9 @@ finfun
 
 [DOCUMENTA
 @brief Divide dos Numeros.
-@arg Yo <a href="ref_referencias.html">Referencia</a> a el primer numero a dividir.
-@arg b <a href="ref_referencias.html">Referencia</a> a el segundo numero a dividir.
-@arg res <a href="ref_referencias.html">Referencia</a> a donde se almacenara el resultado.
+@arg Yo Referencia a el primer numero a dividir.
+@arg b Referencia a el segundo numero a dividir.
+@arg res Referencia a donde se almacenara el resultado.
 DOCUMENTA]
 funcion Numero#dividir
 	adquirir __REF_YO__
@@ -782,11 +778,11 @@ funcion Numero#dividir
 	adquirir __REF_RES__
 	adquirir __BUFFER_A__
 	adquirir __BUFFER_B__
-	sacar __REF_YO__
-	sacar __REF_TU__
-	sacar __REF_RES__
-	operador __BUFFER_A__ =* #valor 
-	operador __BUFFER_B__ =* Importar.Ent.Dividir 
+	recibir_parametro __REF_YO__
+	recibir_parametro __REF_TU__
+	recibir_parametro __REF_RES__
+	fijar __BUFFER_A__ =* #valor 
+	fijar __BUFFER_B__ =* Importar.Ent.Dividir 
 	Importar.Cad.Concatenar __REF_YO__ __BUFFER_A__ __REF_YO__
 	Importar.Cad.Concatenar __REF_TU__ __BUFFER_A__ __REF_TU__
 	Importar.Cad.Concatenar __REF_RES__ __BUFFER_A__ __REF_RES__
@@ -804,8 +800,8 @@ finfun
 [DOCUMENTA
 @brief Representa un numero en Q.
 Para numeros en Z, u otra representacion de numeros en Q, se pueden ver:
-<a href="ref_clases.html#Numero">Numero</a> para representaciones en Z.
-<a href="ref_clases.html#Fraccion">Fraccion</a> para representaciones en Q.
+Numero para representaciones en Z.
+Fraccion para representaciones en Q.
 DOCUMENTA]
 clase Decimal
 	valor
@@ -818,9 +814,9 @@ heredar Objeto Decimal
 
 [DOCUMENTA
 @brief Suma dos Numeros Decimales.
-@arg Yo <a href="ref_referencias.html">Referencia</a> a el primer numero a sumar.
-@arg b <a href="ref_referencias.html">Referencia</a> a el segundo numero a sumar.
-@arg res <a href="ref_referencias.html">Referencia</a> a donde se almacenara el resultado.
+@arg Yo Referencia a el primer numero a sumar.
+@arg b Referencia a el segundo numero a sumar.
+@arg res Referencia a donde se almacenara el resultado.
 DOCUMENTA]
 funcion Decimal#sumar
 	adquirir __REF_YO__
@@ -828,11 +824,11 @@ funcion Decimal#sumar
 	adquirir __REF_RES__
 	adquirir __BUFFER_A__
 	adquirir __BUFFER_B__
-	sacar __REF_YO__
-	sacar __REF_TU__
-	sacar __REF_RES__
-	operador __BUFFER_A__ =* #valor 
-	operador __BUFFER_B__ =* Importar.Dec.Sumar 
+	recibir_parametro __REF_YO__
+	recibir_parametro __REF_TU__
+	recibir_parametro __REF_RES__
+	fijar __BUFFER_A__ =* #valor 
+	fijar __BUFFER_B__ =* Importar.Dec.Sumar 
 	Importar.Cad.Concatenar __REF_YO__ __BUFFER_A__ __REF_YO__
 	Importar.Cad.Concatenar __REF_TU__ __BUFFER_A__ __REF_TU__
 	Importar.Cad.Concatenar __REF_RES__ __BUFFER_A__ __REF_RES__
@@ -849,9 +845,9 @@ finfun
 
 [DOCUMENTA
 @brief Resta dos Numeros Decimales.
-@arg Yo <a href="ref_referencias.html">Referencia</a> a el primer numero a restar.
-@arg b <a href="ref_referencias.html">Referencia</a> a el segundo numero a restar.
-@arg res <a href="ref_referencias.html">Referencia</a> a donde se almacenara el resultado.
+@arg Yo Referencia a el primer numero a restar.
+@arg b Referencia a el segundo numero a restar.
+@arg res Referencia a donde se almacenara el resultado.
 DOCUMENTA]
 funcion Decimal#restar
 	adquirir __REF_YO__
@@ -859,11 +855,11 @@ funcion Decimal#restar
 	adquirir __REF_RES__
 	adquirir __BUFFER_A__
 	adquirir __BUFFER_B__
-	sacar __REF_YO__
-	sacar __REF_TU__
-	sacar __REF_RES__
-	operador __BUFFER_A__ =* #valor 
-	operador __BUFFER_B__ =* Importar.Dec.Restar 
+	recibir_parametro __REF_YO__
+	recibir_parametro __REF_TU__
+	recibir_parametro __REF_RES__
+	fijar __BUFFER_A__ =* #valor 
+	fijar __BUFFER_B__ =* Importar.Dec.Restar 
 	Importar.Cad.Concatenar __REF_YO__ __BUFFER_A__ __REF_YO__
 	Importar.Cad.Concatenar __REF_TU__ __BUFFER_A__ __REF_TU__
 	Importar.Cad.Concatenar __REF_RES__ __BUFFER_A__ __REF_RES__
@@ -880,9 +876,9 @@ finfun
 
 [DOCUMENTA
 @brief Multiplica dos Numeros Decimales.
-@arg Yo <a href="ref_referencias.html">Referencia</a> a el primer numero a multiplicar.
-@arg b <a href="ref_referencias.html">Referencia</a> a el segundo numero a multiplicar.
-@arg res <a href="ref_referencias.html">Referencia</a> a donde se almacenara el resultado.
+@arg Yo Referencia a el primer numero a multiplicar.
+@arg b Referencia a el segundo numero a multiplicar.
+@arg res Referencia a donde se almacenara el resultado.
 DOCUMENTA]
 funcion Decimal#multiplicar
 	adquirir __REF_YO__
@@ -890,11 +886,11 @@ funcion Decimal#multiplicar
 	adquirir __REF_RES__
 	adquirir __BUFFER_A__
 	adquirir __BUFFER_B__
-	sacar __REF_YO__
-	sacar __REF_TU__
-	sacar __REF_RES__
-	operador __BUFFER_A__ =* #valor 
-	operador __BUFFER_B__ =* Importar.Dec.Multiplicar 
+	recibir_parametro __REF_YO__
+	recibir_parametro __REF_TU__
+	recibir_parametro __REF_RES__
+	fijar __BUFFER_A__ =* #valor 
+	fijar __BUFFER_B__ =* Importar.Dec.Multiplicar 
 	Importar.Cad.Concatenar __REF_YO__ __BUFFER_A__ __REF_YO__
 	Importar.Cad.Concatenar __REF_TU__ __BUFFER_A__ __REF_TU__
 	Importar.Cad.Concatenar __REF_RES__ __BUFFER_A__ __REF_RES__
@@ -911,9 +907,9 @@ finfun
 
 [DOCUMENTA
 @brief Divide dos Numeros decimales.
-@arg Yo <a href="ref_referencias.html">Referencia</a> a el primer numero a dividir.
-@arg b <a href="ref_referencias.html">Referencia</a> a el segundo numero a dividir.
-@arg res <a href="ref_referencias.html">Referencia</a> a donde se almacenara el resultado.
+@arg Yo Referencia a el primer numero a dividir.
+@arg b Referencia a el segundo numero a dividir.
+@arg res Referencia a donde se almacenara el resultado.
 DOCUMENTA]
 funcion Decimal#dividir
 	adquirir __REF_YO__
@@ -921,11 +917,11 @@ funcion Decimal#dividir
 	adquirir __REF_RES__
 	adquirir __BUFFER_A__
 	adquirir __BUFFER_B__
-	sacar __REF_YO__
-	sacar __REF_TU__
-	sacar __REF_RES__
-	operador __BUFFER_A__ =* #valor 
-	operador __BUFFER_B__ =* Importar.Dec.Dividir 
+	recibir_parametro __REF_YO__
+	recibir_parametro __REF_TU__
+	recibir_parametro __REF_RES__
+	fijar __BUFFER_A__ =* #valor 
+	fijar __BUFFER_B__ =* Importar.Dec.Dividir 
 	Importar.Cad.Concatenar __REF_YO__ __BUFFER_A__ __REF_YO__
 	Importar.Cad.Concatenar __REF_TU__ __BUFFER_A__ __REF_TU__
 	Importar.Cad.Concatenar __REF_RES__ __BUFFER_A__ __REF_RES__

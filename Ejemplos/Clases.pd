@@ -27,8 +27,48 @@ clase Div
 heredar Objeto Div [ Objeto <- Div ]
 
 funcion Div#div [ Declaramos el metodo div de Div ]
+	[ Uso: Div#div a b, actualiza la instancia actual a a/b ]
 	[ Los parametros en PseudoD se reciben con recibir_parametro en el
 	orden en que se pasaron ]
 	[ TODO el primer parametro es siempre la referencia a el valor this ]
-	
+	[ Se deben evitar nombres comunes (se utiliza generalmente clase_metodo_var) ]
+	instancia Referencia Div_div_yo
+	adquirir Div_div_dividendo
+	adquirir Div_div_divisor
+	adquirir Div_div_resultado
+	adquirir Div_div_resultado2
+	adquirir Div_div_attr
+	recibir_parametro Div_div_yo#ref
+	recibir_parametro Div_div_dividendo
+	recibir_parametro Div_div_divisor
+	[ PseudoD no ofrece el operador de resto (a%b) pero gracias a la
+	ecuacion: Si a/b = c -> bc = a -> a = bc + r donde R es el resto,
+	despejando obtenemos: a - r = bc -> -r = bc - a -> r = -1(bc - a)
+	-> r = -bc + a. Para esto necesitamos el resultado de la division. ]
+	Importar.Ent.Dividir Div_div_dividendo Div_div_divisor Div_div_resultado
+	fijar Div_div_attr =* coc
+	llamar Div_div_yo#fijarAttr Div_div_attr Div_div_resultado #(Final).
+	Importar.Ent.Restar CERO Div_div_divisor Div_div_divisor
+	Importar.Ent.Multiplicar Div_div_divisor Div_div_resultado Div_div_resultado2
+	Importar.Ent.Sumar Div_div_resultado2 Div_div_dividendo Div_div_resultado
+	fijar Div_div_attr =* res
+	llamar Div_div_yo#fijarAttr Div_div_attr Div_div_resultado #(Final).
+	liberar Div_div_yo
+	liberar Div_div_dividendo
+	liberar Div_div_divisor
+	liberar Div_div_resultado
+	liberar Div_div_resultado2
+	liberar Div_div_attr
 finfun
+
+instancia Div mi_division
+adquirir a
+adquirir b
+fijar a =* 29
+fijar b =* 5
+[ 26/5 ]
+llamar mi_division#div a b #(Final).
+escribir mi_division#res
+nl
+escribir mi_division#coc
+nl

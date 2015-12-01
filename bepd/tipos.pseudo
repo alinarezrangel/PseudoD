@@ -248,19 +248,17 @@ a new tipoData en C++ y malloc(sizeof(tipoData)) en C.
 @dev data Referencia al bloque dinamico.
 DOCUMENTA]
 funcion ReservarDato [ tipoData -> ref data ]
-	adquirir __RESEVAR_DATOS__TIPO_DATA__
-	adquirir __RESEVAR_DATOS__BUFFER__
-	recibir_parametro __RESEVAR_DATOS__TIPO_DATA__
-	fijar __RESEVAR_DATOS__BUFFER__ =* instancia 
-	Importar.Cad.Concatenar __RESEVAR_DATOS__BUFFER__ __RESEVAR_DATOS__TIPO_DATA__ __RESEVAR_DATOS__TIPO_DATA__
-	Importar.Cad.Concatenar __RESEVAR_DATOS__TIPO_DATA__ ESP __RESEVAR_DATOS__TIPO_DATA__
-	Importar.Cad.Concatenar __RESEVAR_DATOS__TIPO_DATA__ __pseudod_ReservarDatos_i__ __RESEVAR_DATOS__TIPO_DATA__
-	ejecutar __RESEVAR_DATOS__TIPO_DATA__
-	fijar __RESEVAR_DATOS__TIPO_DATA__ =¿? __pseudod_ReservarDatos_i__
+	adquirir __RESEVAR_DATO_TIPO__
+	adquirir __RESEVAR_DATO_BUFFER__
+	recibir_parametro __RESEVAR_DATO_TIPO__
+	fijar __RESEVAR_DATO_BUFFER__ =* instancia 
+	Importar.Cad.Concatenar __RESEVAR_DATO_BUFFER__ __RESEVAR_DATO_TIPO__ __RESEVAR_DATO_TIPO__
+	Importar.Cad.Concatenar __RESEVAR_DATO_BUFFER__ ESP __RESEVAR_DATO_TIPO__
+	Importar.Cad.Concatenar __RESEVAR_DATO_BUFFER__ __pseudod_ReservarDatos_i__ __RESEVAR_DATO_TIPO__
+	devolver __pseudod_ReservarDatos_i__
 	Importar.Ent.Sumar __pseudod_ReservarDatos_i__ UNO __pseudod_ReservarDatos_i__
-	devolver __RESEVAR_DATOS__TIPO_DATA__
-	liberar __RESEVAR_DATOS__BUFFER__
-	liberar __RESEVAR_DATOS__TIPO_DATA__
+	liberar __RESEVAR_DATO_BUFFER__
+	liberar __RESEVAR_DATO_TIPO__
 finfun
 
 [DOCUMENTA
@@ -270,16 +268,7 @@ o delete de C++, cuando el dato es NULO no realiza accion.
 @arg ptr Puntero al nombre del dato reservado(referencia a instancia de PunteroInteligente).
 DOCUMENTA]
 funcion LiberarDato [ ptr ]
-	adquirir __LIBERAR_DATO_PTR__
-	adquirir __LIBERAR_DATO_BUFFER__
-	recibir_parametro __LIBERAR_DATO_PTR__
-	fijar __LIBERAR_DATO_BUFFER__ =* liberar 
-	si_no ¿son_iguales? __LIBERAR_DATO_PTR__ NULO#NOMBRE
-		Importar.Cad.Concatenar __LIBERAR_DATO_BUFFER__ __LIBERAR_DATO_PTR__ __LIBERAR_DATO_BUFFER__
-		ejecutar __LIBERAR_DATO_BUFFER__
-	fin
-	liberar __LIBERAR_DATO_BUFFER__
-	liberar __LIBERAR_DATO_PTR__
+	instancia
 finfun
 
 [DOCUMENTA
@@ -326,7 +315,8 @@ heredar Iterador IteradorBi
 Con este se puede iterar sobre memoria.
 DOCUMENTA]
 clase IteradorDin
-	lib
+	ind
+	
 #(Final).
 heredar IteradorBi IteradorDin
 

@@ -228,7 +228,7 @@ namespace PDvar
 	
 	int PDDatos::BuscarIndice(string t,string n)
 	{
-		int ind;
+		int ind = -1;
 		if(t == "Variable")
 		{
 			ind = buscar((*this->nombrev),n);
@@ -243,15 +243,14 @@ namespace PDvar
 	void PDDatos::Ejecutar(string ord)
 	{
 		istringstream in(ord);
-		string orden = "";
+		string orden = "escribir CMMERROR";
 		in >> orden;
-		(*(this->PROCESAR))(orden,in,this->PROCESO);
+		(*this->PROCESAR)(orden,in,this->PROCESO);
 	}
 	
 	void PDDatos::Ejecutar(string ord,istream& in)
 	{
-		string orden = "";
-		(*(this->PROCESAR))(orden,in,this->PROCESO);
+		(*this->PROCESAR)(ord,in,this->PROCESO);
 	}
 	
 	/*
@@ -294,9 +293,8 @@ namespace PDvar
 		*/
 		if(tok == "llamar")
 		{
-			data->Ejecutar(tok,in);
+			data->Ejecutar("llamar",in);
 			string top = data->Tope(cae(data->ObtenerVariable("VG_PILA_ACTUAL")));
-			data->BorrarTope(cae(data->ObtenerVariable("VG_PILA_ACTUAL")));
 			return top;
 		}
 		if(tok == "comparar")
@@ -317,17 +315,21 @@ namespace PDvar
 			data->Ejecutar(orden);
 			return ((data->ObtenerVariable("___codigo_pseudod_buffer_interno___") == data->ObtenerVariable(arg3))? "verdadero" : "falso");
 		}
-		if(tok == "¿son_iguales?")
+		if(tok == "¿son_iguales?") // verificado
 		{
 			string arg1,arg2;
 			in >> arg1 >> arg2;
 			return ((data->ObtenerVariable(arg1) == data->ObtenerVariable(arg2))? "verdadero" : "falso");
 		}
-		if(tok == "¿no_son_iguales?")
+		if(tok == "no") // verificado
 		{
-			string arg1,arg2;
-			in >> arg1 >> arg2;
-			return ((data->ObtenerVariable(arg1) != data->ObtenerVariable(arg2))? "verdadero" : "falso");
+			string pd;
+			in >> pd;
+			return (ValorDelToken(pd,in,data) == "verdadero")? "falso" : "verdadero";
+		}
+		if((buscar((*data->nombrev),tok) != -1)||(buscar((*data->nombrep),tok) != -1))
+		{
+			return data->ObtenerVariable(tok);
 		}
 		throw string("No se reconoce el token " + tok);
 	}

@@ -35,8 +35,7 @@ adquirir FINFUN
 	oper FINFUN =* finfun
 adquirir NL [ NOTA: el valor de NUEVALINEA cambia de acuerdo al sistema
 operativo, este valor se representa como \r\n siguiendo las convenciones
-de la organizacion internacional de codificacion, tambien se puede usar
-la orden nl ]
+estandares, tambien se puede usar la orden nl ]
 	oper NL =* CV
 [DOCUMENTA
 @brief Representa el caracter de nueva linea,(\r\n).
@@ -87,3 +86,20 @@ adquirir VG_BUFFER_DATOS_DATA [ Si se tienen datos especiales en el buffer ]
 DOCUMENTA]
 puntero VG_BUFFER_DATA VG_BUFFER_DATOS_DATA
 [ VG_BUFFER_DATA es un puntero/sinonimo de VG_BUFFER_DATOS_DATA ]
+
+[DOCUMENTA
+@brief Determina si el valor es nulo.
+@arg valor Valor a determinar.
+@dev Si es NULO o no.
+DOCUMENTA]
+funcion EsNulo [ valor -> boole ]
+	adquirir __ES_NULO_VAL__
+	recibir_parametro __ES_NULO_VAL__
+	si ¿son_iguales? __ES_NULO_VAL__ NULO
+		devolver VERDADERO
+	fin
+	si_no ¿son_iguales? __ES_NULO_VAL__ NULO
+		devolver FALSO
+	fin
+	liberar __ES_NULO_VAL__
+finfun

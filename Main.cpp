@@ -335,11 +335,17 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 		DATOS_INT.CrearPila();
 		DATOS_INT.ObtenerVariable("VG_NUMERO_PILAS") = eas((*DATOS_INT.pilas).size());
 	}
+	else if(o == "necesitas")
+	{
+		string var;
+		e >> var;
+		cout << ValorDelToken(var,e,&DATOS_INT) << endl;
+	}
 	else if(o == "si")
 	{
 		string variable1,val;
 		e >> variable1;
-		if(variable1 == "llamar")
+		/*if(variable1 == "llamar")
 		{
 			procesar("llamar",e,FUNCION);
 			val = DATOS_INT.Sacar(cae(DATOS_INT.ObtenerVariable("VG_PILA_ACTUAL")));
@@ -369,7 +375,8 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 			val = DATOS_INT.ObtenerVariable("___codigo_pseudod_buffer_interno___");
 		}
 		else
-			val = DATOS_INT.ObtenerVariable(variable1);
+			val = DATOS_INT.ObtenerVariable(variable1);*/
+		val = ValorDelToken(variable1,e,&DATOS_INT);
 		string cond = ((val == DATOS_INT.VERDADERO)? "si" : "no");
 		string ord;
 		int i = 0;
@@ -394,6 +401,10 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 			else if((ord == "si")||(ord == "si_no"))
 			{
 				AMBITO.push_back(0);
+			}
+			if(ord == "sino")
+			{
+				cond = (cond == "si")? "no" : "si";
 			}
 		}
 	}
@@ -553,6 +564,8 @@ int main(int argc,char* argv[])
 	DATOS_INT.CrearVariable("__ARCH__","Variable",0,argv[1]);
 	DATOS_INT.CrearVariable("VG_PILA_ACTUAL","Variable",0,"0");
 	DATOS_INT.CrearVariable("VG_NUMERO_PILAS","Variable",0,"0");
+	DATOS_INT.PROCESAR = procesar;
+	DATOS_INT.PROCESO = func2;
 	string a(argv[1]);
 	{
 		if(DATOS_INT.ObtenerVariable("__LIB__") != "")
@@ -594,7 +607,7 @@ int main(int argc,char* argv[])
 			{
 				cerr << "Error no identificado, ¡builtins.pseudo no aprovado!" << endl;
 				cerr << "Verifique la version de BEPD, y verifique la fuente de descarga."
-							<< endl;
+						 << endl;
 				cerr << "Error cargando el archivo builtins.pseudo en "
 						 << DATOS_INT.ObtenerVariable("__LIB__") << endl;
 				(*func3)();
@@ -673,7 +686,7 @@ int main(int argc,char* argv[])
 		cout << "Si o es ninguno de los pasos de arriba, contactese por los foros de" << endl;
 		cout << "\"discussion\" en <https://www.sourceforge.net/projects/pseudod/>" << endl;
 		cout << "Disculpe las molestias." << endl;
-		
+		cerr << "EN " << DATOS_INT.ObtenerVariable("__ARCH__") << endl;
 	}
 	(*func3)();
 	return dlclose(dll);

@@ -17,21 +17,21 @@ utilizar inic.pseudo
 Es el valor 3.14159265
 DOCUMENTA]
 adquirir PI
-operador PI =* 3.141595
+fijar PI =* 3.141595
 
 [DOCUMENTA
 @brief Constante de Napier.
 Es el valor 2.718281
 DOCUMENTA]
 adquirir E
-operador E =* 2.718281
+fijar E =* 2.718281
 
 [DOCUMENTA
 @brief Valor para redondear decimales.
 Es aproximadamente 0.5.
 DOCUMENTA]
 adquirir DELTA
-operador DELTA =* 0.000005
+fijar DELTA =* 0.000005
 
 [DOCUMENTA
 @brief Mayor cantidad de decimales que puede almacenar un numero.
@@ -39,7 +39,14 @@ Es el limite visualizable de <code class="cpp">long double</code>,(para numeros
 mayores, se visualizaran con notacion cientifica).
 DOCUMENTA]
 adquirir PRECISION_DECIMAL
-operador PRECISION_DECIMAL =* 6
+fijar PRECISION_DECIMAL =* 6
+
+[DOCUMENTA
+@brief Es el punto de inicio de la funcion RaizCuadrada.
+A menor valor, mayor es la precicion de la funcion pero es mas lenta.
+DOCUMENTA]
+adquirir RAIZ_CUADRADA_MIN
+fijar RAIZ_CUADRADA_MIN =* 0.0001
 
 [DOCUMENTA
 @brief Calcula el valor de una base elevado a un exponente.
@@ -53,17 +60,17 @@ funcion Elevar_valor
 	adquirir __BUFFER_A__
 	adquirir __BUFFER_B__
 	adquirir __MENOR__
-	sacar __BASE__
-	sacar __EXPONENTE__
-	operador __BUFFER_A__ =* 1
-	operador __BUFFER_B__ =¿? __BASE__
-	operador __MENOR__ =¿? VERDADERO
+	recibir_parametro __BASE__
+	recibir_parametro __EXPONENTE__
+	fijar __BUFFER_A__ =* 1
+	fijar __BUFFER_B__ =¿? __BASE__
+	fijar __MENOR__ =¿? VERDADERO
 	mientras __MENOR__
 		Importar.Ent.Multiplicar __BUFFER_B__ __BASE__ __BUFFER_B__
 		Importar.Ent.Sumar __BUFFER_A__ UNO __BUFFER_A__
 		Importar.Ent.Comparar __BUFFER_A__ < __EXPONENTE__ __MENOR__
 	finbucle
-	empujar __BUFFER_B__
+	devolver __BUFFER_B__
 	liberar __BASE__
 	liberar __EXPONENTE__
 	liberar __BUFFER_A__
@@ -81,18 +88,18 @@ funcion Factorial
 	adquirir __¿MAYOR_A_CERO?__
 	adquirir __NUMERO_N__
 	adquirir __CUENTA__
-	sacar __NUMERO_N__
-	operador __CUENTA__ =¿? __NUMERO_N__
+	recibir_parametro __NUMERO_N__
+	fijar __CUENTA__ =¿? __NUMERO_N__
 	Importar.Ent.Comparar __NUMERO_N__ > UNO __¿MAYOR_A_CERO?__
 	si_no __¿MAYOR_A_CERO?__
-		operador __CUENTA__ =¿? UNO
+		fijar __CUENTA__ =¿? UNO
 	fin
 	mientras __¿MAYOR_A_CERO?__
 		Importar.Ent.Restar __NUMERO_N__ UNO __NUMERO_N__
 		Importar.Ent.Multiplicar __CUENTA__ __NUMERO_N__ __CUENTA__
 		Importar.Ent.Comparar __NUMERO_N__ > UNO __¿MAYOR_A_CERO?__
 	finbucle
-	empujar __CUENTA__
+	devolver __CUENTA__
 	liberar __¿MAYOR_A_CERO?__
 	liberar __NUMERO_N__
 	liberar __CUENTA__
@@ -107,11 +114,11 @@ funcion Grados_A_Radianes
 	adquirir __GRADOS__
 	adquirir __RADIANES__
 	adquirir __DIVIDE__
-	sacar __GRADOS__
+	recibir_parametro __GRADOS__
 	Importar.Dec.Multiplicar __GRADOS__ PI __GRADOS__
-	operador __DIVIDE__ =* 180
+	fijar __DIVIDE__ =* 180
 	Importar.Dec.Dividir __GRADOS__ __DIVIDE__ __RADIANES__
-	empujar __RADIANES__
+	devolver __RADIANES__
 	liberar __GRADOS__
 	liberar __RADIANES__
 	liberar __DIVIDE__
@@ -126,11 +133,11 @@ funcion Radianes_A_Grados
 	adquirir __GRADOS__
 	adquirir __RADIANES__
 	adquirir __DIVIDE__
-	sacar __GRADOS__
-	operador __DIVIDE__ =* 180
+	recibir_parametro __GRADOS__
+	fijar __DIVIDE__ =* 180
 	Importar.Dec.Multiplicar __GRADOS__ __DIVIDE__ __GRADOS__
 	Importar.Dec.Dividir __GRADOS__ PI __RADIANES__
-	empujar __RADIANES__
+	devolver __RADIANES__
 	liberar __GRADOS__
 	liberar __RADIANES__
 	liberar __DIVIDE__
@@ -144,4 +151,29 @@ DOCUMENTA]
 funcion Seno [ ang ]
 	[ sin(x) = -(-((x^i)/(i!))+((x^I)/(I!))) ]
 	adquirir 
+finfun
+
+[DOCUMENTA
+@brief Calcula la raiz cuadrada de un numero.
+utiliza el metodo babilonico para calcular la raiz cuadrada de un numero.
+@arg nm Numero a radicar.
+@dev Decimal resultado de la radicacion.
+DOCUMENTA]
+funcion RaizCuadrada [ nm -> sqrt(nm) ]
+	adquirir __sqrt_bbl_a__
+	adquirir __sqrt_bbl_an__
+	adquirir __sqrt_bbl_anu__
+	adquirir __sqrt_bbl_ab__
+	adquirir __sqrt_bbl_ac__
+	recibir_parametro __sqrt_bbl_a__
+	fijar __sqrt_bbl_an__ =¿? __sqrt_bbl_a__
+	fijar __sqrt_bbl_anu__ =* 0
+	mientras comparar Importar.Dec.Comparar __sqrt_bbl_an__ != __sqrt_bbl_anu__
+		fijar __sqrt_bbl_anu__ =¿? __sqrt_bbl_an__
+		Importar.Dec.Dividir __sqrt_bbl_a__ __sqrt_bbl_an__ __sqrt_bbl_ab__
+		
+	finbucle
+	liberar __sqrt_bbl_a__
+	liberar __sqrt_bbl_an__
+	liberar __sqrt_bbl_anu__
 finfun

@@ -338,6 +338,7 @@ namespace PDvar
 	* @param tok Token
 	* @param in Flujo de tokens
 	* @param data Puntero a la memoria del interprete.
+	* @return el valor de los tokens
 	*/
 	string ValorDelToken(string tok,istream& in,PDDatos* data);
 	

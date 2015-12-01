@@ -71,6 +71,17 @@ Algunas preguntas que se podria hacer:
 			Si se esta trabajando con GNU/Linux entonces deberia estar en /opt/pseudod/src/
 	
 	¿Donde puedo conseguir tutoriales o guias para programar/modificar PseudoD?
-		En los foros de PseudoD(www.sourcefoge.net/projects/pseudod/) y en la pagina
+		En los foros de PseudoD(www.sourceforge.net/projects/pseudod/) y en la pagina
 		oficial www.pseudod.com, (www.pseudod.sourceforge.net es principalmente para
 		desarrolladores).
+	
+	¿Cuales son las paginas de PseudoD?
+		PseudoD posee cuatro paginas:
+			* www.sourceforge.net/p/pseudod : Pagina de desarrolladores, una fuente para descargar
+			  el codigo fuente.
+			* www.github.com/alinarezrangel/PseudoD : Pagina de desarrolladores, otra fuente para
+			  descargar el codigo fuente.
+			* www.pseudod.sourceforge.net : Pagina para desarrolladores, actualmente esta
+			  en trabajo.
+			* www.pseudod.com : Pagina principal. Aqui se encontrara informacion acerca del proyecto,
+			  tutoriales, guias, e informacion reciente.

@@ -15,69 +15,70 @@
 Es el valor que toman las variables, antes de ser inicializadas.
 DOCUMENTA]
 adquirir NULO
+	fijar NULO =* nulo
 [DOCUMENTA
 @brief Representa el valor de Boole 1 o verdadero.
 Es utilizada para sentencias si - si_no. Tambien es devuelto por algunas
 funciones para indicar un afirmativo o que el resultado es verdadero,(como
-<a href="ref_tipos.html#EsNulo">EsNulo</a>).
+EsNulo).
 DOCUMENTA]
 adquirir VERDADERO
-	operador VERDADERO =* verdadero
+	fijar VERDADERO =* verdadero
 [DOCUMENTA
 @brief Representa el valor de Boole 0 o falso.
 Es utilizada para sentencias si - si_no. Tambien es devuelto por algunas
 funciones para indicar un negativo o que el resultado es falso,(como
-<a href="ref_tipos.html#EsNulo">EsNulo</a>).
+EsNulo).
 DOCUMENTA]
 adquirir FALSO
-	operador FALSO =* falso
+	fijar FALSO =* falso
 [DOCUMENTA
 @brief Es el numero 0.
 Se inserto por simetria con UNO, DOS, UNON, TRES y CUATRO.
 DOCUMENTA]
 adquirir CERO [ cero,(0) ]
-	operador CERO =* 0
+	fijar CERO =* 0
 [DOCUMENTA
 @brief Es el numero 1.
 Es utilizado para incrementar, decrementar, entre otros.
 DOCUMENTA]
 adquirir UNO [ uno,(1) ]
-	operador UNO =* 1
+	fijar UNO =* 1
 [DOCUMENTA
 @brief Es el numero -1.
 Es utilizado para incrementar, decrementar entre otros.
 DOCUMENTA]
 adquirir UNON [ menos uno,(-1) ]
-	operador UNON =* -1
+	fijar UNON =* -1
 [DOCUMENTA
 @brief Es el numero 2.
 Es comunmente utilizado para calcular mitades, dobles.
 DOCUMENTA]
 adquirir DOS [ Para mitades ]
-	operador DOS =* 2
+	fijar DOS =* 2
 [DOCUMENTA
 @brief Es el numero 3.
-Tal como el <a href="#DOS">DOS</a>, el TRES es utilizado para tercios y triples.
+Tal como el DOS, el TRES es utilizado para tercios y triples.
 DOCUMENTA]
 adquirir TRES [ Para tercios ]
-	operador TRES =* 3
+	fijar TRES =* 3
 [DOCUMENTA
 @brief Es el numero 5.
 Utilizado para calcular quintas partes, y quintuples.
 DOCUMENTA]
 adquirir CINCO [ Para x/5 ]
-	operador CINCO =* 5
+	fijar CINCO =* 5
 [DOCUMENTA
 @brief Version de PseudoD actualmente estandar.
 Es la version de PseudoD actualmente estandar.
 DOCUMENTA]
 adquirir PSEUDOD [ version de PseudoD ]
-	operador PSEUDOD =* u1.9.5
+	fijar PSEUDOD =* u1.9.5
 [DOCUMENTA
 @brief Ruta donde PseudoD busca los archivos de BEPD.
 Es mutable, si se cambia PseudoD buscara las bibliotecas en el lugar
 especificado.
-Tambien se puede utilizar <a href="ref_clases.html#Programa">Programa#DirLib.</a>
+Tambien se puede utilizar Programa#DirLib.
 DOCUMENTA]
 puntero RUTA_BEPD __LIB__
 
@@ -117,37 +118,57 @@ DOCUMENTA]
 clase PunteroInteligente
 	;direccion
 	:apuntar
-	:obtenerAttrStr
-	:obtenerAttr
-	:fijarAttr
-	:redireccionarAttr
-	:llamarMet
-	:obtenerValor
+	:esNulo
 #(Final).
 heredar Objeto PunteroInteligente
 
 [DOCUMENTA
 @brief Redirecciona el puntero a otro objeto.
-@arg Yo <a href="ref_referencias.html">Referencia</a> al puntero a redireccionar
-@arg Variable <a href="ref_referencias.html">Referencia</a> a la nueva variable a ser apuntada.
+@arg Yo Referencia comun al puntero a redireccionar(PseudoD la pasa automaticamente)
+@arg Variable Referencia comun a la nueva variable a ser apuntada.
 DOCUMENTA]
 funcion PunteroInteligente#apuntar [ Yo, Variable ]
-	adquirir __YO__
-	adquirir __OTRO__
-	sacar __YO__
-	sacar __OTRO__
-	adquirir __A__
-	operador __A__ =* #direccion
-	Importar.Cad.Concatenar __YO__ __A__ __YO__
-	operador __A__ =* redireccionar
-	Importar.Cad.Concatenar __A__ ESP __A__
-	Importar.Cad.Concatenar __A__ __YO__ __A__
-	Importar.Cad.Concatenar __A__ ESP __A__
-	Importar.Cad.Concatenar __A__ __OTRO__ __A__
-	ejecutar __A__
-	liberar __A__
-	liberar __YO__
-	liberar __OTRO__
+	adquirir __PUNTERO_INTELIGENTE_YO__
+	adquirir __PUNTERO_INTELIGENTE_OTRO__
+	recibir_resultado __PUNTERO_INTELIGENTE_YO__
+	recibir_resultado __PUNTERO_INTELIGENTE_OTRO__
+	adquirir __PUNTERO_INTELIGENTE_A__
+	fijar __PUNTERO_INTELIGENTE_A__ =* #direccion
+	Importar.Cad.Concatenar __PUNTERO_INTELIGENTE_YO__ __PUNTERO_INTELIGENTE_A__ __PUNTERO_INTELIGENTE_YO__
+	fijar __PUNTERO_INTELIGENTE_A__ =* redireccionar
+	Importar.Cad.Concatenar __PUNTERO_INTELIGENTE_A__ ESP __PUNTERO_INTELIGENTE_A__
+	Importar.Cad.Concatenar __PUNTERO_INTELIGENTE_A__ __PUNTERO_INTELIGENTE_YO__ __PUNTERO_INTELIGENTE_A__
+	Importar.Cad.Concatenar __PUNTERO_INTELIGENTE_A__ ESP __PUNTERO_INTELIGENTE_A__
+	Importar.Cad.Concatenar __PUNTERO_INTELIGENTE_A__ __PUNTERO_INTELIGENTE_OTRO__ __PUNTERO_INTELIGENTE_A__
+	ejecutar __PUNTERO_INTELIGENTE_A__
+	liberar __PUNTERO_INTELIGENTE_A__
+	liberar __PUNTERO_INTELIGENTE_YO__
+	liberar __PUNTERO_INTELIGENTE_OTRO__
+finfun
+
+[DOCUMENTA
+@brief Determina si el puntero es nulo.
+@arg Yo Referencia comun al puntero a redireccionar(PseudoD la pasa automaticamente)
+@dev VERDADERO si el puntero es nulo y FALSO de lo contrario.
+DOCUMENTA]
+funcion PunteroInteligente#esNulo [ Yo -> esNulo ]
+	adquirir __PUNTERO_INTELIGENTE_YO__
+	adquirir __PUNTERO_INTELIGENTE_OTRO__
+	adquirir __PUNTERO_INTELIGENTE_A__
+	recibir_resultado __PUNTERO_INTELIGENTE_YO__
+	fijar __PUNTERO_INTELIGENTE_A__ =* #direccion
+	Importar.Cad.Concatenar __PUNTERO_INTELIGENTE_YO__ __PUNTERO_INTELIGENTE_A__ __PUNTERO_INTELIGENTE_YO__
+	fijar __PUNTERO_INTELIGENTE_A__ =* fijar __PUNTERO_INTELIGENTE_OTRO__ =¿? 
+	Importar.Cad.Concatenar __PUNTERO_INTELIGENTE_A__ __PUNTERO_INTELIGENTE_YO__ __PUNTERO_INTELIGENTE_A__
+	ejecutar __PUNTERO_INTELIGENTE_A__
+	devolver FALSO
+	si ¿son_iguales? __PUNTERO_INTELIGENTE_OTRO__ NULO#NOMBRE
+		sacar __PUNTERO_INTELIGENTE_A__
+		devolver VERDADERO
+	fin
+	liberar __PUNTERO_INTELIGENTE_A__
+	liberar __PUNTERO_INTELIGENTE_YO__
+	liberar __PUNTERO_INTELIGENTE_OTRO__
 finfun
 
 adquirir ___codigo_pseudod_buffer_interno___
@@ -155,3 +176,5 @@ adquirir ___codigo_pseudod_buffer_interno___
 crear_pila
 usar_pila 0
 empujar NULO
+
+utilizar inic.pseudo

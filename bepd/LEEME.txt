@@ -59,5 +59,3 @@ errores.pseudo   | Manejo de errores por "valores magicos".        | 1.0.0
 
 Esta versión de BEPD fue diseñada para usarse con PseudoD 1.9, preferiblemente
 con la versión más reciente.(u1.9.5)
-
-Esta version de BEPD esta incompleta.

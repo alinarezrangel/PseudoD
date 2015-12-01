@@ -448,7 +448,7 @@ fijar ListaSimple#obtenerPrimero#cod =¿? ListaS#obtenerPrimero
 fijar ListaSimple#obtenerPrimero     =¿? ListaS#obtenerPrimero
 
 [ No se documenta por ser privado: ]
-[    DOCUMENTACION PARA EL PROGAMADOR
+[    DOCUMENTACION PARA EL PROGRAMADOR
 @brief Obtiene el nodo previo a la posicion especificada.
 Ademas, fija el nodo actual a dicho nodo previo.
 @arg instancia (Ya se sobre entiende lo del parametro Yo)
