@@ -19,24 +19,34 @@ adquirir resultado
 adquirir hasta
 
 adquirir mensaje
+adquirir por
+adquirir igual
 
 fijar numero =* 1
 fijar otro =* 1
 fijar resultado =* 1
 fijar hasta =* 9
 fijar mensaje =* El resultado de:
+fijar por =* *
+fijar igual =* =
 
 mientras comparar Importar.Ent.Comparar numero <= hasta
 	mientras comparar Importar.Ent.Comparar otro <= hasta
 		Importar.Ent.Multiplicar numero otro resultado
 		escribir mensaje
+		escribir_esp
 		escribir numero
 		escribir_esp
+		escribir por
+		escribir_esp
 		escribir otro
+		escribir_esp
+		escribir igual
 		escribir_esp
 		escribir resultado
 		nl
 		Importar.Ent.Sumar otro UNO otro
 	finbucle
+	fijar otro =* 1
 	Importar.Ent.Sumar numero UNO numero
 finbucle

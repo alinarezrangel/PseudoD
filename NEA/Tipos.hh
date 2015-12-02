@@ -355,10 +355,11 @@ namespace PDTipos
 		public:
 			/**
 			* @brief Inicializador
-			* @param a variable que contiene el valor
-			* @param b meta-funcion a ejecutar
+			* @param a token inicial de la expresion.
+			* @param o resto de la expresion.
+			* @param b cuerpo a ejecutar.
 			*/
-			PseudoMientras(string b = "____",string f = "____");
+			PseudoMientras(string b = "____",string o = "____",string f = "____");
 			/**
 			* @brief destructor
 			*/
@@ -374,18 +375,9 @@ namespace PDTipos
 			*/
 			void InscribirInstancia(PDDatos* data);
 		private:
-			string nma;
 			string nmv;
 			string func;
 			string orden;
-			string oper;
-			string var1;
-			string var2;
-			string var3;
-			bool llamada;
-			bool igualdad;
-			bool comparar;
-			bool ejecutar;
 	};
 	
 	/**

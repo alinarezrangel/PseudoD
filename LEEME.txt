@@ -69,6 +69,13 @@ COMPILAR
 	Si tu compilador no posee alguna de estas opciones, cambiala por su equivalente
 	(para eso el significado de la orden el final).
 
+TU PSEUDOD
+	Este codigo corresponde con PseudoD u1.9.5, con BEPD 1.9.0:1.9.3/1.9.5.
+	Este codigo puede descargarse por las paginas establecidas en ESTRUCTURA.txt.
+	Despues de configurar ipdc, y compilar PseudoD, puedes correr los ejemplos
+	con:
+		ipdc -f ./Ejemplos/HolaMundo.pd
+
 PseudoD fue creado por Alejandro Linarez Rangel
 
 Gracias por usar PseudoD

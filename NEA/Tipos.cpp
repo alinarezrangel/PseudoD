@@ -496,14 +496,11 @@ namespace PDTipos
 		data->ObtenerIndicePuntero(this->nmp) = oi;
 	}
 	
-	PseudoMientras::PseudoMientras(string v,string f) : PDInstancia()
+	PseudoMientras::PseudoMientras(string v,string o,string f) : PDInstancia()
 	{
 		this->nmv = v;
 		this->func = f;
-		this->llamada = false;
-		this->igualdad = false;
-		this->ejecutar = false;
-		this->comparar = false;
+		this->orden = o;
 		this->FijarClave(string("Mientras"),string("PseudoD"));
 	}
 	PseudoMientras::~PseudoMientras()
@@ -513,7 +510,8 @@ namespace PDTipos
 	
 	void PseudoMientras::LeerParametros(istream& in)
 	{
-		if(!(in >> this->nmv))
+		// FIXME: Codigo problematico:
+		/*if(!(in >> this->nmv))
 		{
 			cerr << "Error en " << this->ObtenerClave() << " ,no se pudo leer bien el fichero fuente." << endl;
 			throw string("Error en el la parte " + this->ObtenerClave() + " EOF inesperado");
@@ -572,12 +570,41 @@ namespace PDTipos
 		for(int i = 0;i < lineas.size();i++)
 		{
 			this->func += lineas[i] + "\n";
+		}*/
+		// TODO: Adaptado a usar ValorDelToken
+		in >> this->nmv;
+		getline(in,this->orden,'\n');
+		vector<string> lineas;
+		string lin = "";
+		int mientras = 1;
+		while(mientras > 0)
+		{
+			getline(in,lin,'\n');
+			lineas.push_back(lin);
+			lin.erase(std::remove_if(lin.begin(), 
+                              lin.end(),
+                              [](char x){return std::isspace(x);}),
+                lin.end());
+      if((string(lin.substr(0,string("mientras").size())) == "mientras") || (string(lin.substr(0,string("Importar.PseudoD.mientras").size())) == "Importar.PseudoD.mientras"))
+      {
+      	mientras++;
+      }
+      if(lin == "finbucle")
+      {
+      	mientras--;
+      }
+		}
+		this->func = "";
+		for(int i = 0;i < lineas.size();i++)
+		{
+			this->func += lineas[i] + "\n";
 		}
 	}
 	
 	void PseudoMientras::InscribirInstancia(PDDatos* data)
 	{
-		bool exec = false;
+		// FIXME: Codigo problematico:
+		/*bool exec = false;
 		if(this->llamada)
 		{
 			istringstream in(this->var1+" #(Final).");
@@ -647,6 +674,19 @@ namespace PDTipos
 		if(this->llamada)
 		{
 			(*data->pilas)[cae(data->ObtenerVariable("VG_PILA_ACTUAL"))].pop();
+		}*/
+		istringstream sin(this->orden);
+		string res = ValorDelToken(this->nmv,sin,data);
+		while(res == "verdadero")
+		{
+			string pal;
+			istringstream sin2(this->func);
+			while(sin2 >> pal)
+			{
+				data->Ejecutar(pal,sin2);
+			}
+			istringstream sin3(this->orden);
+			res = ValorDelToken(this->nmv,sin3,data);
 		}
 	}
 	
