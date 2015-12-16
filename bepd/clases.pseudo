@@ -13,6 +13,11 @@
 utilizar inic.pseudo
 
 [DOCUMENTA
+@file Documentación de clases.pseudo.
+Aqui se declaran clases comúnes, como Fraccion y Decimal.
+DOCUMENTA]
+
+[DOCUMENTA
 @brief Representa informacion sobre el programa.
 Es utilizado por plug-ins para obtener distintos datos.
 DOCUMENTA]
@@ -55,7 +60,7 @@ heredar Objeto Fraccion
 [DOCUMENTA
 @brief Suma dos fracciones.
 Aplica la forma de a/b + c/d = (ad + bc)/bd.
-Almacena el resultado en el argumento Yo.
+Almacena el resultado en el argumento res.
 @arg Yo primer elemento, debe ser una referencia comun.
 @arg Tu segundo elemento, debe ser una referencia comun.
 @arg res tercer argumento, una referencia comun a donde se guardara el resultado.
@@ -660,7 +665,7 @@ finfun
 
 [DOCUMENTA
 @brief Representa un numero en Z.
-Para un numero en Q, se pueden utilizar las clases <a href="ref_clases.html#Fraccion">Fraccion</a>
+Para un numero en Q, se pueden utilizar las clases <a href="#Fraccion">Fraccion</a>
 y Decimal.
 El valor se almacena en el campo valor, como en Decimal.
 DOCUMENTA]

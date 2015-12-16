@@ -402,7 +402,7 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 			{
 				AMBITO.push_back(0);
 			}
-			if(ord == "sino")
+			if((ord == "sino")&&(AMBITO.size() == (i + 1)))
 			{
 				cond = (cond == "si")? "no" : "si";
 			}

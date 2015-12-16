@@ -13,6 +13,12 @@ utilizar inic.pseudo
 utilizar tipos.pseudo
 
 [DOCUMENTA
+@file Documentación de algor.pseudo.
+Este archivo posee clases dinamicas, que representan objetos comunes, como
+listas, arrays, funciones tipo foreach, arboles binarios, etc.
+DOCUMENTA]
+
+[DOCUMENTA
 @brief Representa un enlace para una lista enlazada simple circular.
 Este ofrece un puntero a referencia al siguiente elemento.
 DOCUMENTA]

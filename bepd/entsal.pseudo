@@ -13,6 +13,15 @@ utilizar inic.pseudo
 utilizar clases.pseudo
 
 [DOCUMENTA
+@file Documentación de entsal.pseudo
+Este archivo provee manipulación de <i>flujos</i>, en estos, las operaciones
+de entrada y salida, se realiza comúnmente por operaciones <i>append</i>,
+por las cuales, se agrega el contenido al flujo de salida, para lectura,
+una vez que se lee del flujo, esa palabra es eliminada, prohibiendo su
+lectura más de dos veces.
+DOCUMENTA]
+
+[DOCUMENTA
 @brief Un objeto que sirve de buffer para operaciones E/S.
 DOCUMENTA]
 clase BufferTexto
@@ -21,7 +30,7 @@ clase BufferTexto
 heredar Objeto BufferTexto
 
 [DOCUMENTA
-@brief Escribe un texto en la salida estandar.
+@brief Escribe un texto en la salida estándar.
 Equivalente a <code class="pseudod">escribir</code>.
 @arg texto Valor a escribir.
 DOCUMENTA]
@@ -33,7 +42,7 @@ funcion Escribir [ Objeto texto ]
 finfun
 
 [DOCUMENTA
-@brief Casi identico a <a href="ref_entsal.html#Escribir">escribir</a>.
+@brief Casi identico a <a href="#Escribir">Escribir</a>.
 La diferencia esta en que ingresa un valor nueva linea al final, como
 en <code class="pseudod">escribir</code> seguido de <code class="pseudod">nl</code>
 @arg texto Valor a escribir.
@@ -58,7 +67,7 @@ funcion LeerPalabra [ -> Objeto resultado ]
 finfun
 
 [DOCUMENTA
-@brief Escribe en un objeto <a href="ref_entsal.html#BufferTexto">BufferTexto</a>.
+@brief Escribe en un objeto <a href="#BufferTexto">BufferTexto</a>.
 @arg buffer Valor del objeto Buffer.
 @arg texto Texto a escribir en el.
 @dev Nuevo valor buffer.
@@ -77,7 +86,7 @@ funcion EscribirEnBuffer [ Objeto buffer, Objeto texto -> Objeto buffer ]
 finfun
 
 [DOCUMENTA
-@brief Similar a <a href="ref_entsal.html#EscribirEnBuffer">EscribirEnBuffer</a>.
+@brief Similar a <a href="#EscribirEnBuffer">EscribirEnBuffer</a>.
 Este adem&aacute;s, agrega un nueva linea despues de texto.
 @arg buffer Valor del objeto Buffer.
 @arg texto Texto a escribir en el.

@@ -14,6 +14,12 @@ utilizar inic.pseudo
 utilizar clases.pseudo
 
 [DOCUMENTA
+@file Documentación de plugins.pseudo.
+Declara la clase BibliotecaDinamica, la cual es necesaria para cargar y
+llamar agregados dinámicos.
+DOCUMENTA]
+
+[DOCUMENTA
 @brief Representa un plug in dinamico.
 Se puede utilizar este plugin con <code class="pseudod">Importar.BibliotecasDinamicas.Llamar</code>
 DOCUMENTA]

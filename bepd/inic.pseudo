@@ -12,6 +12,12 @@
 [ Crear e inicializar las Constantes super-globales ]
 
 [DOCUMENTA
+@file Documentación de inic.pseudo.
+Inicializa otras partes de BEPD, en conjunto con builtins, definen
+todas las constantes elementales de PseudoD.
+DOCUMENTA]
+
+[DOCUMENTA
 @brief Valor retornado por las funciones de C++ al lanzar un error no fatal.
 Este valor tambien suele ser devuelto por algunas funciones de la biblioteca
 estandar al lanzar un error algunas de sus funciones llamadas.

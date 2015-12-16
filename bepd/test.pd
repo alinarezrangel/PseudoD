@@ -1,0 +1,124 @@
+[ utilizar inic.pseudo
+utilizar clases.pseudo
+utilizar tipos.pseudo
+
+instancia PunteroInteligente ptr
+instancia PseudoVariable a
+llamar ReservarDato Decimal#Tipo #(Final).
+recibir_resultado a
+llamar ptr#apuntar a #(Final).
+escribir ptr#direccion
+nl
+llamar LiberarDato ptr #(Final).
+llamar ptr#esNulo #(Final).
+recibir_resultado a
+escribir a
+nl ]
+[ *********************************************************
+*********************************
+**** Nombre: OperacionesAritmeticas.pd
+**** Descripción: Realiza diversas operaciones aritméticas
+**** * a gusto del usuario.
+**** Creador: Alejandro Linarez Rangel.
+**** Fecha: Sábado, 5 de diciembre de 2015.
+*********************************
+********************************************************* ]
+[ utilizar mate.pseudo
+adquirir numeroA
+adquirir numeroB
+adquirir operador
+adquirir opSuma
+adquirir opResta
+adquirir opMulti
+adquirir opDivi
+adquirir opMod
+adquirir mensaje
+adquirir resultado
+fijar opSuma =* +
+fijar opResta =* -
+fijar opMulti =* *
+fijar opDivi =* /
+fijar opMod =* %
+fijar mensaje =* Ingrese una expresión simple,(num op num):
+escribir mensaje
+nl
+leer numeroA
+leer operador
+leer numeroB
+si ¿son_iguales? operador opSuma
+    Importar.Ent.Sumar numeroA numeroB resultado
+fin
+si ¿son_iguales? operador opResta
+    Importar.Ent.Restar numeroA numeroB resultado
+fin
+si ¿son_iguales? operador opMulti
+    Importar.Ent.Multiplicar numeroA numeroB resultado
+fin
+si ¿son_iguales? operador opDivi
+    instancia Division MiDiv
+    llamar MiDiv#divide numeroA numeroB #(Final).
+    fijar resultado =¿? MiDiv#cociente
+    liberar MiDiv
+fin
+si ¿son_iguales? operador opMod
+    instancia Division MiDiv
+    llamar MiDiv#divide numeroA numeroB #(Final).
+    fijar resultado =¿? MiDiv#resto
+    liberar MiDiv
+fin
+fijar mensaje =* El resultado es:
+escribir mensaje
+escribir_esp
+escribir resultado
+nl
+
+adquirir num
+fijar num =* 3.999
+llamar Techo num #(Final).
+recibir_resultado num
+escribir num
+nl
+fijar num =* 8.0
+llamar Techo num #(Final).
+recibir_resultado num
+escribir num
+nl
+fijar num =* 1.23244
+llamar Techo num #(Final).
+recibir_resultado num
+escribir num
+nl
+fijar num =* 9.00001
+llamar Techo num #(Final).
+recibir_resultado num
+escribir num
+nl
+]
+
+clase Metodos
+	:foo
+	:bar
+#(Final).
+heredar Objeto Metodos
+
+funcion Metodos#foo
+	fijar VG_BUFFER =* Hola Mundo!
+finfun
+
+funcion Metodos#bar
+	escribir VG_BUFFER
+	nl
+finfun
+
+instancia Metodos A
+instancia Metodos B
+instancia Metodos C
+instancia Metodos D
+instancia Metodos E
+instancia Metodos F
+instancia Metodos G
+instancia Metodos H
+
+llamar A#foo #(Final).
+llamar A#bar #(Final).
+Importar.PseudoD.debug

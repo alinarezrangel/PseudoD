@@ -11,24 +11,31 @@
 ****************************************************************************** ]
 
 utilizar inic.pseudo
+utilizar tipos.pseudo
+
+[DOCUMENTA
+@file Documentación de mate.pseudo.
+Esta es la biblioteca matemática de PseudoD, aqui estan todas las
+funciones matemáticas de PseudoD implementadas en PseudoD.
+DOCUMENTA]
 
 [DOCUMENTA
 @brief Valor PI.
-Es el valor 3.14159265
+Es el valor 3.14159...
 DOCUMENTA]
 adquirir PI
 fijar PI =* 3.141595
 
 [DOCUMENTA
 @brief Constante de Napier.
-Es el valor 2.718281
+Es el valor 2.718281...
 DOCUMENTA]
 adquirir E
 fijar E =* 2.718281
 
 [DOCUMENTA
-@brief Valor para redondear decimales.
-Es aproximadamente 0.5.
+@brief Valor para comparar decimales.
+Es aproximadamente 0.000005.
 DOCUMENTA]
 adquirir DELTA
 fijar DELTA =* 0.000005
@@ -47,6 +54,13 @@ A menor valor, mayor es la precicion de la funcion pero es mas lenta.
 DOCUMENTA]
 adquirir RAIZ_CUADRADA_MIN
 fijar RAIZ_CUADRADA_MIN =* 0.0001
+
+[DOCUMENTA
+@brief Es un valor que no es un numero.
+Representa valores indeterminados, como una division entre cero.
+DOCUMENTA]
+adquirir NO_ES_NUMERO
+fijar NO_ES_NUMERO =* **(No es un numero)**
 
 [DOCUMENTA
 @brief Calcula el valor de una base elevado a un exponente.
@@ -150,7 +164,11 @@ finfun
 DOCUMENTA]
 funcion Seno [ ang ]
 	[ sin(x) = -(-((x^i)/(i!))+((x^I)/(I!))) ]
-	adquirir 
+	fijar VG_BUFFER =* Funcion no implementada
+	escribir VG_BUFFER
+	nl
+	salir
+	
 finfun
 
 [DOCUMENTA
@@ -159,21 +177,112 @@ utiliza el metodo babilonico para calcular la raiz cuadrada de un numero.
 @arg nm Numero a radicar.
 @dev Decimal resultado de la radicacion.
 DOCUMENTA]
-funcion RaizCuadrada [ nm -> sqrt(nm) ]
-	adquirir __sqrt_bbl_a__
-	adquirir __sqrt_bbl_an__
-	adquirir __sqrt_bbl_anu__
-	adquirir __sqrt_bbl_ab__
-	adquirir __sqrt_bbl_ac__
-	recibir_parametro __sqrt_bbl_a__
-	fijar __sqrt_bbl_an__ =¿? __sqrt_bbl_a__
-	fijar __sqrt_bbl_anu__ =* 0
-	mientras comparar Importar.Dec.Comparar __sqrt_bbl_an__ != __sqrt_bbl_anu__
-		fijar __sqrt_bbl_anu__ =¿? __sqrt_bbl_an__
-		Importar.Dec.Dividir __sqrt_bbl_a__ __sqrt_bbl_an__ __sqrt_bbl_ab__
-		
+funcion Raiz_cuadrada [ nm -> sqrt(nm) ]
+	adquirir __raizcuadrada_a__
+	adquirir __raizcuadrada_an__
+	adquirir __raizcuadrada_anu__
+	adquirir __raizcuadrada_cpc__
+	adquirir __raizcuadrada_buf__
+	recibir_parametro __raizcuadrada_a__
+	fijar __raizcuadrada_cpc__ =* 0.5
+	fijar __raizcuadrada_anu__ =¿? RAIZ_CUADRADA_MIN
+	fijar __raizcuadrada_an__ =* 0
+	mientras no ¿son_iguales? __raizcuadrada_an__ __raizcuadrada_anu__
+		fijar __raizcuadrada_an__ =¿? __raizcuadrada_anu__
+		Importar.Dec.Dividir __raizcuadrada_a__ __raizcuadrada_an__ __raizcuadrada_buf__
+		Importar.Dec.Sumar __raizcuadrada_buf__ __raizcuadrada_an__ __raizcuadrada_buf__
+		Importar.Dec.Multiplicar __raizcuadrada_buf__ __raizcuadrada_cpc__ __raizcuadrada_anu__
 	finbucle
-	liberar __sqrt_bbl_a__
-	liberar __sqrt_bbl_an__
-	liberar __sqrt_bbl_anu__
+	devolver __raizcuadrada_an__
+	liberar __raizcuadrada_a__
+	liberar __raizcuadrada_an__
+	liberar __raizcuadrada_anu__
+	liberar __raizcuadrada_cpc__
+	liberar __raizcuadrada_buf__
 finfun
+
+[DOCUMENTA
+@brief Calcula el piso de un numero.
+El piso de X, es el numero entero menor o igual más cercano a X.
+Por ejemplo: piso(3.232) = 3, piso(3.99999) = 3, piso(8) = 8.
+@arg nm Numero a calcular el piso.
+@dev El piso de nm.
+DOCUMENTA]
+funcion Piso [ nm -> floor(nm) ]
+	adquirir __piso_val__
+	recibir_parametro __piso_val__
+	Importar.Ent.Sumar __piso_val__ CERO __piso_val__
+	devolver __piso_val__
+	liberar __piso_val__
+finfun
+
+[DOCUMENTA
+@brief Calcula el techo de un numero.
+El techo de X, es el numero entero mayor o igual más cercano a X.
+Por ejemplo: techo(3.232) = 3, techo(3.99999) = 3, techo(8) = 8.
+@arg nm Numero a calcular el techo.
+@dev El techo de nm.
+DOCUMENTA]
+funcion Techo [ nm -> ceil(nm) ]
+	adquirir __techo_val__
+	adquirir __techo_bff__
+	recibir_parametro __techo_val__
+	Importar.Ent.Sumar __techo_val__ CERO __techo_bff__
+	si comparar Importar.Dec.Comparar __techo_val__ = __techo_bff__
+		devolver __techo_bff__
+	sino
+		Importar.Ent.Sumar __techo_val__ UNO __techo_val__
+		devolver __techo_val__
+	fin
+	liberar __techo_val__
+	liberar __techo_bff__
+finfun
+
+[DOCUMENTA
+@brief Es una division
+Posee todos los datos de una division.
+Con este se puede calcular el resto y cociente de una division.
+DOCUMENTA]
+clase Division
+	resto
+	cociente
+	:divide
+#(Final).
+heredar Objeto Division
+
+[DOCUMENTA
+@brief Divide dos numeros.
+Los datos de la division son almacenados en la instancia actual.
+De ser el divisor cero, no realizara accion.
+@argyo
+@arg dividendo Numero a dividir.
+@arg divisor Numero que dividira.
+DOCUMENTA]
+funcion Division#divide [ yo, a, b :: yo.cociente = a/b yo.resto = a % b ]
+	instancia Referencia __Division_divide_yo__
+	adquirir __Division_divide_a__
+	adquirir __Division_divide_b__
+	adquirir __Division_divide_coc__
+	adquirir __Division_divide_res__
+	adquirir __Division_divide_mt__
+	recibir_parametro __Division_divide_yo__#ref
+	recibir_parametro __Division_divide_a__
+	recibir_parametro __Division_divide_b__
+	si comparar Importar.Ent.Comparar __Division_divide_b__ != CERO
+		Importar.Ent.Dividir __Division_divide_a__ __Division_divide_b__ __Division_divide_coc__
+		fijar __Division_divide_mt__ =* cociente
+		llamar __Division_divide_yo__#fijarAttr __Division_divide_mt__ __Division_divide_coc__ #(Final).
+		Importar.Ent.Restar CERO __Division_divide_b__ __Division_divide_res__
+		Importar.Ent.Multiplicar __Division_divide_res__ __Division_divide_coc__ __Division_divide_res__
+		Importar.Ent.Sumar __Division_divide_res__ __Division_divide_a__ __Division_divide_res__
+		fijar __Division_divide_mt__ =* resto
+		llamar __Division_divide_yo__#fijarAttr __Division_divide_mt__ __Division_divide_res__ #(Final).
+	fin
+	liberar __Division_divide_yo__
+	liberar __Division_divide_a__
+	liberar __Division_divide_b__
+	liberar __Division_divide_coc__
+	liberar __Division_divide_res__
+	liberar __Division_divide_mt__
+finfun
+

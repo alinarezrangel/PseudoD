@@ -228,7 +228,7 @@ namespace PDvar
 	
 	int PDDatos::BuscarIndice(string t,string n)
 	{
-		int ind = -1;
+		int ind = 0;
 		if(t == "Variable")
 		{
 			ind = buscar((*this->nombrev),n);

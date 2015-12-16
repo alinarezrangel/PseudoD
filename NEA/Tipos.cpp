@@ -143,14 +143,24 @@ namespace PDTipos
 			if(this->methods[i][0] == ';')
 			{
 				this->methods[i].replace(0,1,"");
-				data->CrearVariable(this->ni+string("#")+this->methods[i],"Puntero",0);
+				data->CrearVariable(this->ni + string("#") + this->methods[i],"Puntero",0);
 			}
 			else if(this->methods[i][0] == ':')
 			{
 				this->methods[i].replace(0,1,"");
-				data->CrearVariable(this->ni+string("#")+this->methods[i]);
-				data->ObtenerVariable(this->ni+string("#")+this->methods[i])
-	      = data->ObtenerVariable(this->nm+string("#")+this->methods[i]+string("#cod"));
+				data->CrearVariable(this->ni + string("#") + this->methods[i],"Puntero",0);
+				data->CrearVariable(this->ni + string("#") + this->methods[i] + string("#cod"),"Puntero",0);
+				// No tiene sentido tener una copia de cada metodo de la instancia,
+				// En cambio, puedes tener un puntero al metodo, que ocupa menos
+				// espacio.
+				data->ObtenerIndicePuntero(this->ni + string("#") + this->methods[i])
+				= data->BuscarIndice("Variable",this->nm + string("#")
+				                     + this->methods[i]);
+				data->ObtenerIndicePuntero(this->ni + string("#") + this->methods[i] + "#cod")
+				= data->BuscarIndice("Variable",this->nm + string("#")
+				                     + this->methods[i] + string("#cod"));
+				/*data->ObtenerVariable(this->ni+string("#")+this->methods[i])
+	      = data->ObtenerVariable(this->nm+string("#")+this->methods[i]+string("#cod"));*/
 			}
 			else
 			{
@@ -178,7 +188,132 @@ namespace PDTipos
 		cout << "junto con este debugger" << endl;
 		cout << "Al salir con la orden salir se seguira ejecutando el programa" << endl;
 		string i;
+		// Reconstuccion total del depurador
 		while(i != "salir")
+		{
+			try
+			{
+				cout << "DEBUG>> ";
+				cin >> i;
+				if(i == "variable")
+				{
+					string var;
+					cin >> var;
+					string val = data->ObtenerVariable(var);
+					cout << "La variable,(o puntero) " << var << " posee el valor \"" << val << "\"" << endl;
+				}
+				else if(i == "puntero")
+				{
+					string ptr,vptr,nvar;
+					int iptr;
+					cin >> ptr;
+					vptr = data->ObtenerVariable(ptr);
+					iptr = data->ObtenerIndicePuntero(ptr);
+					if(iptr != -1)
+						nvar = (*data->nombrev)[iptr];
+					cout << "El puntero " << ptr << " posee el valor,(apuntado) \"" << vptr << "\"" << endl
+					 << " y apunta a la direccion [" << iptr << "] del campo de variables." << endl
+					 << "La variable apuntada es {" << nvar << "}" << endl;
+				}
+				else if(i == "pila")
+				{
+					int pil;
+					cin >> pil;
+					if((pil < 0)||(pil > (*data->pilas).size()))
+					{
+						cout << "NO EXISTE" << endl;
+					}
+					auto buffer = (*data->pilas)[pil];
+					cout << "+----------PILA " << pil << "-------+" << endl;
+					while(!buffer.empty())
+					{
+						cout << "|" << buffer.top() << "|" << endl;
+						buffer.pop();
+					}
+				}
+				else if(i == "numero-de")
+				{
+					string que;
+					cin >> que;
+					if(que == "variables")
+					{
+						cout << "Hay " << (*data->nombrev).size() << " variables" << endl;
+					}
+					if(que == "punteros")
+					{
+						cout << "Hay " << (*data->nombrep).size() << " punteros" << endl;
+					}
+					if(que == "pilas")
+					{
+						cout << "Hay " << (*data->pilas).size() << " pilas" << endl;
+					}
+				}
+				else if(i == "ejecutar")
+				{
+					string ord;
+					getline(cin,ord,'\n');
+					data->Ejecutar(ord);
+				}
+				else if(i == "instancia")
+				{
+					cout << "Advertencia: la instancia debe poseer los atributos fundamentales..." << endl;
+					string var;
+					cin >> var;
+					string tipo = data->ObtenerVariable(var+"#Tipo");
+					cout << "La instancia del tipo " << tipo << " nombrada " << var << " tiene los campos:" << endl;
+					int met = cae(data->ObtenerVariable(tipo));
+					for (int i = 0; i < met; i += 1)
+					{
+						string campo = data->ObtenerVariable(tipo+"#("+eas(i)+").");
+						cout << "     ";
+						bool b = false,p = false;
+						if((campo[0] == ':')||(campo[0] == ';'))
+						{
+							if(campo[0] == ':')
+							{
+								cout << "[METODO]";
+								b = true;
+							}
+							else
+							{
+								cout << "[PUNTERO]";
+								p = true;
+							}
+							campo.replace(0,1,"");
+						}
+						string valor = data->ObtenerVariable(var+"#"+campo);
+						if(b)
+							valor = tipo + "#" + campo;
+						if(p)
+							valor = "DIR[" + eas(data->ObtenerIndicePuntero(var+"#"+campo)) + "] VAL[" + valor + "] NVARPTR[" + (*data->nombrev)[data->ObtenerIndicePuntero(var+"#"+campo)] + "]";
+						cout << campo << "  =  " << valor << endl;
+					}
+					cout << "    [VALOR BRUTO]  =  " << data->ObtenerVariable(var) << endl;
+				}
+				else if(i == "clase")
+				{
+					string est;
+					cin >> est;
+					cout << "La clase " << est << " tiene los siguientes campos:" << endl;
+					for(int i = 0;i < cae(data->ObtenerVariable(est));i++)
+					{
+						cout << "    " << data->ObtenerVariable(est+"#("+eas(i)+").") << endl;
+					}
+				}
+				else
+				{
+					data->Ejecutar(i,cin);
+				}
+			}
+			catch(const string& e)
+			{
+				cerr << "PseudoD lanzo un error fatal: " << e << endl;
+				cerr << "EN " << data->ObtenerVariable("__ARCH__") << endl;
+				cerr << "Captado por el debugger" << endl;
+			}
+		}
+		// Anterior depurador
+		/* while(i != "salir")
 		{
 			cout << "DEBUG>> ";
 			cin >> i;
@@ -325,7 +460,7 @@ namespace PDTipos
 				cin >> ord;
 				(*data->PROCESAR)(ord,cin,data->PROCESO);
 			}
-		}
+		} */
 	}
 	
 	PseudoArrayEstructura::PseudoArrayEstructura(string na,string ne,int ta) : PDInstancia()

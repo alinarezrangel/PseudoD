@@ -11,6 +11,12 @@
 ****************************************************************************** ]
 
 [DOCUMENTA
+@file Documentación de builtins.pseudo.
+Inicializa el interpete de PseudoD, con las constantes y clases requeridas
+para que el programa funcione.
+DOCUMENTA]
+
+[DOCUMENTA
 @brief Representa un valor nulo.
 Es el valor que toman las variables, antes de ser inicializadas.
 DOCUMENTA]

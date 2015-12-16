@@ -1,0 +1,38 @@
+[ ***************************************************
+**************
+** Si_Sino.pd: Ejemplos de PseudoD.
+** Creador: Alejandro Linarez Rangel
+** Ejemplo del condicional si-sino.
+** Serie de ejemplos de PseudoD.
+** Contacto a <proyectopseudod@gmail.com> y a los
+** foros de discución en
+**    <https://sourceforge.net/p/pseudod/discussion/?source=navbar>
+**************
+*************************************************** ]
+
+[ TODO: solo funciona en PseudoD u1.9.5 o superior ]
+
+utilizar inic.pseudo
+utilizar clases.pseudo
+utilizar mate.pseudo
+
+adquirir mensaje [ Pregunta al usuario ]
+adquirir respuesta [ Respuesta del usuario ]
+
+fijar mensaje =* ¿Has hecho moo hoy?(S/N):
+
+escribir mensaje [ Escrie el mensaje ]
+escribir_esp [ Escribe un espacio en blanco ]
+leer respuesta [ Lee la respuesta ]
+
+[ Si son iguales la respuesta y SI,(puedes ver su valor en la referencia de PseudoD: http://pseudod.sourceforge.net/) ]
+si ¿son_iguales? respuesta SI
+	[ Felicitalo ]
+	fijar mensaje =* ¡¡¡Genial!!!
+sino
+	[ En otro caso, sorprendete ]
+	fijar mensaje =* ¡¿En serio?!
+fin
+[ Escribe el resultado ]
+escribir mensaje
+nl

@@ -12,6 +12,13 @@
 utilizar inic.pseudo
 
 [DOCUMENTA
+@file Documentación de tipos.pseudo.
+Aqui se encuentran funciones comunes de PseudoD, la clase Referencia, es
+la clase principal de este archivo, permitiendo referenciar variables de
+forma eficiente y simple.
+DOCUMENTA]
+
+[DOCUMENTA
 @brief Representa una referencia a un objeto.
 Este requiere que se campo ref sea fijado a el nombre(ref) de la
 variable a fijar. Esta variable puede ser una instancia de cualquier clase.
@@ -237,38 +244,88 @@ funcion Referencia#llamarMet [ ref instancia, met, args... ]
 finfun
 
 adquirir __pseudod_ReservarDatos_i__
-fijar __pseudod_ReservarDatos_i__ =* -9223372036854775808
+fijar __pseudod_ReservarDatos_i__ =* 0
+adquirir __pseudod_pilaReseva_i__
+fijar __pseudod_pilaReseva_i__ =* 1
+crear_pila
+usar_pila 1
+empujar NULO
+usar_pila 0
 
 [DOCUMENTA
 @brief Reserva datos de forma dinamica.
 Cuando el nombre de un dato no importa (por ejemplo, en arreglos dinamicos)
 se puede solicitar un dato, que se puede manipular por punteros. Es similar
 a new tipoData en C++ y malloc(sizeof(tipoData)) en C.
+Modifica VG_BUFFER.
 @arg tipoData Tipo del dato.
 @dev data Referencia al bloque dinamico.
 DOCUMENTA]
 funcion ReservarDato [ tipoData -> ref data ]
 	adquirir __RESEVAR_DATO_TIPO__
 	adquirir __RESEVAR_DATO_BUFFER__
+	adquirir __RESEVAR_DATO_RET__
 	recibir_parametro __RESEVAR_DATO_TIPO__
+	fijar VG_BUFFER =¿? VG_PILA_ACTUAL
+	fijar VG_PILA_ACTUAL =¿? __pseudod_pilaReseva_i__
+	fijar __RESEVAR_DATO_RET__ =¿? FALSO
+	sacar __RESEVAR_DATO_BUFFER__
+	si ¿son_iguales? __RESEVAR_DATO_BUFFER__ NULO
+		empujar NULO
+	sino
+		empujar __pseudod_ReservarDatos_i__
+		fijar __pseudod_ReservarDatos_i__ =¿? __RESEVAR_DATO_BUFFER__
+		fijar __RESEVAR_DATO_RET__ =¿? VERDADERO
+	fin
 	fijar __RESEVAR_DATO_BUFFER__ =* instancia 
-	Importar.Cad.Concatenar __RESEVAR_DATO_BUFFER__ __RESEVAR_DATO_TIPO__ __RESEVAR_DATO_TIPO__
-	Importar.Cad.Concatenar __RESEVAR_DATO_BUFFER__ ESP __RESEVAR_DATO_TIPO__
-	Importar.Cad.Concatenar __RESEVAR_DATO_BUFFER__ __pseudod_ReservarDatos_i__ __RESEVAR_DATO_TIPO__
-	devolver __pseudod_ReservarDatos_i__
-	Importar.Ent.Sumar __pseudod_ReservarDatos_i__ UNO __pseudod_ReservarDatos_i__
+	Importar.Cad.Concatenar __RESEVAR_DATO_BUFFER__ __RESEVAR_DATO_TIPO__ __RESEVAR_DATO_BUFFER__
+	Importar.Cad.Concatenar __RESEVAR_DATO_BUFFER__ ESP __RESEVAR_DATO_BUFFER__
+	Importar.Cad.Concatenar __RESEVAR_DATO_BUFFER__ __pseudod_ReservarDatos_i__ __RESEVAR_DATO_BUFFER__
+	ejecutar __RESEVAR_DATO_BUFFER__
+	fijar __RESEVAR_DATO_BUFFER__ =¿? __pseudod_ReservarDatos_i__
+	si no __RESEVAR_DATO_RET__
+		Importar.Ent.Sumar __pseudod_ReservarDatos_i__ UNO __pseudod_ReservarDatos_i__
+	sino
+		sacar __pseudod_ReservarDatos_i__
+	fin
+	fijar VG_PILA_ACTUAL =¿? VG_BUFFER
+	devolver __RESEVAR_DATO_BUFFER__
 	liberar __RESEVAR_DATO_BUFFER__
 	liberar __RESEVAR_DATO_TIPO__
+	liberar __RESEVAR_DATO_RET__
 finfun
 
 [DOCUMENTA
-@brief Libera un dato eservado con ReservarDato.
+@brief Libera un dato reservado con ReservarDato.
 No cuenta para datos multiples. Tal como free de C
 o delete de C++, cuando el dato es NULO no realiza accion.
+Además, fija el PunteroInteligente a nulo, de forma que el metodo esNulo
+siempre devuelva verdadero.
+Modifica VG_BUFFER.
 @arg ptr Puntero al nombre del dato reservado(referencia a instancia de PunteroInteligente).
 DOCUMENTA]
 funcion LiberarDato [ ptr ]
-	instancia
+	instancia Referencia __LIBERAR_DATO_REF__
+	adquirir __LIBERAR_DATO_BUFFA__
+	adquirir __LIBERAR_DATO_BUFFB__
+	adquirir __LIBERAR_DATO_BUFFC__
+	sacar __LIBERAR_DATO_REF__#ref
+	fijar __LIBERAR_DATO_BUFFA__ =* direccion
+	llamar __LIBERAR_DATO_REF__#obtenerAttr __LIBERAR_DATO_BUFFA__ #(Final).
+	recibir_resultado __LIBERAR_DATO_BUFFB__
+	fijar __LIBERAR_DATO_BUFFA__ =* liberar 
+	Importar.Cad.Concatenar __LIBERAR_DATO_BUFFA__ __LIBERAR_DATO_BUFFB__ __LIBERAR_DATO_BUFFA__
+	ejecutar __LIBERAR_DATO_BUFFA__
+	fijar VG_BUFFER =¿? VG_PILA_ACTUAL
+	fijar VG_PILA_ACTUAL =¿? __pseudod_pilaReseva_i__
+	empujar __LIBERAR_DATO_BUFFB__
+	fijar VG_PILA_ACTUAL =¿? VG_BUFFER
+	fijar __LIBERAR_DATO_BUFFA__ =* direccion
+	llamar __LIBERAR_DATO_REF__#redireccionarAttr __LIBERAR_DATO_BUFFA__ NULO#NOMBRE #(Final).
+	liberar __LIBERAR_DATO_REF__
+	liberar __LIBERAR_DATO_BUFFA__
+	liberar __LIBERAR_DATO_BUFFB__
+	liberar __LIBERAR_DATO_BUFFC__
 finfun
 
 [DOCUMENTA
@@ -309,15 +366,4 @@ clase IteradorBi
 	:anterior
 #(Final).
 heredar Iterador IteradorBi
-
-[DOCUMENTA
-@brief Representa un iterador para ReservarDato y LiberarDato.
-Con este se puede iterar sobre memoria.
-DOCUMENTA]
-clase IteradorDin
-	ind
-	
-#(Final).
-heredar IteradorBi IteradorDin
-
 
