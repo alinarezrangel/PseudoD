@@ -408,6 +408,7 @@ clase ListaSimple
 	num_items
 	;act
 	:obtenerNodoPrevioAPos
+	:insertar
 #(Final).
 heredar ListaS ListaSimple
 
@@ -461,8 +462,8 @@ Ademas, fija el nodo actual a dicho nodo previo.
 @arg pos Posicion(entera) del nodo
 @dev Referencia al nodo
 ]
-funcion ListaSimple#obtenerNodoPrevioAPos [ ref instancia, pos, ref nodo ]
-	instancia Referencia __LISTASIMPLE_OBT_NOD_PREV_POS_REF__
+funcion ListaSimple#obtenerNodoPrevioAPos [ ref instancia, pos -> ref nodo ]
+	[ instancia Referencia __LISTASIMPLE_OBT_NOD_PREV_POS_REF__
 	adquirir __LISTASIMPLE_OBT_NOD_PREV_POS_MPOS__
 	adquirir __LISTASIMPLE_OBT_NOD_PREV_POS_BUFF__
 	adquirir __LISTASIMPLE_OBT_NOD_PREV_POS_POS__
@@ -497,13 +498,21 @@ funcion ListaSimple#obtenerNodoPrevioAPos [ ref instancia, pos, ref nodo ]
 	liberar __LISTASIMPLE_OBT_NOD_PREV_POS_REF__
 	liberar __LISTASIMPLE_OBT_NOD_PREV_POS_MPOS__
 	liberar __LISTASIMPLE_OBT_NOD_PREV_POS_BUFF__
-	liberar __LISTASIMPLE_OBT_NOD_PREV_POS_POS__
+	liberar __LISTASIMPLE_OBT_NOD_PREV_POS_POS__ ]
 finfun
 
 [DOCUMENTA
+@brief Inserta un nodo en la posicion pos.
+Si pos es el ultimo de la lista, (es decir, num_items) el nodo sera
+creado,(equivalente a append).
+@argyo
+@arg pos Posicion del nodo
+@arg data Tipo de datos del nodo
 DOCUMENTA]
 funcion ListaSimple#insertar [ ref instancia, pos, data ]
 	instancia Referencia __LISTASIMPLE_INSERT_REF__
+	instancia Referencia __LIBERAR_DATO_REFA__
+	instancia Referencia __LIBERAR_DATO_REFB__
 	adquirir __LISTASIMPLE_INSERT_POS__
 	adquirir __LISTASIMPLE_INSERT_DATA__
 	adquirir __LISTASIMPLE_INSERT_BUFF__
@@ -512,14 +521,28 @@ funcion ListaSimple#insertar [ ref instancia, pos, data ]
 	recibir_parametro __LISTASIMPLE_INSERT_REF__#ref
 	recibir_parametro __LISTASIMPLE_INSERT_POS__
 	recibir_parametro __LISTASIMPLE_INSERT_DATA__
-	
+	fijar __LISTASIMPLE_INSERT_BUFF__ =* obtenerNodoPrevioAPos
+	llamar __LISTASIMPLE_INSERT_REF__#llamarMet __LISTASIMPLE_INSERT_BUFF__ __LISTASIMPLE_INSERT_POS__ #(Final).
+	recibir_resultado __LISTASIMPLE_INSERT_REFA__#ref
+	llamar ReservarDato NodoS #(Final).
+	recibir_resultado __LISTASIMPLE_INSERT_REFB__#ref
+	fijar __LISTASIMPLE_INSERT_BUFF__ =* tipo
+	llamar __LISTASIMPLE_INSERT_REFB__#fijarAttr __LISTASIMPLE_INSERT_BUFF__ __LISTASIMPLE_INSERT_DATA__ #(Final).
+	fijar __LISTASIMPLE_INSERT_BUFF__ =* crearDato
+	llamar __LISTASIMPLE_INSERT_REFB__#llamarMet __LISTASIMPLE_INSERT_BUFF__ #(Final).
+	fijar __LISTASIMPLE_INSERT_BUFF__ =* insertarSiguiente
+	llamar __LISTASIMPLE_INSERT_REFA__#llamarMet __LISTASIMPLE_INSERT_BUFF__ __LISTASIMPLE_INSERT_REFB__#ref #(Final).
 	liberar __LISTASIMPLE_INSERT_REF__
 	liberar __LISTASIMPLE_INSERT_POS__
 	liberar __LISTASIMPLE_INSERT_DATA__
 	liberar __LISTASIMPLE_INSERT_BUFF__
 	liberar __LISTASIMPLE_INSERT_BUFF2__
 	liberar __LISTASIMPLE_INSERT_BUFF3__
+	liberar __LIBERAR_DATO_REFA__
+	liberar __LIBERAR_DATO_REFB__
 finfun
+
+fijar VG_BUFFER =* PASO
 
 instancia ListaSimple list
 instancia NodoS ndA
@@ -532,16 +555,53 @@ fijar ndB#tipo =* PseudoVariable
 fijar ndC#tipo =* PseudoVariable
 
 redireccionar list#sig list#NOMBRE
+escribir VG_BUFFER
+nl
 
 llamar ndA#crearDato #(Final).
+escribir VG_BUFFER
+nl
 llamar ndB#crearDato #(Final).
+escribir VG_BUFFER
+nl
 llamar ndC#crearDato #(Final).
+escribir VG_BUFFER
+nl
 
 fijar ndA#dato =* Hola desde A
 fijar ndB#dato =* Hola desde B
 fijar ndC#dato =* Hola desde C
+escribir VG_BUFFER
+nl
 
 llamar list#insertarPrimero ndC #(Final).
 llamar list#insertarPrimero ndB #(Final).
 llamar list#insertarPrimero ndA #(Final).
-
+escribir VG_BUFFER
+nl
+[ instancia IteradorS ptr
+redireccionar ptr#lista list
+redireccionar ptr#actual list
+mientras llamar ptr#¿valido? #(Final).
+	instancia Referencia ref
+	fijar ref#ref =¿? ptr#actual
+	adquirir w
+	fijar w =* dato
+	llamar ref#obtenerAttr w #(Final).
+	recibir_resultado w
+	escribir w
+	nl
+	llamar ptr#siguiente #(Final).
+	liberar ref
+	liberar w
+finbucle ]
+adquirir j
+fijar j =* 2
+escribir VG_BUFFER
+nl
+llamar list#obtenerNodoPrevioAPos j #(Final).
+escribir VG_BUFFER
+nl
+recibir_resultado j
+escribir j
+nl

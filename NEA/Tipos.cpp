@@ -534,23 +534,36 @@ namespace PDTipos
 				throw string("Error en el la parte " + this->ObtenerClave() + " No existe la variable o puntero.");
 				return;
 			}
+			(*data->nombrep).erase((*data->nombrep).begin() + i);
+			(*data->nvapunt).erase((*data->nvapunt).begin() + i);
+		/*cout << "Borrando bloque de memoria 6" << endl;
+		cout << "I:" << (i+1) << ";bkls:" << (*data->nombrev).size() << endl;
 			for (int j = i+1; j < (*data->nombrev).size(); j += 1)
 			{
+		cout << "Overloading el bloque " << (j-1) << " para " << j << ":[" << (*data->nombrep)[j-1] << "," << (*data->nombrep)[j] << "]" << endl;
 				(*data->nombrep)[j-1] = (*data->nombrep)[j];
 				(*data->nvapunt)[j-1] = (*data->nvapunt)[j];
 			}
+		cout << "Borrando bloque de memoria 7" << endl;
 			(*data->nombrep).pop_back();
 			(*data->nvapunt).pop_back();
+		cout << "Borrando bloque de memoria 8" << endl;*/
 		}
 		else
 		{
+			(*data->nombrev).erase((*data->nombrev).begin() + i);
+			(*data->valorv).erase((*data->valorv).begin() + i);
+			/*
+		cout << "Borrando bloque de memoria 9" << endl;
 			for (int j = i+1; j < (*data->nombrev).size(); j += 1)
 			{
 				(*data->nombrev)[j-1] = (*data->nombrev)[j];
 				(*data->valorv)[j-1] = (*data->valorv)[j];
 			}
+		cout << "Borrando bloque de memoria 10" << endl;
 			(*data->nombrev).pop_back();
 			(*data->valorv).pop_back();
+		cout << "Borrando bloque de memoria 11" << endl;*/
 		}
 		
 	}

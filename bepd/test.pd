@@ -95,6 +95,10 @@ escribir num
 nl
 ]
 
+utilizar inic.pseudo
+utilizar clases.pseudo
+utilizar tipos.pseudo
+
 clase Metodos
 	:foo
 	:bar
@@ -111,14 +115,11 @@ funcion Metodos#bar
 finfun
 
 instancia Metodos A
-instancia Metodos B
-instancia Metodos C
-instancia Metodos D
-instancia Metodos E
-instancia Metodos F
-instancia Metodos G
-instancia Metodos H
-
-llamar A#foo #(Final).
-llamar A#bar #(Final).
+instancia Referencia ref
+fijar ref#ref =* A
+adquirir b
+fijar b =* foo
+llamar ref#llamarMet b #(Final).
+fijar b =* bar
+llamar ref#llamarMet b #(Final).
 Importar.PseudoD.debug
