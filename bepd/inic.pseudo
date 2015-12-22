@@ -97,6 +97,7 @@ puntero VG_BUFFER_DATA VG_BUFFER_DATOS_DATA
 @brief Determina si el valor es nulo.
 @arg valor Valor a determinar.
 @dev Si es NULO o no.
+@errors Active
 DOCUMENTA]
 funcion EsNulo [ valor -> boole ]
 	adquirir __ES_NULO_VAL__

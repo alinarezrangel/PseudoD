@@ -17,7 +17,7 @@
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 #RUTA_PSEUDOD="$HOME/bin/bepd/BEPD/"
-RUTA_PSEUDOD="/usr/lib/pseudod/1.9.3/"   # Ruta donde se movio BEPD(preferiblemente la que tiene por decfecto)
+RUTA_PSEUDOD="/opt/pseudod/bepd/"   # Ruta donde se movio BEPD(preferiblemente la que tiene por decfecto)
 RUTA_LIB="/usr/lib/libpseudod.so" # Ruta donde se movio la biblioteca libpseudod.so
 FIJO="no"
 if [ "$FIJO" = "no" ]

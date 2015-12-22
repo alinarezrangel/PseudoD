@@ -64,6 +64,7 @@ Almacena el resultado en el argumento res.
 @arg Yo primer elemento, debe ser una referencia comun.
 @arg Tu segundo elemento, debe ser una referencia comun.
 @arg res tercer argumento, una referencia comun a donde se guardara el resultado.
+@errors Active
 DOCUMENTA]
 funcion Fraccion#sumar [ Yo, Tu ]
 	adquirir __REF_YO__
@@ -189,6 +190,7 @@ Almacena el resultado en el argumento Yo.
 @arg Yo primer elemento, debe ser una referencia.
 @arg Tu segundo elemento, debe ser una referencia.
 @arg res tercer argumento, una referencia a donde se guardara el resultado.
+@errors Active
 DOCUMENTA]
 funcion Fraccion#restar [ Yo, Tu ]
 	adquirir __REF_YO__
@@ -292,6 +294,7 @@ Almacena el resultado en el argumento Yo.
 @arg Yo primer elemento, debe ser una referencia.
 @arg Tu segundo elemento, debe ser una referencia.
 @arg res tercer argumento, una referencia a donde se guardara el resultado.
+@errors Active
 DOCUMENTA]
 funcion Fraccion#multiplicar [ Yo, Tu ]
 	adquirir __REF_YO__
@@ -385,6 +388,7 @@ Almacena el resultado en el argumento Yo.
 @arg Yo primer elemento, debe ser una referencia.
 @arg Tu segundo elemento, debe ser una referencia.
 @arg res tercer argumento, una referencia a donde se guardara el resultado.
+@errors Active
 DOCUMENTA]
 funcion Fraccion#dividir [ Yo, Tu ]
 	adquirir __REF_YO__
@@ -482,6 +486,7 @@ Devuelve verdadero si a y b son verdadero.
 @arg Yo Referencia comun al valor numero 1 a comparar.
 @arg b Referencia comun al valor numero 2 a comparar.
 @dev Verdadero o Falso.
+@errors Active
 DOCUMENTA]
 funcion Boole#Y
 	adquirir __VAL_YO__
@@ -534,6 +539,7 @@ Devuelve verdadero si a es verdadero, b es verdadero, o ambos son verdadero.
 @arg Yo Referencia al valor numero 1 a comparar.
 @arg b Referencia al valor numero 2 a comparar.
 @dev Verdadero o Falso.
+@errors Active
 DOCUMENTA]
 funcion Boole#O
 	adquirir __VAL_YO__
@@ -584,6 +590,7 @@ Devuelve verdadero si a y b son distintos.
 @arg Yo Referencia al valor numero 1 a comparar.
 @arg b Referencia al valor numero 2 a comparar.
 @dev Verdadero o Falso.
+@errors Active
 DOCUMENTA]
 funcion Boole#O-EXCLUSIVO
 	adquirir __VAL_YO__
@@ -633,6 +640,7 @@ finfun
 Devuelve verdadero si a es falso, y falso si a es verdadero.
 @arg Yo Referencia al valor a negar.
 @dev Verdadero o Falso.
+@errors Active
 DOCUMENTA]
 funcion Boole#NO
 	adquirir __VAL_YO__
@@ -683,6 +691,7 @@ heredar Objeto Numero
 @arg Yo Referencia a el primer numero a sumar.
 @arg b Referencia a el segundo numero a sumar.
 @arg res Referencia a donde se almacenara el resultado.
+@errors Active
 DOCUMENTA]
 funcion Numero#sumar
 	adquirir __REF_YO__
@@ -714,6 +723,7 @@ finfun
 @arg Yo Referencia a el primer numero a restar.
 @arg b Referencia a el segundo numero a restar.
 @arg res Referencia a donde se almacenara el resultado.
+@errors Active
 DOCUMENTA]
 funcion Numero#restar
 	adquirir __REF_YO__
@@ -745,6 +755,7 @@ finfun
 @arg Yo Referencia a el primer numero a multiplicar.
 @arg b Referencia a el segundo numero a multiplicar.
 @arg res Referencia a donde se almacenara el resultado.
+@errors Active
 DOCUMENTA]
 funcion Numero#multiplicar
 	adquirir __REF_YO__
@@ -776,6 +787,7 @@ finfun
 @arg Yo Referencia a el primer numero a dividir.
 @arg b Referencia a el segundo numero a dividir.
 @arg res Referencia a donde se almacenara el resultado.
+@errors Active
 DOCUMENTA]
 funcion Numero#dividir
 	adquirir __REF_YO__
@@ -822,6 +834,7 @@ heredar Objeto Decimal
 @arg Yo Referencia a el primer numero a sumar.
 @arg b Referencia a el segundo numero a sumar.
 @arg res Referencia a donde se almacenara el resultado.
+@errors Active
 DOCUMENTA]
 funcion Decimal#sumar
 	adquirir __REF_YO__
@@ -853,6 +866,7 @@ finfun
 @arg Yo Referencia a el primer numero a restar.
 @arg b Referencia a el segundo numero a restar.
 @arg res Referencia a donde se almacenara el resultado.
+@errors Active
 DOCUMENTA]
 funcion Decimal#restar
 	adquirir __REF_YO__
@@ -884,6 +898,7 @@ finfun
 @arg Yo Referencia a el primer numero a multiplicar.
 @arg b Referencia a el segundo numero a multiplicar.
 @arg res Referencia a donde se almacenara el resultado.
+@errors Active
 DOCUMENTA]
 funcion Decimal#multiplicar
 	adquirir __REF_YO__
@@ -915,6 +930,7 @@ finfun
 @arg Yo Referencia a el primer numero a dividir.
 @arg b Referencia a el segundo numero a dividir.
 @arg res Referencia a donde se almacenara el resultado.
+@errors Active
 DOCUMENTA]
 funcion Decimal#dividir
 	adquirir __REF_YO__

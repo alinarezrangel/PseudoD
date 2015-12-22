@@ -77,15 +77,12 @@ namespace PDTipos
 	void PseudoClase::InscribirInstancia(PDDatos* data)
 	{
 		data->CrearVariable(this->nm);
-		data->ObtenerVariable(this->nm) = eas(this->methods.size());
+		data->ObtenerVariable(this->nm) = "";
 		for(int i = 0;i < this->methods.size();i++)
 		{
-			data->CrearVariable(this->nm + string("#(") + eas(i) + string(")."));
-			data->ObtenerVariable(this->nm + string("#(") + eas(i) + string(").")) = this->methods[i];
+			data->ObtenerVariable(this->nm) += this->methods[i] + " ";
 		}
-		data->CrearVariable(this->nm + string("#NOMBRE"));
 		data->CrearVariable(this->nm + string("#Tipo"));
-		data->ObtenerVariable(this->nm + string("#NOMBRE")) = this->nm;
 		data->ObtenerVariable(this->nm + string("#Tipo")) = this->nm;
 	}
 	
@@ -131,12 +128,28 @@ namespace PDTipos
 	{
 		data->CrearVariable(this->ni);
 		data->ObtenerVariable(this->ni)=this->ni;
-		int lg = cae(data->ObtenerVariable(this->nm));
+		/*int lg = cae(data->ObtenerVariable(this->nm));
 		
 		for(int i = 0;i < lg;i++)
 		{
 			this->methods.push_back(data->ObtenerVariable(this->nm+string("#(")+eas(i)+string(").")));
+		}*/
+		
+		string buff = "";
+		for(int i = 0;i < data->ObtenerVariable(this->nm).size();i++)
+		{
+			if(data->ObtenerVariable(this->nm)[i] == ' ')
+			{
+				if(buff != "")
+					this->methods.push_back(buff);
+				buff = "";
+				continue;
+			}
+			buff += data->ObtenerVariable(this->nm)[i];
 		}
+		if(buff != "")
+			this->methods.push_back(buff);
+		buff = "";
 		
 		for(int i = 0;i < this->methods.size();i++)
 		{
@@ -259,12 +272,12 @@ namespace PDTipos
 					cout << "Advertencia: la instancia debe poseer los atributos fundamentales..." << endl;
 					string var;
 					cin >> var;
-					string tipo = data->ObtenerVariable(var+"#Tipo");
+					string tipo = data->ObtenerVariable(var + string("#Tipo"));
 					cout << "La instancia del tipo " << tipo << " nombrada " << var << " tiene los campos:" << endl;
 					int met = cae(data->ObtenerVariable(tipo));
 					for (int i = 0; i < met; i += 1)
 					{
-						string campo = data->ObtenerVariable(tipo+"#("+eas(i)+").");
+						string campo = data->ObtenerVariable(tipo + "#(" + eas(i) + ").");
 						cout << "     ";
 						bool b = false,p = false;
 						if((campo[0] == ':')||(campo[0] == ';'))
@@ -300,7 +313,7 @@ namespace PDTipos
 						cout << "    " << data->ObtenerVariable(est+"#("+eas(i)+").") << endl;
 					}
 				}
-				else
+				else if(i != "salir")
 				{
 					data->Ejecutar(i,cin);
 				}
@@ -591,7 +604,7 @@ namespace PDTipos
 	
 	void PseudoHerencia::InscribirInstancia(PDDatos* data)
 	{
-		int tmb,tmh,tmha;
+		/*int tmb,tmh,tmha;
 		tmb = cae(data->ObtenerVariable(this->nmb));
 		tmh = cae(data->ObtenerVariable(this->nmh));
 		tmha = tmh;
@@ -603,7 +616,8 @@ namespace PDTipos
 			data->CrearVariable(this->nmh+string("#(")+eas(ich)+string(")."));
 			data->ObtenerVariable(this->nmh+string("#(")+eas(ich)+string(").")) = data->ObtenerVariable(this->nmb+string("#(")+eas(icb)+string(")."));
 			ich++;
-		}
+		}*/
+		data->ObtenerVariable(this->nmh) += " " + data->ObtenerVariable(this->nmb);
 	}
 	
 	PseudoDireccionarPuntero::PseudoDireccionarPuntero(string p,string v) : PDInstancia()
@@ -916,19 +930,28 @@ namespace PDTipos
 		bt.InscribirInstancia(data);
 		//*/
 		vector<string> metodos;
-		long lg = cae(data->ObtenerVariable(tipo));
-		for (int i = 0; i < lg; i += 1)
+		string buff = "";
+		for(int i = 0;i < data->ObtenerVariable(tipo).size();i++)
 		{
-			if((data->ObtenerVariable(tipo+PDcadena("#(")+eas(i)+PDcadena(")."))[0] == ';')
-				||(data->ObtenerVariable(tipo+PDcadena("#(")+eas(i)+string(")."))[0] == ':'))
+			if(data->ObtenerVariable(tipo)[i] == ' ')
 			{
-				string G = data->ObtenerVariable(tipo+string("#(")+eas(i)+string(")."));
-				G.replace(0,1,"");
-				metodos.push_back(G);
+				if(buff != "")
+				{
+					metodos.push_back(buff);
+					buff = "";
+				}
+				continue;
 			}
-			else
+			buff += data->ObtenerVariable(tipo)[i];
+		}
+		for (int i = 0; i < metodos.size(); i += 1)
+		{
+			if((metodos[i][0] == ';')
+				||(metodos[i][0] == ':'))
 			{
-				metodos.push_back(data->ObtenerVariable(tipo+string("#(")+eas(i)+string(").")));
+				string G = metodos[i];
+				G.replace(0,1,"");
+				metodos[i] = G;
 			}
 		}
 		for (int i = 0; i < metodos.size(); i += 1)

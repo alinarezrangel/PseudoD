@@ -33,6 +33,7 @@ heredar Objeto BufferTexto
 @brief Escribe un texto en la salida estándar.
 Equivalente a <code class="pseudod">escribir</code>.
 @arg texto Valor a escribir.
+@errors Active
 DOCUMENTA]
 funcion Escribir [ Objeto texto ]
 	adquirir __ESA__
@@ -46,6 +47,7 @@ finfun
 La diferencia esta en que ingresa un valor nueva linea al final, como
 en <code class="pseudod">escribir</code> seguido de <code class="pseudod">nl</code>
 @arg texto Valor a escribir.
+@errors Active
 DOCUMENTA]
 funcion EscribirLinea [ Objeto texto ]
 	adquirir __ESA__
@@ -58,6 +60,7 @@ finfun
 [DOCUMENTA
 @brief Lee un valor desde la entrada estandar, y lo retorna.
 @dev El valor leido.
+@errors Active
 DOCUMENTA]
 funcion LeerPalabra [ -> Objeto resultado ]
 	adquirir __ESA__
@@ -71,6 +74,7 @@ finfun
 @arg buffer Valor del objeto Buffer.
 @arg texto Texto a escribir en el.
 @dev Nuevo valor buffer.
+@errors Active
 DOCUMENTA]
 funcion EscribirEnBuffer [ Objeto buffer, Objeto texto -> Objeto buffer ]
 	adquirir __ESA__
@@ -91,6 +95,7 @@ Este adem&aacute;s, agrega un nueva linea despues de texto.
 @arg buffer Valor del objeto Buffer.
 @arg texto Texto a escribir en el.
 @dev Nuevo valor buffer.
+@errors Active
 DOCUMENTA]
 funcion EscribirLineaEnBuffer [ Objeto buffer, Objeto texto -> Objeto buffer ]
 	adquirir __ESA__

@@ -40,6 +40,7 @@ Por ejemplo: si la referencia es A y el atributo es B devuelve A#B
 @arg instancia Referencia comun al valor Yo(PseudoD lo pasa automaticamente)
 @arg attr Atributo a devolver.
 @dev El atributo en forma de cadena.
+@errors Active
 DOCUMENTA]
 funcion Referencia#obtenerAttrStr [ ref instancia, attr ]
 	adquirir __REFERENCIA_OBT_ATTR_STR_REF__
@@ -74,6 +75,8 @@ de A#B y no la cadena A#B.
 @arg instancia Referencia comun al valor Yo(PseudoD la pasa automaticamente)
 @arg attr Atributo a acceder.
 @dev El valor del atributo.
+@errors Inactive
+Si el atributo no existe, lanzara un error fatal.
 DOCUMENTA]
 funcion Referencia#obtenerAttr [ ref instancia, attr ]
 	adquirir __REFERENCIA_OBT_ATTR_ATTR__
@@ -107,6 +110,7 @@ finfun
 Devuelve su valor bruto.
 @arg instancia Referencia comun al valor Yo(PseudoD la pasa automaticamente)
 @dev El valor del atributo.
+@errors Active
 DOCUMENTA]
 funcion Referencia#obtenerValor [ ref instancia ]
 	adquirir __REFERENCIA_OBT_ATTR_ATTR__
@@ -135,6 +139,8 @@ En este proceso destruye el valor anterior.
 @arg instancia Referencia comun al valor Yo(PseudoD la pasa automaticamente)
 @arg attr Atributo a fijar.
 @arg val Nuevo valor para el atributo.
+@errors Inactive
+Si el atributo no existe, lanzara un error fatal.
 DOCUMENTA]
 funcion Referencia#fijarAttr [ ref instancia, attr, val ]
 	adquirir __REFERENCIA_FJR_ATTR_ATTR__
@@ -175,6 +181,8 @@ nueva variable.
 @arg instancia Referencia comun al valor Yo(PseudoD la pasa automaticamente)
 @arg attr Atributo puntero a redireccionar.
 @arg var Variable a redireccionar el puntero(referencia comun).
+@errors Inactive
+Si el atributo no existe, lanzara un error fatal.
 DOCUMENTA]
 funcion Referencia#redireccionarAttr [ ref instancia, attr, val ]
 	adquirir __REFERENCIA_RED_ATTR_ATTR__
@@ -212,6 +220,8 @@ finfun
 @arg met Metodo a llamar
 @arg args Argumentos a pasar.
 @dev El resultado de la funcion.
+@errors Inactive
+Si el método no existe, lanzara un error fatal.
 DOCUMENTA]
 funcion Referencia#llamarMet [ ref instancia, met, args... ]
 	adquirir __REFERENCIA_LMR_ATTR_ATTR__
@@ -244,7 +254,7 @@ funcion Referencia#llamarMet [ ref instancia, met, args... ]
 finfun
 
 adquirir __pseudod_ReservarDatos_i__
-fijar __pseudod_ReservarDatos_i__ =* 0
+fijar __pseudod_ReservarDatos_i__ =* -9223372036854775807
 adquirir __pseudod_pilaReseva_i__
 fijar __pseudod_pilaReseva_i__ =* 1
 crear_pila
@@ -260,6 +270,7 @@ a new tipoData en C++ y malloc(sizeof(tipoData)) en C.
 Modifica VG_BUFFER.
 @arg tipoData Tipo del dato.
 @dev data Referencia al bloque dinamico.
+@errors Active
 DOCUMENTA]
 funcion ReservarDato [ tipoData -> ref data ]
 	adquirir __RESEVAR_DATO_TIPO__
@@ -298,18 +309,21 @@ finfun
 [DOCUMENTA
 @brief Libera un dato reservado con ReservarDato.
 No cuenta para datos multiples. Tal como free de C
-o delete de C++, cuando el dato es NULO no realiza accion.
+o delete de C++.
 Además, fija el PunteroInteligente a nulo, de forma que el metodo esNulo
 siempre devuelva verdadero.
 Modifica VG_BUFFER.
 @arg ptr Puntero al nombre del dato reservado(referencia a instancia de PunteroInteligente).
+@errors Inactive
+Cuando ptr apunta a nulo,(ptr#esNulo devuelve verdadero) el comportamiento de
+la función es indefinido.
 DOCUMENTA]
 funcion LiberarDato [ ptr ]
 	instancia Referencia __LIBERAR_DATO_REF__
 	adquirir __LIBERAR_DATO_BUFFA__
 	adquirir __LIBERAR_DATO_BUFFB__
 	adquirir __LIBERAR_DATO_BUFFC__
-	sacar __LIBERAR_DATO_REF__#ref
+	recibir_parametro __LIBERAR_DATO_REF__#ref
 	fijar __LIBERAR_DATO_BUFFA__ =* direccion
 	llamar __LIBERAR_DATO_REF__#obtenerAttr __LIBERAR_DATO_BUFFA__ #(Final).
 	recibir_resultado __LIBERAR_DATO_BUFFB__
@@ -366,4 +380,79 @@ clase IteradorBi
 	:anterior
 #(Final).
 heredar Iterador IteradorBi
+
+[DOCUMENTA
+@brief Representa un par de valores.
+Posee un primero,(primer valor o clave) y un segundo,(segundo valor o valor).
+DOCUMENTA]
+clase Par
+	primero
+	segundo
+#(Final).
+heredar Objeto Par
+
+[DOCUMENTA
+@brief Crea un atributo dinamico.
+Equivalente a escribir <code class="pseudod">instancia tattr yo#nattr</code>.
+@arg yo Nombre de la instancia sobre la que se creara el atributo.
+@arg nattr Nombre del atributo a crear.
+@arg tattr Tipo de latributo a crear.
+@errors Inactive
+Si el atributo ya existe, lanzara un error fatal.
+DOCUMENTA]
+funcion CrearAtributoDinamico [ yo, nattr, tattr ]
+	[ instancia tattr yo#nattr ]
+	adquirir _CrearAtributoDinamico_yo
+	adquirir _CrearAtributoDinamico_nattr
+	adquirir _CrearAtributoDinamico_tattr
+	adquirir _CrearAtributoDinamico_buf
+	adquirir _CrearAtributoDinamico_buff
+	recibir_resultado _CrearAtributoDinamico_yo
+	recibir_resultado _CrearAtributoDinamico_nattr
+	recibir_resultado _CrearAtributoDinamico_tattr
+	fijar _CrearAtributoDinamico_buf =* instancia 
+	Importar.Cad.Concatenar _CrearAtributoDinamico_buf _CrearAtributoDinamico_tattr _CrearAtributoDinamico_buff
+	fijar _CrearAtributoDinamico_buf =* #
+	Importar.Cad.Concatenar _CrearAtributoDinamico_buff ESP _CrearAtributoDinamico_buff
+	Importar.Cad.Concatenar _CrearAtributoDinamico_buff _CrearAtributoDinamico_yo _CrearAtributoDinamico_buff
+	Importar.Cad.Concatenar _CrearAtributoDinamico_buff _CrearAtributoDinamico_buf _CrearAtributoDinamico_buff
+	Importar.Cad.Concatenar _CrearAtributoDinamico_buff _CrearAtributoDinamico_nattr _CrearAtributoDinamico_buff
+	ejecutar _CrearAtributoDinamico_buff
+	liberar _CrearAtributoDinamico_yo
+	liberar _CrearAtributoDinamico_nattr
+	liberar _CrearAtributoDinamico_tattr
+	liberar _CrearAtributoDinamico_buf
+	liberar _CrearAtributoDinamico_buff
+finfun
+
+[DOCUMENTA
+@brief Destruye un atributo dinamico.
+Este puede ser creado con CrearAtributoDinamico.
+@arg yo Instancia sobre la que existe el atributo.
+@arg nattr Nombre del atributo.
+@errors Inactive
+De ya estar destruido el atributo, lanzara un error fatal.
+DOCUMENTA]
+funcion DestruirAtributoDinamico [ yo, nattr ]
+	[ instancia tattr yo#nattr ]
+	adquirir _DestruirAtributoDinamico_yo
+	adquirir _DestruirAtributoDinamico_nattr
+	adquirir _DestruirAtributoDinamico_tattr
+	adquirir _DestruirAtributoDinamico_buf
+	adquirir _DestruirAtributoDinamico_buff
+	recibir_resultado _DestruirAtributoDinamico_yo
+	recibir_resultado _DestruirAtributoDinamico_nattr
+	fijar _DestruirAtributoDinamico_buf =* liberar
+	Importar.Cad.Concatenar _DestruirAtributoDinamico_buf ESP _DestruirAtributoDinamico_buff
+	fijar _DestruirAtributoDinamico_buf =* #
+	Importar.Cad.Concatenar _DestruirAtributoDinamico_buff _DestruirAtributoDinamico_yo _DestruirAtributoDinamico_buff
+	Importar.Cad.Concatenar _DestruirAtributoDinamico_buff _DestruirAtributoDinamico_buf _DestruirAtributoDinamico_buff
+	Importar.Cad.Concatenar _DestruirAtributoDinamico_buff _DestruirAtributoDinamico_nattr _DestruirAtributoDinamico_buff
+	ejecutar _DestruirAtributoDinamico_buff
+	liberar _DestruirAtributoDinamico_yo
+	liberar _DestruirAtributoDinamico_nattr
+	liberar _DestruirAtributoDinamico_tattr
+	liberar _DestruirAtributoDinamico_buf
+	liberar _DestruirAtributoDinamico_buff
+finfun
 

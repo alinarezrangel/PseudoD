@@ -30,7 +30,7 @@ Algunas preguntas que se podria hacer:
 		El Makefile lo indica.
 	
 	¿Que valor deberia tener `ruta de bepd`?
-		Deberia tener preferiblemente su valor por defecto: /usr/lib/pseudod/1.9.3/,
+		Deberia tener preferiblemente su valor por defecto: /opt/pseudod/bepd/,
 		(No olvide la diagonal al final, ¡es importante!).
 	
 	¿Donde agrego mis plugins escritos en PseudoD para poderlos utilizar junto
@@ -44,11 +44,11 @@ Algunas preguntas que se podria hacer:
 		/usr/lib/pseudod/plugins/, dentro de una carpeta con su nombre.
 	
 	¿Donde deberia estar el archivo builtins.pseudo?
-		Este archivo debe estar en /usr/lib/pseudod/1.9.3/, junto a la biblioeca
+		Este archivo debe estar en /opt/pseudod/bepd/, junto a la biblioeca
 		estandar.
 	
 	¿Que versión de BEPD es la que trae este código?
-		BEPD 1.9.0:1.9.0 (BEPD 1.9.0 diseñada para PseudoD 1.9.3/1.9.5).
+		BEPD u1.9.5:1.9.5 (BEPD 1.9.0 diseñada para PseudoD 1.9.3/1.9.5).
 	
 	¿Como se usa ipdc?
 		ipdc supone que ya se tiene PseudoD(el ejecutable) en /usr/bin/ o en
@@ -81,7 +81,7 @@ Algunas preguntas que se podria hacer:
 			  el codigo fuente.
 			* www.github.com/alinarezrangel/PseudoD : Pagina de desarrolladores, otra fuente para
 			  descargar el codigo fuente.
-			* www.pseudod.sourceforge.net : Pagina para desarrolladores, actualmente esta
-			  en trabajo.
+			* www.pseudod.sourceforge.net : Pagina para desarrolladores, posee documentación
+			  de BEPD, guias sobre el NEA, entre otros.
 			* www.pseudod.com : Pagina principal. Aqui se encontrara informacion acerca del proyecto,
 			  tutoriales, guias, e informacion reciente.

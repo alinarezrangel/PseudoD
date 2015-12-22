@@ -67,6 +67,7 @@ fijar NO_ES_NUMERO =* **(No es un numero)**
 @arg base Base de la potencia
 @arg exponente Exponente de la potencia
 @dev El resultado de base^exponente.
+@errors Active
 DOCUMENTA]
 funcion Elevar_valor
 	adquirir __BASE__
@@ -97,6 +98,7 @@ finfun
 Si n < 0,  devuelve 1 al igual que si n == 0 o 1.
 @arg n Numero a calcular el factorial.
 @dev El factorial de dicho numero, o 1.
+@errors Active
 DOCUMENTA]
 funcion Factorial
 	adquirir __¿MAYOR_A_CERO?__
@@ -123,6 +125,7 @@ finfun
 @brief Convierte grados sexadecimales a radianes.
 @arg grados Grados a convertir
 @dev El valor en Radianes
+@errors Active
 DOCUMENTA]
 funcion Grados_A_Radianes
 	adquirir __GRADOS__
@@ -142,6 +145,7 @@ finfun
 @brief Convierte radianes a grados sexadecimales.
 @arg radianes Valor en radianes a convertir
 @dev El valor en Grados sexadecimales
+@errors Active
 DOCUMENTA]
 funcion Radianes_A_Grados
 	adquirir __GRADOS__
@@ -161,6 +165,7 @@ finfun
 @brief Calcula el seno de un angulo.
 @arg ang Angulo.
 @dev Decimal resultado del seno.
+@errors Active
 DOCUMENTA]
 funcion Seno [ ang ]
 	[ sin(x) = -(-((x^i)/(i!))+((x^I)/(I!))) ]
@@ -176,6 +181,7 @@ finfun
 utiliza el metodo babilonico para calcular la raiz cuadrada de un numero.
 @arg nm Numero a radicar.
 @dev Decimal resultado de la radicacion.
+@errors Active
 DOCUMENTA]
 funcion Raiz_cuadrada [ nm -> sqrt(nm) ]
 	adquirir __raizcuadrada_a__
@@ -207,6 +213,7 @@ El piso de X, es el numero entero menor o igual más cercano a X.
 Por ejemplo: piso(3.232) = 3, piso(3.99999) = 3, piso(8) = 8.
 @arg nm Numero a calcular el piso.
 @dev El piso de nm.
+@errors Active
 DOCUMENTA]
 funcion Piso [ nm -> floor(nm) ]
 	adquirir __piso_val__
@@ -222,6 +229,7 @@ El techo de X, es el numero entero mayor o igual más cercano a X.
 Por ejemplo: techo(3.232) = 3, techo(3.99999) = 3, techo(8) = 8.
 @arg nm Numero a calcular el techo.
 @dev El techo de nm.
+@errors Active
 DOCUMENTA]
 funcion Techo [ nm -> ceil(nm) ]
 	adquirir __techo_val__
@@ -257,6 +265,7 @@ De ser el divisor cero, no realizara accion.
 @argyo
 @arg dividendo Numero a dividir.
 @arg divisor Numero que dividira.
+@errors Active
 DOCUMENTA]
 funcion Division#divide [ yo, a, b :: yo.cociente = a/b yo.resto = a % b ]
 	instancia Referencia __Division_divide_yo__

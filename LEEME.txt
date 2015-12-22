@@ -75,6 +75,10 @@ TU PSEUDOD
 	Despues de configurar ipdc, y compilar PseudoD, puedes correr los ejemplos
 	con:
 		ipdc -f ./Ejemplos/HolaMundo.pd
+		ipdc -f ./Ejemplos/AdiosMundo.pd
+		ipdc -f ./Ejemplos/CuentaRegresiva.pd
+		ipdc -f ./Ejemplos/Clases.pseudo
+		ipdc -f ./Ejemplos/BuclesAnidados.pd
 
 PseudoD fue creado por Alejandro Linarez Rangel
 

@@ -1,6 +1,15 @@
-[ utilizar inic.pseudo
+utilizar inic.pseudo
 utilizar clases.pseudo
 utilizar tipos.pseudo
+
+clase A
+	a
+	b
+	c
+	:crear
+	:destruir
+finclase
+heredar Objeto A
 
 instancia PunteroInteligente ptr
 instancia PseudoVariable a
@@ -13,7 +22,7 @@ llamar LiberarDato ptr #(Final).
 llamar ptr#esNulo #(Final).
 recibir_resultado a
 escribir a
-nl ]
+nl
 [ *********************************************************
 *********************************
 **** Nombre: OperacionesAritmeticas.pd
@@ -94,7 +103,7 @@ recibir_resultado num
 escribir num
 nl
 ]
-
+[
 utilizar inic.pseudo
 utilizar clases.pseudo
 utilizar tipos.pseudo
@@ -122,4 +131,24 @@ fijar b =* foo
 llamar ref#llamarMet b #(Final).
 fijar b =* bar
 llamar ref#llamarMet b #(Final).
-Importar.PseudoD.debug
+Importar.PseudoD.debug ]
+[ TODO: Solo en PseudoD u1.9.5+
+adquirir cnt
+adquirir maxVal
+adquirir msg
+fijar cnt =¿? CERO
+fijar maxVal =* 100
+fijar msg =* [
+escribir msg
+escribir_esp
+mientras comparar Importar.Ent.Comparar cnt < maxVal
+	Importar.Ent.Sumar cnt UNO cnt
+	escribir cnt
+	escribir_esp
+finbucle
+fijar msg =*
+escribir msg
+nl
+liberar msg
+liberar cnt
+liberar maxVal ]
