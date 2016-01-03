@@ -102,6 +102,7 @@ funcion EnlaceS#insertarSiguiente [ ref instancia, ref enl ]
 	fijar __ENLACE_SIMPLE_BUFF__ =* sig
 	llamar __ENLACE_SIMPLE_YO__#obtenerAttr __ENLACE_SIMPLE_BUFF__ #(Final).
 	recibir_resultado __ENLACE_SIMPLE_BUFF2__
+	fijar __ENLACE_SIMPLE_BUFF__ =* sig
 	llamar __ENLACE_SIMPLE_SIG__#redireccionarAttr __ENLACE_SIMPLE_BUFF__ __ENLACE_SIMPLE_BUFF2__ #(Final).
 	llamar __ENLACE_SIMPLE_YO__#redireccionarAttr __ENLACE_SIMPLE_BUFF__ __ENLACE_SIMPLE_SIG2__ #(Final).
 	liberar __ENLACE_SIMPLE_REF__
@@ -518,19 +519,13 @@ funcion ListaSimple#obtenerNodoPrevioAPos [ ref instancia, pos -> ref nodo ]
 	recibir_parametro __LISTASIMPLE_OBT_NOD_PREV_POS_POS__
 	fijar __LISTASIMPLE_OBT_NOD_PREV_POS_CNT__ =* 0
 	Importar.Ent.Restar __LISTASIMPLE_OBT_NOD_PREV_POS_POS__ UNO __LISTASIMPLE_OBT_NOD_PREV_POS_POS__
-	escribir __LISTASIMPLE_OBT_NOD_PREV_POS_POS__
-	nl
 	llamar __LISTASIMPLE_OBT_NOD_PREV_POS_ITER__#desdeLista __LISTASIMPLE_OBT_NOD_PREV_POS_REF__ #(Final).
 	llamar __LISTASIMPLE_OBT_NOD_PREV_POS_ITER__#siguiente #(Final).
 	mientras comparar Importar.Ent.Comparar __LISTASIMPLE_OBT_NOD_PREV_POS_CNT__ < __LISTASIMPLE_OBT_NOD_PREV_POS_POS__
-	escribir VG_BUFFER
-	nl
 		llamar __LISTASIMPLE_OBT_NOD_PREV_POS_ITER__#siguiente #(Final).
 		Importar.Ent.Sumar __LISTASIMPLE_OBT_NOD_PREV_POS_CNT__ UNO __LISTASIMPLE_OBT_NOD_PREV_POS_CNT__
 	finbucle
 	devolver __LISTASIMPLE_OBT_NOD_PREV_POS_ITER__#actual
-	escribir __LISTASIMPLE_OBT_NOD_PREV_POS_ITER__#actual
-	nl
 	liberar __LISTASIMPLE_OBT_NOD_PREV_POS_REF__
 	liberar __LISTASIMPLE_OBT_NOD_PREV_POS_ITER__
 	liberar __LISTASIMPLE_OBT_NOD_PREV_POS_POS__
@@ -549,36 +544,32 @@ Si la posición especificada es invalida,(menor a cero o mayor al tamaño de la
 lista), puede lanzar un error fatal.
 DOCUMENTA]
 funcion ListaSimple#insertar [ ref instancia, pos, data ]
-	instancia Referencia __LISTASIMPLE_INSERT_REF__
-	instancia Referencia __LISTASIMPLE_INSERT_REFA__
-	instancia Referencia __LISTASIMPLE_INSERT_REFB__
-	adquirir __LISTASIMPLE_INSERT_POS__
-	adquirir __LISTASIMPLE_INSERT_DATA__
-	adquirir __LISTASIMPLE_INSERT_BUFF__
-	adquirir __LISTASIMPLE_INSERT_BUFF2__
-	adquirir __LISTASIMPLE_INSERT_BUFF3__
-	recibir_parametro __LISTASIMPLE_INSERT_REF__#ref
-	recibir_parametro __LISTASIMPLE_INSERT_POS__
-	recibir_parametro __LISTASIMPLE_INSERT_DATA__
-	fijar __LISTASIMPLE_INSERT_BUFF__ =* obtenerNodoPrevioAPos
-	llamar __LISTASIMPLE_INSERT_REF__#llamarMet __LISTASIMPLE_INSERT_BUFF__ __LISTASIMPLE_INSERT_POS__ #(Final).
-	recibir_resultado __LISTASIMPLE_INSERT_REFA__#ref
+	instancia Referencia __ListaSimple_insertar_yo__
+	instancia Referencia __ListaSimple_insertar_nd__
+	instancia Referencia __ListaSimple_insertar_na__
+	adquirir __ListaSimple_insertar_bf__
+	adquirir __ListaSimple_insertar_ps__
+	adquirir __ListaSimple_insertar_tp__
+	recibir_parametro __ListaSimple_insertar_yo__#ref
+	recibir_parametro __ListaSimple_insertar_ps__
+	recibir_parametro __ListaSimple_insertar_tp__
+	fijar __ListaSimple_insertar_bf__ =* obtenerNodoPrevioAPos
+	llamar __ListaSimple_insertar_yo__#llamarMet __ListaSimple_insertar_bf__ __ListaSimple_insertar_ps__ #(Final).
+	recibir_resultado __ListaSimple_insertar_nd__#ref
 	llamar ReservarDato NodoS#Tipo #(Final).
-	recibir_resultado __LISTASIMPLE_INSERT_REFB__#ref
-	fijar __LISTASIMPLE_INSERT_BUFF__ =* tipo
-	llamar __LISTASIMPLE_INSERT_REFB__#fijarAttr __LISTASIMPLE_INSERT_BUFF__ __LISTASIMPLE_INSERT_DATA__ #(Final).
-	fijar __LISTASIMPLE_INSERT_BUFF__ =* crearDato
-	llamar __LISTASIMPLE_INSERT_REFB__#llamarMet __LISTASIMPLE_INSERT_BUFF__ #(Final).
-	fijar __LISTASIMPLE_INSERT_BUFF__ =* insertarSiguiente
-	llamar __LISTASIMPLE_INSERT_REFA__#llamarMet __LISTASIMPLE_INSERT_BUFF__ __LISTASIMPLE_INSERT_REFB__#ref #(Final).
-	liberar __LISTASIMPLE_INSERT_REF__
-	liberar __LISTASIMPLE_INSERT_POS__
-	liberar __LISTASIMPLE_INSERT_DATA__
-	liberar __LISTASIMPLE_INSERT_BUFF__
-	liberar __LISTASIMPLE_INSERT_BUFF2__
-	liberar __LISTASIMPLE_INSERT_BUFF3__
-	liberar __LISTASIMPLE_INSERT_REFA__
-	liberar __LISTASIMPLE_INSERT_REFB__
+	recibir_resultado __ListaSimple_insertar_na__#ref
+	fijar __ListaSimple_insertar_bf__ =* tipo
+	llamar __ListaSimple_insertar_na__#fijarAttr __ListaSimple_insertar_bf__ __ListaSimple_insertar_tp__ #(Final).
+	fijar __ListaSimple_insertar_bf__ =* crearDato
+	llamar __ListaSimple_insertar_na__#llamarMet __ListaSimple_insertar_bf__ #(Final).
+	fijar __ListaSimple_insertar_bf__ =* insertarSiguiente
+	llamar __ListaSimple_insertar_nd__#llamarMet __ListaSimple_insertar_bf__ __ListaSimple_insertar_na__#ref #(Final).
+	liberar __ListaSimple_insertar_yo__
+	liberar __ListaSimple_insertar_nd__
+	liberar __ListaSimple_insertar_na__
+	liberar __ListaSimple_insertar_bf__
+	liberar __ListaSimple_insertar_ps__
+	liberar __ListaSimple_insertar_tp__
 finfun
 
 instancia ListaSimple list
@@ -601,14 +592,35 @@ fijar ndA#dato =* Hola desde A
 fijar ndB#dato =* Hola desde B
 fijar ndC#dato =* Hola desde C
 
-llamar list#insertarPrimero ndC #(Final).
+[ llamar list#insertarPrimero ndC #(Final).
 llamar list#insertarPrimero ndB #(Final).
+llamar list#insertarPrimero ndA #(Final). ]
 llamar list#insertarPrimero ndA #(Final).
+llamar ndA#insertarSiguiente ndB #(Final).
+llamar ndB#insertarSiguiente ndC #(Final).
 
+[ adquirir pos
+fijar pos =* 2
+adquirir buff
+instancia Referencia nodo
+instancia Referencia nodoAnt
+llamar list#obtenerNodoPrevioAPos pos #(Final).
+recibir_resultado nodoAnt#ref
+llamar ReservarDato NodoS#Tipo #(Final).
+recibir_resultado nodo#ref
+fijar VG_BUFFER =* tipo
+llamar nodo#fijarAttr VG_BUFFER PseudoVariable#Tipo #(Final).
+fijar VG_BUFFER =* crearDato
+llamar nodo#llamarMet VG_BUFFER #(Final).
+fijar buff =* insertarSiguiente
+llamar nodoAnt#llamarMet buff nodo#ref #(Final). ]
 fijar VG_BUFFER =* 2
 llamar list#insertar VG_BUFFER PseudoVariable#Tipo #(Final).
 
-[ instancia IteradorS ptr
+[ fijar VG_BUFFER =* 2
+llamar list#insertar VG_BUFFER PseudoVariable#Tipo #(Final). ]
+
+instancia IteradorS ptr
 llamar ptr#desdeLista list #(Final).
 llamar ptr#siguiente #(Final).
 mientras llamar ptr#¿valido? #(Final).
@@ -623,10 +635,10 @@ mientras llamar ptr#¿valido? #(Final).
 	llamar ptr#siguiente #(Final).
 	liberar ref
 	liberar w
-finbucle ]
-adquirir j
+finbucle
+[ adquirir j
 fijar j =* 3
 llamar list#obtenerNodoPrevioAPos j #(Final).
 recibir_resultado j
 escribir j
-nl
+nl ]

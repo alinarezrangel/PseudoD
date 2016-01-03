@@ -180,6 +180,7 @@ funcion PunteroInteligente#esNulo [ Yo -> esNulo ]
 finfun
 
 adquirir ___codigo_pseudod_buffer_interno___
+puntero # ___codigo_pseudod_buffer_interno___
 
 crear_pila
 usar_pila 0

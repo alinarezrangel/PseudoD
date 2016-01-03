@@ -18,12 +18,14 @@ https://sourceforge.net/projects/pseudod/
 #include <exception>
 #include <dlfcn.h>
 
-#include "pseudod.hh"
-#include "NEA/PDData.hh"
+//#include "pseudod.hh"
+//#include "NEA/PDData.hh"
+#include "interprete.hh"
 using namespace std;
-using namespace PDvar;
+//using namespace PDvar;
+//using namespace pseudod;
 
-template<class T>
+/*template<class T>
 int buscar(vector<T> a,T b)
 {
 	for(int i = 0;i < a.size();i++)
@@ -34,11 +36,11 @@ int buscar(vector<T> a,T b)
 		}
 	}
 	return -1;
-}
+}*/
 
 /*,vector<string>,vector<string>,vector<string>,vector<int>,vector<stack<string> >
 ,nombres,valores,punteros,valor,pilas
-*/
+
 bool Ejecutar = true;
 
 PDDatos DATOS_INT;
@@ -259,7 +261,7 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 			DATOS_INT.Empujar(nombre_var,cae(DATOS_INT.ObtenerVariable("VG_PILA_ACTUAL")));
 			//clog << nombre_var << endl;
 		}
-		//*/
+		//
 		istringstream st(a);
 		string h;
 		while(st >> h)
@@ -375,7 +377,7 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 			val = DATOS_INT.ObtenerVariable("___codigo_pseudod_buffer_interno___");
 		}
 		else
-			val = DATOS_INT.ObtenerVariable(variable1);*/
+			val = DATOS_INT.ObtenerVariable(variable1);
 		val = ValorDelToken(variable1,e,&DATOS_INT);
 		string cond = ((val == DATOS_INT.VERDADERO)? "si" : "no");
 		string ord;
@@ -509,7 +511,7 @@ void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
 	else if(o == "")
 	{
 		(void (*procesar)(string o,ifstream& e, void(*FUNCION)(string,ifstream&)))
-*/
+
 
 int main(int argc,char* argv[])
 {
@@ -690,4 +692,109 @@ int main(int argc,char* argv[])
 	}
 	(*func3)();
 	return dlclose(dll);
+}*/
+
+int main (int argc, char* argv[])
+{
+	bool interactivo = false;
+	string bepd = "",nea = "",op = "",mn = "",err = "",ord ="";
+	string prgNom = argv[0];
+	if(argc == 1)
+	{
+		cerr << "Error argumentos insuficientes" << endl;
+		cerr << "Pruebe con " << prgNom << " --help para ayuda" << endl;
+		return 1;
+	}
+	op = argv[1];
+	if((op == "-h")||(op == "--help"))
+	{
+		cout << prgNom << "  -  El interprete de PseudoD" << endl;
+		cout << "Version u1.9.5" << endl;
+		cout << "Opciones:" << endl;
+		cout << "   " << prgNom << " (-h|--help): Muestra esta ayuda y termina." << endl;
+		cout << "   " << prgNom << " archivo bepd nea: ejecuta archivo con la ruta a BEPD bepd y el NEA nea." << endl;
+		cout << "   " << prgNom << " -i bepd nea: ejecuta en modo interactivo." << endl;
+		cout << "Deje una opcion en -- para reemplazarla por su valor por defecto" << endl;
+		cout << "Los valores por defecto son:" << endl;
+		cout << "*) bepd:    /usr/lib/pseudod/1.9.5/" << endl;
+		cout << "*) nea:     /usr/lib/libpseudod.so" << endl;
+		cout << "*) plugins: /usr/lib/pseudod/plugins/" << endl;
+		cout << "Creado por Alejandro Linarez Rangel" << endl;
+		return 0;
+	}
+	if(argc < 4)
+	{
+		cerr << "Error argumentos insuficientes" << endl;
+		cerr << "Pruebe con " << prgNom << " --help para ayuda" << endl;
+		return 1;
+	}
+	bepd = argv[2];
+	nea = argv[3];
+	mn = op;
+	if(bepd == "--")
+	{
+		bepd = "/usr/lib/pseudod/1.9.5/";
+	}
+	if(nea == "--")
+	{
+		nea = "/usr/lib/libpseudod.so";
+	}
+	if(op == "-i")
+	{
+		interactivo = true;
+		cout << "Interprete en linea de comandos de PseudoD" << endl;
+		cout << "PseudoD version u1.9.5 en C++11" << endl;
+		cout << "Creado por Alejandro Linarez Rangel" << endl;
+		cout << ">>> ";
+		mn = "NULO";
+	}
+	err = pseudod::iniciar(nea,bepd,mn);
+	if(err != "Ok")
+	{
+		cerr << "La creacion del interprete dio un error:" << endl;
+		cerr << err << endl;
+		cerr << "Abortando..." << endl;
+		return 1;
+	}
+	try
+	{
+		if(interactivo)
+		{
+			while((pseudod::Ejecutar)&&(cin >> ord))
+			{
+				pseudod::DATOS_INT.Ejecutar(ord,cin);
+				cout << ">>> ";
+			}
+			cout << "Adios!" << endl;
+		}
+		else
+		{
+			ifstream in(mn.c_str());
+			pseudod::ejecutar(in);
+		}
+	}
+	catch(const std::exception& e)
+	{
+		if((string(e.what()) == "stoi")||(string(e.what()) == "stoll")||(string(e.what()) == "stold"))
+		{
+			cerr << "Error al convertir numeros" << endl;
+		}
+		else
+		{
+			cerr << "Error " << e.what() << endl;
+		}
+		cerr << "En " << pseudod::DATOS_INT.ObtenerVariable("__ARCH__") << endl;
+	}
+	catch(string e)
+	{
+		cerr << "PseudoD lanzo un error fatal:" << endl;
+		cerr << e << endl;
+		cerr << "En " << pseudod::DATOS_INT.ObtenerVariable("__ARCH__") << endl;
+	}
+	catch(...)
+	{
+		cerr << "En " << pseudod::DATOS_INT.ObtenerVariable("__ARCH__") << endl;
+		cerr << "Error no identificado!" << endl;
+	}
+	return pseudod::terminar();
 }

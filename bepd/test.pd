@@ -2,15 +2,6 @@ utilizar inic.pseudo
 utilizar clases.pseudo
 utilizar tipos.pseudo
 
-clase A
-	a
-	b
-	c
-	:crear
-	:destruir
-finclase
-heredar Objeto A
-
 instancia PunteroInteligente ptr
 instancia PseudoVariable a
 llamar ReservarDato Decimal#Tipo #(Final).
@@ -152,3 +143,7 @@ nl
 liberar msg
 liberar cnt
 liberar maxVal ]
+[
+arg->sig = &this->sig;
+this->sig = &arg;
+]

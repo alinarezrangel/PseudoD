@@ -25,7 +25,7 @@ clase Programa
 	Nombre
 	Proveedor
 	Main
-	DirLib
+	;DirLib
 	;BEPD
 #(Final).
 heredar Objeto Programa
@@ -37,8 +37,7 @@ DOCUMENTA]
 instancia Programa yo
 fijar yo#Nombre =¿? __MAIN__
 fijar yo#Main =¿? __MAIN__
-fijar yo#DirLib =¿? __LIB__
-redireccionar yo#BEPD yo#DirLib
+redireccionar yo#DirLib __LIB__
 
 [DOCUMENTA
 @brief Representa un numero en el conjunto Q, en forma de fraccion.

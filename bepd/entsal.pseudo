@@ -110,3 +110,163 @@ funcion EscribirLineaEnBuffer [ Objeto buffer, Objeto texto -> Objeto buffer ]
 	liberar __ESB__
 	liberar __ESC__
 finfun
+
+[DOCUMENTA
+@brief Representa una configuracion de salida.
+Donde:
+@list
+@listel <b>MARCA</b> Es el comodin para el reemplazo.
+@listel <b>SPEC</b> Es el comodin para el caracter especial.
+@listel <b>NLINE</b> Es el comodin para el nueva linea,(junto con <b>SPEC</b>).
+@listel <b>NLINER</b> Es el comodin para el retorno de carro,(junto con <b>SPEC</b>).
+@listel <b>NLINE</b> Es el comodin para el nueva linea del sistema,(junto con <b>SPEC</b>).
+@listend
+DOCUMENTA]
+clase DatosDeSalida
+	MARCA
+	SPEC
+	NLINE
+	NLINER
+	NLINERR
+	CV
+	NL
+	RC
+#(Final).
+heredar Objeto DatosDeSalida
+
+[DOCUMENTA
+@brief Es la configuracion por defecto del sistema de E/S.
+Donde:
+@list
+@listel <b>MARCA</b> es %.
+@listel <b>SPEC</b> es \.
+@listel <b>NLINE</b> es n.
+@listel <b>NLINER</b> es r.
+@listel <b>NLINERR</b> es k.
+DOCUMENTA]
+instancia DatosDeSalida DATOS_DE_IMPRIMIR
+fijar DATOS_DE_IMPRIMIR#MARCA =* %
+fijar DATOS_DE_IMPRIMIR#SPEC =* \
+fijar DATOS_DE_IMPRIMIR#NLINE =* n
+fijar DATOS_DE_IMPRIMIR#NLINER =* r
+fijar DATOS_DE_IMPRIMIR#NLINERR =* k
+empujar VG_BUFFER
+fijar VG_BUFFER =* CV
+Importar.Cad.Caracter_Especial VG_BUFFER DATOS_DE_IMPRIMIR#CV
+Importar.Cad.Caracter_Especial VG_BUFFER DATOS_DE_IMPRIMIR#NL
+Importar.Cad.Caracter_Especial VG_BUFFER DATOS_DE_IMPRIMIR#RC
+fijar VG_BUFFER =* NL
+Importar.Cad.Caracter_Especial VG_BUFFER DATOS_DE_IMPRIMIR#NL
+fijar VG_BUFFER =* RC
+Importar.Cad.Caracter_Especial VG_BUFFER DATOS_DE_IMPRIMIR#RC
+sacar VG_BUFFER
+
+[DOCUMENTA
+@brief Imprime una lista de argumentos.
+Los separa por espacios.
+@arg str Primer argumento a imprimir,(obligatorio).
+@arg args... Lista de argumentos terminada en NULO.
+@errors Invalid
+Si la lista de argumentos no termina en NULO, se bloqueara y
+terminara con un <i>stack underflow</i>.
+DOCUMENTA]
+funcion imprimir [ str args... NULO ]
+	adquirir _print_a_
+	adquirir _print_b_
+	recibir_parametro _print_a_
+	sacar _print_b_
+	escribir _print_a_
+	mientras no ¿son_iguales? _print_b_ NULO
+		escribir_esp
+		escribir _print_b_
+		sacar _print_b_
+	finbucle
+	liberar _print_a_
+	liberar _print_b_
+finfun
+
+[DOCUMENTA
+@brief Equivalente a imprimir.
+Solo que agrega un nl al final.
+@arg str Primer argumento a imprimir,(obligatorio).
+@arg args... Lista de argumentos terminada en NULO.
+@errors Invalid
+Si la lista de argumentos no termina en NULO, se bloqueara y
+terminara con un <i>stack underflow</i>.
+DOCUMENTA]
+funcion imprimirLinea [ str args... NULO ]
+	adquirir _print_a_
+	adquirir _print_b_
+	recibir_parametro _print_a_
+	sacar _print_b_
+	escribir _print_a_
+	mientras no ¿son_iguales? _print_b_ NULO
+		escribir_esp
+		escribir _print_b_
+		sacar _print_b_
+	finbucle
+	nl
+	liberar _print_a_
+	liberar _print_b_
+finfun
+
+[DOCUMENTA
+@brief Equivalente en PseudoD a printf.
+El formateo se realiza de la siguiente forma:
+Si se encuentra un comodin de reemplazo,(por defecto %) se saca un argumento
+y se imprime, si encambio, se encuentra un comodin de caracter especial,
+se formatea el siguiente caracter y se imprime.
+@pbreak
+Estas son algunas secuencias:
+<span class="string">Hola % y \%</span>,<span class="string">Mundo</span> escribe <span class="string">Hola Mundo y %</span>
+<span class="string">Hola\kMundo\k</span> escribe,(en linea separadas):<span class="string">Hola
+Mundo
+</span>
+<span class="string">Solo RC\rY NL\nCon STDNL\k</span>
+<span class="string">Su nombre es % y apellido %</span>
+@arg str Cadena a formatear
+@arg args... Lista de argumentos, no se verifica su tamaño.
+@errors Invalid
+Si se especifica un comodin de caracter especial en el final de la cadena,
+o se especifica un comodin de reemplazo y falta el argumento, causara un
+<i>stack underflow</i>.
+DOCUMENTA]
+funcion imprimirf [ str args... ]
+	adquirir _print_a_
+	adquirir _print_b_
+	adquirir _print_c_
+	adquirir _print_d_
+	recibir_parametro _print_a_
+	fijar _print_c_ =* 0
+	Importar.Cad.Tamaño _print_a_ _print_d_
+	mientras comparar Importar.Ent.Comparar _print_c_ < _print_d_
+		fijar _print_b_ =¿? DATOS_DE_IMPRIMIR#CV
+		Importar.Cad.Caracter _print_c_ _print_a_ _print_b_
+		si ¿son_iguales? _print_b_ DATOS_DE_IMPRIMIR#MARCA
+			recibir_parametro _print_b_
+		fin
+		si ¿son_iguales? _print_b_ DATOS_DE_IMPRIMIR#SPEC
+			Importar.Ent.Sumar _print_c_ UNO _print_c_
+			fijar _print_b_ =¿? DATOS_DE_IMPRIMIR#CV
+			Importar.Cad.Caracter _print_c_ _print_a_ _print_b_
+			si ¿son_iguales? _print_b_ DATOS_DE_IMPRIMIR#NLINE
+				fijar _print_b_ =¿? DATOS_DE_IMPRIMIR#NL
+			fin
+			si ¿son_iguales? _print_b_ DATOS_DE_IMPRIMIR#NLINER
+				fijar _print_b_ =¿? DATOS_DE_IMPRIMIR#RC
+			fin
+			si ¿son_iguales? _print_b_ DATOS_DE_IMPRIMIR#NLINERR
+				fijar _print_b_ =¿? DATOS_DE_IMPRIMIR#CV
+				nl
+			fin
+			escribir _print_b_
+			fijar _print_b_ =¿? DATOS_DE_IMPRIMIR#CV
+		fin
+		escribir _print_b_
+		Importar.Ent.Sumar _print_c_ UNO _print_c_
+	finbucle
+	liberar _print_a_
+	liberar _print_b_
+	liberar _print_c_
+	liberar _print_d_
+finfun

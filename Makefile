@@ -13,14 +13,14 @@ COMP =
 # TODO: Se modifico: ahora PseudoD genera el interactivo y el interprete de archivos de una vez,
 # no es necesaria la modificacion descrita en el README/LEEME/ESTRUCTURA para el interactivo
 # pero si es necesaria para compilar en Windows.
-INTE = -DINTERACTIVO=1
+#INTE = -DINTERACTIVO=1
 
 PseudoD:	libpseudod.so Data.o Main.cpp
-	$(CC) -std=c++11 $(INTE) Main.cpp $(LIBS) Data.o -o ipd
-	$(CC) -std=c++11 Main.cpp $(LIBS) Data.o -o PseudoD
+	$(CC) $(CFLAGS) -c -std=c++11 interprete.cpp -o pdbase.o $(LIBS) Data.o
+	$(CC) -std=c++11 Main.cpp $(LIBS) Data.o pdbase.o -o PseudoD
 
 libpseudod.so:	pseudod.cpp pseudod.hh Data.o
-	$(CC) $(CFLAGS) $(SHARED) -std=c++11 $(INTE) pseudod.cpp $(LIBS) Data.o -o libpseudod.so
+	$(CC) $(CFLAGS) $(SHARED) -std=c++11 pseudod.cpp $(LIBS) Data.o -o libpseudod.so
 
 Data.o: $(MEM) NEA/PDData.hh	
 	$(CC) $(CFLAGS) -c -std=c++11 $(MEM) $(LIBS) $(COMP) -o Data.o
