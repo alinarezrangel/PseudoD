@@ -18,8 +18,16 @@ La **B**iblioteca **E**standar de **P**seudo**D**, o **BEPD** se encuentra junto
 <code>**PseudoD** *archivo* *ruta de BEPD* *ruta de libpseudod.so*</code>
 
 * *archivo*: archivo a ejecutar,(*.pd o *.psd, *.pseudo es para bliotecas).
-* *ruta de BEPD*: Ruta de la **B**iblioteca **E**standar de **P**seudo**D**, o **BEPD**, por defecto es `/usr/lib/pseudod/1.9.3/`.
+* *ruta de BEPD*: Ruta de la **B**iblioteca **E**standar de **P**seudo**D**, o **BEPD**, por defecto es `/usr/lib/pseudod/1.9.5/`.
 * *ruta de libpseudod.so*: Ruta del NEA de PseudoD, `libpseudod.so`. Por defecto es `/usr/lib/`.
+
+A partir de PseudoD u1.9.5 tambien permite:
+<code>**PseudoD** (\-h|\-\-help)</code>
+
+Para ayuda y:
+<code>**PseudoD** \-i *ruta-de-BEPD* *ruta-de-libpseudod.so*</code>
+
+Para iniciar el interactivo.
 
 ###### IPDC
 <code>**ipdc** (\-d | \-s | \-f | \-i) (*archivo* | *ruta*)</code>
@@ -39,6 +47,7 @@ Opciones:
 Hasta ahora, PseudoD **solo ha sido probado** en los sistemas operativos:
 
 * Windows 7 con cygwin
+* Windows 10 con cygwin
 * Debian wheezy con G++
 * Ubuntu 14 con G++
 
@@ -49,6 +58,7 @@ Despues de compilar, este directorio tendra 3 archivos más: el ejecutable `Pseu
 
 * Mueva el ejecutable a un punto donde sea facil de llamar(`/home/$USER/bin/`, `/usr/bin/`, entre otros).
 * Mueva `libpseudod.so` a `/usr/lib/`, de no estar en un sistema GNU/Linux, dejar en este directorio.
+* Mueva la biblioteca estandar a `/usr/lib/pseudod/1.9.5`.
 
 Modifique el archivo `ipdc`:
 

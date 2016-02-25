@@ -382,16 +382,6 @@ clase IteradorBi
 heredar Iterador IteradorBi
 
 [DOCUMENTA
-@brief Representa un par de valores.
-Posee un primero,(primer valor o clave) y un segundo,(segundo valor o valor).
-DOCUMENTA]
-clase Par
-	primero
-	segundo
-#(Final).
-heredar Objeto Par
-
-[DOCUMENTA
 @brief Crea un atributo dinamico.
 Equivalente a escribir <code class="pseudod">instancia tattr yo#nattr</code>.
 @arg yo Nombre de la instancia sobre la que se creara el atributo.

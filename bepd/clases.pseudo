@@ -955,3 +955,13 @@ funcion Decimal#dividir
 	liberar __BUFFER_A__
 	liberar __BUFFER_B__
 finfun
+
+[DOCUMENTA
+@brief Representa un par de valores.
+Posee un primero,(primer valor o clave) y un segundo,(segundo valor o valor).
+DOCUMENTA]
+clase Par
+	primero
+	segundo
+#(Final).
+heredar Objeto Par

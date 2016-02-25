@@ -1,6 +1,15 @@
+/***************************************************************************
+****************************************************************************
+****************************   PseudoD    **********************************
+***** Creado por Alejandro Linarez Rangel El 14 de septiembre de 2014. *****
+*** Este es PseudoD version 2.0.0                                      *****
+*** Log de este archivo:                                               *****
+*** Formato: DD/MM/YYYY: txt                                           *****
+*** **** 2/01/2016: Se creo el archivo.                               *****
+****************************************************************************
+**************************************************************************/
+
 /*
-**PseudoD 1.9.5
-**Creado por Alejandro Linarez Rangel
 Define la macro INTERACTIVO a 1 para un interprete en linea de comandos
 https://sourceforge.net/projects/pseudod/
 */

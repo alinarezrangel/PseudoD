@@ -15,9 +15,14 @@ COMP =
 # pero si es necesaria para compilar en Windows.
 #INTE = -DINTERACTIVO=1
 
-PseudoD:	libpseudod.so Data.o Main.cpp
+PseudoD:	libpseudod.so Data.o Main.cpp libpseudodsrc.a
+	$(CC) -std=c++11 Main.cpp $(LIBS) libpseudodsrc.a -o PseudoD
+
+libpseudodsrc.a: Data.o pdbase.o
+	ar -cvq libpseudodsrc.a Data.o pdbase.o
+
+pdbase.o: interprete.cpp
 	$(CC) $(CFLAGS) -c -std=c++11 interprete.cpp -o pdbase.o $(LIBS) Data.o
-	$(CC) -std=c++11 Main.cpp $(LIBS) Data.o pdbase.o -o PseudoD
 
 libpseudod.so:	pseudod.cpp pseudod.hh Data.o
 	$(CC) $(CFLAGS) $(SHARED) -std=c++11 pseudod.cpp $(LIBS) Data.o -o libpseudod.so

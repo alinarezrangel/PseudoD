@@ -1,4 +1,13 @@
-utilizar inic.pseudo
+utilizar mate.pseudo
+
+adquirir a
+leer a
+llamar Seno a #(Final).
+recibir_resultado VG_BUFFER
+escribir VG_BUFFER
+nl
+
+[utilizar inic.pseudo
 utilizar clases.pseudo
 utilizar tipos.pseudo
 
@@ -13,7 +22,7 @@ llamar LiberarDato ptr #(Final).
 llamar ptr#esNulo #(Final).
 recibir_resultado a
 escribir a
-nl
+nl]
 [ *********************************************************
 *********************************
 **** Nombre: OperacionesAritmeticas.pd

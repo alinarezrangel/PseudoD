@@ -1,7 +1,20 @@
-/*
-**PseudoD 1.5.0
-**Creado por Alejandro Linarez Rangel
-*/
+/***************************************************************************
+****************************************************************************
+****************************   PseudoD    **********************************
+***** Creado por Alejandro Linarez Rangel El 14 de septiembre de 2014. *****
+*** Este es PseudoD version 2.0.0                                      *****
+*** Log de este archivo:                                               *****
+*** Formato: DD/MM/YYYY: txt                                           *****
+*** **** 14/09/2014: Se creo el archivo.                               *****
+*** **** 03/03/2015: Se agrego soporte para metodos.                   *****
+*** **** 06/03/2015: Se agrego soporte para errores fatales.           *****
+*** **** 09/03/2015: Mejoras al bucle mientras.                        *****
+*** **** 20/03/2015: Solucionados Bugs 008 y 009.                      *****
+*** **** 15/12/2015: Mejoras a la instanciacion y al depurador.        *****
+*** **** 16/01/2016: Agregado soporte de metodos virtuales.            *****
+****************************************************************************
+**************************************************************************/
+
 
 namespace PDTipos
 {
@@ -165,7 +178,7 @@ namespace PDTipos
 				data->CrearVariable(this->ni + string("#") + this->methods[i] + string("#cod"),"Puntero",0);
 				// No tiene sentido tener una copia de cada metodo de la instancia,
 				// En cambio, puedes tener un puntero al metodo, que ocupa menos
-				// espacio.
+				// espacio.				
 				data->ObtenerIndicePuntero(this->ni + string("#") + this->methods[i])
 				= data->BuscarIndice("Variable",this->nm + string("#")
 				                     + this->methods[i]);
@@ -325,155 +338,6 @@ namespace PDTipos
 				cerr << "Captado por el debugger" << endl;
 			}
 		}
-		// Anterior depurador
-		/* while(i != "salir")
-		{
-			cout << "DEBUG>> ";
-			cin >> i;
-			if(i == "variable")
-			{
-				string var;
-				cin >> var;
-				int ind = data->BuscarIndice("Variable",var);
-				if(ind == -1)
-				{
-					cout << "NO EXISTE" << endl;
-				}
-				cout << "Variable [" << var << "]: valor[\"" << data->ObtenerVariable(var) << "\"] indice [" << ind << "]" << endl;
-			}
-			if(i == "puntero")
-			{
-				string var,var2 = "NO EXISTE";
-				cin >> var;
-				int ind = data->BuscarIndice("Puntero",var);
-				if(ind == -1)
-				{
-					cout << "NO EXISTE" << endl;
-				}
-				else
-				{
-					var2 = (*data->nombrev)[(*data->nvapunt)[ind]];
-				}
-				cout << "Puntero [" << var << "]: valor[\"" << data->ObtenerPuntero(var)
-					<< "\"] indice [" << ind << "] apunta a " << var2 << endl;
-			}
-			if(i == "pila")
-			{
-				int pil;
-				cin >> pil;
-				if((pil < 0)||(pil > (*data->pilas).size()))
-				{
-					cout << "NO EXISTE" << endl;
-				}
-				auto buffer = (*data->pilas)[pil];
-				cout << "+----------PILA " << pil << "-------+" << endl;
-				while(!buffer.empty())
-				{
-					cout << "|" << buffer.top() << "|" << endl;
-					buffer.pop();
-				}
-			}
-			if(i == "cantidad-de")
-			{
-				string que;
-				cin >> que;
-				if(que == "variables")
-				{
-					cout << "Hay " << (*data->nombrev).size() << " variables" << endl;
-				}
-				if(que == "punteros")
-				{
-					cout << "Hay " << (*data->nombrep).size() << " punteros" << endl;
-				}
-				if(que == "pilas")
-				{
-					cout << "Hay " << (*data->pilas).size() << " pilas" << endl;
-				}
-			}
-			if((i == "estructura")||(i == "clase"))
-			{
-				string est;
-				cin >> est;
-				int ind = data->BuscarIndice("Variable",est);
-				if(ind == -1)
-				{
-					cout << "NO EXISTE" << endl;
-				}
-				else
-				{
-					try
-					{
-						cout << "La estructura " << est << " tiene los siguientes campos:" << endl;
-						for(int i = 0;i < cae(data->ObtenerVariable(est));i++)
-						{
-							cout << "    " << data->ObtenerVariable(est+"#("+eas(i)+").") << endl;
-						}
-					}
-					catch(const exception& e)
-					{
-						if((string(e.what()) == "stoi")||(string(e.what()) == "stoll"))
-						{
-							cerr << "Error, la clase no existe." << endl;
-						}
-						else
-						{
-							cerr << e.what() << endl;
-						}
-					}
-				}
-			}
-			if(i == "instancia")
-			{
-				cout << "ADVERTENCIA: termporalmente se supone que TODAS las estructuras derivan de Objeto..." << endl;
-				string var;
-				cin >> var;
-				try
-				{
-					string tipo = data->ObtenerVariable(var+"#Tipo");
-					cout << "La instancia del tipo " << tipo << " nombrada " << var << " tiene los campos:" << endl;
-					int met = cae(data->ObtenerVariable(tipo));
-					for (int i = 0; i < met; i += 1)
-					{
-						string campo = data->ObtenerVariable(tipo+"#("+eas(i)+").");
-						cout << "     ";
-						bool b = false;
-						if((campo[0] == ':')||(campo[0] == ';'))
-						{
-							if(campo[0] == ':')
-							{
-								cout << "[METODO]";
-								b = true;
-							}
-							else
-								cout << "[PUNTERO]";
-							campo.replace(0,1,"");
-						}
-						string valor = data->ObtenerVariable(var+"#"+campo);
-						if(b)
-							valor = tipo+"#"+campo;
-						cout << campo << "  =  " << valor << endl;
-					}
-					cout << "    [VALOR BRUTO]  =  " << data->ObtenerVariable(var) << endl;
-				}
-				catch(const exception& e)
-				{
-					if((string(e.what()) == "stoi")||(string(e.what()) == "stoll"))
-					{
-						cerr << "No existe la instancia" << endl;
-					}
-					else
-					{
-						cerr << e.what() << endl;
-					}
-				}
-			}
-			if(i == "ejecutar")
-			{
-				string ord;
-				cin >> ord;
-				(*data->PROCESAR)(ord,cin,data->PROCESO);
-			}
-		} */
 	}
 	
 	PseudoArrayEstructura::PseudoArrayEstructura(string na,string ne,int ta) : PDInstancia()

@@ -27,6 +27,8 @@ INTERPRETE
 		ruta: ruta de la biblioteca estandar, si no se ha instalado la biblioteca
 					estandar, escribir "nulo" o "./".
 		NEA: la ruta de libpseudod.so
+		PseudoD ya acepta las opciones -i para iniciar el interactivo,(sin ipd) y
+		-h/--help.
 	Ejemplo:
 		Para ejecutar un archivo llamado prg.pd, suponiendo que PseudoD y libpseudod
 		estan en el directoria actual:
@@ -60,8 +62,16 @@ COMPILAR
 			-ldl: link con <dlopen>(http://linux.die.net/man/3/dlopen)
 			Datos.o: link con el sistema de datos
 			-o: salida en
+	El Inteprete se genera:
+		g++ -fPIC -c -std=c++11 interprete.cpp -o pdbase.o -ldl Data.o
+			-fPIC: Necesario, para codigo sin posicion
+			-std=c++11 NECESARIO EN TODOS
+			-ldl: link con <dlopen>(http://linux.die.net/man/3/dlopen)
+			Datos.o: link con el sistema de datos
+			-o: salida en
+			-c: codigo objeto.
 	Y el Main asi:
-		g++ -std=c++11 Main.cpp -ldl Datos.o -o PseudoD
+		g++ -std=c++11 Main.cpp -ldl Datos.o pdbase.o -o PseudoD
 			-std=c++11: NECESARIO EN TODOS
 			-ldl: link con <dlopen>(http://linux.die.net/man/3/dlopen)
 			Datos.o: link con el sistema de datos

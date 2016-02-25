@@ -112,7 +112,7 @@ heredar Objeto PseudoVariable
 Cada funcion declarada, se almacena en un objeto de esta clase.
 DOCUMENTA]
 clase PseudoFuncion
-	cod
+	;cod
 #(Final).
 heredar Objeto PseudoFuncion
 

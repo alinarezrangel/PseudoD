@@ -143,6 +143,7 @@ Donde:
 @listel <b>NLINE</b> es n.
 @listel <b>NLINER</b> es r.
 @listel <b>NLINERR</b> es k.
+@listend
 DOCUMENTA]
 instancia DatosDeSalida DATOS_DE_IMPRIMIR
 fijar DATOS_DE_IMPRIMIR#MARCA =* %
@@ -170,7 +171,7 @@ Los separa por espacios.
 Si la lista de argumentos no termina en NULO, se bloqueara y
 terminara con un <i>stack underflow</i>.
 DOCUMENTA]
-funcion imprimir [ str args... NULO ]
+funcion Imprimir [ str args... NULO ]
 	adquirir _print_a_
 	adquirir _print_b_
 	recibir_parametro _print_a_
@@ -194,7 +195,7 @@ Solo que agrega un nl al final.
 Si la lista de argumentos no termina en NULO, se bloqueara y
 terminara con un <i>stack underflow</i>.
 DOCUMENTA]
-funcion imprimirLinea [ str args... NULO ]
+funcion ImprimirLinea [ str args... NULO ]
 	adquirir _print_a_
 	adquirir _print_b_
 	recibir_parametro _print_a_
@@ -217,21 +218,23 @@ Si se encuentra un comodin de reemplazo,(por defecto %) se saca un argumento
 y se imprime, si encambio, se encuentra un comodin de caracter especial,
 se formatea el siguiente caracter y se imprime.
 @pbreak
-Estas son algunas secuencias:
-<span class="string">Hola % y \%</span>,<span class="string">Mundo</span> escribe <span class="string">Hola Mundo y %</span>
-<span class="string">Hola\kMundo\k</span> escribe,(en linea separadas):<span class="string">Hola
-Mundo
-</span>
-<span class="string">Solo RC\rY NL\nCon STDNL\k</span>
-<span class="string">Su nombre es % y apellido %</span>
+Es decir, lo que en C es "Hola\r\nMundo %s" aqui es "Hola\r\n Mundo %".
+Si se desea imprimir un caracter %, basta con agregar un \ atras: "\%" = "%".
+En caso de que se requiera el nuevalinea del sistema, utilize
+\k. "\k" = std::endl.
+@pbreak
+A diferencia de C printf, este no requiere especificación del tipo, solo el
+comodin. En total, lo formatos aceptados son: \r = Retorno de carro, \n =
+Nueva linea, \k = Nueva linea del sistema, % = Argumento. Para escapar \ use
+\\.
 @arg str Cadena a formatear
 @arg args... Lista de argumentos, no se verifica su tamaño.
-@errors Invalid
+@errors Inactive
 Si se especifica un comodin de caracter especial en el final de la cadena,
 o se especifica un comodin de reemplazo y falta el argumento, causara un
 <i>stack underflow</i>.
 DOCUMENTA]
-funcion imprimirf [ str args... ]
+funcion ImprimirFormato [ str args... ]
 	adquirir _print_a_
 	adquirir _print_b_
 	adquirir _print_c_

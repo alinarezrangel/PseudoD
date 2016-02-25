@@ -1,7 +1,17 @@
-/*
-**PseudoD 1.5.0
-**Creado por Alejandro Linarez Rangel
-*/
+/***************************************************************************
+****************************************************************************
+****************************   PseudoD    **********************************
+***** Creado por Alejandro Linarez Rangel El 14 de septiembre de 2014. *****
+*** Este es PseudoD version 2.0.0                                      *****
+*** Log de este archivo:                                               *****
+*** Formato: DD/MM/YYYY: txt                                           *****
+*** **** 14/09/2014: Se creo el archivo.                               *****
+*** **** 08/03/2015: Se agrego soporte para CygWin y Windows           *****
+*** **** 26/04/2015: Se agrego soporte para Meta-Programacion          *****
+****************************************************************************
+**************************************************************************/
+
+
 #ifndef PDDATA_DEFINED_H
 #define PDDATA_DEFINED_H
 
