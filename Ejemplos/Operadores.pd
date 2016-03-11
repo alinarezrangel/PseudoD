@@ -1,0 +1,60 @@
+[ ****************************************************************
+****************************
+*** Nombre: Operadores.pd
+*** Descripción:
+*** ** Prueba de los operadores de PseudoD
+*** Autor: Alejandro Linarez Rangel
+*** Fecha: Jueves 3 de Marzo de 2016
+*** Contacto: <proyectopseudod@gmail.com>
+****************************
+**************************************************************** ]
+
+[ ****************************************************************
+	Los operadores principales en PseudoD son:
+		1) ¿son_iguales? (Proximamente obsoleto).
+		2) ejecutar (Proximo rediseño)
+		3) comparar (Proximo rediseño)
+		4) son/sean
+		5) no
+**************************************************************** ]
+
+adquirir Mensaje
+adquirir Respuesta
+adquirir Esperado
+
+fijar Mensaje =* ¿Las vacas vuelan?(Si/No)
+fijar Esperado =* No
+
+escribir Mensaje
+nl
+leer Respuesta
+
+si ¿son_iguales? Respuesta Esperado
+	fijar Mensaje =* Segun ¿son_iguales?, tu escribistes "No"
+	escribir Mensaje
+	nl
+fin
+si no ¿son_iguales? Respuesta Esperado
+	fijar Mensaje =* Segun "no ¿son_iguales", tu escribistes "Si"
+	escribir Mensaje
+	nl
+fin
+si son iguales Respuesta Esperado
+	fijar Mensaje =* Segun "son iguales", tu escribistes "No"
+	escribir Mensaje
+	nl
+fin
+si no son iguales Respuesta Esperado
+	fijar Mensaje =* Segun "no son iguales", tu escribistes "Si"
+	escribir Mensaje
+	nl
+fin
+
+[ "sean" se agrego para "mientras": ]
+mientras sean diferentes Respuesta Esperado
+	fijar Mensaje =* ¿Las vacas vuelan?(Si/No)
+	fijar Esperado =* No
+	escribir Mensaje
+	nl
+	leer Respuesta
+finbucle

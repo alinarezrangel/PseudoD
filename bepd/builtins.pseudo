@@ -187,3 +187,4 @@ usar_pila 0
 empujar NULO
 
 utilizar inic.pseudo
+utilizar errores.pseudo

@@ -1,0 +1,32 @@
+[ ***************************************************
+**************
+** Variables.pd: Ejemplos de PseudoD.
+** Creador: Alejandro Linarez Rangel
+** Uso de variables globales y locales.
+** Serie de ejemplos de PseudoD.
+** Contacto a <proyectopseudod@gmail.com> y a los
+** foros de discución en
+**    <https://sourceforge.net/p/pseudod/discussion/?source=navbar>
+**************
+*************************************************** ]
+
+adquirir MiVariable
+fijar MiVariable =* Este valor es global
+
+funcion Prueba
+	escribir MiVariable [ "Este valor es global" ]
+	nl
+	adquirir MiVariable
+	fijar MiVariable =* Este valor es local
+	escribir MiVariable [ "Este valor es local" ]
+	nl
+	liberar MiVariable
+	escribir MiVariable [ "Este valor es global" ]
+	nl
+finfun
+
+escribir MiVariable [ "Este valor es global" ]
+nl
+llamar Prueba #(Final). [ ... ]
+escribir MiVariable [ "Este valor es global" ]
+nl

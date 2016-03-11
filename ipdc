@@ -19,7 +19,7 @@
 #RUTA_PSEUDOD="$HOME/bin/bepd/BEPD/"
 RUTA_PSEUDOD="/opt/pseudod/bepd/"   # Ruta donde se movio BEPD(preferiblemente la que tiene por decfecto)
 RUTA_LIB="/usr/lib/libpseudod.so" # Ruta donde se movio la biblioteca libpseudod.so
-FIJO="no"
+FIJO="si"
 if [ "$FIJO" = "no" ]
 	then
 		echo "Advertencia de ipdc: No se configuro ipdc"

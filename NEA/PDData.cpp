@@ -8,6 +8,7 @@
 *** **** 14/09/2014: Se creo el archivo.                               *****
 *** **** 08/03/2015: Se agrego soporte para CygWin y Windows           *****
 *** **** 26/04/2015: Se agrego soporte para Meta-Programacion          *****
+*** **** 26/04/2015: Se agrego el operador "son"                       *****
 ****************************************************************************
 **************************************************************************/
 
@@ -20,7 +21,7 @@
 template<class T>
 int buscar(std::vector<T> a,T b)
 {
-	for(int i = 0;i < a.size();i++)
+	for(int i = (a.size() - 1);i >= 0;i--)
 	{
 		if(a[i] == b)
 		{
@@ -108,6 +109,75 @@ namespace PDvar
 		return this->param;
 	}
 	
+	Error::Error(void) noexcept : PseudoDClass("Error"), ErrorMessage("")
+	{
+	}
+	Error::Error(const Error& other) noexcept
+	{
+		this->PseudoDClass = other.ObtenerClaseEnPseudoD();
+		this->ErrorMessage = other.ObtenerErrorElemental();
+	}
+	Error::Error(string classname,string message) noexcept
+		: PseudoDClass(classname), ErrorMessage(message)
+	{
+	}
+	Error::~Error(void) noexcept
+	{
+	}
+	Error& Error::operator=(const Error& other) noexcept
+	{
+		this->PseudoDClass = other.ObtenerClaseEnPseudoD();
+		this->ErrorMessage = other.ObtenerErrorElemental();
+	}
+	const char* Error::what(void) noexcept
+	{
+		return this->ObtenerErrorElemental().c_str();
+	}
+	string Error::ObtenerClaseEnPseudoD(void) const noexcept
+	{
+		return this->PseudoDClass;
+	}
+	string Error::ObtenerErrorElemental(void) const noexcept
+	{
+		return this->ErrorMessage;
+	}
+	void Error::FijarClase(string classname) noexcept
+	{
+		this->PseudoDClass = classname;
+	}
+	void Error::FijarMensaje(string message) noexcept
+	{
+		this->ErrorMessage = message;
+	}
+	string Error::Mensaje(void) const noexcept
+	{
+		return "(" + this->ObtenerClaseEnPseudoD() + ") " + this->ObtenerErrorElemental();
+	}
+	ErrorDeSintaxis::ErrorDeSintaxis(void) noexcept : Error("ErrorDeSintaxis","")
+	{}
+	ErrorDeSintaxis::ErrorDeSintaxis(string message) noexcept : Error("ErrorDeSintaxis",message)
+	{}
+	ErrorDeSintaxis::ErrorDeSintaxis(const Error& other) noexcept : Error(other)
+	{}
+	ErrorDeSintaxis::~ErrorDeSintaxis(void) noexcept
+	{}
+	ErrorDeSemantica::ErrorDeSemantica(void) noexcept : Error("ErrorDeSemantica","")
+	{}
+	ErrorDeSemantica::ErrorDeSemantica(string message) noexcept : Error("ErrorDeSemantica",message)
+	{}
+	ErrorDeSemantica::ErrorDeSemantica(const Error& other) noexcept : Error(other)
+	{}
+	ErrorDeSemantica::~ErrorDeSemantica(void) noexcept
+	{}
+	ErrorDelNucleo::ErrorDelNucleo(void) noexcept : Error("ErrorDelNucleo","")
+	{}
+	ErrorDelNucleo::ErrorDelNucleo(string message) noexcept : Error("ErrorDelNucleo",message)
+	{}
+	ErrorDelNucleo::ErrorDelNucleo(const Error& other) noexcept : Error(other)
+	{}
+	ErrorDelNucleo::~ErrorDelNucleo(void) noexcept
+	{}
+	
 	PDDatos::PDDatos(vector<string>& nvar,vector<string>& vvar,vector<string>& npun,vector<int>& vpun,vector< stack<string> >& pil)
 	{
 		this->nombrev = &nvar;
@@ -174,7 +244,7 @@ namespace PDvar
 		int i = buscar((*this->nombrep),n);
 		if(i == -1)
 		{
-			throw std::string("Error en el manejador de memoria de PseudoD: No existe la variable o puntero "+n);
+			throw PDvar::ErrorDelNucleo("Error en el manejador de datos: C++'ObtenerPuntero(n)': No se encontro el puntero");
 		}
 		else
 		{
@@ -187,7 +257,7 @@ namespace PDvar
 		int i = buscar((*this->nombrep),n);
 		if(i == -1)
 		{
-			throw std::string("Error en el manejador de memoria de PseudoD: No existe la variable o puntero "+n);
+			throw PDvar::ErrorDelNucleo("Error en el manejador de datos: C++'ObtenerVariable(n)': No se encontro la variable o puntero");
 		}
 		else
 		{
@@ -250,6 +320,20 @@ namespace PDvar
 		return ind;
 	}
 	
+	bool PDDatos::ExisteVariable(string n,string t)
+	{
+		int ind = -1;
+		if(t == "Variable")
+		{
+			ind = buscar((*this->nombrev),n);
+		}
+		else
+		{
+			ind = buscar((*this->nombrep),n);
+		}
+		return (ind >= 0);
+	}
+	
 	void PDDatos::Ejecutar(string ord)
 	{
 		istringstream in(ord);
@@ -304,7 +388,7 @@ namespace PDvar
 		if(tok == "llamar")
 		{
 			data->Ejecutar("llamar",in);
-			string top = data->Tope(cae(data->ObtenerVariable("VG_PILA_ACTUAL")));
+			string top = data->Sacar(cae(data->ObtenerVariable("VG_PILA_ACTUAL")));
 			return top;
 		}
 		if(tok == "comparar")
@@ -331,6 +415,26 @@ namespace PDvar
 			in >> arg1 >> arg2;
 			return ((data->ObtenerVariable(arg1) == data->ObtenerVariable(arg2))? "verdadero" : "falso");
 		}
+		if((tok == "son")||(tok == "sean"))
+		{
+			string op,tok1,val1,tok2,val2,ytok;
+			in >> op >> tok1;
+			val1 = ValorDelToken(tok1,in,data);
+			in >> ytok >> tok2;
+			val2 = ValorDelToken(tok2,in,data);
+			if(ytok != "y")
+			{
+				throw string("No se reconoce el token " + tok + " se esperaba \"y\"");
+			}
+			if(op == "iguales")
+			{
+				return ((val1 == val2)? "verdadero" : "falso");
+			}
+			if(op == "diferentes")
+			{
+				return ((val1 != val2)? "verdadero" : "falso");
+			}
+		}
 		if(tok == "no") // verificado
 		{
 			string pd;
@@ -341,7 +445,7 @@ namespace PDvar
 		{
 			return data->ObtenerVariable(tok);
 		}
-		throw string("No se reconoce el token " + tok);
+		throw PDvar::ErrorDelNucleo("Error en el parser(expr): 'expr': Token invalido");
 	}
 }
 

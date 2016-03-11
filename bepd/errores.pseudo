@@ -1,0 +1,66 @@
+[ ******************************************************************************
+*****************************************
+*********
+** errores.pd: Archivo de errores de PseudoD
+** Declara el sistema manejador de errores de PseudoD.
+** PseudoD fue creado por Alejandro Linarez Rangel
+** builtins.pseudo fue creado por Alejandro Linarez Rangel
+** Puede copiar, redistribuir y modificar este archivo con permiso de
+** <proyectopseudod@gmail.com>.
+*****************************************
+****************************************************************************** ]
+
+[DOCUMENTA
+@file errores.pseudo
+Inicializa el sistema de manejo de errores y declera los errores estandares.
+DOCUMENTA]
+
+[DOCUMENTA
+@brief Es un error común
+Es la clase base de todos los errores en PseudoD.
+DOCUMENTA]
+clase Error
+	mensaje
+#(Final).
+heredar Objeto Error
+
+[DOCUMENTA
+@brief Es un error de sintaxis.
+Todos los errores de sintaxis los maneja esta clase.
+DOCUMENTA]
+clase ErrorDeSintaxis
+#(Final).
+heredar Error ErrorDeSintaxis
+
+[DOCUMENTA
+@brief Es un error de semantica.
+Los errores de semantica son manejados por esta clase.
+DOCUMENTA]
+clase ErrorDeSemantica
+#(Final).
+heredar Error ErrorDeSemantica
+
+[DOCUMENTA
+@brief Es un error del nucleo.
+Puede ser un acceso no permitido, entre otros.
+DOCUMENTA]
+clase ErrorDelNucleo
+#(Final).
+heredar Error ErrorDelNucleo
+
+[DOCUMENTA
+@brief Es un error matematico
+Puede ser desde una division por cero, hasta errores de dominio.
+DOCUMENTA]
+clase ErrorMatematico
+#(Final).
+
+[DOCUMENTA
+@brief Es el error actual.
+Cuando ocurre un error, PseudoD fija este puntero al error actual.
+@pbreak
+Por defecto, es un puntero a <code>Error</code>, pero por medio de
+polimorfismo puedes acceder a los metodos y atributos heredados.
+DOCUMENTA]
+instancia PunteroInteligente ErrorActual
+llamar ErrorActual#apuntar NULO#NOMBRE #(Final).

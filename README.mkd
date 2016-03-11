@@ -122,4 +122,4 @@ llamar MFoo#bar #(Final).
 
 PseudoD fue creado por Alejandro Linarez Rangel, la pagina oficial es [PseudoD.com](http://www.pseudod.com) y [PseudoD.sourceforge.net](http://www.sourceforge.net/projects/pseudod/), alli estan los foros, la wiki y el blog de PseudoD.
 
-Este es PseudoD **u1.9.5**.
+Este es PseudoD **2.0.0**.

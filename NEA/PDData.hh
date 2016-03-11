@@ -24,6 +24,7 @@
 #include <string>
 #include <cstring>
 #include <cstdio>
+#include <exception>
 
 #ifdef NUMEROS_EN_C
 # define MINGW
@@ -151,6 +152,157 @@ namespace PDvar
 	};
 	
 	/**
+	* @brief Representa un error.
+	* Esta clase simplemente es la clase base, no posee información adicional.
+	*/
+	class Error : public std::exception
+	{
+		public:
+			/**
+			* @brief Crea un error
+			* Por defecto, el mensaje es nulo y el nombre del manejador es "Error"
+			*/
+			explicit Error(void) noexcept;
+			/**
+			* @brief Crea un error
+			* @param classname Nombre del mnejador en PseudoD.
+			* @param message Mensaje de error.
+			*/
+			explicit Error(string classname,string message) noexcept;
+			/**
+			* @brief Crea un error
+			* Copia la información desde otro error.
+			* @param other Error a copiar.
+			*/
+			explicit Error(const Error& other) noexcept;
+			/**
+			* @brief Destruye este error.
+			*/
+			virtual ~Error(void) noexcept;
+			/**
+			* @brief Copia la información desde otro error.
+			*/
+			virtual Error& operator=(const Error& other) noexcept;
+			/**
+			* @brief Devuelve el mensaje de error
+			* El mensaje es devuelto en forma de un C-string.
+			*/
+			virtual const char* what(void) noexcept;
+			/**
+			* @brief Obtiene el manejador.
+			* Devuelve un string con el nombre de la clase en PseudoD que
+			* representa este error.
+			*/
+			string ObtenerClaseEnPseudoD(void) const noexcept;
+			/**
+			* @brief Obtiene el error elemental
+			* este es un string con el mensaje de error.
+			*/
+			string ObtenerErrorElemental(void) const noexcept;
+			/**
+			* @brief Devuelve el mensaje de error
+			* este mensaje es estructurado para que un usuario pueda leerlo.
+			*/
+			string Mensaje(void) const noexcept;
+		protected:
+			/**
+			* @brief Fija la clase manejadora.
+			*/
+			void FijarClase(string classname) noexcept;
+			/**
+			* @brief Fija el mensaje de error.
+			*/
+			void FijarMensaje(string message) noexcept;
+		private:
+			string PseudoDClass;
+			string ErrorMessage;
+	};
+	
+	/**
+	* @brief Representa un error de sintaxis.
+	*/
+	class ErrorDeSintaxis : public Error
+	{
+		public:
+			/**
+			* @brief Crea un error
+			* Por defecto, el mensaje es nulo y el manejador "ErrorDeSintaxis".
+			*/
+			explicit ErrorDeSintaxis(void) noexcept;
+			/**
+			* @brief Crea un error
+			* @param message Mensaje de error.
+			*/
+			explicit ErrorDeSintaxis(string message) noexcept;
+			/**
+			* @brief Crea un error
+			* Copia la información desde otro error.
+			* @param other Error a copiar.
+			*/
+			explicit ErrorDeSintaxis(const Error& other) noexcept;
+			/**
+			* @brief Destruye este error.
+			*/
+			virtual ~ErrorDeSintaxis(void) noexcept;
+	};
+	
+	/**
+	* @brief Representa un error de semantica.
+	*/
+	class ErrorDeSemantica : public Error
+	{
+		public:
+			/**
+			* @brief Crea un error
+			* Por defecto, el mensaje es nulo y el manejador "ErrorDeSemantica".
+			*/
+			explicit ErrorDeSemantica(void) noexcept;
+			/**
+			* @brief Crea un error
+			* @param message Mensaje de error.
+			*/
+			explicit ErrorDeSemantica(string message) noexcept;
+			/**
+			* @brief Crea un error
+			* Copia la información desde otro error.
+			* @param other Error a copiar.
+			*/
+			explicit ErrorDeSemantica(const Error& other) noexcept;
+			/**
+			* @brief Destruye este error.
+			*/
+			virtual ~ErrorDeSemantica(void) noexcept;
+	};
+	
+	/**
+	* @brief Representa un error del nucleo.
+	*/
+	class ErrorDelNucleo : public Error
+	{
+		public:
+			/**
+			* @brief Crea un error
+			* Por defecto, el mensaje es nulo y el manejador "ErrorDelNucleo".
+			*/
+			explicit ErrorDelNucleo(void) noexcept;
+			/**
+			* @brief Crea un error
+			* @param message Mensaje de error.
+			*/
+			explicit ErrorDelNucleo(string message) noexcept;
+			/**
+			* @brief Crea un error
+			* Copia la información desde otro error.
+			* @param other Error a copiar.
+			*/
+			explicit ErrorDelNucleo(const Error& other) noexcept;
+			/**
+			* @brief Destruye este error.
+			*/
+			virtual ~ErrorDelNucleo(void) noexcept;
+	};
+	
+	/**
 	* @brief El tipo de dato nativo del interprete, es usado internamente.
 	*/
 	class PDDatos : public PDObjeto
@@ -244,6 +396,13 @@ namespace PDvar
 			* @return indice
 			*/
 			int BuscarIndice(string t,string n);
+			/**
+			* @brief Determina si existe la variable o puntero.
+			* @param n nombre de la variable/puntero.
+			* @param t "Variable" para variables o "Puntero" para punteros.
+			* @return true si existe y false de lo contrario.
+			*/
+			bool ExisteVariable(string n,string t = "Variable");
 			/**
 			* @brief ejecuta una orden como interprete.
 			* @param ord Orden a ejecutar.
@@ -339,7 +498,7 @@ namespace PDvar
 			explicit PDEntradaBasica(vector<PDVOID_INIC_VACIO> args) : PDVoid(args) {}
 			explicit PDEntradaBasica(PDVOID_INIC_VACIO args) : PDVoid(args) {}
 			explicit PDEntradaBasica(void) : PDVoid() {}
-            virtual PDVOID_INIC_VACIO Obtener(int i = 0) {return PDVOID_INIC_VACIO_NULL;}
+			virtual PDVOID_INIC_VACIO Obtener(int i = 0) {return PDVOID_INIC_VACIO_NULL;}
 	};
 	
 	/**
@@ -351,7 +510,6 @@ namespace PDvar
 	* @return el valor de los tokens
 	*/
 	string ValorDelToken(string tok,istream& in,PDDatos* data);
-	
 }
 
 #endif

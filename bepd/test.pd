@@ -1,158 +1,25 @@
-utilizar mate.pseudo
+utilizar clases.pseudo [ para Numero ]
 
-adquirir a
-leer a
-llamar Seno a #(Final).
-recibir_resultado VG_BUFFER
-escribir VG_BUFFER
-nl
+instancia Numero myInt
+fijar myInt#valor =* 0
 
-[utilizar inic.pseudo
-utilizar clases.pseudo
-utilizar tipos.pseudo
-
-instancia PunteroInteligente ptr
-instancia PseudoVariable a
-llamar ReservarDato Decimal#Tipo #(Final).
-recibir_resultado a
-llamar ptr#apuntar a #(Final).
-escribir ptr#direccion
-nl
-llamar LiberarDato ptr #(Final).
-llamar ptr#esNulo #(Final).
-recibir_resultado a
-escribir a
-nl]
-[ *********************************************************
-*********************************
-**** Nombre: OperacionesAritmeticas.pd
-**** Descripción: Realiza diversas operaciones aritméticas
-**** * a gusto del usuario.
-**** Creador: Alejandro Linarez Rangel.
-**** Fecha: Sábado, 5 de diciembre de 2015.
-*********************************
-********************************************************* ]
-[ utilizar mate.pseudo
-adquirir numeroA
-adquirir numeroB
-adquirir operador
-adquirir opSuma
-adquirir opResta
-adquirir opMulti
-adquirir opDivi
-adquirir opMod
-adquirir mensaje
-adquirir resultado
-fijar opSuma =* +
-fijar opResta =* -
-fijar opMulti =* *
-fijar opDivi =* /
-fijar opMod =* %
-fijar mensaje =* Ingrese una expresión simple,(num op num):
-escribir mensaje
-nl
-leer numeroA
-leer operador
-leer numeroB
-si ¿son_iguales? operador opSuma
-    Importar.Ent.Sumar numeroA numeroB resultado
-fin
-si ¿son_iguales? operador opResta
-    Importar.Ent.Restar numeroA numeroB resultado
-fin
-si ¿son_iguales? operador opMulti
-    Importar.Ent.Multiplicar numeroA numeroB resultado
-fin
-si ¿son_iguales? operador opDivi
-    instancia Division MiDiv
-    llamar MiDiv#divide numeroA numeroB #(Final).
-    fijar resultado =¿? MiDiv#cociente
-    liberar MiDiv
-fin
-si ¿son_iguales? operador opMod
-    instancia Division MiDiv
-    llamar MiDiv#divide numeroA numeroB #(Final).
-    fijar resultado =¿? MiDiv#resto
-    liberar MiDiv
-fin
-fijar mensaje =* El resultado es:
-escribir mensaje
-escribir_esp
-escribir resultado
-nl
-
-adquirir num
-fijar num =* 3.999
-llamar Techo num #(Final).
-recibir_resultado num
-escribir num
-nl
-fijar num =* 8.0
-llamar Techo num #(Final).
-recibir_resultado num
-escribir num
-nl
-fijar num =* 1.23244
-llamar Techo num #(Final).
-recibir_resultado num
-escribir num
-nl
-fijar num =* 9.00001
-llamar Techo num #(Final).
-recibir_resultado num
-escribir num
-nl
-]
-[
-utilizar inic.pseudo
-utilizar clases.pseudo
-utilizar tipos.pseudo
-
-clase Metodos
-	:foo
-	:bar
-#(Final).
-heredar Objeto Metodos
-
-funcion Metodos#foo
-	fijar VG_BUFFER =* Hola Mundo!
-finfun
-
-funcion Metodos#bar
-	escribir VG_BUFFER
+funcion ModDemo
+	[ Cualquier aparicion de myInt es de la global ]
+	instancia Numero myInt
+	[ Cualquier aparicion de myInt es de la local ]
+	fijar myInt#valor =* 1024
+	escribir myInt#valor
 	nl
+	liberar myInt
+	[ Cualquier aparicion de myInt es de la global ]
+	escribir myInt#valor
+	nl
+	fijar myInt#valor =* 2
 finfun
 
-instancia Metodos A
-instancia Referencia ref
-fijar ref#ref =* A
-adquirir b
-fijar b =* foo
-llamar ref#llamarMet b #(Final).
-fijar b =* bar
-llamar ref#llamarMet b #(Final).
-Importar.PseudoD.debug ]
-[ TODO: Solo en PseudoD u1.9.5+
-adquirir cnt
-adquirir maxVal
-adquirir msg
-fijar cnt =¿? CERO
-fijar maxVal =* 100
-fijar msg =* [
-escribir msg
-escribir_esp
-mientras comparar Importar.Ent.Comparar cnt < maxVal
-	Importar.Ent.Sumar cnt UNO cnt
-	escribir cnt
-	escribir_esp
-finbucle
-fijar msg =*
-escribir msg
+escribir myInt#valor [ global ]
 nl
-liberar msg
-liberar cnt
-liberar maxVal ]
-[
-arg->sig = &this->sig;
-this->sig = &arg;
-]
+llamar ModDemo #(Final). [ local/global ]
+escribir myInt#valor [ global ]
+nl
+

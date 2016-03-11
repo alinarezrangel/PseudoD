@@ -77,12 +77,12 @@ extern "C" void PDEjecutar(string o,istream& i)
 		long long int v1,v2;
 		v1 = cae(va);
 		v2 = cae(vb);
-		if((v1 + v2)<=vr2.size())
+		if((v1 + v2) <= vr2.size())
 			vr = vr2.substr(v1,v2);
 		else
 		{
 			vr = ":C++:error:";
-			throw string("En el modulo Cad, en Sub_Cadena v1 v2 r1 r2: v1+v2 > longitud(r1).");
+			throw PDvar::ErrorDeSemantica("Error en Cad.Sub_Cadena: 'Cad.Sub_Cadena v1 v2 r1 r2': la suma del indice y el tamaño es mayor a la cadena");
 		}
 	}
 	else if(o == PDS("Cad.Reemplazar"))
@@ -118,7 +118,7 @@ extern "C" void PDEjecutar(string o,istream& i)
 		else
 		{
 			vr = ":C++:error:";
-			throw string("Error en el modulo Cad, Caracter_Especial a r: no se reconoce a");
+			throw PDvar::ErrorDeSintaxis("Error en Cad.Caracter_Especial: 'Caracter_Especial a r': no se reconoce 'a'");
 		}
 	}
 	else if(o == PDS("Cad.Buscar"))
@@ -153,8 +153,8 @@ extern "C" void PDEjecutar(string o,istream& i)
 			v3 += v2[v];
 		else
 		{
-			cerr << "Error en Cad.Caracter a r r2: longitud(r2) > a" << endl;
-			throw string("Error en Cad.Caracter: Posicion invalida");
+			v3 = ":C++:Error:";
+			throw PDvar::ErrorDelNucleo("Error en Cad.Caracter: 'Cad.Caracter a r r2': posicion invalida");
 		}
 	}
 	else if(o == PDS("Ent.Sumar"))
@@ -210,7 +210,7 @@ extern "C" void PDEjecutar(string o,istream& i)
 		long long int v1,v2;
 		v1 = cae(va);
 		v2 = cae(vb);
-		if(!(v2 == 0))
+		if(v2 != 0)
 		{
 			long long int v3 = v1 / v2;
 			vr = eas(v3);
@@ -218,6 +218,7 @@ extern "C" void PDEjecutar(string o,istream& i)
 		else
 		{
 			vr = ":C++:error:";
+			throw PDvar::ErrorDeSemantica("Error en Ent.Dividir: 'Ent.Dividir a b c': division entre cero");
 		}
 	}
 	else if(o == PDS("Ent.Comparar"))
@@ -250,7 +251,7 @@ extern "C" void PDEjecutar(string o,istream& i)
 		else
 		{
 			vr = ":C++:error:";
-			throw string("Error en el modulo Ent, Comparar a OP b r: no se reconoce OP");
+			throw PDvar::ErrorDeSintaxis("Error en Ent.Comparar, 'Ent.Comparar a OP b r': no se reconoce 'OP'");
 		}
 	}
 	else if(o == PDS("Dec.Sumar"))
@@ -308,11 +309,10 @@ extern "C" void PDEjecutar(string o,istream& i)
 		v2 = caf(vb);
 		if(v2 == 0)
 		{
-			cerr << "Error en Dec.Dividir a b r: b == 0: no se divide entre cero" << endl;
-			throw string("Error en Dec.Dividir: division entre cero");
+			throw PDvar::ErrorDeSemantica("Error en Dec.Dividir: 'Dec.Dividir a b c': division entre cero");
 		}
-			long double v3 = v1 / v2;
-			vr = dac(v3);
+		long double v3 = v1 / v2;
+		vr = dac(v3);
 	}
 	else if(o == PDS("Dec.Comparar"))
 	{
@@ -344,7 +344,7 @@ extern "C" void PDEjecutar(string o,istream& i)
 		else
 		{
 			vr = ":C++:error:";
-			throw string("Error en el modulo Dec, Comparar a OP b r: no se reconoce OP");
+			throw PDvar::ErrorDeSintaxis("Error en Dec.Comparar: 'Comparar a OP b r': no se reconoce 'OP'");
 		}
 	}
 	#include "./codefile.cpp"

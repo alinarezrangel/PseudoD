@@ -57,9 +57,9 @@ int main (int argc, char* argv[])
 		cout << "   " << prgNom << " -i bepd nea: ejecuta en modo interactivo." << endl;
 		cout << "Deje una opcion en -- para reemplazarla por su valor por defecto" << endl;
 		cout << "Los valores por defecto son:" << endl;
-		cout << "*) bepd:    /usr/lib/pseudod/1.9.5/" << endl;
+		cout << "*) bepd:    /opt/pseudod/bepd/" << endl;
 		cout << "*) nea:     /usr/lib/libpseudod.so" << endl;
-		cout << "*) plugins: /usr/lib/pseudod/plugins/" << endl;
+		cout << "*) plugins: /opt/pseudod/plugins/" << endl;
 		cout << "Creado por Alejandro Linarez Rangel" << endl;
 		return 0;
 	}
@@ -74,7 +74,7 @@ int main (int argc, char* argv[])
 	mn = op;
 	if(bepd == "--")
 	{
-		bepd = "/usr/lib/pseudod/1.9.5/";
+		bepd = "/opt/pseudod/bepd/";
 	}
 	if(nea == "--")
 	{
@@ -113,6 +113,12 @@ int main (int argc, char* argv[])
 			ifstream in(mn.c_str());
 			pseudod::ejecutar(in);
 		}
+	}
+	catch(const PDvar::Error& e)
+	{
+		cerr << "PseudoD lanzo un error:" << endl;
+		cerr << e.Mensaje() << endl;
+		cerr << "En " << pseudod::DATOS_INT.ObtenerVariable("__ARCH__") << endl;
 	}
 	catch(const std::exception& e)
 	{

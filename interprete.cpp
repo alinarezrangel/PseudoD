@@ -36,7 +36,7 @@ namespace pseudod
 		{
 			string a;
 			e >> a;
-			bool existe = false;
+			/*bool existe = false;
 			for (int i = 0; i < (*DATOS_INT.nombrev).size(); i += 1)
 			{
 				if((*DATOS_INT.nombrev)[i] == a)
@@ -44,11 +44,11 @@ namespace pseudod
 			}
 			if(existe)
 			{
-				throw string("¡SISTEMA CORRUPTOOOOO! en adquirir "+a);
-			}
-				DATOS_INT.CrearVariable(a,"Variable",0,a);
-				DATOS_INT.CrearVariable(a+string("#Tipo"),"Variable",0,"PseudoVariable");
-				DATOS_INT.CrearVariable(a+string("#NOMBRE"),"Variable",0,a);
+				throw PDvar::ErrorDelNucleo("Error en adquirir: 'adquirir nm': La variable ya esta reservada");
+			}*/
+			DATOS_INT.CrearVariable(a,"Variable",0,a);
+			DATOS_INT.CrearVariable(a+string("#Tipo"),"Variable",0,"PseudoVariable");
+			DATOS_INT.CrearVariable(a+string("#NOMBRE"),"Variable",0,a);
 		}
 		else if(o == "instancia") // alias de Importar.Tipos.Instancia
 		{
@@ -90,7 +90,7 @@ namespace pseudod
 			}
 			if(existe)
 			{
-				throw string("¡SISTEMA CORRUPTOOOOO! en puntero "+var);
+				throw PDvar::ErrorDelNucleo("Error en puntero: 'puntero ptr nval': El puntero ya existe");
 			}
 			DATOS_INT.CrearVariable(var,"Puntero",DATOS_INT.BuscarIndice("Variable",val));
 		}
@@ -101,7 +101,7 @@ namespace pseudod
 			DATOS_INT.ObtenerIndicePuntero(h)++;
 			if(DATOS_INT.ObtenerIndicePuntero(h) >= (*DATOS_INT.nombrev).size())
 			{
-				throw string("Error incrementando el puntero "+h+": acceso denegado a memoria prohibida");
+				throw PDvar::ErrorDelNucleo("Error en incrementar_p: 'incrementar_p ptr' alias 'incrementar_puntero ptr': Puntero invalido por bloqueo de memoria");
 			}
 		}
 		else if((o == "decrementar_p")||(o == "decrementar_puntero"))
@@ -111,7 +111,7 @@ namespace pseudod
 			DATOS_INT.ObtenerIndicePuntero(h)--;
 			if(DATOS_INT.ObtenerIndicePuntero(h) < 0)
 			{
-				throw string("Error decrementando el puntero "+h+": acceso denegado a memoria prohibida");
+				throw PDvar::ErrorDelNucleo("Error en decrementar_p: 'decrementar_p ptr' alias 'decrementar_puntero ptr': Puntero onvalido por bloqueo de memoria");
 			}
 		}
 		else if(o == "escribir")
@@ -153,7 +153,7 @@ namespace pseudod
 			}
 			else
 			{
-				throw string("No se detecta el operador "+oper);
+				throw PDvar::ErrorDeSintaxis("Error en fijar: 'fijar a OP b': no se detecta 'OP'");
 			}
 		}
 		else if(o == "leer")
@@ -177,15 +177,14 @@ namespace pseudod
 				en.open(funcion.c_str());
 				if(!en)
 				{
-					cerr << "ERROR EN \'utilizar " << func << "\' se traduce a \'utilizar " << funcion << "\' no existe el archivo " << funcion << endl;
-					throw string("Se intento importar un archivo inexistente");
+					throw PDvar::ErrorDelNucleo("Error en utilizar: 'utilizar fname': El archivo no existe");
 				}
 			}
 			if(DATOS_INT.BuscarIndice("Variable","utilizar " + funcion) != -1)
 			{
 				if(DATOS_INT.adver > 1)
 				{
-					throw string("Se importo dos veces el mismo archivo");
+					throw PDvar::ErrorDelNucleo("Error menor en utilizar: 'utilizar fname': El archivo ya se ha importado");
 				}
 				return;
 			}
@@ -213,7 +212,7 @@ namespace pseudod
 				param.push_back(bpalab);
 				if(!(e >> bpalab))
 				{
-					throw string("Error en llamar "+var+" : no se encontro #(Final). pero si un EOF");
+					throw PDvar::ErrorDeSintaxis("Error en llamar: 'llamar fn args... #(Final).': EOF inesperado");
 				}
 			}
 			string nombre_var, tipo_var;
@@ -403,7 +402,7 @@ namespace pseudod
 				string var1,var2,ord,es,valor;
 				e >> ord >> var1 >> var2 >> es >> valor;
 				if(es != "es")
-					throw string("Error en si ejecutar "+ord+": Su sintaxis es: variable variable \"es\" resultado: no se escribio es, se escribio:" + es);
+					throw PDvar::ErrorDelNucleo("Error en si_no: 'si_no expr cdg...': La expresion es invalida");
 				istringstream in(var1 + " " + var2 + " ___codigo_pseudod_buffer_interno___");
 				procesar(ord,in,FUNCION);
 				val = ((DATOS_INT.ObtenerVariable("___codigo_pseudod_buffer_interno___") == DATOS_INT.ObtenerVariable(valor))? DATOS_INT.VERDADERO : DATOS_INT.FALSO);
@@ -504,6 +503,10 @@ namespace pseudod
 		try
 		{
 			ejecutar("utilizar " + DATOS_INT.ObtenerVariable("__LIB__") + "builtins.pseudo");
+		}
+		catch(const PDvar::Error& e)
+		{
+			return e.Mensaje();
 		}
 		catch(const std::exception& e)
 		{

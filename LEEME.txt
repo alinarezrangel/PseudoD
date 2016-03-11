@@ -13,11 +13,13 @@ COMPILAR
 	PseudoD esta escrito en C++11, NO COMPILAR SIN SOPORTE PARA ESTE.
 	
 	PseudoD incluye un Makefile, este compila PseudoD suponiendo que se tiene g++
-	con soporte de C++11 y genera tres archivos: Datos.o,libpseudod.so y PseudoD.
+	con soporte de C++11 y genera cuatro archivos: Datos.o,libpseudod.so, PseudoD
+	y libpseudodscr.a.
 	
 	libpseudod.so es el NEA de PseudoD
 	PseudoD es el ejecutable,(el interprete) este depende del NEA que es libpseudod.so.
 	Datos.o es la biblioteca de manipulacion de datos de PseudoD, esta no es dinamica.
+	libpseudodsrc.a es el conjunto de Datos.o y pdbase.o.
 
 INTERPRETE
 	Sintaxis:
@@ -80,7 +82,7 @@ COMPILAR
 	(para eso el significado de la orden el final).
 
 TU PSEUDOD
-	Este codigo corresponde con PseudoD u1.9.5, con BEPD 1.9.0:1.9.3/1.9.5.
+	Este codigo corresponde con PseudoD 2.0.0, con BEPD 2.0.0:1.9.5/2.0.0.
 	Este codigo puede descargarse por las paginas establecidas en ESTRUCTURA.txt.
 	Despues de configurar ipdc, y compilar PseudoD, puedes correr los ejemplos
 	con:
@@ -89,6 +91,19 @@ TU PSEUDOD
 		ipdc -f ./Ejemplos/CuentaRegresiva.pd
 		ipdc -f ./Ejemplos/Clases.pseudo
 		ipdc -f ./Ejemplos/BuclesAnidados.pd
+
+FORMATO DE ERRORES
+	Los errores en PseudoD son mostrados con el siguiente formato:
+		Error [grado] en (modulo/orden): [sintaxis] (mensaje)
+	Por ejemplo:
+		No:
+			Error: division entre cero
+		Si:
+			Error en Ent.Dividir: 'Ent.Dividir a b c': division entre cero.
+		No:
+			Error: se esperaba ']'
+		Si:
+			Error en [: '[ ... ]': se esperaba ']'
 
 PseudoD fue creado por Alejandro Linarez Rangel
 

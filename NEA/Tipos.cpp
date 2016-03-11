@@ -70,8 +70,13 @@ namespace PDTipos
 	{
 		if(!(in >> this->nm >> this->cant))
 		{
-			cerr << "Error en la creacion del " << this->ObtenerClave() << "," << this->nm << " No se pudo leer bien el fichero fuente." << endl;
-			throw string("Error en el la parte " + this->ObtenerClave() + " EOF inesperado");
+			throw PDvar::ErrorDeSintaxis(
+				"Error en "
+				+ this->ObtenerClave()
+				+ ": '"
+				+ this->ObtenerClave()
+				+ " nom len': EOF inesperado"
+			);
 		}
 	}
 	
@@ -103,24 +108,37 @@ namespace PDTipos
 	{
 		if(!(in >> this->nm))
 		{
-			cerr << "Error en la creacion del " << this->ObtenerClave() << "," << "(ERROR,VARIABLE INEXISTENTE)" << " No se pudo leer bien el fichero de entrada." << endl;
-			throw string("Error en el la parte " + this->ObtenerClave() + " EOF inesperado");
+			throw PDvar::ErrorDeSintaxis(
+				"Error en "
+				+ this->ObtenerClave()
+				+ ": '"
+				+ this->ObtenerClave()
+				+ " nm ... FIN' alias 'clase nm ... FIN': EOF inesperado"
+			);
 		}
 		string b;
 		if(!(in >> b))
 		{
-			cerr << "Error en la creacion del " << this->ObtenerClave() << "," << this->nm << " No se pudo leer bien el fichero de entrada." << endl;
-			throw string("Error en el la parte " + this->ObtenerClave() + " EOF inesperado");
-			return;
+			throw PDvar::ErrorDeSintaxis(
+				"Error en "
+				+ this->ObtenerClave()
+				+ ": '"
+				+ this->ObtenerClave()
+				+ " nm ... FIN' alias 'clase nm ... FIN': EOF inesperado"
+			);
 		}
 		while(b != "#(Final).")
 		{
 			this->methods.push_back(b);
 			if(!(in >> b))
 			{
-				cerr << "Error en la creacion del " << this->ObtenerClave() << "," << this->nm << " No se pudo leer bien el fichero de entrada." << endl;
-			throw string("Error en el la parte " + this->ObtenerClave() + " EOF inesperado");
-				return;
+				throw PDvar::ErrorDeSintaxis(
+					"Error en "
+					+ this->ObtenerClave()
+					+ ": '"
+					+ this->ObtenerClave()
+					+ " nm ... FIN' alias 'clase nm ... FIN': EOF inesperado"
+				);
 			}
 		}
 	}
@@ -201,8 +219,13 @@ namespace PDTipos
 	{
 		if(!(in >> this->nm >> this->ni))
 		{
-			cerr << "Error en la creacion del " << this->ObtenerClave() << "," << "(ERROR,VARIABLE INEXISTENTE)" << " No se pudo leer bien el fichero de entrada." << endl;
-			throw string("Error en el la parte " + this->ObtenerClave() + " EOF inesperado");
+			throw PDvar::ErrorDeSintaxis(
+				"Error en "
+				+ this->ObtenerClave()
+				+ ": '"
+				+ this->ObtenerClave()
+				+ " cls nm' alias 'instancia cls nm': EOF inesperado"
+			);
 			return;
 		}
 	}
@@ -331,9 +354,9 @@ namespace PDTipos
 					data->Ejecutar(i,cin);
 				}
 			}
-			catch(const string& e)
+			catch(const PDvar::Error& e)
 			{
-				cerr << "PseudoD lanzo un error fatal: " << e << endl;
+				cerr << "PseudoD lanzo un error fatal: " << e.Mensaje() << endl;
 				cerr << "EN " << data->ObtenerVariable("__ARCH__") << endl;
 				cerr << "Captado por el debugger" << endl;
 			}
@@ -357,8 +380,13 @@ namespace PDTipos
 	{
 		if(!(in >> this->nme >> this->nma >> this->tma))
 		{
-			cerr << "Error en " << this->ObtenerClave() << " No se ha podido leer bien el fichero de entrada." << endl;
-			throw string("Error en el la parte " + this->ObtenerClave() + " EOF inesperado");
+			throw PDvar::ErrorDeSintaxis(
+				"Error en "
+				+ this->ObtenerClave()
+				+ ": '"
+				+ this->ObtenerClave()
+				+ " nme nma tma': EOF inesperado"
+			);
 		}
 	}
 	
@@ -393,8 +421,13 @@ namespace PDTipos
 	{
 		if(!(in >> this->nm))
 		{
-			cerr << "Error en " << this->ObtenerClave() << " ,No se pudo leer bien el fichero de entrada" << endl;
-			throw string("Error en el la parte " + this->ObtenerClave() + " EOF inesperado");
+			throw PDvar::ErrorDeSintaxis(
+				"Error en "
+				+ this->ObtenerClave()
+				+ ": '"
+				+ this->ObtenerClave()
+				+ " nm': EOF inesperado"
+			);
 			return;
 		}
 	}
@@ -407,9 +440,13 @@ namespace PDTipos
 			i = data->BuscarIndice("Puntero",this->nm);
 			if(i == -1)
 			{
-				cerr << "ERROR EN " << this->ObtenerClave() << " ,LA VARIABLE O PUNTERO " << this->nm << " NO EXISTE." << endl;
-				throw string("Error en el la parte " + this->ObtenerClave() + " No existe la variable o puntero.");
-				return;
+				throw PDvar::ErrorDelNucleo(
+				"Error en "
+				+ this->ObtenerClave()
+				+ ": '"
+				+ this->ObtenerClave()
+				+ " nm': No existe la variable o puntero 'nm'"
+			);
 			}
 			(*data->nombrep).erase((*data->nombrep).begin() + i);
 			(*data->nvapunt).erase((*data->nvapunt).begin() + i);
@@ -461,26 +498,18 @@ namespace PDTipos
 	{
 		if(!(in >> this->nmb >> this->nmh))
 		{
-			cerr << "Error en " << this->ObtenerClave() << " no se pudo leer bien el fichero fuente." << endl;
-			throw string("Error en el la parte " + this->ObtenerClave() + " EOF inesperado");
+			throw PDvar::ErrorDeSintaxis(
+				"Error en "
+				+ this->ObtenerClave()
+				+ ": '"
+				+ this->ObtenerClave()
+				+ " cls_base cls_hija' alias 'heredar cls_base cls_hija': EOF inesperado"
+			);
 		}
 	}
 	
 	void PseudoHerencia::InscribirInstancia(PDDatos* data)
 	{
-		/*int tmb,tmh,tmha;
-		tmb = cae(data->ObtenerVariable(this->nmb));
-		tmh = cae(data->ObtenerVariable(this->nmh));
-		tmha = tmh;
-		tmh += tmb;
-		data->ObtenerVariable(this->nmh) = eas(tmh);
-		int icb=0,ich=tmha;
-		for (icb = 0; icb < tmb; icb += 1)
-		{
-			data->CrearVariable(this->nmh+string("#(")+eas(ich)+string(")."));
-			data->ObtenerVariable(this->nmh+string("#(")+eas(ich)+string(").")) = data->ObtenerVariable(this->nmb+string("#(")+eas(icb)+string(")."));
-			ich++;
-		}*/
 		data->ObtenerVariable(this->nmh) += " " + data->ObtenerVariable(this->nmb);
 	}
 	
@@ -500,8 +529,13 @@ namespace PDTipos
 	{
 		if(!(in >> this->nmp >> this->nmv))
 		{
-			cerr << "Error en " << this->ObtenerClave() << " , no se pudo leer bien el fichero fuente." << endl;
-			throw string("Error en el la parte " + this->ObtenerClave() + " EOF inesperado");
+			throw PDvar::ErrorDeSintaxis(
+				"Error en "
+				+ this->ObtenerClave()
+				+ ": '"
+				+ this->ObtenerClave()
+				+ " ptr nval' alias 'redireccionar ptr nval': EOF inesperado"
+			);
 		}
 	}
 	
@@ -510,14 +544,24 @@ namespace PDTipos
 		int oi;
 		if(data->BuscarIndice("Puntero",this->nmp) == -1)
 		{
-			cerr << "Error en " << this->ObtenerClave() << " ,No existe el puntero " << this->nmp << endl;
-			throw string("Error en el la parte " + this->ObtenerClave() + " No existe el puntero");
+			throw PDvar::ErrorDelNucleo(
+				"Error en "
+				+ this->ObtenerClave()
+				+ ": '"
+				+ this->ObtenerClave()
+				+ " ptr nvla' alias 'redireccionar ptr nval': No existe el puntero 'ptr'"
+			);
 		}
 		oi = data->BuscarIndice("Variable",this->nmv);
 		if(oi == -1)
 		{
-			cerr << "Error en " << this->ObtenerClave() << " ,No existe la variable,(NOTA:variable no puntero) " << this->nmv << endl;
-			throw string("Error en el la parte " + this->ObtenerClave() + " No existe la variable(no puntero)");
+			throw PDvar::ErrorDelNucleo(
+				"Error en "
+				+ this->ObtenerClave()
+				+ ": '"
+				+ this->ObtenerClave()
+				+ " ptr nval' alias 'redireccionar ptr nval': No existe la variable 'nval'"
+			);
 		}
 		data->ObtenerIndicePuntero(this->nmp) = oi;
 	}
@@ -734,8 +778,13 @@ namespace PDTipos
 	{
 		if(!(in >> this->ptr >> this->nme >> this->tpe >> this->nmv))
 		{
-			cerr << "Error en " << this->ObtenerClave() << " no se pudo leer bien el fichero fuente." << endl;
-			throw string("Error en el la parte " + this->ObtenerClave() + " EOF inesperado");
+			throw PDvar::ErrorDeSintaxis(
+				"Error en "
+				+ this->ObtenerClave()
+				+ ": '"
+				+ this->ObtenerClave()
+				+ " ptr? nme tpe nmv': EOF inesperado"
+			);
 		}
 	}
 	
@@ -772,8 +821,13 @@ namespace PDTipos
 	{
 		if(!(i >> this->var))
 		{
-			cerr << "Error en " << this->ObtenerClave() << " no se pude leer bien el fichero fuente" << endl;
-			throw string("Error en el la parte " + this->ObtenerClave() + " EOF inesperado");
+			throw PDvar::ErrorDeSintaxis(
+				"Error en "
+				+ this->ObtenerClave()
+				+ ": '"
+				+ this->ObtenerClave()
+				+ " var' alias 'liberar var': EOF inesperado"
+			);
 		}
 	}
 	

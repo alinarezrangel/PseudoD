@@ -1,0 +1,41 @@
+[ ***************************************************
+**************
+** Formato.pd: Ejemplos de PseudoD.
+** Creador: Alejandro Linarez Rangel
+** Imprime las tablas de multiplicar del 1 al 9.
+** Serie de ejemplos de PseudoD.
+** Contacto a <proyectopseudod@gmail.com> y a los
+** foros de discución en
+**    <https://sourceforge.net/p/pseudod/discussion/?source=navbar>
+**************
+*************************************************** ]
+
+[ Similar a BuclesAnidados.pd solo que utiliza entsal.pseudo ]
+
+utilizar inic.pseudo
+utilizar clases.pseudo
+utilizar entsal.pseudo
+
+adquirir numero
+adquirir otro
+adquirir mensaje
+adquirir resultado
+adquirir hasta
+
+fijar numero =* 1
+fijar otro =* 1
+fijar mensaje =* El resultado de % * % = %\k
+fijar resultado =* 0
+fijar hasta =* 9
+
+mientras comparar Importar.Ent.Comparar numero <= hasta
+	mientras comparar Importar.Ent.Comparar otro <= hasta
+		Importar.Ent.Multiplicar numero otro resultado
+		[ Igual a printf en C ]
+		[ Por ahora la función es algo lenta pero se esta trabajando en ella ]
+		llamar ImprimirFormato mensaje numero otro resultado #(Final).
+		Importar.Ent.Sumar otro UNO otro
+	finbucle
+	fijar otro =* 1
+	Importar.Ent.Sumar numero UNO numero
+finbucle

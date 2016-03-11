@@ -35,20 +35,20 @@ Algunas preguntas que se podria hacer:
 	
 	¿Donde agrego mis plugins escritos en PseudoD para poderlos utilizar junto
 	con `utilizar`?
-		Deberia agregarlos en /usr/lib/pseudod/1.9.3/, dentro de una carpeta con el
+		Deberia agregarlos en /opt/pseudod/bepd/, dentro de una carpeta con el
 		nombre del libs.
 	
 	¿Donde agrego mis plugins en C++11 para poderlos utilizar junto con PseudoD?
 		La ubicación de este tipo de plugin no importa, mientras se conozca de forma
 		total. Aunque si deseara tener una ubicación especial deberia estar en
-		/usr/lib/pseudod/plugins/, dentro de una carpeta con su nombre.
+		/opt/pseudod/plugins/, dentro de una carpeta con su nombre.
 	
 	¿Donde deberia estar el archivo builtins.pseudo?
 		Este archivo debe estar en /opt/pseudod/bepd/, junto a la biblioeca
 		estandar.
 	
 	¿Que versión de BEPD es la que trae este código?
-		BEPD u1.9.5:1.9.5 (BEPD 1.9.0 diseñada para PseudoD 1.9.3/1.9.5).
+		BEPD u2.0.0:2.0.0 (BEPD 2.0.0 diseñada para PseudoD 1.9.5/2.0.0).
 	
 	¿Como se usa ipdc?
 		ipdc supone que ya se tiene PseudoD(el ejecutable) en /usr/bin/ o en

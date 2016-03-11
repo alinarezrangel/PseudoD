@@ -1,0 +1,40 @@
+[ ***************************************************
+**************
+** UTF-8.pd: Ejemplos de PseudoD.
+** Creador: Alejandro Linarez Rangel
+** Demuestra el soporte de UTF-8 en PseudoD.
+** Serie de ejemplos de PseudoD.
+** Contacto a <proyectopseudod@gmail.com> y a los
+** foros de discución en
+**    <https://sourceforge.net/p/pseudod/discussion/?source=navbar>
+**************
+*************************************************** ]
+utilizar inic.pseudo
+
+[ Todos estos son nombres validos en PseudoD ]
+adquirir ¿Salir?
+adquirir Mensaje
+adquirir Simbolos-+./
+adquirir correo@ejemplo
+adquirir a~a~a
+adquirir valido.algo.com
+adquirir bien|normal
+adquirir multiplicar*algo
+adquirir resto%de%algo
+adquirir =algo=
+adquirir !nonono
+
+[ No puedes utilizar palabras clave como identificadores, en general es el
+unico requisito en PseudoD ]
+
+[ Estos tambien son validos ]
+adquirir <html>
+adquirir araña
+adquirir €sŧø_ŧi€n€_uŧf8
+adquirir algo(de)algo
+adquirir algo{de}algo
+adquirir amp&amp
+adquirir "mira"esto
+adquirir 1234567890
+adquirir `mira`algo´esto´
+
