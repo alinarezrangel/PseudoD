@@ -97,6 +97,10 @@ if [ "$param1" = "-f" ]
 fi
 if [ "$param1" = "-i" ]
 	then
+		PseudoD -i "$RUTA_PSEUDOD" "$RUTA_LIB";
+fi
+if [ "$param1" = "-io" ]
+	then
 		ipd nulo "$RUTA_PSEUDOD" "$RUTA_LIB";
 fi
  

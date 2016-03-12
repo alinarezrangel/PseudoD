@@ -200,9 +200,9 @@ namespace PDTipos
 				data->ObtenerIndicePuntero(this->ni + string("#") + this->methods[i])
 				= data->BuscarIndice("Variable",this->nm + string("#")
 				                     + this->methods[i]);
-				data->ObtenerIndicePuntero(this->ni + string("#") + this->methods[i] + "#cod")
+				data->ObtenerIndicePuntero(this->ni + string("#") + this->methods[i] + string("#cod"))
 				= data->BuscarIndice("Variable",this->nm + string("#")
-				                     + this->methods[i] + string("#cod"));
+				                     + this->methods[i]);
 				/*data->ObtenerVariable(this->ni+string("#")+this->methods[i])
 	      = data->ObtenerVariable(this->nm+string("#")+this->methods[i]+string("#cod"));*/
 			}
@@ -510,7 +510,36 @@ namespace PDTipos
 	
 	void PseudoHerencia::InscribirInstancia(PDDatos* data)
 	{
-		data->ObtenerVariable(this->nmh) += " " + data->ObtenerVariable(this->nmb);
+		string& base = data->ObtenerVariable(this->nmb);
+		string& hija = data->ObtenerVariable(this->nmh);
+		string curr_mtd = "";
+		for(int i = 0;i < base.size();i++)
+		{
+			if(base[i] == ' ')
+			{
+				if((curr_mtd.front() == ':')&&(hija.find(curr_mtd.c_str()) == string::npos))
+				{
+					// Crear una funcion llamada Hija#Metodo que sea igual a Base#Metodo
+					curr_mtd.replace(0,1,"");
+					string hija_mtd = this->nmh + string("#") + curr_mtd;
+					string base_mtd = this->nmb + string("#") + curr_mtd;
+					data->CrearVariable(hija_mtd,"Variable",0);
+					data->CrearVariable(hija_mtd + "#NOMBRE","Variable",0);
+					data->CrearVariable(hija_mtd + "#Tipo","Variable",0);
+					data->CrearVariable(hija_mtd + string("#cod"),"Puntero",0);
+					data->ObtenerVariable(hija_mtd)
+						= data->ObtenerVariable(base_mtd);
+					data->ObtenerVariable(hija_mtd + "#NOMBRE") = hija_mtd;
+					data->ObtenerVariable(hija_mtd + "#Tipo") = "PseudoFuncion";
+					data->ObtenerIndicePuntero(hija_mtd + string("#cod"))
+						= data->BuscarIndice("Variable",hija_mtd);
+				}
+				curr_mtd = "";
+				continue;
+			}
+			curr_mtd += base[i];
+		}
+		hija += base;
 	}
 	
 	PseudoDireccionarPuntero::PseudoDireccionarPuntero(string p,string v) : PDInstancia()

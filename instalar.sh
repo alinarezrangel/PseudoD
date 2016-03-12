@@ -83,7 +83,7 @@ if [ "$opt" = "s" ]
 		rm ./PseudoD
 		rm ./libpseudod.so
 		rm ./libpseudodsrc.a
-		rm ./Dato.o
+		rm ./Data.o
 		rm ./pdbase.o
 		echo "Eliminados..."
 fi

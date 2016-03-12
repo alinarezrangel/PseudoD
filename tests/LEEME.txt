@@ -1,0 +1,55 @@
+ESTE ARCHIVO CONTIENE TEXTO UNICODE
+
+Bienvenido al sistema de pruebas de PseudoD, donde estan las pruebas de cada
+caracteristica del lenguaje, a continuación podras ver como crear, editar
+y ejecutar las pruebas.
+
+ESTRUCTURA DE UNA PRUEBA
+	Donde "./" es el directorio de la prueba:
+		salida.txt                  Salida de la prueba.
+		test.pd                     Prueba en PseudoD.
+		entrada.txt                 Entrada de la prueba.
+		fmt.txt                     Formato de los archivos de entrada/salida.
+		espr.txt                    Salida esperada de la prueba.
+		diff.txt                    Salida 'diff' entre 'espr.txt' y
+		                            'salida.txt'.
+
+CREANDO UNA PRUEBA
+	1. Como primer paso, se debe crear una carpeta en el directorio actual que
+	posea de nombre, el nombre de la prueba.
+	2. Se deben crear los archivos especificados dentro del directorio.
+	3. Se debe llenar esos archivos con los formatos especificados.
+	4. Ejecutar la prueba como es dicho más abajo.
+
+FORMATO DE LOS ARCHIVOS
+	'salida.txt'
+		Debe contener la salida sin modificar de la prueba, debe seguir el
+		formato de 'fmt.txt'.
+	'test.pd'
+		Debe contener el código fuente de la prueba, comentado y debe cumplir
+		los requisitos basicos de código fuente(ver más abajo).
+	'entrada.txt'
+		Entrada de la prueba, debe seguir el formato de 'fmt.txt'.
+	'fmt.txt'
+		Especificación del formato de las pruebas, en dos secciones:
+			'---GENERAL---'
+				Especificación en formato general de las pruebas, conteniendo
+				variables y la descripción de ellas, por ejemplo:
+					---GENERAL---
+					La entrada se compone de 'N' lineas con el siguiente formato:
+						a b c d
+					Donde 'N' es especificado en la primera linea como:
+						N w f
+			'---EXPR---'
+				Especificación en formato de expresión regular(regexpr), por ejemplo:
+					---EXPR---
+					(<N>[0-9]+) (<w>[a-z]*) (<f>[0-9]{2})
+					(<a><b><c><d>){{{N}}}
+				Recordar que {a,b} es que la expresion se repita entre a y b veces
+				mientras que {{a}} es el valor de la variable a.
+	'espr.txt'
+		Salida esperada de la prueba, siguiendo el formato de 'fmt.txt'.
+	'diff.txt'
+		Salida de ejecutar 'diff' entre 'salida.txt' y 'espr.txt'.
+
+

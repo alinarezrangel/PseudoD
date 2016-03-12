@@ -1,0 +1,48 @@
+[ ***************************************************************
+****************************
+*** Prueba de las caracteristicas del nucleo.
+*** A diferencia de las otras pruebas, esta es unicamente para
+*** probar algunas cosas, no todo el nucleo.
+*** Descripción:
+*** ** Calcula el promedio de una lista de valores.
+*** Por: Alejandro Linarez Rangel
+***      <alinarezrangel@gmail.com>
+****************************
+*************************************************************** ]
+
+adquirir Lineas [ Numero de elementos a contar ]
+adquirir Suma [ Suma de todos los valores ]
+adquirir Valor [ Valor actual ]
+adquirir Cuenta [ Cuenta actual ]
+adquirir Promedio [ Promedio ]
+adquirir Lista [ Lista actual ]
+adquirir Listas [ Numero de listas a procesar ]
+
+fijar Lineas =* 0
+fijar Suma =* 0
+fijar Valor =* 0
+fijar Cuenta =* 0
+fijar Promedio =* 0
+fijar Lista =* 0
+fijar Listas =* 0
+
+leer Listas
+
+mientras comparar Importar.Ent.Comparar Lista < Listas
+	fijar Lineas =* 0
+	fijar Suma =* 0
+	fijar Valor =* 0
+	fijar Cuenta =* 0
+	fijar Promedio =* 0
+	leer Lineas
+	mientras comparar Importar.Ent.Comparar Cuenta < Lineas
+		leer Valor
+		Importar.Ent.Sumar Valor Suma Suma
+		Importar.Ent.Sumar Cuenta UNO Cuenta
+	finbucle
+	Importar.Dec.Dividir Suma Lineas Promedio
+	escribir Promedio
+	nl
+	Importar.Ent.Sumar Lista UNO Lista
+finbucle
+

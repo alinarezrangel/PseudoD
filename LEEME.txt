@@ -94,17 +94,18 @@ TU PSEUDOD
 
 FORMATO DE ERRORES
 	Los errores en PseudoD son mostrados con el siguiente formato:
-		Error [grado] en (modulo/orden): [sintaxis] (mensaje)
+		(clase) Error [grado] en (modulo/orden): [sintaxis] (mensaje)
 	Por ejemplo:
 		No:
 			Error: division entre cero
 		Si:
-			Error en Ent.Dividir: 'Ent.Dividir a b c': division entre cero.
+			(ErrorMatematico) Error en Ent.Dividir: 'Ent.Dividir a b c': division entre cero.
 		No:
 			Error: se esperaba ']'
 		Si:
-			Error en [: '[ ... ]': se esperaba ']'
+			(ErrorDeSintaxis) Error en [: '[ ... ]': se esperaba ']'
 
 PseudoD fue creado por Alejandro Linarez Rangel
 
 Gracias por usar PseudoD
+

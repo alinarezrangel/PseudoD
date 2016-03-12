@@ -14,6 +14,7 @@ Estructura del arbol de documentos y carpetas:
 	./Ejemplos/           Ejemplos de código en PseudoD.
 	./bepd/               Biblioteca estandar de PseudoD.
 	./bepd/doc/           Documentación de BEPD(proximamente).
+	./test/               Pruebas de PseudoD.
 	./ipdc                Intermedio entre PseudoD y la consola.
 
 Estructura donde estarían los archivos despues de compilar:
@@ -48,11 +49,11 @@ Algunas preguntas que se podria hacer:
 		estandar.
 	
 	¿Que versión de BEPD es la que trae este código?
-		BEPD u2.0.0:2.0.0 (BEPD 2.0.0 diseñada para PseudoD 1.9.5/2.0.0).
+		BEPD 2.0.0:1.9.5/2.0.0. (BEPD 2.0.0 diseñada para PseudoD 1.9.5/2.0.0).
 	
 	¿Como se usa ipdc?
 		ipdc supone que ya se tiene PseudoD(el ejecutable) en /usr/bin/ o en
-		/home/$USER/bin/. Su uso se puede ver con:
+		/opt/pseudod/bin/. Su uso se puede ver con:
 			ipdc --help
 		o:
 			ipd --ayuda
@@ -85,3 +86,4 @@ Algunas preguntas que se podria hacer:
 			  de BEPD, guias sobre el NEA, entre otros.
 			* www.pseudod.com : Pagina principal. Aqui se encontrara informacion acerca del proyecto,
 			  tutoriales, guias, e informacion reciente.
+

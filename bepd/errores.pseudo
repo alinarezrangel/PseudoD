@@ -54,6 +54,7 @@ Puede ser desde una division por cero, hasta errores de dominio.
 DOCUMENTA]
 clase ErrorMatematico
 #(Final).
+heredar Error ErrorMatematico
 
 [DOCUMENTA
 @brief Es el error actual.

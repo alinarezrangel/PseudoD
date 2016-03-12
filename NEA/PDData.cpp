@@ -244,7 +244,7 @@ namespace PDvar
 		int i = buscar((*this->nombrep),n);
 		if(i == -1)
 		{
-			throw PDvar::ErrorDelNucleo("Error en el manejador de datos: C++'ObtenerPuntero(n)': No se encontro el puntero");
+			throw PDvar::ErrorDelNucleo("Error en el manejador de datos: C++'ObtenerPuntero(" + n + ")': No se encontro el puntero");
 		}
 		else
 		{
@@ -257,7 +257,7 @@ namespace PDvar
 		int i = buscar((*this->nombrep),n);
 		if(i == -1)
 		{
-			throw PDvar::ErrorDelNucleo("Error en el manejador de datos: C++'ObtenerVariable(n)': No se encontro la variable o puntero");
+			throw PDvar::ErrorDelNucleo("Error en el manejador de datos: C++'ObtenerVariable(" + n + ")': No se encontro la variable o puntero");
 		}
 		else
 		{
@@ -424,7 +424,7 @@ namespace PDvar
 			val2 = ValorDelToken(tok2,in,data);
 			if(ytok != "y")
 			{
-				throw string("No se reconoce el token " + tok + " se esperaba \"y\"");
+				throw PDvar::ErrorDeSintaxis("Error en el parser(expr): 'son/sean iguales/diferentes expr y expr': se esperaba 'y' no " + ytok);
 			}
 			if(op == "iguales")
 			{

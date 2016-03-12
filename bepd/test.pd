@@ -1,25 +1,60 @@
 utilizar clases.pseudo [ para Numero ]
 
-instancia Numero myInt
-fijar myInt#valor =* 0
+clase Base
+	:metodoA
+	:metodoB
+#(Final).
+heredar Objeto Base
 
-funcion ModDemo
-	[ Cualquier aparicion de myInt es de la global ]
-	instancia Numero myInt
-	[ Cualquier aparicion de myInt es de la local ]
-	fijar myInt#valor =* 1024
-	escribir myInt#valor
+funcion Base#metodoA
+	adquirir yo
+	adquirir msg
+	recibir_parametro yo
+	fijar msg =* Hola desde Base:metodoA, habla la instancia:
+	escribir msg
+	escribir_esp
+	escribir yo
 	nl
-	liberar myInt
-	[ Cualquier aparicion de myInt es de la global ]
-	escribir myInt#valor
-	nl
-	fijar myInt#valor =* 2
+	liberar yo
+	liberar msg
 finfun
 
-escribir myInt#valor [ global ]
-nl
-llamar ModDemo #(Final). [ local/global ]
-escribir myInt#valor [ global ]
-nl
+funcion Base#metodoB
+	adquirir yo
+	adquirir msg
+	recibir_parametro yo
+	fijar msg =* Hola desde Base:metodoB, habla la instancia:
+	escribir msg
+	escribir_esp
+	escribir yo
+	nl
+	liberar yo
+	liberar msg
+finfun
+
+clase Hija
+	:metodoB
+#(Final).
+heredar Base Hija
+
+funcion Hija#metodoB
+	adquirir yo
+	adquirir msg
+	recibir_parametro yo
+	fijar msg =* Hola desde Hija:metodoB, habla la instancia:
+	escribir msg
+	escribir_esp
+	escribir yo
+	nl
+	liberar yo
+	liberar msg
+finfun
+
+instancia Base base
+instancia Hija hija
+
+llamar base#metodoA #(Final).
+llamar base#metodoB #(Final).
+llamar hija#metodoA #(Final).
+llamar hija#metodoB #(Final).
 
