@@ -18,28 +18,6 @@ Aqui se declaran clases comúnes, como Fraccion y Decimal.
 DOCUMENTA]
 
 [DOCUMENTA
-@brief Representa informacion sobre el programa.
-Es utilizado por plug-ins para obtener distintos datos.
-DOCUMENTA]
-clase Programa
-	Nombre
-	Proveedor
-	Main
-	;DirLib
-	;BEPD
-#(Final).
-heredar Objeto Programa
-
-[DOCUMENTA
-@brief Intancia de Programa.
-Esta instancia es la que representa el programa.
-DOCUMENTA]
-instancia Programa yo
-fijar yo#Nombre =¿? __MAIN__
-fijar yo#Main =¿? __MAIN__
-redireccionar yo#DirLib __LIB__
-
-[DOCUMENTA
 @brief Representa un numero en el conjunto Q, en forma de fraccion.
 A diferencia de Decimal, este utiliza una representacion en forma de fraccion
 y no una representacion decimal.
@@ -965,3 +943,4 @@ clase Par
 	segundo
 #(Final).
 heredar Objeto Par
+

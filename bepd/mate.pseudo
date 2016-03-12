@@ -86,7 +86,7 @@ fijar ITERACIONES_DE_SENO =* 5
 @dev El resultado de base^exponente.
 @errors Active
 DOCUMENTA]
-funcion Elevar_valor [ base,expo ]
+funcion ElevarValor [ base,expo ]
 	adquirir __Elevar_valor_base__
 	adquirir __Elevar_valor_exponente__
 	adquirir __Elevar_valor_resultado__
@@ -142,7 +142,7 @@ finfun
 @dev El valor en Radianes
 @errors Active
 DOCUMENTA]
-funcion Grados_A_Radianes
+funcion GradosARadianes
 	adquirir __GRADOS__
 	adquirir __RADIANES__
 	adquirir __DIVIDE__
@@ -162,7 +162,7 @@ finfun
 @dev El valor en Grados sexadecimales
 @errors Active
 DOCUMENTA]
-funcion Radianes_A_Grados
+funcion RadianesAGrados
 	adquirir __GRADOS__
 	adquirir __RADIANES__
 	adquirir __DIVIDE__
@@ -185,7 +185,7 @@ positivo.
 @dev El valor absoluto de val.
 @errors Active
 DOCUMENTA]
-funcion Valor_absoluto [ val ]
+funcion ValorAbsoluto [ val ]
 	adquirir __Valor_absoluto_val__
 	recibir_parametro __Valor_absoluto_val__
 	si comparar Importar.Dec.Comparar __Valor_absoluto_val__ < CERO
@@ -202,7 +202,7 @@ Simplemente lo reduce al rango [0-PI).
 @dev Angulo ajustado.
 @errors Active
 DOCUMENTA]
-funcion Ajustar_para_seno [ ang ]
+funcion AjustarParaSeno [ ang ]
 	adquirir __Ajustar_pseno_ang__
 	adquirir __Ajustar_pseno_per__
 	recibir_parametro __Ajustar_pseno_ang__
@@ -270,7 +270,7 @@ funcion Seno [ ang ]
 		Importar.Dec.Multiplicar DOS __Seno_cuenta__ __Seno_va__
 		Importar.Dec.Sumar UNO __Seno_va__ __Seno_va__
 		fijar __Seno_vb__ =¿? __Seno_va__
-		llamar Elevar_valor __Seno_ang__ __Seno_va__ #(Final).
+		llamar ElevarValor __Seno_ang__ __Seno_va__ #(Final).
 		recibir_resultado __Seno_va__
 		llamar Factorial __Seno_vb__ #(Final).
 		recibir_resultado __Seno_vb__
@@ -325,7 +325,7 @@ utiliza el metodo babilonico para calcular la raiz cuadrada de un numero.
 @dev Decimal resultado de la radicacion.
 @errors Active
 DOCUMENTA]
-funcion Raiz_cuadrada [ nm -> sqrt(nm) ]
+funcion RaizCuadrada [ nm -> sqrt(nm) ]
 	adquirir __raizcuadrada_a__
 	adquirir __raizcuadrada_an__
 	adquirir __raizcuadrada_anu__
