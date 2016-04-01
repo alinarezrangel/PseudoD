@@ -98,7 +98,7 @@ namespace PDvar
 			/**
 			* @brief Destructor, no hace nada.
 			*/
-			~PDVoid(){}
+			virtual ~PDVoid(){}
 			/**
 			* @brief Devuelve el argumento
 			* @param i numero de argumento
@@ -116,6 +116,8 @@ namespace PDvar
 	class PDCallBack : virtual public PDObjeto
 	{
 		public:
+			typedef RV return_type;
+			typedef AT argument_type;
 			/**
 			* @brief Crea un nuevo call-back
 			* @param F Puntero a funcion que se retro-llamara.
@@ -124,7 +126,7 @@ namespace PDvar
 			/**
 			* @brief Destructor de PDCall-Back.
 			*/
-			~PDCallBack ();
+			virtual ~PDCallBack ();
 			/**
 			* @brief Llama a la funcion de retro-llamada.
 			* @param p parametro que se le pasara a la funcion.
@@ -150,6 +152,42 @@ namespace PDvar
 			RV (** Fcn)(AT);
 			AT param;
 	};
+	
+	template<typename RV,typename AT>
+	PDCallBack<RV,AT>::PDCallBack (RV (*F)(AT)) : PDObjeto()
+	{
+		this->Fcn = &F;
+	}
+	
+	template<typename RV,typename AT>
+	PDCallBack<RV,AT>::~PDCallBack ()
+	{
+		// ~~~~~~~~~Nada
+	}
+	
+	template<typename RV,typename AT>
+	RV PDCallBack<RV,AT>::Call(AT p)
+	{
+		return (**this->Fcn)(p);
+	}
+	
+	template<typename RV,typename AT>
+	RV PDCallBack<RV,AT>::Call()
+	{
+		return (**this->Fcn)(this->param);
+	}
+	
+	template<typename RV,typename AT>
+	void PDCallBack<RV,AT>::Set(AT v)
+	{
+		this->param = v;
+	}
+	
+	template<typename RV,typename AT>
+	AT PDCallBack<RV,AT>::Get()
+	{
+		return this->param;
+	}
 	
 	/**
 	* @brief Representa un error.
@@ -510,6 +548,35 @@ namespace PDvar
 	* @return el valor de los tokens
 	*/
 	string ValorDelToken(string tok,istream& in,PDDatos* data);
+	
+	/**
+	* @brief Posee lo necesario para crear modulos dinamicos
+	*/
+	namespace Din
+	{
+		/**
+		* @brief Representa un argumento para un modulo dinamico.
+		*/
+		struct Argumentos
+		{
+			std::string Instancia;
+			std::string FuncionLlamada;
+			std::vector<std::string>* Argumentos;
+			PDDatos** Manejador;
+		};
+
+		/**
+		* @brief Es la clase base para los modulos dinamicos.
+		* Es abstracta.
+		*/
+		class ModuloDinamico
+		{
+			public:
+				ModuloDinamico(void);
+				virtual ~ModuloDinamico(void);
+				virtual bool ManejarFuncion(PDvar::Din::Argumentos* args);
+		};
+	}
 }
 
 #endif

@@ -358,6 +358,8 @@ heredar Objeto Iterador
 Es abstracta, nunca se debe instanciar.
 DOCUMENTA]
 clase IteradorDel
+	:¿valido?
+	:reiniciar
 	:siguiente
 #(Final).
 heredar Iterador IteradorDel
@@ -367,6 +369,8 @@ heredar Iterador IteradorDel
 Es abstracta, nunca se debe instanciar.
 DOCUMENTA]
 clase IteradorTra
+	:¿valido?
+	:reiniciar
 	:anterior
 #(Final).
 heredar Iterador IteradorTra
@@ -376,6 +380,8 @@ heredar Iterador IteradorTra
 Es abstracta, nunca se debe instanciar.
 DOCUMENTA]
 clase IteradorBi
+	:¿valido?
+	:reiniciar
 	:siguiente
 	:anterior
 #(Final).

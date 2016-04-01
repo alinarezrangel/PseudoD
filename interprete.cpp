@@ -5,7 +5,8 @@
 *** Este es PseudoD version 2.0.0                                      *****
 *** Log de este archivo:                                               *****
 *** Formato: DD/MM/YYYY: txt                                           *****
-*** **** 2/01/2016: Se creo el archivo.                               *****
+*** **** 02/01/2016: Se creo el archivo.                               *****
+*** **** 22/03/2016: Agregadas advertencias.                           *****
 ****************************************************************************
 **************************************************************************/
 
@@ -137,6 +138,8 @@ namespace pseudod
 		}
 		else if(((o == "oper")||(o == "operador"))||(o == "fijar"))
 		{
+			if(o != "fijar")
+				std::cerr << "Advertencia: oper/operador estan obsoletos" << std::endl;
 			string variable1,oper,h;
 			e  >> variable1 >> oper >> h;
 			string& a = DATOS_INT.ObtenerVariable(variable1);
@@ -207,12 +210,12 @@ namespace pseudod
 			string bpalab = "";
 			e >> bpalab;
 			vector<string> param;
-			while(bpalab != "#(Final).")
+			while((bpalab != "#(Final).")&&(bpalab != "finargs"))
 			{
 				param.push_back(bpalab);
 				if(!(e >> bpalab))
 				{
-					throw PDvar::ErrorDeSintaxis("Error en llamar: 'llamar fn args... #(Final).': EOF inesperado");
+					throw PDvar::ErrorDeSintaxis("Error en llamar: 'llamar fn args... FIN': EOF inesperado");
 				}
 			}
 			string nombre_var, tipo_var;
@@ -226,7 +229,7 @@ namespace pseudod
 			for(int i = (param.size()-1);i >= 0;i--)
 			{
 				string& a = DATOS_INT.ObtenerVariable(param[i]);
-				(*DATOS_INT.pilas)[cae(DATOS_INT.ObtenerVariable("VG_PILA_ACTUAL"))].push(a);
+				DATOS_INT.Empujar(a,cae(DATOS_INT.ObtenerVariable("VG_PILA_ACTUAL")));
 			}
 			if(tipo_var != "PseudoFuncion")
 			{
@@ -313,43 +316,15 @@ namespace pseudod
 		{
 			string var;
 			e >> var;
-			cout << ValorDelToken(var,e,&DATOS_INT) << endl;
+			if(ValorDelToken(var,e,&DATOS_INT) != DATOS_INT.VERDADERO)
+			{
+				throw PDvar::ErrorDeSemantica("Error en necesitas: 'necesitas expr': la expresion es falsa");
+			}
 		}
 		else if(o == "si")
 		{
 			string variable1,val;
 			e >> variable1;
-			/*if(variable1 == "llamar")
-			{
-				procesar("llamar",e,FUNCION);
-				val = DATOS_INT.Sacar(cae(DATOS_INT.ObtenerVariable("VG_PILA_ACTUAL")));
-			}
-			else if(variable1 == "¿son_iguales?")
-			{
-				string var1,var2;
-				e >> var1 >> var2;
-				val = ((DATOS_INT.ObtenerVariable(var1) == DATOS_INT.ObtenerVariable(var2))? DATOS_INT.VERDADERO : DATOS_INT.FALSO);
-			}
-			else if(variable1 == "ejecutar")
-			{
-				string var1,var2,ord,es,valor;
-				e >> ord >> var1 >> var2 >> es >> valor;
-				if(es != "es")
-					throw string("Error en si ejecutar "+ord+": Su sintaxis es: variable variable \"es\" resultado: no se escribio es, se escribio:" + es);
-				istringstream in(var1 + " " + var2 + " ___codigo_pseudod_buffer_interno___");
-				procesar(ord,in,FUNCION);
-				val = ((DATOS_INT.ObtenerVariable("___codigo_pseudod_buffer_interno___") == DATOS_INT.ObtenerVariable(valor))? DATOS_INT.VERDADERO : DATOS_INT.FALSO);
-			}
-			else if(variable1 == "comparar")
-			{
-				string var1,op,var2,ord;
-				e >> ord >> var1 >> op >> var2;
-				istringstream in(var1 + " " + op + " " + var2 + " ___codigo_pseudod_buffer_interno___");
-				procesar(ord,in,FUNCION);
-				val = DATOS_INT.ObtenerVariable("___codigo_pseudod_buffer_interno___");
-			}
-			else
-				val = DATOS_INT.ObtenerVariable(variable1);*/
 			val = ValorDelToken(variable1,e,&DATOS_INT);
 			string cond = ((val == DATOS_INT.VERDADERO)? "si" : "no");
 			string ord;
@@ -384,6 +359,7 @@ namespace pseudod
 		}
 		else if(o == "si_no")
 		{
+			std::cerr << "Advertencia: la orden si_no se considera obsoleta" << std::endl;
 			string variable1,val;
 			e >> variable1;
 			if(variable1 == "llamar")

@@ -58,11 +58,70 @@ namespace BibliotecaDinamica
 				+ string(dlerror())
 				+ "'"
 			);
-			return;
 		}
 		typedef void(*pdfun_t)(PDDatos**,vector<string>);
 		pdfun_t fun = (pdfun_t) dlsym(con,data->ObtenerVariable(this->var + string("#sim")).c_str());
 		if(!fun)
+		{
+			dlclose(con);
+			throw PDvar::ErrorDelNucleo(
+				"Error en "
+				+ this->ObtenerClave()
+				+ ": '"
+				+ this->ObtenerClave()
+				+ " inst args... FIN': Error de cargar por '"
+				+ string(dlerror())
+				+ "'"
+			);
+		}
+		try
+		{
+			(*fun)(&data,this->param);
+			dlclose(con);
+		}
+		catch(...)
+		{
+			dlclose(con);
+			throw;
+		}
+	}
+	
+	PseudoLlamarOO::PseudoLlamarOO(string var, vector<string> args)
+	{
+		this->var = var;
+		this->param = args;
+		this->FijarClave("LlamarOO","BibliotecasDinamicas");
+	}
+	
+	PseudoLlamarOO::~PseudoLlamarOO()
+	{
+		//~~~~
+	}
+	
+	void PseudoLlamarOO::LeerParametros(istream& in)
+	{
+		if(!(in >> this->var))
+		{
+			throw PDvar::ErrorDeSintaxis(
+				"Error en "
+				+ this->ObtenerClave()
+				+ ": '"
+				+ this->ObtenerClave()
+				+ " inst args... FIN': EOF inesperado"
+			);
+			return;
+		}
+		string p;
+		while((in >> p)&&(p != "#(Final)."))
+		{
+			param.push_back(p);
+		}
+	}
+	
+	void PseudoLlamarOO::InscribirInstancia(PDDatos* data)
+	{
+		void* con = dlopen(data->ObtenerVariable(this->var + string("#lib")).c_str(),RTLD_LAZY);
+		if(!con)
 		{
 			throw PDvar::ErrorDelNucleo(
 				"Error en "
@@ -73,17 +132,42 @@ namespace BibliotecaDinamica
 				+ string(dlerror())
 				+ "'"
 			);
-			dlclose(con);
-			return;
 		}
-		
+		typedef PDvar::Din::ModuloDinamico* (*pdini_t)(void);
+		typedef void (*pdend_t)(PDvar::Din::ModuloDinamico*);
+		PDvar::Din::ModuloDinamico* mod;
+		pdini_t obtener = (pdini_t) dlsym(con,"ObtenerModulo");
+		pdend_t liberar = (pdend_t) dlsym(con,"LiberarModulo");
+		if((obtener == NULL)||(liberar == NULL))
+		{
+			dlclose(con);
+			throw PDvar::ErrorDelNucleo(
+				"Error en "
+				+ this->ObtenerClave()
+				+ ": '"
+				+ this->ObtenerClave()
+				+ " inst args... FIN': Error de cargar por '"
+				+ string(dlerror())
+				+ "'"
+			);
+		}
+		PDvar::Din::Argumentos args;
+		args.Instancia = this->var;
+		args.FuncionLlamada = data->ObtenerVariable(this->var + string("#sim"));
+		args.Argumentos = &this->param;
+		args.Manejador = &data;
+		bool liberar_antes = false;
 		try
 		{
-			(*fun)(&data,this->param);
+			mod = (*obtener)();
+			liberar_antes = mod->ManejarFuncion(&args);
+			(*liberar)(mod);
 			dlclose(con);
 		}
 		catch(...)
 		{
+			if(liberar_antes)
+				(*liberar)(mod);
 			dlclose(con);
 			throw;
 		}

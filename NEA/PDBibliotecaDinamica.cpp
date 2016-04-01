@@ -18,3 +18,11 @@
 		l.InscribirInstancia(PDDATA);
 	}
 }
+{
+	BibliotecaDinamica::PseudoLlamarOO l;
+	if(o == PDS(l.ObtenerClave()))
+	{
+		l.LeerParametros(i);
+		l.InscribirInstancia(PDDATA);
+	}
+}

@@ -49,7 +49,7 @@ namespace PDTipos
 			/**
 			* @brief Destructor
 			*/
-			~PDOrden();
+			virtual ~PDOrden();
 			/**
 			* @brief Obtiene la clave de la orden.
 			* @return La clave
@@ -85,7 +85,7 @@ namespace PDTipos
 			/**
 			* @brief Destruye la instancia
 			*/
-			~PDInstancia(){}
+			virtual ~PDInstancia(){}
 			/**
 			* @brief Guarda la instancia en la memoria del interprete de PseudoD, VIRTUAL PURA.
 			*/
@@ -110,7 +110,7 @@ namespace PDTipos
 			/**
 			* @brief destruye este objeto.
 			*/
-			~PseudoArray();
+			virtual ~PseudoArray();
 			/**
 			* @brief Guarda el nuevo Array en la memoria del interprete.
 			* @param data Puntero a la memoria del interprete
@@ -145,7 +145,7 @@ namespace PDTipos
 			/**
 			* @brief Destruye la dicha instancia
 			*/
-			~PseudoClase();
+			virtual ~PseudoClase();
 			/**
 			* @brief Guarda la instancia en memoria del interprete.
 			* @param data Puntero a la memoria del interprete.
@@ -180,7 +180,7 @@ namespace PDTipos
 			/**
 			* @brief Destructor
 			*/
-			~PseudoReferenciaClase();
+			virtual ~PseudoReferenciaClase();
 			/**
 			* @brief Guarda la instancia actual en la memoria tipo interprete
 			* @param data Memoria tipo interprete
@@ -213,7 +213,7 @@ namespace PDTipos
 			/**
 			* @brief Destructor
 			*/
-			~PseudoDebug(){}
+			virtual ~PseudoDebug(){}
 			/**
 			* @brief Lee y visualiza la memoria del interprete.
 			* 
@@ -246,7 +246,7 @@ namespace PDTipos
 			/**
 			* @brief Destructor
 			*/
-			~PseudoArrayEstructura();
+			virtual ~PseudoArrayEstructura();
 			/**
 			* @brief Lee los parametros para ejecutar la orden
 			* @param in Flujo donde estan los parametros
@@ -277,7 +277,7 @@ namespace PDTipos
 			/**
 			* @brief Destructor
 			*/
-			~PseudoBorrarVariable();
+			virtual ~PseudoBorrarVariable();
 			/**
 			* @brief Lee los parametros necesarios para ejecutar la orden
 			* @param in Flujo donde estan los parametros
@@ -307,7 +307,7 @@ namespace PDTipos
 			/**
 			* @brief Destructor
 			*/
-			~PseudoHerencia();
+			virtual ~PseudoHerencia();
 			/**
 			* @brief Lee los parametros necesarios
 			* @param in Flujo con los parametros
@@ -338,7 +338,7 @@ namespace PDTipos
 			/**
 			* @brief destructor
 			*/
-			~PseudoDireccionarPuntero();
+			virtual ~PseudoDireccionarPuntero();
 			/**
 			* @brief Lee los parametros necesarios
 			* @param in Flujo con los parametros
@@ -371,7 +371,7 @@ namespace PDTipos
 			/**
 			* @brief destructor
 			*/
-			~PseudoMientras();
+			virtual ~PseudoMientras();
 			/**
 			* @brief Lee los parametros necesarios
 			* @param in Flujo con los parametros
@@ -406,7 +406,7 @@ namespace PDTipos
 			/**
 			* @brief destructor
 			*/
-			~PseudoClaseContenida();
+			virtual ~PseudoClaseContenida();
 			/**
 			* @brief Lee los parametros necesarios
 			* @param in Flujo con los parametros
@@ -439,7 +439,7 @@ namespace PDTipos
 			/**
 			* @brief destructor
 			*/
-			~PseudoBorrarInteligente();
+			virtual ~PseudoBorrarInteligente();
 			/**
 			* @brief Lee los parametros necesarios
 			* @param in Flujo con los parametros

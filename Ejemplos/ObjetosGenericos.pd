@@ -1,0 +1,80 @@
+[ ***************************************************
+**************
+** ObjetosGenericos.pd: Prueba de los objetos genericos.
+** Creador: Alejandro Linarez Rangel
+** Prueba la versión en PseudoD del "Duck Typing".
+** Y tambien algo parecido a los templates<> de C++.
+** Serie de ejemplos de PseudoD.
+** Contacto a <proyectopseudod@gmail.com> y a los
+** foros de discución en
+**    <https://sourceforge.net/p/pseudod/discussion/?source=navbar>
+**************
+*************************************************** ]
+
+utilizar tipos.pseudo
+
+[ El duck typing puede realizarse de dos formas: ]
+[ 1. Utilizar interfaces: ]
+
+[ La intefaz Quackable representa cualquier cosa que pueda hacer "Quack" ]
+clase IQuackable
+	:quack
+#(Final).
+heredar Objeto IQuackable
+
+clase Pato
+	:quack
+#(Final).
+heredar IQuackable Pato
+
+funcion Pato#quack
+	adquirir mensaje
+	fijar mensaje =* Quack!Quack!Quack!
+	escribir mensaje
+	nl
+	liberar mensaje
+finfun
+
+clase Persona
+	:quack
+#(Final).
+heredar IQuackable Persona
+
+funcion Persona#quack
+	adquirir mensaje
+	fijar mensaje =* Imito el sonido de un pato, quack!quack!quack!
+	escribir mensaje
+	nl
+	liberar mensaje
+finfun
+
+funcion EnElBosque
+	instancia Referencia objeto
+	adquirir metodo
+	recibir_parametro objeto#ref
+	fijar metodo =* quack
+	llamar objeto#llamarMet metodo #(Final).
+	liberar objeto
+	liberar metodo
+finfun
+
+instancia Pato pato
+instancia Persona persona
+llamar EnElBosque pato#NOMBRE #(Final).
+llamar EnElBosque persona#NOMBRE #(Final).
+
+[ 2. Utilizar punteros/referencias opacos ]
+
+instancia Referencia quackable
+adquirir metodo
+fijar metodo =* quack
+fijar quackable#ref =¿? pato#NOMBRE
+[ Si el objeto al que apunta quackable no posee el metodo ]
+[ :quack, lanzara un error ]
+llamar quackable#llamarMet metodo #(Final).
+fijar quackable#ref =¿? persona#NOMBRE
+llamar quackable#llamarMet metodo #(Final).
+
+[ El segundo método es el utilizado por las funciones ]
+[ para manejar objetos por referencia ]
+

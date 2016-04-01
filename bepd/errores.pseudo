@@ -56,12 +56,3 @@ clase ErrorMatematico
 #(Final).
 heredar Error ErrorMatematico
 
-[DOCUMENTA
-@brief Es el error actual.
-Cuando ocurre un error, PseudoD fija este puntero al error actual.
-@pbreak
-Por defecto, es un puntero a <code>Error</code>, pero por medio de
-polimorfismo puedes acceder a los metodos y atributos heredados.
-DOCUMENTA]
-instancia PunteroInteligente ErrorActual
-llamar ErrorActual#apuntar NULO#NOMBRE #(Final).

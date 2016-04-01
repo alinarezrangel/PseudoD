@@ -35,7 +35,38 @@ namespace BibliotecaDinamica
 			/**
 			* @brief Destruye la instancia.
 			*/
-			~PseudoLlamar();
+			virtual ~PseudoLlamar();
+			/**
+			* @brief Lee los parametros del flujo.
+			* @arg in Flujo del cual leer.
+			*/
+			void LeerParametros(istream& in);
+			/**
+			* @brief Ejecuta el llamado a la biblioteca dinamica.
+			* @arg data Memoria del interprete.
+			*/
+			void InscribirInstancia(PDDatos* data);
+		private:
+			string var;
+			vector<string> param;
+	};
+	
+	/**
+	* @brief Llama a un modulo dinamico orientado a objetos.
+	*/
+	class PseudoLlamarOO : public PDInstancia
+	{
+		public:
+			/**
+			* @brief Inicializa la instancia.
+			* @arg var Nombre de la instancia de BibliotecaDinamica
+			* @arg args Argumentos a pasar a la biblioteca
+			*/
+			PseudoLlamarOO(string var = "____", vector<string> args = vector<string>());
+			/**
+			* @brief Destruye la instancia.
+			*/
+			virtual ~PseudoLlamarOO();
 			/**
 			* @brief Lee los parametros del flujo.
 			* @arg in Flujo del cual leer.

@@ -9,6 +9,7 @@
 *** **** 06/03/2015: Se agrego soporte para errores fatales.           *****
 *** **** 10/04/2015: Mejoras a si,si_no y mientras.                    *****
 *** **** 02/01/2016: Interprete embebido.                              *****
+*** **** 22/03/2016: Agregadas opciones -d.                            *****
 ****************************************************************************
 **************************************************************************/
 
@@ -55,7 +56,7 @@ int main (int argc, char* argv[])
 		cout << "   " << prgNom << " (-h|--help): Muestra esta ayuda y termina." << endl;
 		cout << "   " << prgNom << " archivo bepd nea: ejecuta archivo con la ruta a BEPD bepd y el NEA nea." << endl;
 		cout << "   " << prgNom << " -i bepd nea: ejecuta en modo interactivo." << endl;
-		cout << "Deje una opcion en -- para reemplazarla por su valor por defecto" << endl;
+		cout << "Deje una opcion en -- o en -d para reemplazarla por su valor por defecto" << endl;
 		cout << "Los valores por defecto son:" << endl;
 		cout << "*) bepd:    /opt/pseudod/bepd/" << endl;
 		cout << "*) nea:     /usr/lib/libpseudod.so" << endl;
@@ -72,11 +73,11 @@ int main (int argc, char* argv[])
 	bepd = argv[2];
 	nea = argv[3];
 	mn = op;
-	if(bepd == "--")
+	if((bepd == "--")||(bepd == "-d"))
 	{
 		bepd = "/opt/pseudod/bepd/";
 	}
-	if(nea == "--")
+	if((nea == "--")||(nea == "-d"))
 	{
 		nea = "/usr/lib/libpseudod.so";
 	}

@@ -73,42 +73,6 @@ long double caf(std::string i)
 
 namespace PDvar
 {
-	template<typename RV,typename AT>
-	PDCallBack<RV,AT>::PDCallBack (RV (*F)(AT)) : PDObjeto()
-	{
-		this->Fcn = &F;
-	}
-	
-	template<typename RV,typename AT>
-	PDCallBack<RV,AT>::~PDCallBack ()
-	{
-		// ~~~~~~~~~Nada
-	}
-	
-	template<typename RV,typename AT>
-	RV PDCallBack<RV,AT>::Call(AT p)
-	{
-		return (**this->Fcn)(p);
-	}
-	
-	template<typename RV,typename AT>
-	RV PDCallBack<RV,AT>::Call()
-	{
-		return (**this->Fcn)(this->param);
-	}
-	
-	template<typename RV,typename AT>
-	void PDCallBack<RV,AT>::Set(AT v)
-	{
-		this->param = v;
-	}
-	
-	template<typename RV,typename AT>
-	AT PDCallBack<RV,AT>::Get()
-	{
-		return this->param;
-	}
-	
 	Error::Error(void) noexcept : PseudoDClass("Error"), ErrorMessage("")
 	{
 	}
@@ -446,6 +410,18 @@ namespace PDvar
 			return data->ObtenerVariable(tok);
 		}
 		throw PDvar::ErrorDelNucleo("Error en el parser(expr): 'expr': Token invalido");
+	}
+	
+	namespace Din
+	{
+		ModuloDinamico::ModuloDinamico(void)
+		{}
+		ModuloDinamico::~ModuloDinamico(void)
+		{}
+		bool ModuloDinamico::ManejarFuncion(PDvar::Din::Argumentos* args)
+		{
+			return true;
+		}
 	}
 }
 

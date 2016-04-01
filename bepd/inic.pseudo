@@ -23,26 +23,26 @@ Este valor tambien suele ser devuelto por algunas funciones de la biblioteca
 estandar al lanzar un error algunas de sus funciones llamadas.
 DOCUMENTA]
 adquirir CMMERROR
-	oper CMMERROR =* :C++:error:
+	fijar CMMERROR =* :C++:error:
 [DOCUMENTA
 @brief Version de BEPD actualmente utilizada.
 DOCUMENTA]
 adquirir BEPD [ version de BEPD ]
-	oper BEPD =* 1.9.0
+	fijar BEPD =* 2.0.0
 [DOCUMENTA
 @brief Representa el fin de una sentencia si o si_no en forma de cadena.
 DOCUMENTA]
 adquirir FIN
-	oper FIN =* fin
+	fijar FIN =* fin
 [DOCUMENTA
 @brief Representa el fin de una sentencia funcion en forma de cadena.
 DOCUMENTA]
 adquirir FINFUN
-	oper FINFUN =* finfun
+	fijar FINFUN =* finfun
 adquirir NL [ NOTA: el valor de NUEVALINEA cambia de acuerdo al sistema
 operativo, este valor se representa como \r\n siguiendo las convenciones
 estandares, tambien se puede usar la orden nl ]
-	oper NL =* CV
+	fijar NL =* CV
 [DOCUMENTA
 @brief Representa el caracter de nueva linea,(\r\n).
 DOCUMENTA]
@@ -53,11 +53,11 @@ DOCUMENTA]
 adquirir ESP
 	Importar.Cad.Caracter_Especial NL NUEVALINEA [ Vacia NUEVALINEA ]
 	Importar.Cad.Caracter_Especial NL ESP
-	oper NL =* RC
+	fijar NL =* RC
 	Importar.Cad.Caracter_Especial NL NUEVALINEA [ Le fija el caracter \r ]
-	oper NL =* NL
+	fijar NL =* NL
 	Importar.Cad.Caracter_Especial NL NUEVALINEA [ Le fija el caracter \n ]
-	oper NL =* EB
+	fijar NL =* EB
 	Importar.Cad.Caracter_Especial NL ESP
 Importar.Tipos.BorrarSimple NL
 Importar.Tipos.BorrarSimple NL#NOMBRE
@@ -66,18 +66,18 @@ Importar.Tipos.BorrarSimple NL#Tipo
 @brief Sistema de respuestas S/N, representa el afirmativo
 DOCUMENTA]
 adquirir SI [ S y N para respuestas ]
-	oper SI =* S
+	fijar SI =* S
 [DOCUMENTA
 @brief Sistema de respuestas S/N, representa el negativo
 DOCUMENTA]
 adquirir NO
-	oper NO =* N
+	fijar NO =* N
 [ Crear e inicializar las variables super-globales ]
 [DOCUMENTA
 @brief Buffer de datos simples
 DOCUMENTA]
 adquirir VG_BUFFER_DATOS [ Buffer ]
-	oper VG_BUFFER_DATOS =? NULO
+	fijar VG_BUFFER_DATOS =? NULO
 [DOCUMENTA
 @brief Puntero al buffer de datos
 DOCUMENTA]
@@ -86,7 +86,7 @@ puntero VG_BUFFER VG_BUFFER_DATOS [ VG_BUFFER es un puntero/sinonimo de VG_BUFFE
 @brief Flag indicador si se deberian guardar los datos en el bufferantes de reescribirlo.
 DOCUMENTA]
 adquirir VG_BUFFER_DATOS_DATA [ Si se tienen datos especiales en el buffer ]
-	oper VG_BUFFER_DATOS_DATA =? FALSO
+	fijar VG_BUFFER_DATOS_DATA =? FALSO
 [DOCUMENTA
 @brief Puntero al flag de buffer
 DOCUMENTA]
@@ -104,9 +104,9 @@ funcion EsNulo [ valor -> boole ]
 	recibir_parametro __ES_NULO_VAL__
 	si ¿son_iguales? __ES_NULO_VAL__ NULO
 		devolver VERDADERO
-	fin
-	si_no ¿son_iguales? __ES_NULO_VAL__ NULO
+	sino
 		devolver FALSO
 	fin
 	liberar __ES_NULO_VAL__
 finfun
+

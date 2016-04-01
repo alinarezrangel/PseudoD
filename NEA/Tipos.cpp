@@ -127,7 +127,7 @@ namespace PDTipos
 				+ " nm ... FIN' alias 'clase nm ... FIN': EOF inesperado"
 			);
 		}
-		while(b != "#(Final).")
+		while((b != "#(Final).")&&(b != "finclase"))
 		{
 			this->methods.push_back(b);
 			if(!(in >> b))

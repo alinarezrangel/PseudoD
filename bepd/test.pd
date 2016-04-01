@@ -1,60 +1,20 @@
-utilizar clases.pseudo [ para Numero ]
+utilizar tipos.pseudo
+utilizar clases.pseudo
 
-clase Base
-	:metodoA
-	:metodoB
+[@  @]
+clase Arreglo
+	tamaño
+	:crear
+	:destruir
 #(Final).
-heredar Objeto Base
+heredar Objeto Arreglo
 
-funcion Base#metodoA
-	adquirir yo
-	adquirir msg
-	recibir_parametro yo
-	fijar msg =* Hola desde Base:metodoA, habla la instancia:
-	escribir msg
-	escribir_esp
-	escribir yo
-	nl
+funcion Arreglo#crear [ yo, len ]
+	instancia Referencia yo
+	adquirir len
+	recibir_parametro yo#ref
+	recibir_parametro len
+	
 	liberar yo
-	liberar msg
+	liberar len
 finfun
-
-funcion Base#metodoB
-	adquirir yo
-	adquirir msg
-	recibir_parametro yo
-	fijar msg =* Hola desde Base:metodoB, habla la instancia:
-	escribir msg
-	escribir_esp
-	escribir yo
-	nl
-	liberar yo
-	liberar msg
-finfun
-
-clase Hija
-	:metodoB
-#(Final).
-heredar Base Hija
-
-funcion Hija#metodoB
-	adquirir yo
-	adquirir msg
-	recibir_parametro yo
-	fijar msg =* Hola desde Hija:metodoB, habla la instancia:
-	escribir msg
-	escribir_esp
-	escribir yo
-	nl
-	liberar yo
-	liberar msg
-finfun
-
-instancia Base base
-instancia Hija hija
-
-llamar base#metodoA #(Final).
-llamar base#metodoB #(Final).
-llamar hija#metodoA #(Final).
-llamar hija#metodoB #(Final).
-
