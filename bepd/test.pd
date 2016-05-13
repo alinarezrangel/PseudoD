@@ -1,5 +1,6 @@
 utilizar tipos.pseudo
 utilizar clases.pseudo
+utilizar entsal.pseudo
 
 [@  @]
 clase Arreglo
@@ -18,3 +19,34 @@ funcion Arreglo#crear [ yo, len ]
 	liberar yo
 	liberar len
 finfun
+
+funcion Arreglo#destruir [ yo ]
+	instancia Referencia yo
+	recibir_parametro yo#ref
+	
+	liberar yo
+finfun
+
+instancia Referencia a
+adquirir res
+adquirir b
+adquirir c
+adquirir d
+
+fijar a#ref =* res
+
+fijar c =* Hola
+Importar.Cad.Concatenar c DATOS_DE_IMPRIMIR#NL c
+fijar d =* Adios
+Importar.Cad.Concatenar c d c
+
+fijar d =* Tipo
+
+fijar b =* Valor a fijar: %\kValor nuevo: "%"\k
+llamar ImprimirFormato b d c #(Final).
+
+llamar a#fijarAttr d c #(Final).
+
+fijar b =* Resultado: "%"\k
+llamar ImprimirFormato b res#Tipo #(Final).
+

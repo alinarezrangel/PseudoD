@@ -232,10 +232,9 @@ namespace PDTipos
 	
 	void PseudoDebug::InscribirInstancia(PDDatos* data)
 	{
-		cout << endl << "Debugger de PseudoD" << endl;
-		cout << "PseudoD y el NEA de PseudoD fueron creados por Alejandro Linarez Rangel" << endl;
-		cout << "junto con este debugger" << endl;
+		cout << endl << "Debugger(depurador) de PseudoD" << endl;
 		cout << "Al salir con la orden salir se seguira ejecutando el programa" << endl;
+		cout << "Puedes ver la ayuda con \'ayuda\'" << endl;
 		string i;
 		// Reconstuccion total del depurador
 		while(i != "salir")
@@ -349,6 +348,29 @@ namespace PDTipos
 						cout << "    " << data->ObtenerVariable(est+"#("+eas(i)+").") << endl;
 					}
 				}
+				else if(i == "ayuda")
+				{
+					cout << "Ayuda del depurador de PseudoD" << endl;
+					cout << " Importar.PseudoD.debug" << endl;
+					cout << "Comandos:" << endl;
+					cout << " variable [n]: ver la variable [n]" << endl;
+					cout << " puntero [p]: ver el puntero [p]" << endl;
+					cout << " pila [l]: ver la pila [l]" << endl;
+					cout << " numero-de [q]: ver la cantidad de [q], donde [q] puede" << endl;
+					cout << "                ser (variables|punteros|pilas)" << endl;
+					cout << " instancia [i]: ver la instancia [i](tipo auto-detectado)" << endl;
+					cout << " clase [c]: ver la clase [c]" << endl;
+					cout << " salir: sale del depurador" << endl;
+					cout << " ayuda: muestra esta ayuda" << endl;
+					cout << " volcar [q]: volcar todas los [q] de memoria, donde [q] puede ser" << endl;
+					cout << "             (variables|punteros|pilas)" << endl;
+					cout << "Ejecución automatica:" << endl;
+					cout << " Si el depurador no comprende alguna de las ordenes, por" << endl;
+					cout << " defecto, ejecutará la linea con PseudoD." << endl;
+					cout << endl;
+					cout << " Si, por ejemplo: deseas llamar a una función," << endl;
+					cout << " solo escribes: \'llamar [fnc]... #(Final).\'" << endl;
+				}
 				else if(i != "salir")
 				{
 					data->Ejecutar(i,cin);
@@ -357,6 +379,12 @@ namespace PDTipos
 			catch(const PDvar::Error& e)
 			{
 				cerr << "PseudoD lanzo un error fatal: " << e.Mensaje() << endl;
+				cerr << "EN " << data->ObtenerVariable("__ARCH__") << endl;
+				cerr << "Captado por el debugger" << endl;
+			}
+			catch(const std::exception& e)
+			{
+				cerr << "PseudoD lanzo un error fatal: " << e.what() << endl;
 				cerr << "EN " << data->ObtenerVariable("__ARCH__") << endl;
 				cerr << "Captado por el debugger" << endl;
 			}

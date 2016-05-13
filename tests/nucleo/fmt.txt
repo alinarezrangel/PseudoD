@@ -2,7 +2,7 @@
 	---GENERAL---
 	La primera linea posee el formato:
 		N
-	Donde 'N' es el numero de listas a procesar, el resto d la entrada se
+	Donde 'N' es el numero de listas a procesar, el resto de la entrada se
 	compone de 'N' listas con el formato:
 		Ni
 		Li...
