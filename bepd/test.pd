@@ -1,52 +1,83 @@
-utilizar tipos.pseudo
+utilizar algor.pseudo
 utilizar clases.pseudo
 utilizar entsal.pseudo
 
-[@  @]
-clase Arreglo
-	tamaño
-	:crear
-	:destruir
-#(Final).
-heredar Objeto Arreglo
 
-funcion Arreglo#crear [ yo, len ]
-	instancia Referencia yo
-	adquirir len
-	recibir_parametro yo#ref
-	recibir_parametro len
-	
-	liberar yo
-	liberar len
-finfun
+instancia Arreglo arreglo
+adquirir i
+adquirir valor
+instancia Referencia en
 
-funcion Arreglo#destruir [ yo ]
-	instancia Referencia yo
-	recibir_parametro yo#ref
-	
-	liberar yo
-finfun
+llamar arreglo#crear #(Final).
 
-instancia Referencia a
-adquirir res
-adquirir b
-adquirir c
-adquirir d
+llamar arreglo#agregar Numero#Tipo #(Final).
+llamar arreglo#agregar Numero#Tipo #(Final).
+llamar arreglo#agregar Numero#Tipo #(Final).
+llamar arreglo#agregar Numero#Tipo #(Final).
 
-fijar a#ref =* res
+fijar i =* 0
+fijar valor =* 1
+llamar arreglo#obtener i #(Final).
+recibir_resultado en#ref
+fijar i =* valor
+llamar en#fijarAttr i valor #(Final).
 
-fijar c =* Hola
-Importar.Cad.Concatenar c DATOS_DE_IMPRIMIR#NL c
-fijar d =* Adios
-Importar.Cad.Concatenar c d c
+fijar i =* 1
+fijar valor =* 5
+llamar arreglo#obtener i #(Final).
+recibir_resultado en#ref
+fijar i =* valor
+llamar en#fijarAttr i valor #(Final).
 
-fijar d =* Tipo
+fijar i =* 2
+fijar valor =* 4
+llamar arreglo#obtener i #(Final).
+recibir_resultado en#ref
+fijar i =* valor
+llamar en#fijarAttr i valor #(Final).
 
-fijar b =* Valor a fijar: %\kValor nuevo: "%"\k
-llamar ImprimirFormato b d c #(Final).
+fijar i =* 3
+fijar valor =* 7
+llamar arreglo#obtener i #(Final).
+recibir_resultado en#ref
+fijar i =* valor
+llamar en#fijarAttr i valor #(Final).
 
-llamar a#fijarAttr d c #(Final).
+fijar i =* 0
+llamar arreglo#obtener i #(Final).
+recibir_resultado en#ref
+fijar valor =* valor
+llamar en#obtenerAttr valor #(Final).
+recibir_resultado valor
+escribir valor
+nl
 
-fijar b =* Resultado: "%"\k
-llamar ImprimirFormato b res#Tipo #(Final).
+fijar i =* 1
+llamar arreglo#obtener i #(Final).
+recibir_resultado en#ref
+fijar valor =* valor
+llamar en#obtenerAttr valor #(Final).
+recibir_resultado valor
+escribir valor
+nl
+
+fijar i =* 2
+llamar arreglo#obtener i #(Final).
+recibir_resultado en#ref
+fijar valor =* valor
+llamar en#obtenerAttr valor #(Final).
+recibir_resultado valor
+escribir valor
+nl
+
+fijar i =* 3
+llamar arreglo#obtener i #(Final).
+recibir_resultado en#ref
+fijar valor =* valor
+llamar en#obtenerAttr valor #(Final).
+recibir_resultado valor
+escribir valor
+nl
+
+llamar arreglo#destruir #(Final).
 

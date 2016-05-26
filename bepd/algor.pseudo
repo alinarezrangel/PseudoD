@@ -19,626 +19,135 @@ listas, arrays, funciones tipo foreach, arboles binarios, etc.
 DOCUMENTA]
 
 [DOCUMENTA
-@brief Representa un enlace para una lista enlazada simple circular.
-Este ofrece un puntero a referencia al siguiente elemento.
+@brief Es un arreglo dinámico de elementos.
+A diferencia de un arreglo común, aqui los elementos no están en
+posiciones sucesivas de memoria.
 DOCUMENTA]
-clase EnlaceS
-	;sig
-	:reiniciar
-	:¿valido?
-	:insertarSiguiente
-	:removerSiguiente
-#(Final).
-heredar Objeto EnlaceS
+clase Arreglo
+	tamaño
+	:crear
+	:destruir
+	:obtener
+	:agregar
+finclase
+heredar Objeto Arreglo
 
 [DOCUMENTA
-@brief Reinicia el enlace, apuntando su campo siguiente a el mismo.
-@arg instancia Referencia comun al valor yo(PseudoD la pasa automaticamente)
-@errors Active
-DOCUMENTA]
-funcion EnlaceS#reiniciar [ ref instancia ]
-	adquirir __ENLACE_SIMPLE_REF__
-	adquirir __ENLACE_SIMPLE_BUFF__
-	recibir_resultado __ENLACE_SIMPLE_REF__
-	instancia Referencia __ENLACE_SIMPLE_YO__
-	fijar __ENLACE_SIMPLE_YO__#ref =¿? __ENLACE_SIMPLE_REF__
-	fijar __ENLACE_SIMPLE_BUFF__ =* sig
-	llamar __ENLACE_SIMPLE_YO__#redireccionarAttr __ENLACE_SIMPLE_BUFF__ __ENLACE_SIMPLE_REF__ #(Final).
-	liberar __ENLACE_SIMPLE_REF__
-	liberar __ENLACE_SIMPLE_YO__
-	liberar __ENLACE_SIMPLE_BUFF__
-finfun
-
-[DOCUMENTA
-@brief Determina si el enlace actual es valido.
-Para que un enlace sea valido, su valor sig no debe apuntar a su propia
-instancia.
-@arg instancia Referencia comun al valor yo(PseudoD la pasa automaticamente)
-@dev Si es valido o no.
-@errors Active
-DOCUMENTA]
-funcion EnlaceS#¿valido? [ ref instancia -> val ]
-	adquirir __ENLACE_SIMPLE_REF__
-	adquirir __ENLACE_SIMPLE_BUFF__
-	recibir_parametro __ENLACE_SIMPLE_REF__
-	instancia Referencia __ENLACE_SIMPLE_YO__
-	fijar __ENLACE_SIMPLE_YO__#ref =¿? __ENLACE_SIMPLE_REF__
-	fijar __ENLACE_SIMPLE_BUFF__ =* sig
-	llamar __ENLACE_SIMPLE_YO__#obtenerAttr __ENLACE_SIMPLE_BUFF__ #(Final).
-	recibir_resultado __ENLACE_SIMPLE_BUFF__
-	si ¿son_iguales? __ENLACE_SIMPLE_BUFF__ __ENLACE_SIMPLE_REF__
-		devolver FALSO
-	fin
-	si_no ¿son_iguales? __ENLACE_SIMPLE_BUFF__ __ENLACE_SIMPLE_REF__
-		devolver VERDADERO
-	fin
-	liberar __ENLACE_SIMPLE_REF__
-	liberar __ENLACE_SIMPLE_BUFF__
-	liberar __ENLACE_SIMPLE_YO__
-finfun
-
-[DOCUMENTA
-@brief Inserta el enlace en el lugar del actual.
-Si el enlace actual es el <i>head</i> entonces lo inserta al inicio
-de la lista.
-Si la instancia es borrada sin sacarla de la lista, quedara un puntero a
-memoria protegida y el programa podria fallar.
-@arg instancia Referencia comun al valor yo(PseudoD la pasa automaticamente)
-@arg enl Referencia al enlace a insertar(este enlace no se puede borrar)
-@errors Active
-DOCUMENTA]
-funcion EnlaceS#insertarSiguiente [ ref instancia, ref enl ]
-	adquirir __ENLACE_SIMPLE_REF__
-	adquirir __ENLACE_SIMPLE_BUFF__
-	adquirir __ENLACE_SIMPLE_SIG2__
-	adquirir __ENLACE_SIMPLE_BUFF2__
-	adquirir __ENLACE_SIMPLE_SIG3__
-	recibir_parametro __ENLACE_SIMPLE_REF__
-	recibir_parametro __ENLACE_SIMPLE_SIG2__
-	instancia Referencia __ENLACE_SIMPLE_YO__
-	fijar __ENLACE_SIMPLE_YO__#ref =¿? __ENLACE_SIMPLE_REF__
-	instancia Referencia __ENLACE_SIMPLE_SIG__
-	fijar __ENLACE_SIMPLE_SIG__#ref =¿? __ENLACE_SIMPLE_SIG2__
-	fijar __ENLACE_SIMPLE_BUFF__ =* sig
-	llamar __ENLACE_SIMPLE_YO__#obtenerAttr __ENLACE_SIMPLE_BUFF__ #(Final).
-	recibir_resultado __ENLACE_SIMPLE_BUFF2__
-	fijar __ENLACE_SIMPLE_BUFF__ =* sig
-	llamar __ENLACE_SIMPLE_SIG__#redireccionarAttr __ENLACE_SIMPLE_BUFF__ __ENLACE_SIMPLE_BUFF2__ #(Final).
-	llamar __ENLACE_SIMPLE_YO__#redireccionarAttr __ENLACE_SIMPLE_BUFF__ __ENLACE_SIMPLE_SIG2__ #(Final).
-	liberar __ENLACE_SIMPLE_REF__
-	liberar __ENLACE_SIMPLE_BUFF__
-	liberar __ENLACE_SIMPLE_SIG2__
-	liberar __ENLACE_SIMPLE_BUFF2__
-	liberar __ENLACE_SIMPLE_YO__
-	liberar __ENLACE_SIMPLE_SIG__
-	liberar __ENLACE_SIMPLE_SIG3__
-finfun
-
-[DOCUMENTA
-@brief Elimina el enlace siguiente a el actual.
-Este enlace no es liberado, y se reinicia al invocar este metodo.
-@arg instancia Referencia comun al valor yo(PseudoD la pasa automaticamente)
-@errors Active
-DOCUMENTA]
-funcion EnlaceS#removerSiguiente [ ref instancia, ref enl ]
-	adquirir __ENLACE_SIMPLE_REF__
-	adquirir __ENLACE_SIMPLE_BUFF__
-	adquirir __ENLACE_SIMPLE_BUFF2__
-	recibir_parametro __ENLACE_SIMPLE_REF__
-	instancia Referencia __ENLACE_SIMPLE_YO__
-	fijar __ENLACE_SIMPLE_YO__#ref =¿? __ENLACE_SIMPLE_REF__
-	fijar __ENLACE_SIMPLE_BUFF__ =* sig
-	instancia Referencia __ENLACE_SIMPLE_SIG__
-	llamar __ENLACE_SIMPLE_YO__#obtenerAttr __ENLACE_SIMPLE_BUFF__ #(Final).
-	recibir_resultado __ENLACE_SIMPLE_BUFF2__
-	fijar __ENLACE_SIMPLE_SIG__#ref =¿? __ENLACE_SIMPLE_BUFF2__
-	instancia Referencia __ENLACE_SIMPLE_SIG2__
-	llamar __ENLACE_SIMPLE_SIG__#obtenerAttr __ENLACE_SIMPLE_BUFF__ #(Final).
-	recibir_resultado __ENLACE_SIMPLE_BUFF2__
-	fijar __ENLACE_SIMPLE_SIG2__#ref =¿? __ENLACE_SIMPLE_BUFF2__
-	llamar __ENLACE_SIMPLE_YO__#redireccionarAttr __ENLACE_SIMPLE_BUFF__ __ENLACE_SIMPLE_SIG2__#ref #(Final).
-	llamar __ENLACE_SIMPLE_SIG__#redireccionarAttr __ENLACE_SIMPLE_BUFF__ __ENLACE_SIMPLE_SIG__#ref #(Final).
-	devolver __ENLACE_SIMPLE_SIG__#ref
-	liberar __ENLACE_SIMPLE_REF__
-	liberar __ENLACE_SIMPLE_BUFF__
-	liberar __ENLACE_SIMPLE_SIG2__
-	liberar __ENLACE_SIMPLE_BUFF2__
-	liberar __ENLACE_SIMPLE_YO__
-	liberar __ENLACE_SIMPLE_SIG__
-finfun
-
-[DOCUMENTA
-@brief Representa un nodo en una lista de enlace simple circular.
-Este nodo almacena un valor de cualquier tipo.
-DOCUMENTA]
-clase NodoS
-	tipo
-	¿dato?
-	:obtenerDato
-	:crearDato
-	:liberarDato
-#(Final).
-heredar EnlaceS NodoS
-
-[ Hereda los metodos de EnlaceS sin modificar ]
-
-instancia PseudoFuncion NodoS#reiniciar
-fijar NodoS#reiniciar#cod =¿? EnlaceS#reiniciar
-fijar NodoS#reiniciar     =¿? EnlaceS#reiniciar
-
-instancia PseudoFuncion NodoS#¿valido?
-fijar NodoS#¿valido?#cod =¿? EnlaceS#¿valido?
-fijar NodoS#¿valido?     =¿? EnlaceS#¿valido?
-
-instancia PseudoFuncion NodoS#insertarSiguiente
-fijar NodoS#insertarSiguiente#cod =¿? EnlaceS#insertarSiguiente
-fijar NodoS#insertarSiguiente     =¿? EnlaceS#insertarSiguiente
-
-instancia PseudoFuncion NodoS#removerSiguiente
-fijar NodoS#removerSiguiente#cod =¿? EnlaceS#removerSiguiente
-fijar NodoS#removerSiguiente     =¿? EnlaceS#removerSiguiente
-
-[DOCUMENTA
-@brief Obtiene el valor almacenado.
-El dato debe ser creado con :crearDato.
-@arg instancia Referencia comun al valor yo(PseudoD la pasa automaticamente)
-@dev Referencia comun al dato.
-@errors Inactive
-Si el dato no ha sido creado con :crearDato, lanzara un error fatal.
-DOCUMENTA]
-funcion NodoS#obtenerDato [ ref instancia -> ref dato ]
-	adquirir __NODO_SIMPLE_REF__
-	adquirir __NODO_SIMPLE_BUFF__
-	recibir_parametro __NODO_SIMPLE_REF__
-	instancia Referencia __NODO_SIMPLE_YO__
-	fijar __NODO_SIMPLE_YO__#ref =¿? __NODO_SIMPLE_REF__
-	fijar __NODO_SIMPLE_BUFF__ =* dato
-	llamar __NODO_SIMPLE_YO__#obtenerAttrStr __NODO_SIMPLE_BUFF__ #(Final).
-	liberar __NODO_SIMPLE_REF__
-	liberar __NODO_SIMPLE_BUFF__
-	liberar __NODO_SIMPLE_YO__
-finfun
-
-[DOCUMENTA
-@brief Crea el dato que almacena el nodo.
-Para permitir diversidad de tipos, NodoS requiere que se almacene de forma
-explicita la memoria del dato.
-Antes se debe fijar el attr. tipo.
-@arg instancia Referencia comun al valor yo(PseudoD la pasa automaticamente)
-@errors Inactive
-Si el dato ya existe, lanzara un error fatal. Para comprobar si el dato
-existe, puedes ver el atributo ¿dato?
-DOCUMENTA]
-funcion NodoS#crearDato [ ref instancia ]
-	adquirir __NODO_SIMPLE_REF__
-	adquirir __NODO_SIMPLE_BUFF__
-	adquirir __NODO_SIMPLE_BUFF2__
-	adquirir __NODO_SIMPLE_BUFF3__
-	recibir_parametro __NODO_SIMPLE_REF__
-	instancia Referencia __NODO_SIMPLE_YO__
-	fijar __NODO_SIMPLE_YO__#ref =¿? __NODO_SIMPLE_REF__
-	fijar __NODO_SIMPLE_BUFF__ =* dato
-	llamar __NODO_SIMPLE_YO__#obtenerAttrStr __NODO_SIMPLE_BUFF__ #(Final).
-	recibir_resultado __NODO_SIMPLE_BUFF2__
-	fijar __NODO_SIMPLE_BUFF__ =* tipo
-	llamar __NODO_SIMPLE_YO__#obtenerAttr __NODO_SIMPLE_BUFF__ #(Final).
-	recibir_resultado __NODO_SIMPLE_BUFF3__
-	fijar __NODO_SIMPLE_BUFF__ =* instancia 
-	Importar.Cad.Concatenar __NODO_SIMPLE_BUFF__ __NODO_SIMPLE_BUFF3__ __NODO_SIMPLE_BUFF__
-	Importar.Cad.Concatenar __NODO_SIMPLE_BUFF__ ESP __NODO_SIMPLE_BUFF__
-	Importar.Cad.Concatenar __NODO_SIMPLE_BUFF__ __NODO_SIMPLE_BUFF2__ __NODO_SIMPLE_BUFF__
-	ejecutar __NODO_SIMPLE_BUFF__
-	fijar __NODO_SIMPLE_BUFF__ =* ¿dato?
-	llamar __NODO_SIMPLE_YO__#fijarAttr __NODO_SIMPLE_BUFF__ VERDADERO #(Final).
-	liberar __NODO_SIMPLE_REF__
-	liberar __NODO_SIMPLE_BUFF__
-	liberar __NODO_SIMPLE_YO__
-	liberar __NODO_SIMPLE_BUFF2__
-	liberar __NODO_SIMPLE_BUFF3__
-finfun
-
-[DOCUMENTA
-@brief Libera el dato, borrandolo de la memoria.
-Una vez liberada la memoria, se puede cambiar el tipo de dato.
-@arg instancia Referencia comun al valor yo(PseudoD la pasa automaticamente)
-@errors Inactive
-Si el dato no ha sido creado con :crearDato, lanzaa un error fatal.
-DOCUMENTA]
-funcion NodoS#liberarDato [ ref instancia ]
-	adquirir __NODO_SIMPLE_REF__
-	adquirir __NODO_SIMPLE_BUFF__
-	recibir_parametro __NODO_SIMPLE_REF__
-	instancia Referencia __NODO_SIMPLE_YO__
-	fijar __NODO_SIMPLE_YO__#ref =¿? __NODO_SIMPLE_REF__
-	fijar __NODO_SIMPLE_REF__ =* liberar 
-	fijar __NODO_SIMPLE_BUFF__ =* dato
-	llamar __NODO_SIMPLE_YO__#obtenerAttrStr __NODO_SIMPLE_BUFF__ #(Final).
-	recibir_resultado __NODO_SIMPLE_BUFF__
-	Importar.Cad.Concatenar __NODO_SIMPLE_REF__ __NODO_SIMPLE_BUFF__ __NODO_SIMPLE_BUFF__
-	ejecutar __NODO_SIMPLE_BUFF__
-	liberar __NODO_SIMPLE_REF__
-	liberar __NODO_SIMPLE_BUFF__
-	liberar __NODO_SIMPLE_YO__
-finfun
-
-[DOCUMENTA
-@brief Representa una lista de enlace simple circular.
-Aunque la clase manipule listas casi en su interfaz final, aun no maneja
-la memoria.
-insertarPrimero es igual a insertarSiguiente.
-removerPrimero es igual a removerSiguiente.
-DOCUMENTA]
-clase ListaS
-	:insertarPrimero
-	:removerPrimero
-	:obtenerPrimero
-#(Final).
-heredar NodoS ListaS
-
-[ Hereda los metodos de NodoS sin modificar ]
-
-instancia PseudoFuncion ListaS#reiniciar
-fijar ListaS#reiniciar#cod =¿? NodoS#reiniciar
-fijar ListaS#reiniciar     =¿? NodoS#reiniciar
-
-instancia PseudoFuncion ListaS#¿valido?
-fijar ListaS#¿valido?#cod =¿? NodoS#¿valido?
-fijar ListaS#¿valido?     =¿? NodoS#¿valido?
-
-instancia PseudoFuncion ListaS#insertarSiguiente
-fijar ListaS#insertarSiguiente#cod =¿? NodoS#insertarSiguiente
-fijar ListaS#insertarSiguiente     =¿? NodoS#insertarSiguiente
-
-instancia PseudoFuncion ListaS#removerSiguiente
-fijar ListaS#removerSiguiente#cod =¿? NodoS#removerSiguiente
-fijar ListaS#removerSiguiente     =¿? NodoS#removerSiguiente
-
-instancia PseudoFuncion ListaS#obtenerDato
-fijar ListaS#obtenerDato#cod =¿? NodoS#obtenerDato
-fijar ListaS#obtenerDato     =¿? NodoS#obtenerDato
-
-instancia PseudoFuncion ListaS#crearDato
-fijar ListaS#crearDato#cod =¿? NodoS#crearDato
-fijar ListaS#crearDato     =¿? NodoS#crearDato
-
-instancia PseudoFuncion ListaS#liberarDato
-fijar ListaS#liberarDato#cod =¿? NodoS#liberarDato
-fijar ListaS#liberarDato     =¿? NodoS#liberarDato
-
-instancia PseudoFuncion ListaS#insertarPrimero
-fijar ListaS#insertarPrimero#cod =¿? NodoS#insertarSiguiente
-fijar ListaS#insertarPrimero     =¿? NodoS#insertarSiguiente
-
-instancia PseudoFuncion ListaS#removerPrimero
-fijar ListaS#removerPrimero#cod =¿? NodoS#removerSiguiente
-fijar ListaS#removerPrimero     =¿? NodoS#removerSiguiente
-
-[DOCUMENTA
-@brief Devuelve una referencia al primer elemento de la lista.
-Se asume que la instancia actual es la cabecera(head).
-@arg instancia Referencia comun a la instancia(PseudoD la pasa automaticamente)
-@dev Referencia al primer elemento de la lista.
-@errors Active
-DOCUMENTA]
-funcion ListaS#obtenerPrimero [ ref instancia -> ref sig ]
-	instancia Referencia __LISTA_SIMPLE_REF__
-	recibir_parametro __LISTA_SIMPLE_REF__#ref
-	adquirir __LISTA_SIMPLE_BUFF__
-	fijar __LISTA_SIMPLE_BUFF__ =* sig
-	llamar __LISTA_SIMPLE_REF__#obtenerAttr __LISTA_SIMPLE_BUFF__ #(Final).
-	liberar __LISTA_SIMPLE_BUFF__
-	liberar __LISTA_SIMPLE_REF__
-finfun
-
-[DOCUMENTA
-@brief Representa un iterados sobre una lista de enlace simple.
-Con esta clase se puede iterar sobre toda una lista de enlace simple.
-DOCUMENTA]
-clase IteradorS
-	;lista
-	:desdeLista
-#(Final).
-heredar IteradorDel IteradorS
-
-[DOCUMENTA
-@brief Determina si el iterador actual esta lista para ser trabajado.
-Devuelve un valor de Boole.
-@arg instancia Referencia comun a la instancia(PseudoD la pasa automaticamente)
-@dev Si es valido.
-@errors Active
-DOCUMENTA]
-funcion IteradorS#¿valido? [ ref instancia -> bool ]
-	instancia Referencia __ITERADOR_SIMPLE_REF__
-	recibir_parametro __ITERADOR_SIMPLE_REF__#ref
-	adquirir __ITERADOR_SIMPLE_BUFF__
-	adquirir __ITERADOR_SIMPLE_BUFF2__
-	adquirir __ITERADOR_SIMPLE_BUFF3__
-	fijar __ITERADOR_SIMPLE_BUFF__ =* lista
-	llamar __ITERADOR_SIMPLE_REF__#obtenerAttr __ITERADOR_SIMPLE_BUFF__ #(Final).
-	recibir_resultado __ITERADOR_SIMPLE_BUFF2__
-	fijar __ITERADOR_SIMPLE_BUFF__ =* actual
-	llamar __ITERADOR_SIMPLE_REF__#obtenerAttr __ITERADOR_SIMPLE_BUFF__ #(Final).
-	recibir_resultado __ITERADOR_SIMPLE_BUFF3__
-	fijar __ITERADOR_SIMPLE_BUFF__ =¿? VERDADERO
-	si ¿son_iguales? __ITERADOR_SIMPLE_BUFF2__ __ITERADOR_SIMPLE_BUFF3__
-		fijar __ITERADOR_SIMPLE_BUFF__ =¿? FALSO
-	fin
-	devolver __ITERADOR_SIMPLE_BUFF__
-	liberar __ITERADOR_SIMPLE_REF__
-	liberar __ITERADOR_SIMPLE_BUFF__
-	liberar __ITERADOR_SIMPLE_BUFF2__
-	liberar __ITERADOR_SIMPLE_BUFF3__
-finfun
-
-
-[DOCUMENTA
-@brief Incrementa el apuntador actual.
-De esta forma, salta al siguiente elemento de la lista.
-@arg instancia Referencia comun a la instancia(PseudoD la pasa automaticamente)
-@errors Invalid
-Si el siguiente nodo es invalido, puede lanzar un error fatal.
-DOCUMENTA]
-funcion IteradorS#siguiente [ ref instancia ]
-	instancia Referencia __ITERADOR_SIMPLE_REF__
-	recibir_parametro __ITERADOR_SIMPLE_REF__#ref
-	adquirir __ITERADOR_SIMPLE_BUFF__
-	adquirir __ITERADOR_SIMPLE_BUFF2__
-	fijar __ITERADOR_SIMPLE_BUFF__ =* actual
-	instancia Referencia __ITERADOR_SIMPLE_REF2__
-	llamar __ITERADOR_SIMPLE_REF__#obtenerAttr __ITERADOR_SIMPLE_BUFF__ #(Final).
-	recibir_resultado __ITERADOR_SIMPLE_REF2__#ref
-	fijar __ITERADOR_SIMPLE_BUFF__ =* sig
-	llamar __ITERADOR_SIMPLE_REF2__#obtenerAttr __ITERADOR_SIMPLE_BUFF__ #(Final).
-	recibir_resultado __ITERADOR_SIMPLE_BUFF2__
-	fijar __ITERADOR_SIMPLE_BUFF__ =* actual
-	llamar __ITERADOR_SIMPLE_REF__#redireccionarAttr __ITERADOR_SIMPLE_BUFF__ __ITERADOR_SIMPLE_BUFF2__ #(Final).
-	liberar __ITERADOR_SIMPLE_REF__
-	liberar __ITERADOR_SIMPLE_BUFF__
-	liberar __ITERADOR_SIMPLE_BUFF2__
-	liberar __ITERADOR_SIMPLE_REF2__
-finfun
-
-[DOCUMENTA
-@brief Reinicia el iterador.
-Despues de esto, para poder iterar, se tendra que llamar a :siguiente.
-@arg instancia Referencia comun a la instancia(PseudoD la pasa automaticamente)
-@errors Active
-DOCUMENTA]
-funcion IteradorS#reiniciar
-	instancia Referencia __ITERADOR_SIMPLE_REF__
-	recibir_parametro __ITERADOR_SIMPLE_REF__#ref
-	adquirir __ITERADOR_SIMPLE_BUFF__
-	adquirir __ITERADOR_SIMPLE_BUFF2__
-	fijar __ITERADOR_SIMPLE_BUFF__ =* actual
-	fijar __ITERADOR_SIMPLE_BUFF2__ =* lista
-	llamar __ITERADOR_SIMPLE_REF__#redireccionarAttr __ITERADOR_SIMPLE_BUFF__ __ITERADOR_SIMPLE_BUFF2__ #(Final).
-	liberar __ITERADOR_SIMPLE_REF__
-	liberar __ITERADOR_SIMPLE_BUFF__
-	liberar __ITERADOR_SIMPLE_BUFF2__
-finfun
-
-[DOCUMENTA
-@brief Crea el iterador desde una instancia de una lista.
-Esta puede ser el nodo head de la lista, una instancia de ListaS o
-ListaSimple, u otra cosa iterable por IteradorS.
-@pbreak
-Despues de esto, se debe invocar a :siguiente antes de poder iterar.
+@brief Crea el arreglo.
+El arreglo inicial tiene un tamaño 0 y esta vacio.
 @argyo
-@arg lst Lista a iterar
 @errors Active
 DOCUMENTA]
-funcion IteradorS#desdeLista
-	instancia Referencia __ITERADOR_SIMPLE_REF__
-	adquirir __ITERADOR_SIMPLE_BUFF__
-	adquirir __ITERADOR_SIMPLE_BUFF1__
-	adquirir __ITERADOR_SIMPLE_BUFF2__
-	recibir_parametro __ITERADOR_SIMPLE_REF__#ref
-	recibir_parametro __ITERADOR_SIMPLE_BUFF__
-	fijar __ITERADOR_SIMPLE_BUFF1__ =* lista
-	llamar __ITERADOR_SIMPLE_REF__#redireccionarAttr __ITERADOR_SIMPLE_BUFF1__ __ITERADOR_SIMPLE_BUFF__ #(Final).
-	fijar __ITERADOR_SIMPLE_BUFF1__ =* actual
-	llamar __ITERADOR_SIMPLE_REF__#redireccionarAttr __ITERADOR_SIMPLE_BUFF1__ __ITERADOR_SIMPLE_BUFF__ #(Final).
-	liberar __ITERADOR_SIMPLE_REF__
-	liberar __ITERADOR_SIMPLE_BUFF__
-	liberar __ITERADOR_SIMPLE_BUFF1__
-	liberar __ITERADOR_SIMPLE_BUFF2__
+funcion Arreglo#crear [ ref yo ]
+	instancia Referencia yo
+	recibir_parametro yo#ref
+	adquirir tamaño
+	fijar tamaño =* tamaño
+	llamar yo#fijarAttr tamaño CERO #(Final).
+	liberar tamaño
+	liberar yo
 finfun
 
 [DOCUMENTA
-@brief Representa una lista de enlace simple circular.
-A diferencia de ListaS, este si se encarga de administrar la memoria.
+@brief Libera la memoria ocupada por el arreglo.
+Adicionalmente, si se necesita destruir por completo el arreglo,
+debes invocar a liberar.
+@argyo
+@errors Active
 DOCUMENTA]
-clase ListaSimple
-	pos
-	num_items
-	;act
-	:obtenerNodoPrevioAPos
-	:insertar
-#(Final).
-heredar ListaS ListaSimple
-
-[ Hereda los metodos de ListaS sin modificar ]
-
-instancia PseudoFuncion ListaSimple#reiniciar
-fijar ListaSimple#reiniciar#cod =¿? ListaS#reiniciar
-fijar ListaSimple#reiniciar     =¿? ListaS#reiniciar
-
-instancia PseudoFuncion ListaSimple#¿valido?
-fijar ListaSimple#¿valido?#cod =¿? ListaS#¿valido?
-fijar ListaSimple#¿valido?     =¿? ListaS#¿valido?
-
-instancia PseudoFuncion ListaSimple#insertarSiguiente
-fijar ListaSimple#insertarSiguiente#cod =¿? ListaS#insertarSiguiente
-fijar ListaSimple#insertarSiguiente     =¿? ListaS#insertarSiguiente
-
-instancia PseudoFuncion ListaSimple#removerSiguiente
-fijar ListaSimple#removerSiguiente#cod =¿? ListaS#removerSiguiente
-fijar ListaSimple#removerSiguiente     =¿? ListaS#removerSiguiente
-
-instancia PseudoFuncion ListaSimple#obtenerDato
-fijar ListaSimple#obtenerDato#cod =¿? ListaS#obtenerDato
-fijar ListaSimple#obtenerDato     =¿? ListaS#obtenerDato
-
-instancia PseudoFuncion ListaSimple#crearDato
-fijar ListaSimple#crearDato#cod =¿? ListaS#crearDato
-fijar ListaSimple#crearDato     =¿? ListaS#crearDato
-
-instancia PseudoFuncion ListaSimple#liberarDato
-fijar ListaSimple#liberarDato#cod =¿? ListaS#liberarDato
-fijar ListaSimple#liberarDato     =¿? ListaS#liberarDato
-
-instancia PseudoFuncion ListaSimple#insertarPrimero
-fijar ListaSimple#insertarPrimero#cod =¿? ListaS#insertarPrimero
-fijar ListaSimple#insertarPrimero     =¿? ListaS#insertarPrimero
-
-instancia PseudoFuncion ListaSimple#removerPrimero
-fijar ListaSimple#removerPrimero#cod =¿? ListaS#removerPrimero
-fijar ListaSimple#removerPrimero     =¿? ListaS#removerPrimero
-
-instancia PseudoFuncion ListaSimple#obtenerPrimero
-fijar ListaSimple#obtenerPrimero#cod =¿? ListaS#obtenerPrimero
-fijar ListaSimple#obtenerPrimero     =¿? ListaS#obtenerPrimero
-
-[ No se documenta por ser privado: ]
-[    DOCUMENTACION PARA EL PROGRAMADOR
-@brief Obtiene el nodo previo a la posicion especificada.
-Ademas, fija el nodo actual a dicho nodo previo.
-@arg instancia (Ya se sobre entiende lo del parametro Yo)
-@arg pos Posicion(entera) del nodo
-@dev Referencia al nodo
-@errors Inactive
-Si pos es muy alta, accedera a memoria invalida.
-]
-funcion ListaSimple#obtenerNodoPrevioAPos [ ref instancia, pos -> ref nodo ]
-	adquirir __LISTASIMPLE_OBT_NOD_PREV_POS_REF__
-	instancia IteradorS __LISTASIMPLE_OBT_NOD_PREV_POS_ITER__
-	adquirir __LISTASIMPLE_OBT_NOD_PREV_POS_POS__
-	adquirir __LISTASIMPLE_OBT_NOD_PREV_POS_CNT__
-	fijar VG_BUFFER =* PASO
-	recibir_parametro __LISTASIMPLE_OBT_NOD_PREV_POS_REF__
-	recibir_parametro __LISTASIMPLE_OBT_NOD_PREV_POS_POS__
-	fijar __LISTASIMPLE_OBT_NOD_PREV_POS_CNT__ =* 0
-	Importar.Ent.Restar __LISTASIMPLE_OBT_NOD_PREV_POS_POS__ UNO __LISTASIMPLE_OBT_NOD_PREV_POS_POS__
-	llamar __LISTASIMPLE_OBT_NOD_PREV_POS_ITER__#desdeLista __LISTASIMPLE_OBT_NOD_PREV_POS_REF__ #(Final).
-	llamar __LISTASIMPLE_OBT_NOD_PREV_POS_ITER__#siguiente #(Final).
-	mientras comparar Importar.Ent.Comparar __LISTASIMPLE_OBT_NOD_PREV_POS_CNT__ < __LISTASIMPLE_OBT_NOD_PREV_POS_POS__
-		llamar __LISTASIMPLE_OBT_NOD_PREV_POS_ITER__#siguiente #(Final).
-		Importar.Ent.Sumar __LISTASIMPLE_OBT_NOD_PREV_POS_CNT__ UNO __LISTASIMPLE_OBT_NOD_PREV_POS_CNT__
+funcion Arreglo#destruir [ ref yo ]
+	instancia Referencia yo
+	adquirir tamaño
+	adquirir indice
+	adquirir variable
+	adquirir orden
+	recibir_parametro yo#ref
+	fijar tamaño =* tamaño
+	llamar yo#obtenerAttr tamaño #(Final).
+	recibir_resultado tamaño
+	fijar indice =* 0
+	mientras comparar Importar.Ent.Comparar indice < tamaño
+		fijar variable =* en
+		Importar.Cad.Concatenar variable indice variable
+		llamar DestruirAtributoDinamico yo#ref variable #(Final).
+		Importar.Ent.Sumar indice UNO indice
 	finbucle
-	devolver __LISTASIMPLE_OBT_NOD_PREV_POS_ITER__#actual
-	liberar __LISTASIMPLE_OBT_NOD_PREV_POS_REF__
-	liberar __LISTASIMPLE_OBT_NOD_PREV_POS_ITER__
-	liberar __LISTASIMPLE_OBT_NOD_PREV_POS_POS__
-	liberar __LISTASIMPLE_OBT_NOD_PREV_POS_CNT__
+	liberar orden
+	liberar variable
+	liberar indice
+	liberar tamaño
+	liberar yo
 finfun
 
 [DOCUMENTA
-@brief Inserta un nodo en la posicion pos.
-Si pos es el ultimo de la lista, (es decir, num_items) el nodo sera
-creado,(equivalente a append).
+@brief Obtiene un elemento en una determinada posición.
+Si la posición es invalida, devuelve NULO.
 @argyo
-@arg pos Posicion del nodo
-@arg data Tipo de datos del nodo
-@errors Inactive
-Si la posición especificada es invalida,(menor a cero o mayor al tamaño de la
-lista), puede lanzar un error fatal.
+@arg i Índice del elemento, entre 0 y tamaño.
+@dev Referencia al elemento.
+@errors Active
 DOCUMENTA]
-funcion ListaSimple#insertar [ ref instancia, pos, data ]
-	instancia Referencia __ListaSimple_insertar_yo__
-	instancia Referencia __ListaSimple_insertar_nd__
-	instancia Referencia __ListaSimple_insertar_na__
-	adquirir __ListaSimple_insertar_bf__
-	adquirir __ListaSimple_insertar_ps__
-	adquirir __ListaSimple_insertar_tp__
-	recibir_parametro __ListaSimple_insertar_yo__#ref
-	recibir_parametro __ListaSimple_insertar_ps__
-	recibir_parametro __ListaSimple_insertar_tp__
-	fijar __ListaSimple_insertar_bf__ =* obtenerNodoPrevioAPos
-	llamar __ListaSimple_insertar_yo__#llamarMet __ListaSimple_insertar_bf__ __ListaSimple_insertar_ps__ #(Final).
-	recibir_resultado __ListaSimple_insertar_nd__#ref
-	llamar ReservarDato NodoS#Tipo #(Final).
-	recibir_resultado __ListaSimple_insertar_na__#ref
-	fijar __ListaSimple_insertar_bf__ =* tipo
-	llamar __ListaSimple_insertar_na__#fijarAttr __ListaSimple_insertar_bf__ __ListaSimple_insertar_tp__ #(Final).
-	fijar __ListaSimple_insertar_bf__ =* crearDato
-	llamar __ListaSimple_insertar_na__#llamarMet __ListaSimple_insertar_bf__ #(Final).
-	fijar __ListaSimple_insertar_bf__ =* insertarSiguiente
-	llamar __ListaSimple_insertar_nd__#llamarMet __ListaSimple_insertar_bf__ __ListaSimple_insertar_na__#ref #(Final).
-	liberar __ListaSimple_insertar_yo__
-	liberar __ListaSimple_insertar_nd__
-	liberar __ListaSimple_insertar_na__
-	liberar __ListaSimple_insertar_bf__
-	liberar __ListaSimple_insertar_ps__
-	liberar __ListaSimple_insertar_tp__
+funcion Arreglo#obtener [ ref yo, i -> ref at ]
+	instancia Referencia yo
+	adquirir tamaño
+	adquirir prefijo
+	adquirir indice
+	adquirir valido
+	recibir_parametro yo#ref
+	recibir_parametro indice
+	fijar tamaño =* tamaño
+	llamar yo#obtenerAttr tamaño #(Final).
+	recibir_resultado tamaño
+	fijar valido =¿? VERDADERO
+	si comparar Importar.Ent.Comparar indice < CERO
+		devolver NULO
+		fijar valido =¿? FALSO
+	fin
+	si comparar Importar.Ent.Comparar indice > tamaño
+		devolver NULO
+		fijar valido =¿? FALSO
+	fin
+	si valido
+		fijar prefijo =* #en
+		Importar.Cad.Concatenar yo#ref prefijo prefijo
+		Importar.Cad.Concatenar prefijo indice prefijo
+		devolver prefijo
+	fin
+	liberar valido
+	liberar prefijo
+	liberar indice
+	liberar tamaño
+	liberar yo
 finfun
 
-instancia ListaSimple list
-instancia NodoS ndA
-instancia NodoS ndB
-instancia NodoS ndC
+[DOCUMENTA
+@brief Agrega un elemento al final.
+También incrementa el tamaño del arreglo.
+@argyo
+@arg tipo Tipo del dato a agregar.
+@dev Índice del nuevo elemento.
+@errors Active
+DOCUMENTA]
+funcion Arreglo#agregar [ ref yo, tipo tipo -> indice ]
+	instancia Referencia yo
+	adquirir tamaño
+	adquirir attr
+	adquirir tipo
+	recibir_parametro yo#ref
+	recibir_parametro tipo
+	fijar attr =* tamaño
+	llamar yo#obtenerAttr attr #(Final).
+	recibir_resultado tamaño
+	fijar attr =* en
+	Importar.Cad.Concatenar attr tamaño attr
+	llamar CrearAtributoDinamico yo#ref attr tipo #(Final).
+	devolver tamaño
+	Importar.Ent.Sumar tamaño UNO tamaño
+	fijar attr =* tamaño
+	llamar yo#fijarAttr attr tamaño #(Final).
+	liberar attr
+	liberar tipo
+	liberar tamaño
+	liberar yo
+finfun
 
-fijar list#tipo =* Objeto
-fijar ndA#tipo =* PseudoVariable
-fijar ndB#tipo =* PseudoVariable
-fijar ndC#tipo =* PseudoVariable
-
-redireccionar list#sig list#NOMBRE
-
-llamar ndA#crearDato #(Final).
-llamar ndB#crearDato #(Final).
-llamar ndC#crearDato #(Final).
-
-fijar ndA#dato =* Hola desde A
-fijar ndB#dato =* Hola desde B
-fijar ndC#dato =* Hola desde C
-
-[ llamar list#insertarPrimero ndC #(Final).
-llamar list#insertarPrimero ndB #(Final).
-llamar list#insertarPrimero ndA #(Final). ]
-llamar list#insertarPrimero ndA #(Final).
-llamar ndA#insertarSiguiente ndB #(Final).
-llamar ndB#insertarSiguiente ndC #(Final).
-
-[ adquirir pos
-fijar pos =* 2
-adquirir buff
-instancia Referencia nodo
-instancia Referencia nodoAnt
-llamar list#obtenerNodoPrevioAPos pos #(Final).
-recibir_resultado nodoAnt#ref
-llamar ReservarDato NodoS#Tipo #(Final).
-recibir_resultado nodo#ref
-fijar VG_BUFFER =* tipo
-llamar nodo#fijarAttr VG_BUFFER PseudoVariable#Tipo #(Final).
-fijar VG_BUFFER =* crearDato
-llamar nodo#llamarMet VG_BUFFER #(Final).
-fijar buff =* insertarSiguiente
-llamar nodoAnt#llamarMet buff nodo#ref #(Final). ]
-fijar VG_BUFFER =* 2
-llamar list#insertar VG_BUFFER PseudoVariable#Tipo #(Final).
-
-[ fijar VG_BUFFER =* 2
-llamar list#insertar VG_BUFFER PseudoVariable#Tipo #(Final). ]
-
-instancia IteradorS ptr
-llamar ptr#desdeLista list #(Final).
-llamar ptr#siguiente #(Final).
-mientras llamar ptr#¿valido? #(Final).
-	instancia Referencia ref
-	fijar ref#ref =¿? ptr#actual
-	adquirir w
-	fijar w =* dato
-	llamar ref#obtenerAttr w #(Final).
-	recibir_resultado w
-	escribir w
-	nl
-	llamar ptr#siguiente #(Final).
-	liberar ref
-	liberar w
-finbucle
-[ adquirir j
-fijar j =* 3
-llamar list#obtenerNodoPrevioAPos j #(Final).
-recibir_resultado j
-escribir j
-nl ]
