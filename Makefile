@@ -1,7 +1,7 @@
 ## PseudoD fue creado por Alejandro Linarez Rangel
 
 CC = g++
-CFLAGS = -fPIC
+CFLAGS = -fPIC -O3
 SHARED = -shared
 LIBS = -ldl
 MEM = NEA/PDData.cpp
@@ -16,7 +16,7 @@ COMP =
 #INTE = -DINTERACTIVO=1
 
 PseudoD:	libpseudod.so libpseudodsrc.a Main.cpp libpseudodsrc.a
-	$(CC) -std=c++11 Main.cpp $(LIBS) libpseudodsrc.a -o PseudoD
+	$(CC) -std=c++11 -O3 Main.cpp $(LIBS) libpseudodsrc.a -o PseudoD
 
 libpseudodsrc.a: Data.o pdbase.o
 	ar -cvq libpseudodsrc.a Data.o pdbase.o
