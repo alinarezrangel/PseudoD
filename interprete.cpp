@@ -2,7 +2,7 @@
 ****************************************************************************
 ****************************   PseudoD    **********************************
 ***** Creado por Alejandro Linarez Rangel El 14 de septiembre de 2014. *****
-*** Este es PseudoD version 2.0.0                                      *****
+*** Este es PseudoD version 2.1.0                                      *****
 *** Log de este archivo:                                               *****
 *** Formato: DD/MM/YYYY: txt                                           *****
 *** **** 02/01/2016: Se creo el archivo.                               *****
@@ -153,6 +153,16 @@ namespace pseudod
 			else if((oper == "=?")||(oper == "=¿?")) // fijar A =? B
 			{
 				a = DATOS_INT.ObtenerVariable(h);
+			}
+			else if(oper == "a") // fijar A a B
+			{
+				// B puede ser:
+				// * Variable (igual a fijar a =? b)
+				// * Cadena con delimitadores:
+				//   Como fue dicho en las anteriores consultas, PseudoD soportara 3
+				//   tipos de cadenas: {a} "a" y «a»
+				// Realmente debe utilizar `ValorDelToken`.
+				a = ValorDelToken(h,e,&DATOS_INT);
 			}
 			else
 			{

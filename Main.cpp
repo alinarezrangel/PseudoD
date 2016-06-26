@@ -2,7 +2,7 @@
 ****************************************************************************
 ****************************   PseudoD    **********************************
 ***** Creado por Alejandro Linarez Rangel El 14 de septiembre de 2014. *****
-*** Este es PseudoD version 2.0.0                                      *****
+*** Este es PseudoD version 2.1.0                                      *****
 *** Log de este archivo:                                               *****
 *** Formato: DD/MM/YYYY: txt                                           *****
 *** **** 14/09/2014: Se creo el archivo.                               *****
@@ -51,7 +51,7 @@ int main (int argc, char* argv[])
 	if((op == "-h")||(op == "--help"))
 	{
 		cout << prgNom << "  -  El interprete de PseudoD" << endl;
-		cout << "Version 2.0.0" << endl;
+		cout << "Version 2.1.0" << endl;
 		cout << "Opciones:" << endl;
 		cout << "   " << prgNom << " (-h|--help): Muestra esta ayuda y termina." << endl;
 		cout << "   " << prgNom << " archivo bepd nea: ejecuta archivo con la ruta a BEPD bepd y el NEA nea." << endl;
@@ -85,7 +85,7 @@ int main (int argc, char* argv[])
 	{
 		interactivo = true;
 		cout << "Interprete en linea de comandos de PseudoD" << endl;
-		cout << "PseudoD version 2.0.0 en C++11" << endl;
+		cout << "PseudoD version 2.1.0 en C++11" << endl;
 		cout << "Creado por Alejandro Linarez Rangel" << endl;
 		cout << ">>> ";
 		mn = "nulo";

@@ -405,11 +405,46 @@ namespace PDvar
 			in >> pd;
 			return (ValorDelToken(pd,in,data) == "verdadero")? "falso" : "verdadero";
 		}
+		if(tok.front() == '{')
+		{
+			if(tok.back() == '}')
+			{
+				return tok.substr(1, tok.size() - 2);
+			}
+			string str = "";
+			getline(in, str, '}');
+			return tok.substr(1, tok.size()) + str;
+		}
+		if((tok.size() >= 2) && (tok[0] == (char)0xC2) && (tok[1] == (char)0xAB)) // Comillas angulares (apertura "«")
+		{
+			char l = tok[tok.size() - 1];
+			char l2 = tok[tok.size() - 2];
+			if((l2 == (char)0xC2) && (l == (char)0xBB)) // Comillas angulares (cierre "»")
+			{
+				// Fin:
+				return tok.substr(2, tok.size() - 4);
+			}
+			// Busca el final:
+			l = (char)0;
+			l2 = (char)0;
+			string str = "";
+			do
+			{
+				str += in.get();
+				if(str.size() >= 2)
+				{
+					l = str[str.size() - 1];
+					l2 = str[str.size() - 2];
+				}
+			}
+			while((l2 != (char)0xC2) || (l != (char)0xBB)); // Comillas angulares (cierre "»")
+			return tok.substr(2, tok.size()) + str.substr(0, str.size() - 2);
+		}
 		if((buscar((*data->nombrev),tok) != -1)||(buscar((*data->nombrep),tok) != -1))
 		{
 			return data->ObtenerVariable(tok);
 		}
-		throw PDvar::ErrorDelNucleo("Error en el parser(expr): 'expr': Token invalido");
+		throw PDvar::ErrorDelNucleo("Error en el parser(expr): '" + tok + "': Token invalido");
 	}
 	
 	namespace Din

@@ -23,7 +23,7 @@ Estructura donde estarían los archivos despues de compilar:
 	./Data.o							¡Donde usted quiera!, es el código objeto del
 	        							manipulador de datos de PseudoD, es necesario para
 	        							escribir plugins.
-	./bepd/							todo su contenido deberia estar en /usr/lib/pseudod/1.9.3/
+	./bepd/							todo su contenido deberia estar en /opt/pseudod/bepd/
 
 Algunas preguntas que se podria hacer:
 	
@@ -37,7 +37,7 @@ Algunas preguntas que se podria hacer:
 	¿Donde agrego mis plugins escritos en PseudoD para poderlos utilizar junto
 	con `utilizar`?
 		Deberia agregarlos en /opt/pseudod/bepd/, dentro de una carpeta con el
-		nombre del libs.
+		nombre del plugins.
 	
 	¿Donde agrego mis plugins en C++11 para poderlos utilizar junto con PseudoD?
 		La ubicación de este tipo de plugin no importa, mientras se conozca de forma
@@ -49,7 +49,7 @@ Algunas preguntas que se podria hacer:
 		estandar.
 	
 	¿Que versión de BEPD es la que trae este código?
-		BEPD 2.0.0:1.9.5/2.0.0. (BEPD 2.0.0 diseñada para PseudoD 1.9.5/2.0.0).
+		BEPD 2.1.0:2.1.0. (BEPD 2.1.0 diseñada para PseudoD 2.1.0).
 	
 	¿Como se usa ipdc?
 		ipdc supone que ya se tiene PseudoD(el ejecutable) en /usr/bin/ o en
@@ -84,6 +84,4 @@ Algunas preguntas que se podria hacer:
 			  descargar el codigo fuente.
 			* www.pseudod.sourceforge.net : Pagina para desarrolladores, posee documentación
 			  de BEPD, guias sobre el NEA, entre otros.
-			* www.pseudod.com : Pagina principal. Aqui se encontrara informacion acerca del proyecto,
-			  tutoriales, guias, e informacion reciente.
 

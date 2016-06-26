@@ -2,7 +2,7 @@
 ****************************************************************************
 ****************************   PseudoD    **********************************
 ***** Creado por Alejandro Linarez Rangel El 14 de septiembre de 2014. *****
-*** Este es PseudoD version 2.0.0                                      *****
+*** Este es PseudoD version 2.1.0                                      *****
 *** Log de este archivo:                                               *****
 *** Formato: DD/MM/YYYY: txt                                           *****
 *** **** 2/01/2016: Se creo el archivo.                               *****
