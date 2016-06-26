@@ -11,11 +11,12 @@
 
 [ ****************************************************************
 	Los operadores principales en PseudoD son:
-		1) ¿son_iguales? (Proximamente obsoleto).
+		1) ¿son_iguales? (Obsoleto).
 		2) ejecutar (Proximo rediseño)
 		3) comparar (Proximo rediseño)
 		4) son/sean
 		5) no
+		6) Cadenas {} «»
 **************************************************************** ]
 
 adquirir Mensaje
@@ -23,7 +24,7 @@ adquirir Respuesta
 adquirir Esperado
 
 fijar Mensaje =* ¿Las vacas vuelan?(Si/No)
-fijar Esperado =* No
+fijar Esperado a {No}
 
 escribir Mensaje
 nl
@@ -35,23 +36,23 @@ si ¿son_iguales? Respuesta Esperado
 	nl
 fin
 si no ¿son_iguales? Respuesta Esperado
-	fijar Mensaje =* Segun "no ¿son_iguales", tu escribistes "Si"
+	fijar Mensaje =* Segun "no ¿son_iguales?", tu escribistes "Si"
 	escribir Mensaje
 	nl
 fin
-si son iguales Respuesta Esperado
+si son iguales Respuesta y Esperado
 	fijar Mensaje =* Segun "son iguales", tu escribistes "No"
 	escribir Mensaje
 	nl
 fin
-si no son iguales Respuesta Esperado
+si no son iguales Respuesta y Esperado
 	fijar Mensaje =* Segun "no son iguales", tu escribistes "Si"
 	escribir Mensaje
 	nl
 fin
 
 [ "sean" se agrego para "mientras": ]
-mientras sean diferentes Respuesta Esperado
+mientras sean diferentes Respuesta y Esperado
 	fijar Mensaje =* ¿Las vacas vuelan?(Si/No)
 	fijar Esperado =* No
 	escribir Mensaje

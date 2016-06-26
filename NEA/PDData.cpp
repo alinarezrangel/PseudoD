@@ -405,9 +405,9 @@ namespace PDvar
 			in >> pd;
 			return (ValorDelToken(pd,in,data) == "verdadero")? "falso" : "verdadero";
 		}
-		if(tok.front() == '{')
+		if(tok[0] == '{')
 		{
-			if(tok.back() == '}')
+			if(tok[tok.size() - 1] == '}')
 			{
 				return tok.substr(1, tok.size() - 2);
 			}
@@ -444,7 +444,7 @@ namespace PDvar
 		{
 			return data->ObtenerVariable(tok);
 		}
-		throw PDvar::ErrorDelNucleo("Error en el parser(expr): '" + tok + "': Token invalido");
+		throw PDvar::ErrorDelNucleo("Error en el parser(expr): 'expr' es '" + tok + "': Token invalido");
 	}
 	
 	namespace Din

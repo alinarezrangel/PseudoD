@@ -102,10 +102,28 @@ int main (int argc, char* argv[])
 	{
 		if(interactivo)
 		{
-			while((pseudod::Ejecutar)&&(cin >> ord))
+			while((pseudod::Ejecutar)&&(cin))
 			{
+				/*
 				pseudod::DATOS_INT.Ejecutar(ord,cin);
 				cout << ">>> ";
+				*/
+				char l1 = ' ';
+				char l2 = ' ';
+				string buff = "";
+				while((l2 != '\n') || (l1 != '\n'))
+				{
+					l2 = l1;
+					l1 = cin.get();
+					if((l1 == '\n') && (l2 != '\n'))
+					{
+						cout << ">>> " << flush;
+					}
+					buff += l2;
+				}
+				buff += l1;
+				pseudod::ejecutar(buff);
+				cout << endl << ">>> " << flush;
 			}
 			cout << "Adios!" << endl;
 		}
