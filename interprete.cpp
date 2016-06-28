@@ -216,13 +216,13 @@ namespace pseudod
 			string var;
 			e >> var;
 			string a = DATOS_INT.ObtenerVariable(var);
-			//*
+			//
 			string bpalab = "";
 			e >> bpalab;
 			vector<string> param;
 			while((bpalab != "#(Final).")&&(bpalab != "finargs"))
 			{
-				param.push_back(bpalab);
+				param.push_back(ValorDelToken(bpalab,e,&DATOS_INT));
 				if(!(e >> bpalab))
 				{
 					throw PDvar::ErrorDeSintaxis("Error en llamar: 'llamar fn args... FIN': EOF inesperado");
@@ -238,8 +238,8 @@ namespace pseudod
 			//clog << tipo_var << endl;
 			for(int i = (param.size()-1);i >= 0;i--)
 			{
-				string& a = DATOS_INT.ObtenerVariable(param[i]);
-				DATOS_INT.Empujar(a,cae(DATOS_INT.ObtenerVariable("VG_PILA_ACTUAL")));
+				//string& a = DATOS_INT.ObtenerVariable(param[i]);
+				DATOS_INT.Empujar(param[i],cae(DATOS_INT.ObtenerVariable("VG_PILA_ACTUAL")));
 			}
 			if(tipo_var != "PseudoFuncion")
 			{

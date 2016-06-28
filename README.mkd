@@ -1,25 +1,35 @@
 ### README.mkd
 ##### PseudoD
-PseudoD es un lenguaje de programación interpretado, escrito en C++11 con sintaxis completamente en español y orientado a objetos.
+PseudoD es un lenguaje de programación interpretado, escrito en C++11 con
+sintaxis completamente en español y orientado a objetos.
 
-Tiene un nucleo externo, llamado NEA(**N**ucleo **E**xtensible de la **A**plicación), el cual esta diseñado para agregar funcionalidades al lenguaje. Tambien extrae de [Python](https://www.python.org/ "Python.org") la capacidad de escribir agregados en C/C++.
+Tiene un nucleo externo, llamado NEA(**N**ucleo **E**xtensible de la
+**A**plicación), el cual esta diseñado para agregar funcionalidades al
+lenguaje. Tambien extrae de [Python](https://www.python.org/ "Python.org")
+la capacidad de escribir agregados en C/C++.
 
-Parte de la sintaxis de PseudoD esta inspirada en [Ada](http://es.wikipedia.org/wiki/Ada_%28lenguaje_de_programaci%C3%B3n%29 "Lenguaje de programacion Ada"), [D](http://es.wikipedia.org/wiki/D_%28lenguaje_de_programaci%C3%B3n%29 "Lenguaje de programacion D") y **REXX**.
-Para extender el lenguaje, ya sea por el NEA, o por agregados dinámicos, existe una interfaz simple y orientada a objetos.
+Parte de la sintaxis de PseudoD esta inspirada en
+[Ada](http://es.wikipedia.org/wiki/Ada_%28lenguaje_de_programaci%C3%B3n%29 "Lenguaje de programacion Ada"),
+[D](http://es.wikipedia.org/wiki/D_%28lenguaje_de_programaci%C3%B3n%29 "Lenguaje de programacion D")
+y **REXX**. Para extender el lenguaje, ya sea por el NEA, o por agregados
+dinámicos, existe una interfaz simple y orientada a objetos.
 
 PseudoD intenta romper los lazos de la programación con el idioma en general.
 
 ###### BEPD
 
-La **B**iblioteca **E**standar de **P**seudo**D**, o **BEPD** se encuentra junto a al código de PseudoD en la carpeta `bepd` y este contiene 7 archivos, cuya definición detallada esta en `bepd/LEEME.txt`.
+La **B**iblioteca **E**standar de **P**seudo**D**, o **BEPD** se
+encuentra junto a al código de PseudoD en la carpeta `bepd` y este
+contiene 7 archivos, cuya definición detallada esta en `bepd/LEEME.txt`.
 
 ##### El Interprete
 ###### Uso
 <code>**PseudoD** *archivo* *ruta de BEPD* *ruta de libpseudod.so*</code>
 
 * *archivo*: archivo a ejecutar,(*.pd o *.psd, *.pseudo es para bliotecas).
-* *ruta de BEPD*: Ruta de la **B**iblioteca **E**standar de **P**seudo**D**, o **BEPD**, por defecto es `/usr/lib/pseudod/1.9.5/`.
-* *ruta de libpseudod.so*: Ruta del NEA de PseudoD, `libpseudod.so`. Por defecto es `/usr/lib/`.
+* *ruta de BEPD*: Ruta de la **B**iblioteca **E**standar de **P**seudo**D**,
+o **BEPD**, por defecto es `/usr/lib/pseudod/1.9.5/`. * *ruta de libpseudod.so*:
+Ruta del NEA de PseudoD, `libpseudod.so`. Por defecto es `/usr/lib/`.
 
 A partir de PseudoD u1.9.5 tambien permite:
 <code>**PseudoD** (\-h|\-\-help)</code>
@@ -42,7 +52,12 @@ Opciones:
 ###### Compilar
 <code>**make**</code>
 
-**Notas**: Si el usuario no esta compilando en sistemas GNU/Linux, se debe modificar el Makefile en la linea 9: modifique la linea 9 de `COMP = ` a `COMP = -DMINGW=1` o `COMP = -DNUMEROS_EN_C=1`,(ambos preferiblemente). Tambien es importante decir que **PseudoD solo compila en Windows, bajo cygwin**, y este debe tener instalados G++4.7 o superior, GCC4.7 o superior, y make.
+**Notas**: Si el usuario no esta compilando en sistemas GNU/Linux, se
+debe modificar el Makefile en la linea 9: modifique la linea 9 de
+`COMP = ` a `COMP = -DMINGW=1` o `COMP = -DNUMEROS_EN_C=1`,(ambos
+preferiblemente). Tambien es importante decir que **PseudoD solo compila
+en Windows, bajo cygwin**, y este debe tener instalados G++4.7 o superior,
+GCC4.7 o superior, y make.
 
 Hasta ahora, PseudoD **solo ha sido probado** en los sistemas operativos:
 
@@ -54,9 +69,11 @@ Hasta ahora, PseudoD **solo ha sido probado** en los sistemas operativos:
 Se agredece probarlo en otros sistemas y reportar **toda falla** a los foros.
 
 ###### Archivos
-Despues de compilar, este directorio tendra 3 archivos más: el ejecutable `PseudoD`, la biblioteca de carga dinamica(ver LEEME.txt para referencias) `libpseudod.so` y la biblioteca de datos `Datos.o`.
+Despues de compilar, este directorio tendra 3 archivos más: el ejecutable
+`PseudoD`, la biblioteca de carga dinamica(ver LEEME.txt para referencias)
+`libpseudod.so` y la biblioteca de datos `Datos.o`.
 
-* Mueva el ejecutable a un punto donde sea facil de llamar(`/home/$USER/bin/`, `/usr/bin/`, entre otros).
+* Mueva el ejecutable a un punto donde sea facil de llamar (`/home/$USER/bin/`, `/usr/bin/`, entre otros).
 * Mueva `libpseudod.so` a `/usr/lib/`, de no estar en un sistema GNU/Linux, dejar en este directorio.
 * Mueva la biblioteca estandar a `/usr/lib/pseudod/1.9.5`.
 
@@ -120,7 +137,9 @@ instancia foo MFoo
 llamar MFoo#bar #(Final).
 ```
 
-PseudoD fue creado por Alejandro Linarez Rangel, la pagina oficial es [PseudoD.com](http://www.pseudod.com) y [PseudoD.sourceforge.net](http://www.sourceforge.net/projects/pseudod/), alli estan los foros, la wiki y el blog de PseudoD.
+PseudoD fue creado por Alejandro Linarez Rangel, la pagina oficial es
+[pseudos.sourceforge.net](http://www.sourceforge.net/projects/pseudod/),
+alli estan los foros, la wiki y el blog de PseudoD.
 
 Este es PseudoD **2.1.0**.
 

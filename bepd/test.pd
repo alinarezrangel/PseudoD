@@ -81,3 +81,7 @@ nl
 
 llamar arreglo#destruir #(Final).
 
+utilizar entsal.pseudo
+
+llamar ImprimirFormato {Hola %\k} {Mundo} #(Final).
+
