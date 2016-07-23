@@ -3,7 +3,7 @@
 CC = g++
 CFLAGS = -fPIC -O3
 SHARED = -shared
-LIBS = -ldl
+LIBS = -Wl,--no-as-needed -ldl
 MEM = NEA/PDData.cpp
 # Fijar COMP a -DMINGW=1 o a -DNUMEROS_EN_C=1 para compilar en sistemas Microsoft
 COMP = 
@@ -15,18 +15,18 @@ COMP =
 # pero si es necesaria para compilar en Windows.
 #INTE = -DINTERACTIVO=1
 
-PseudoD:	libpseudod.so libpseudodsrc.a Main.cpp libpseudodsrc.a
+PseudoD: libpseudod.so libpseudodsrc.a Main.cpp libpseudodsrc.a
 	$(CC) -std=c++11 -O3 Main.cpp $(LIBS) libpseudodsrc.a -o PseudoD
 
 libpseudodsrc.a: Data.o pdbase.o
 	ar -cvq libpseudodsrc.a Data.o pdbase.o
 
 pdbase.o: interprete.cpp
-	$(CC) $(CFLAGS) -c -std=c++11 interprete.cpp -o pdbase.o $(LIBS) Data.o
+	$(CC) $(CFLAGS) -c -std=c++11 interprete.cpp $(LIBS) Data.o -o pdbase.o
 
 libpseudod.so:	pseudod.cpp pseudod.hh Data.o
 	$(CC) $(CFLAGS) $(SHARED) -std=c++11 pseudod.cpp $(LIBS) Data.o -o libpseudod.so
 
-Data.o: $(MEM) NEA/PDData.hh	
+Data.o: $(MEM) NEA/PDData.hh
 	$(CC) $(CFLAGS) -c -std=c++11 $(MEM) $(LIBS) $(COMP) -o Data.o
 

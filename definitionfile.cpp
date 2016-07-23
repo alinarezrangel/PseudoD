@@ -16,3 +16,4 @@
 */
 #include "NEA/Tipos.cpp"
 #include "NEA/BibliotecaDinamica.cpp"
+#include "NEA/Bit/Bit.cpp"

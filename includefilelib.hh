@@ -25,4 +25,5 @@
 TODO TODO :YA SE INCLUYERON
 */
 #include "NEA/INBibliotecaDinamica.h"
+#include "NEA/Bit/INBit.h"
 #include <sstream>

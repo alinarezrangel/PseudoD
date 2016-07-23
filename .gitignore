@@ -1,0 +1,6 @@
+# gitignore para PseudoD
+
+# 1) Ignoramos resultados de compilación:
+*.[oa]
+*.so
+*.out
