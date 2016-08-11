@@ -1,7 +1,7 @@
 utilizar algor.pseudo
 utilizar clases.pseudo
 utilizar entsal.pseudo
-
+utilizar mate.pseudo
 
 instancia Arreglo arreglo
 adquirir i
@@ -81,7 +81,15 @@ nl
 
 llamar arreglo#destruir #(Final).
 
-utilizar entsal.pseudo
-
 llamar ImprimirFormato {Hola %\k} {Mundo} #(Final).
 
+
+funcion Math
+	llamar ImprimirFormato
+		{El seno de % es %\k}
+		{5}
+		llamar Seno {5} finargs
+	finargs
+finfun
+
+llamar Math finargs

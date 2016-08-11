@@ -24,21 +24,21 @@ DOCUMENTA]
 Es el valor 3.14159...
 DOCUMENTA]
 adquirir PI
-fijar PI =* 3.141595
+fijar PI a {3.141595}
 
 [DOCUMENTA
 @brief Constante de Napier.
 Es el valor 2.718281...
 DOCUMENTA]
 adquirir E
-fijar E =* 2.718281
+fijar E a {2.718281}
 
 [DOCUMENTA
 @brief Valor para comparar decimales.
 Es aproximadamente 0.000005.
 DOCUMENTA]
 adquirir DELTA
-fijar DELTA =* 0.000005
+fijar DELTA a {0.000005}
 
 [DOCUMENTA
 @brief Mayor cantidad de decimales que puede almacenar un numero.
@@ -46,21 +46,21 @@ Es el limite visualizable de <code class="cpp">long double</code>,(para numeros
 mayores, se visualizaran con notacion cientifica).
 DOCUMENTA]
 adquirir PRECISION_DECIMAL
-fijar PRECISION_DECIMAL =* 6
+fijar PRECISION_DECIMAL a {6}
 
 [DOCUMENTA
 @brief Es el punto de inicio de la funcion RaizCuadrada.
 A menor valor, mayor es la precicion de la funcion pero es mas lenta.
 DOCUMENTA]
 adquirir RAIZ_CUADRADA_MIN
-fijar RAIZ_CUADRADA_MIN =* 0.0001
+fijar RAIZ_CUADRADA_MIN a {0.0001}
 
 [DOCUMENTA
 @brief Es un valor que no es un numero.
 Representa valores indeterminados, como una division entre cero.
 DOCUMENTA]
 adquirir NO_ES_NUMERO
-fijar NO_ES_NUMERO =* **(No es un numero)**
+fijar NO_ES_NUMERO a {**(No es un numero)**}
 
 [DOCUMENTA
 @brief Es la cantidad de veces que la función seno itera.
@@ -77,7 +77,7 @@ que las otras dos, por lo que un numero muy elevado para calcular tangentes
 es altamente ineficiente.
 DOCUMENTA]
 adquirir ITERACIONES_DE_SENO
-fijar ITERACIONES_DE_SENO =* 5
+fijar ITERACIONES_DE_SENO a {5}
 
 [DOCUMENTA
 @brief Calcula el valor de una base elevado a un exponente.
@@ -87,25 +87,25 @@ fijar ITERACIONES_DE_SENO =* 5
 @errors Active
 DOCUMENTA]
 funcion ElevarValor [ base,expo ]
-	adquirir __Elevar_valor_base__
-	adquirir __Elevar_valor_exponente__
-	adquirir __Elevar_valor_resultado__
-	adquirir __Elevar_valor_acum__
-	adquirir __Elevar_valor_cuenta__
-	recibir_parametro __Elevar_valor_base__
-	recibir_parametro __Elevar_valor_exponente__
-	fijar __Elevar_valor_cuenta__ =¿? UNO
-	fijar __Elevar_valor_acum__ =¿? __Elevar_valor_base__
-	mientras comparar Importar.Ent.Comparar __Elevar_valor_cuenta__ < __Elevar_valor_exponente__
-		Importar.Dec.Multiplicar __Elevar_valor_acum__ __Elevar_valor_base__ __Elevar_valor_acum__
-		Importar.Ent.Sumar __Elevar_valor_cuenta__ UNO __Elevar_valor_cuenta__
+	adquirir base
+	adquirir exponente
+	adquirir resultado
+	adquirir acumulador
+	adquirir cuenta
+	recibir_parametro base
+	recibir_parametro exponente
+	fijar cuenta a UNO
+	fijar acumulador a base
+	mientras comparar Importar.Ent.Comparar cuenta < exponente
+		Importar.Dec.Multiplicar acumulador base acumulador
+		Importar.Ent.Sumar cuenta UNO cuenta
 	finbucle
-	devolver __Elevar_valor_acum__
-	liberar __Elevar_valor_cuenta__
-	liberar __Elevar_valor_acum__
-	liberar __Elevar_valor_resultado__
-	liberar __Elevar_valor_exponente__
-	liberar __Elevar_valor_base__
+	devolver acumulador
+	liberar cuenta
+	liberar acumulador
+	liberar resultado
+	liberar exponente
+	liberar base
 finfun
 
 [DOCUMENTA
@@ -116,24 +116,20 @@ Si n < 0,  devuelve 1 al igual que si n == 0 o 1.
 @errors Active
 DOCUMENTA]
 funcion Factorial
-	adquirir __¿MAYOR_A_CERO?__
-	adquirir __NUMERO_N__
-	adquirir __CUENTA__
-	recibir_parametro __NUMERO_N__
-	fijar __CUENTA__ =¿? __NUMERO_N__
-	Importar.Ent.Comparar __NUMERO_N__ > UNO __¿MAYOR_A_CERO?__
-	si_no __¿MAYOR_A_CERO?__
-		fijar __CUENTA__ =¿? UNO
+	adquirir numero
+	adquirir factorial
+	recibir_parametro numero
+	fijar factorial a numero
+	si comparar Importar.Dec.Comparar numero <= CERO
+		fijar factorial a UNO
 	fin
-	mientras __¿MAYOR_A_CERO?__
-		Importar.Dec.Restar __NUMERO_N__ UNO __NUMERO_N__
-		Importar.Dec.Multiplicar __CUENTA__ __NUMERO_N__ __CUENTA__
-		Importar.Dec.Comparar __NUMERO_N__ > UNO __¿MAYOR_A_CERO?__
+	mientras comparar Importar.Dec.Comparar numero > CERO
+		Importar.Dec.Restar numero UNO numero
+		Importar.Dec.Multiplicar factorial numero factorial
 	finbucle
-	devolver __CUENTA__
-	liberar __¿MAYOR_A_CERO?__
-	liberar __NUMERO_N__
-	liberar __CUENTA__
+	devolver factorial
+	liberar numero
+	liberar factorial
 finfun
 
 [DOCUMENTA
@@ -143,17 +139,17 @@ finfun
 @errors Active
 DOCUMENTA]
 funcion GradosARadianes
-	adquirir __GRADOS__
-	adquirir __RADIANES__
-	adquirir __DIVIDE__
-	recibir_parametro __GRADOS__
-	Importar.Dec.Multiplicar __GRADOS__ PI __GRADOS__
-	fijar __DIVIDE__ =* 180
-	Importar.Dec.Dividir __GRADOS__ __DIVIDE__ __RADIANES__
-	devolver __RADIANES__
-	liberar __GRADOS__
-	liberar __RADIANES__
-	liberar __DIVIDE__
+	adquirir grados
+	adquirir radianes
+	adquirir divisor
+	recibir_parametro grados
+	Importar.Dec.Multiplicar grados PI grados
+	fijar divisor a {180}
+	Importar.Dec.Dividir grados divisor radianes
+	devolver radianes
+	liberar grados
+	liberar radianes
+	liberar divisor
 finfun
 
 [DOCUMENTA
@@ -163,17 +159,17 @@ finfun
 @errors Active
 DOCUMENTA]
 funcion RadianesAGrados
-	adquirir __GRADOS__
-	adquirir __RADIANES__
-	adquirir __DIVIDE__
-	recibir_parametro __GRADOS__
-	fijar __DIVIDE__ =* 180
-	Importar.Dec.Multiplicar __GRADOS__ __DIVIDE__ __GRADOS__
-	Importar.Dec.Dividir __GRADOS__ PI __RADIANES__
-	devolver __RADIANES__
-	liberar __GRADOS__
-	liberar __RADIANES__
-	liberar __DIVIDE__
+	adquirir grados
+	adquirir radianes
+	adquirir divisor
+	recibir_parametro radianes
+	fijar divisor a {180}
+	Importar.Dec.Multiplicar radianes divisor radianes
+	Importar.Dec.Dividir radianes PI grados
+	devolver grados
+	liberar radianes
+	liberar grados
+	liberar divisor
 finfun
 
 [DOCUMENTA
@@ -186,13 +182,13 @@ positivo.
 @errors Active
 DOCUMENTA]
 funcion ValorAbsoluto [ val ]
-	adquirir __Valor_absoluto_val__
-	recibir_parametro __Valor_absoluto_val__
-	si comparar Importar.Dec.Comparar __Valor_absoluto_val__ < CERO
-		Importar.Dec.Restar CERO __Valor_absoluto_val__ __Valor_absoluto_val__
+	adquirir valor
+	recibir_parametro valor
+	si comparar Importar.Dec.Comparar valor < CERO
+		Importar.Dec.Restar CERO valor valor
 	fin
-	devolver __Valor_absoluto_val__
-	liberar __Valor_absoluto_val__
+	devolver valor
+	liberar valor
 finfun
 
 [DOCUMENTA
@@ -203,21 +199,21 @@ Simplemente lo reduce al rango [0-PI).
 @errors Active
 DOCUMENTA]
 funcion AjustarParaSeno [ ang ]
-	adquirir __Ajustar_pseno_ang__
-	adquirir __Ajustar_pseno_per__
-	recibir_parametro __Ajustar_pseno_ang__
-	fijar __Ajustar_pseno_per__ =¿? PI
-	Importar.Dec.Multiplicar __Ajustar_pseno_per__ DOS __Ajustar_pseno_per__
-	si comparar Importar.Dec.Comparar __Ajustar_pseno_ang__ < CERO
-		llamar Valor_absoluto __Ajustar_pseno_ang__ #(Final).
-		recibir_resultado __Ajustar_pseno_ang__
+	adquirir ang
+	adquirir per
+	recibir_parametro ang
+	fijar per a PI
+	Importar.Dec.Multiplicar per DOS per
+	si comparar Importar.Dec.Comparar ang < CERO
+		llamar Valor_absoluto ang finargs
+		recibir_resultado ang
 	fin
-	mientras comparar Importar.Dec.Comparar __Ajustar_pseno_ang__ >= __Ajustar_pseno_per__
-		Importar.Dec.Restar __Ajustar_pseno_ang__ __Ajustar_pseno_per__ __Ajustar_pseno_ang__
+	mientras comparar Importar.Dec.Comparar ang >= per
+		Importar.Dec.Restar ang per ang
 	finbucle
-	devolver __Ajustar_pseno_ang__
-	liberar __Ajustar_pseno_ang__
-	liberar __Ajustar_pseno_per__
+	devolver ang
+	liberar ang
+	liberar per
 finfun
 
 [DOCUMENTA
@@ -257,13 +253,13 @@ funcion Seno [ ang ]
 	adquirir __Seno_op__
 	recibir_parametro __Seno_ang__
 	fijar __Seno_rang__ =¿? __Seno_ang__
-	llamar Ajustar_para_seno __Seno_ang__ #(Final).
+	llamar AjustarParaSeno __Seno_ang__ #(Final).
 	recibir_resultado __Seno_ang__
 	fijar __Seno_cuenta__ =* 0
 	fijar __Seno_hasta__ =¿? ITERACIONES_DE_SENO
 	fijar __Seno_resultado__ =* 0.0
 	fijar __Seno_va__ =* 0
-	fijar __Seno_vb__ =* 0
+	fijar __Seno_vb__ =* 1
 	fijar __Seno_vc__ =* 0
 	fijar __Seno_op__ =¿? VERDADERO
 	mientras comparar Importar.Ent.Comparar __Seno_cuenta__ < __Seno_hasta__
@@ -307,15 +303,15 @@ Realmente llama a Seno((PI/2) - ang), lo cual es equivalente.
 @errors Active
 DOCUMENTA]
 funcion Coseno [ ang ]
-	adquirir __Coseno_ang__
-	adquirir __Coseno_def__
-	recibir_parametro __Coseno_ang__
-	fijar __Coseno_def__ =¿? PI
-	Importar.Dec.Dividir __Coseno_def__ DOS __Coseno_def__
-	Importar.Dec.Restar __Coseno_def__ __Coseno_ang__ __Coseno_ang__
-	llamar Seno __Coseno_ang__ #(Final).
-	liberar __Coseno_def__
-	liberar __Coseno_ang__
+	adquirir angulo
+	adquirir defase
+	recibir_parametro angulo
+	fijar defase =¿? PI
+	Importar.Dec.Dividir defase DOS defase
+	Importar.Dec.Restar defase angulo angulo
+	llamar Seno angulo #(Final).
+	liberar defase
+	liberar angulo
 finfun
 
 [DOCUMENTA
@@ -358,34 +354,34 @@ Por ejemplo: piso(3.232) = 3, piso(3.99999) = 3, piso(8) = 8.
 @errors Active
 DOCUMENTA]
 funcion Piso [ nm -> floor(nm) ]
-	adquirir __piso_val__
-	recibir_parametro __piso_val__
-	Importar.Ent.Sumar __piso_val__ CERO __piso_val__
-	devolver __piso_val__
-	liberar __piso_val__
+	adquirir valor
+	recibir_parametro valor
+	Importar.Ent.Sumar valor CERO valor [ La suma de enteros redondea a cero ]
+	devolver valor
+	liberar valor
 finfun
 
 [DOCUMENTA
 @brief Calcula el techo de un numero.
 El techo de X, es el numero entero mayor o igual más cercano a X.
-Por ejemplo: techo(3.232) = 3, techo(3.99999) = 3, techo(8) = 8.
+Por ejemplo: techo(3.232) = 4, techo(3.99999) = 4, techo(8) = 8.
 @arg nm Numero a calcular el techo.
 @dev El techo de nm.
 @errors Active
 DOCUMENTA]
 funcion Techo [ nm -> ceil(nm) ]
-	adquirir __techo_val__
-	adquirir __techo_bff__
-	recibir_parametro __techo_val__
-	Importar.Ent.Sumar __techo_val__ CERO __techo_bff__
-	si comparar Importar.Dec.Comparar __techo_val__ = __techo_bff__
-		devolver __techo_bff__
+	adquirir valor
+	adquirir techo
+	recibir_parametro valor
+	Importar.Ent.Sumar valor CERO __techo_bff__
+	si comparar Importar.Dec.Comparar valor = techo [ "son iguales" podria fallar por precisión ]
+		devolver techo
 	sino
-		Importar.Ent.Sumar __techo_val__ UNO __techo_val__
-		devolver __techo_val__
+		Importar.Ent.Sumar valor UNO valor
+		devolver valor
 	fin
-	liberar __techo_val__
-	liberar __techo_bff__
+	liberar valor
+	liberar techo
 finfun
 
 [DOCUMENTA

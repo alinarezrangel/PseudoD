@@ -4,3 +4,6 @@
 *.[oa]
 *.so
 *.out
+
+# 2) Ignoramos archivos de las IDEs
+.vscode/

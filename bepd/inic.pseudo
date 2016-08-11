@@ -23,61 +23,71 @@ Este valor tambien suele ser devuelto por algunas funciones de la biblioteca
 estandar al lanzar un error algunas de sus funciones llamadas.
 DOCUMENTA]
 adquirir CMMERROR
-	fijar CMMERROR =* :C++:error:
+fijar CMMERROR a {:C++:error:}
+
 [DOCUMENTA
 @brief Version de BEPD actualmente utilizada.
 DOCUMENTA]
 adquirir BEPD [ version de BEPD ]
-	fijar BEPD =* 2.0.0
+fijar BEPD a {2.2.0}
+
 [DOCUMENTA
 @brief Representa el fin de una sentencia si o si_no en forma de cadena.
 DOCUMENTA]
 adquirir FIN
-	fijar FIN =* fin
+fijar FIN a {fin}
+
 [DOCUMENTA
 @brief Representa el fin de una sentencia funcion en forma de cadena.
 DOCUMENTA]
 adquirir FINFUN
-	fijar FINFUN =* finfun
+fijar FINFUN a {finfun}
+
 adquirir NL [ NOTA: el valor de NUEVALINEA cambia de acuerdo al sistema
 operativo, este valor se representa como \r\n siguiendo las convenciones
 estandares, tambien se puede usar la orden nl ]
-	fijar NL =* CV
+fijar NL a {CV}
+
 [DOCUMENTA
 @brief Representa el caracter de nueva linea,(\r\n).
 DOCUMENTA]
 adquirir NUEVALINEA
+
 [DOCUMENTA
 @brief Representa un espacio en blanco
 DOCUMENTA]
 adquirir ESP
-	Importar.Cad.Caracter_Especial NL NUEVALINEA [ Vacia NUEVALINEA ]
-	Importar.Cad.Caracter_Especial NL ESP
-	fijar NL =* RC
-	Importar.Cad.Caracter_Especial NL NUEVALINEA [ Le fija el caracter \r ]
-	fijar NL =* NL
-	Importar.Cad.Caracter_Especial NL NUEVALINEA [ Le fija el caracter \n ]
-	fijar NL =* EB
-	Importar.Cad.Caracter_Especial NL ESP
+Importar.Cad.Caracter_Especial NL NUEVALINEA [ Vacia NUEVALINEA ]
+Importar.Cad.Caracter_Especial NL ESP
+fijar NL a {RC}
+Importar.Cad.Caracter_Especial NL NUEVALINEA [ Le fija el caracter \r ]
+fijar NL a {NL}
+Importar.Cad.Caracter_Especial NL NUEVALINEA [ Le fija el caracter \n ]
+fijar NL a {EB}
+Importar.Cad.Caracter_Especial NL ESP
 Importar.Tipos.BorrarSimple NL
 Importar.Tipos.BorrarSimple NL#NOMBRE
 Importar.Tipos.BorrarSimple NL#Tipo
+
 [DOCUMENTA
 @brief Sistema de respuestas S/N, representa el afirmativo
 DOCUMENTA]
 adquirir SI [ S y N para respuestas ]
-	fijar SI =* S
+fijar SI a {S}
+
 [DOCUMENTA
 @brief Sistema de respuestas S/N, representa el negativo
 DOCUMENTA]
 adquirir NO
-	fijar NO =* N
+fijar NO a {N}
+
 [ Crear e inicializar las variables super-globales ]
 [DOCUMENTA
 @brief Buffer de datos simples
 DOCUMENTA]
 adquirir VG_BUFFER_DATOS [ Buffer ]
-	fijar VG_BUFFER_DATOS =? NULO
+fijar VG_BUFFER_DATOS a NULO
+
 [DOCUMENTA
 @brief Puntero al buffer de datos
 DOCUMENTA]
@@ -85,8 +95,9 @@ puntero VG_BUFFER VG_BUFFER_DATOS [ VG_BUFFER es un puntero/sinonimo de VG_BUFFE
 [DOCUMENTA
 @brief Flag indicador si se deberian guardar los datos en el bufferantes de reescribirlo.
 DOCUMENTA]
+
 adquirir VG_BUFFER_DATOS_DATA [ Si se tienen datos especiales en el buffer ]
-	fijar VG_BUFFER_DATOS_DATA =? FALSO
+fijar VG_BUFFER_DATOS_DATA a FALSO
 [DOCUMENTA
 @brief Puntero al flag de buffer
 DOCUMENTA]
@@ -100,13 +111,13 @@ puntero VG_BUFFER_DATA VG_BUFFER_DATOS_DATA
 @errors Active
 DOCUMENTA]
 funcion EsNulo [ valor -> boole ]
-	adquirir __ES_NULO_VAL__
-	recibir_parametro __ES_NULO_VAL__
-	si ¿son_iguales? __ES_NULO_VAL__ NULO
+	adquirir valor
+	recibir_parametro valor
+	si son iguales valor y NULO
 		devolver VERDADERO
 	sino
 		devolver FALSO
 	fin
-	liberar __ES_NULO_VAL__
+	liberar valor
 finfun
 

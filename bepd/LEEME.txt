@@ -35,11 +35,11 @@ Tabla de archivos:
 Nombre        | Descripción                                       |  Versión
 -----------   | ------------------------------------------------- | ---------
 inic.pseudo   | Inicializa BEPD.                                  | 1.2.0
-clases.pseudo | Declara la jerarquía de clases.                   | 1.4.0
-entsal.pseudo | Funciones de E/S, y E/S en buffer.                | 1.0.0
-mate.pseudo   | Funciones matemáticas avanzadas y basicas.        | 1.0.0
+clases.pseudo | Declara la jerarquía de clases.                   | 1.5.0
+entsal.pseudo | Funciones de E/S, y E/S en buffer.                | 1.1.0
+mate.pseudo   | Funciones matemáticas avanzadas y basicas.        | 1.1.0
 tipos.pseudo  | Funciones mixtas modificadoras.                   | 1.0.0
-algor.pseudo  | Algoritmos basicos y avanzados.                   | 2.0.0
+algor.pseudo  | Algoritmos basicos y avanzados.                   | 2.1.0
 plugins.pseudo| Sistema de carga de plug-ins.                     | 1.4.0
 errores.pseudo| Sistema de errores.                               | 1.0.0
 

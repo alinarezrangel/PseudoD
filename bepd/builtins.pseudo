@@ -21,7 +21,8 @@ DOCUMENTA]
 Es el valor que toman las variables, antes de ser inicializadas.
 DOCUMENTA]
 adquirir NULO
-	fijar NULO =* nulo
+fijar NULO a {nulo}
+
 [DOCUMENTA
 @brief Representa el valor de Boole 1 o verdadero.
 Es utilizada para sentencias si - si_no. Tambien es devuelto por algunas
@@ -29,7 +30,8 @@ funciones para indicar un afirmativo o que el resultado es verdadero,(como
 EsNulo).
 DOCUMENTA]
 adquirir VERDADERO
-	fijar VERDADERO =* verdadero
+fijar VERDADERO a {verdadero}
+
 [DOCUMENTA
 @brief Representa el valor de Boole 0 o falso.
 Es utilizada para sentencias si - si_no. Tambien es devuelto por algunas
@@ -37,54 +39,61 @@ funciones para indicar un negativo o que el resultado es falso,(como
 EsNulo).
 DOCUMENTA]
 adquirir FALSO
-	fijar FALSO =* falso
+fijar FALSO a {falso}
+
 [DOCUMENTA
 @brief Es el numero 0.
 Se inserto por simetria con UNO, DOS, UNON, TRES y CUATRO.
 DOCUMENTA]
 adquirir CERO [ cero,(0) ]
-	fijar CERO =* 0
+fijar CERO a {0}
+
 [DOCUMENTA
 @brief Es el numero 1.
 Es utilizado para incrementar, decrementar, entre otros.
 DOCUMENTA]
 adquirir UNO [ uno,(1) ]
-	fijar UNO =* 1
+fijar UNO a {1}
+
 [DOCUMENTA
 @brief Es el numero -1.
 Es utilizado para incrementar, decrementar entre otros.
 DOCUMENTA]
 adquirir UNON [ menos uno,(-1) ]
-	fijar UNON =* -1
+fijar UNON a {-1}
+
 [DOCUMENTA
 @brief Es el numero 2.
 Es comunmente utilizado para calcular mitades, dobles.
 DOCUMENTA]
 adquirir DOS [ Para mitades ]
-	fijar DOS =* 2
+fijar DOS a {2}
+
 [DOCUMENTA
 @brief Es el numero 3.
 Tal como el DOS, el TRES es utilizado para tercios y triples.
 DOCUMENTA]
 adquirir TRES [ Para tercios ]
-	fijar TRES =* 3
+fijar TRES a {3}
+
 [DOCUMENTA
 @brief Es el numero 5.
 Utilizado para calcular quintas partes, y quintuples.
 DOCUMENTA]
 adquirir CINCO [ Para x/5 ]
-	fijar CINCO =* 5
+fijar CINCO a {5}
+
 [DOCUMENTA
 @brief Version de PseudoD actualmente estandar.
 Es la version de PseudoD actualmente estandar.
 DOCUMENTA]
 adquirir PSEUDOD [ version de PseudoD ]
-	fijar PSEUDOD =* 2.1.0
+fijar PSEUDOD a {2.2.0}
+
 [DOCUMENTA
 @brief Ruta donde PseudoD busca los archivos de BEPD.
 Es mutable, si se cambia PseudoD buscara las bibliotecas en el lugar
 especificado.
-Tambien se puede utilizar Programa#DirLib.
 DOCUMENTA]
 puntero RUTA_BEPD __LIB__
 
@@ -130,27 +139,26 @@ heredar Objeto PunteroInteligente
 
 [DOCUMENTA
 @brief Redirecciona el puntero a otro objeto.
-@arg Yo Referencia comun al puntero a redireccionar(PseudoD la pasa automaticamente)
+@arg yo
 @arg Variable Referencia comun a la nueva variable a ser apuntada.
 @errors Active
 DOCUMENTA]
 funcion PunteroInteligente#apuntar [ Yo, Variable ]
-	adquirir __PUNTERO_INTELIGENTE_YO__
-	adquirir __PUNTERO_INTELIGENTE_OTRO__
-	recibir_resultado __PUNTERO_INTELIGENTE_YO__
-	recibir_resultado __PUNTERO_INTELIGENTE_OTRO__
-	adquirir __PUNTERO_INTELIGENTE_A__
-	fijar __PUNTERO_INTELIGENTE_A__ =* #direccion
-	Importar.Cad.Concatenar __PUNTERO_INTELIGENTE_YO__ __PUNTERO_INTELIGENTE_A__ __PUNTERO_INTELIGENTE_YO__
-	fijar __PUNTERO_INTELIGENTE_A__ =* redireccionar
-	Importar.Cad.Concatenar __PUNTERO_INTELIGENTE_A__ ESP __PUNTERO_INTELIGENTE_A__
-	Importar.Cad.Concatenar __PUNTERO_INTELIGENTE_A__ __PUNTERO_INTELIGENTE_YO__ __PUNTERO_INTELIGENTE_A__
-	Importar.Cad.Concatenar __PUNTERO_INTELIGENTE_A__ ESP __PUNTERO_INTELIGENTE_A__
-	Importar.Cad.Concatenar __PUNTERO_INTELIGENTE_A__ __PUNTERO_INTELIGENTE_OTRO__ __PUNTERO_INTELIGENTE_A__
-	ejecutar __PUNTERO_INTELIGENTE_A__
-	liberar __PUNTERO_INTELIGENTE_A__
-	liberar __PUNTERO_INTELIGENTE_YO__
-	liberar __PUNTERO_INTELIGENTE_OTRO__
+	adquirir yo
+	adquirir otro
+	adquirir sentencia
+	recibir_resultado yo
+	recibir_resultado otro
+	fijar sentencia a {#direccion}
+	Importar.Cad.Concatenar yo sentencia yo
+	fijar sentencia a {redireccionar }
+	Importar.Cad.Concatenar sentencia yo sentencia
+	Importar.Cad.Concatenar sentencia ESP sentencia
+	Importar.Cad.Concatenar sentencia otro sentencia
+	ejecutar sentencia
+	liberar sentencia
+	liberar yo
+	liberar otro
 finfun
 
 [DOCUMENTA
@@ -160,23 +168,23 @@ finfun
 @errors Active
 DOCUMENTA]
 funcion PunteroInteligente#esNulo [ Yo -> esNulo ]
-	adquirir __PUNTERO_INTELIGENTE_YO__
-	adquirir __PUNTERO_INTELIGENTE_OTRO__
-	adquirir __PUNTERO_INTELIGENTE_A__
-	recibir_resultado __PUNTERO_INTELIGENTE_YO__
-	fijar __PUNTERO_INTELIGENTE_A__ =* #direccion
-	Importar.Cad.Concatenar __PUNTERO_INTELIGENTE_YO__ __PUNTERO_INTELIGENTE_A__ __PUNTERO_INTELIGENTE_YO__
-	fijar __PUNTERO_INTELIGENTE_A__ =* fijar __PUNTERO_INTELIGENTE_OTRO__ =¿? 
-	Importar.Cad.Concatenar __PUNTERO_INTELIGENTE_A__ __PUNTERO_INTELIGENTE_YO__ __PUNTERO_INTELIGENTE_A__
-	ejecutar __PUNTERO_INTELIGENTE_A__
+	adquirir yo
+	adquirir otro
+	adquirir sentencia
+	recibir_resultado yo
+	fijar sentencia a {#direccion}
+	Importar.Cad.Concatenar yo sentencia yo
+	fijar sentencia a {fijar otro =¿? }
+	Importar.Cad.Concatenar sentencia yo sentencia
+	ejecutar sentencia
 	devolver FALSO
-	si ¿son_iguales? __PUNTERO_INTELIGENTE_OTRO__ NULO#NOMBRE
-		sacar __PUNTERO_INTELIGENTE_A__
+	si son iguales otro y NULO#NOMBRE
+		sacar sentencia
 		devolver VERDADERO
 	fin
-	liberar __PUNTERO_INTELIGENTE_A__
-	liberar __PUNTERO_INTELIGENTE_YO__
-	liberar __PUNTERO_INTELIGENTE_OTRO__
+	liberar sentencia
+	liberar yo
+	liberar otro
 finfun
 
 adquirir ___codigo_pseudod_buffer_interno___
