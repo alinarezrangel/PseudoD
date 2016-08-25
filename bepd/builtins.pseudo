@@ -139,7 +139,7 @@ heredar Objeto PunteroInteligente
 
 [DOCUMENTA
 @brief Redirecciona el puntero a otro objeto.
-@arg yo
+@argyo
 @arg Variable Referencia comun a la nueva variable a ser apuntada.
 @errors Active
 DOCUMENTA]
@@ -163,7 +163,7 @@ finfun
 
 [DOCUMENTA
 @brief Determina si el puntero es nulo.
-@arg Yo Referencia comun al puntero a redireccionar(PseudoD la pasa automaticamente)
+@argyo
 @dev VERDADERO si el puntero es nulo y FALSO de lo contrario.
 @errors Active
 DOCUMENTA]

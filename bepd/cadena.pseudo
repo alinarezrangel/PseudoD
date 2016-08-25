@@ -1,0 +1,96 @@
+[ ******************************************************************************
+*****************************************
+*********
+** cadena.pseudo: Manipulacion de cadenas
+** Envolturas de cadenas utiles.
+** PseudoD fue creado por Alejandro Linarez Rangel
+** cadena.pseudo fue creado por Alejandro Linarez Rangel
+** Puede copiar, redistribuir y modificar este archivo con permiso de
+** <proyectopseudod@gmail.com>.
+*****************************************
+****************************************************************************** ]
+
+[DOCUMENTA
+@brief Envolturas de cadenas utiles.
+
+Este archivo declara envolturas utiles para la manipulacion de cadenas.
+
+Todas las funciones estan en el espacio de nombres Cadena.
+DOCUMENTA]
+
+[ Declaramos el espacio de nombres ]
+instancia PseudoFuncion Cadena
+fijar Cadena a {}
+redireccionar Cadena#cod Cadena
+
+[DOCUMENTA
+@brief Concatena dos cadenas
+@arg c1 Primera cadena a concatenar
+@arg c2 Segunda cadena a concatenar
+@dev c1 concatenado con c2
+@errors Active
+DOCUMENTA]
+funcion Cadena#Concatenar [ c1, c2 -> c1 ++ c2 ]
+	adquirir c1
+	adquirir c2
+	adquirir resultado
+	recibir_parametro c1
+	recibir_parametro c2
+	Importar.Cad.Concatenar c1 c2 resultado
+	devolver resultado
+	liberar c1
+	liberar c2
+	liberar resultado
+finfun
+
+[DOCUMENTA
+@brief Extrae una sección de una cadena.
+@arg en Cadena de la cual se extraerá la subcadena.
+@arg desde Numero de caracter donde comenzará la subcadena.
+@arg longitud Numero de caracteres que se extraerán.
+@dev La subcadena
+@errors Active
+DOCUMENTA]
+funcion Cadena#SubCadena [ en, desde, longitud -> en(desde:longitud) ]
+	adquirir cadena
+	adquirir desde
+	adquirir longitud
+	adquirir subcadena
+	recibir_parametro cadena
+	recibir_parametro desde
+	recibir_parametro longitud
+	Importar.Cad.Sub_Cadena desde longitud cadena subcadena
+	devolver subcadena
+	liberar cadena
+	liberar desde
+	liberar longitud
+	liberar subcadena
+finfun
+
+[DOCUMENTA
+@brief Busca una cadena en otra.
+@arg en Cadena en la que se buscara.
+@arg que Cadena a buscar.
+@arg desde Opcional: Desde que caracter se buscará.
+@dev El índice de la primera aparición.
+DOCUMENTA]
+funcion Cadena#Buscar [ en, que, desde? -> indice ]
+	adquirir cadena
+	adquirir queBuscar
+	adquirir indice
+	adquirir desde
+	recibir_parametro cadena
+	recibir_parametro queBuscar
+	recibir_parametro desde
+	si son iguales desde y NULO
+		fijar desde a {1}
+		empujar NULO
+	fin
+	Importar.Cad.Buscar queBuscar desde cadena indice
+	devolver indice
+	liberar cadena
+	liberar queBuscar
+	liberar indice
+	liberar desde
+finfun
+
