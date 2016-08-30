@@ -19,7 +19,7 @@ namespace BibliotecaDinamica
 {
 	using namespace PDvar;
 	using namespace PDTipos;
-	
+
 	/**
 	* @brief Llama un modulo dinamico
 	*/
@@ -50,7 +50,7 @@ namespace BibliotecaDinamica
 			string var;
 			vector<string> param;
 	};
-	
+
 	/**
 	* @brief Llama a un modulo dinamico orientado a objetos.
 	*/

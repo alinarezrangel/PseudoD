@@ -22,39 +22,39 @@ namespace PDTipos
 	{
 		this->clave = "NO FIJADA";
 	}
-	
+
 	PDOrden::~PDOrden()
 	{
 		// nada
 	}
-	
+
 	string PDOrden::ObtenerClave()
 	{
 		return this->clave;
 	}
-	
+
 	void PDOrden::LeerParametros(istream& in)
 	{
 		return;
 	}
-	
+
 	void PDOrden::FijarClave(string cl,string pack)
 	{
 		this->clave = pack + string(".") + cl;
 	}
-	
+
 	PseudoArray::PseudoArray(string nom, int can) : PDInstancia()
 	{
 		this->cant = can;
 		this->nm = nom;
 		this->FijarClave(string("Array"),string("Tipos"));
 	}
-	
+
 	PseudoArray::~PseudoArray()
 	{
 		//~~~~~~nada
 	}
-	
+
 	void PseudoArray::InscribirInstancia(PDDatos* data)
 	{
 		data->CrearVariable(this->nm + string("#longitud."));
@@ -65,7 +65,7 @@ namespace PDTipos
 			data->CrearVariable(this->nm + string("#(") + eas(i) + string(")"));
 		}
 	}
-	
+
 	void PseudoArray::LeerParametros(istream& in)
 	{
 		if(!(in >> this->nm >> this->cant))
@@ -79,19 +79,19 @@ namespace PDTipos
 			);
 		}
 	}
-	
+
 	PseudoClase::PseudoClase(string nm,vector<string> mt) : PDInstancia()
 	{
 		this->nm = nm;
-		this->methods = mt; 
+		this->methods = mt;
 		this->FijarClave(string("Estructura"),string("Tipos"));
 	}
-	
+
 	PseudoClase::~PseudoClase()
 	{
 		//NADA
 	}
-	
+
 	void PseudoClase::InscribirInstancia(PDDatos* data)
 	{
 		data->CrearVariable(this->nm);
@@ -103,7 +103,7 @@ namespace PDTipos
 		data->CrearVariable(this->nm + string("#Tipo"));
 		data->ObtenerVariable(this->nm + string("#Tipo")) = this->nm;
 	}
-	
+
 	void PseudoClase::LeerParametros(istream& in)
 	{
 		if(!(in >> this->nm))
@@ -142,30 +142,30 @@ namespace PDTipos
 			}
 		}
 	}
-	
+
 	PseudoReferenciaClase::PseudoReferenciaClase(string n,string i) : PDInstancia()
 	{
 		this->nm = n;
 		this->ni = i;
 		this->FijarClave(string("Instancia"),string("Tipos"));
 	}
-	
+
 	PseudoReferenciaClase::~PseudoReferenciaClase()
 	{
 		//NADA
 	}
-	
+
 	void PseudoReferenciaClase::InscribirInstancia(PDDatos* data)
 	{
 		data->CrearVariable(this->ni);
 		data->ObtenerVariable(this->ni)=this->ni;
 		/*int lg = cae(data->ObtenerVariable(this->nm));
-		
+
 		for(int i = 0;i < lg;i++)
 		{
 			this->methods.push_back(data->ObtenerVariable(this->nm+string("#(")+eas(i)+string(").")));
 		}*/
-		
+
 		string buff = "";
 		for(int i = 0;i < data->ObtenerVariable(this->nm).size();i++)
 		{
@@ -181,7 +181,7 @@ namespace PDTipos
 		if(buff != "")
 			this->methods.push_back(buff);
 		buff = "";
-		
+
 		for(int i = 0;i < this->methods.size();i++)
 		{
 			if(this->methods[i][0] == ';')
@@ -196,15 +196,15 @@ namespace PDTipos
 				data->CrearVariable(this->ni + string("#") + this->methods[i] + string("#cod"),"Puntero",0);
 				// No tiene sentido tener una copia de cada metodo de la instancia,
 				// En cambio, puedes tener un puntero al metodo, que ocupa menos
-				// espacio.				
+				// espacio.
 				data->ObtenerIndicePuntero(this->ni + string("#") + this->methods[i])
-				= data->BuscarIndice("Variable",this->nm + string("#")
-				                     + this->methods[i]);
+					= data->BuscarIndice("Variable",this->nm + string("#")
+							+ this->methods[i]);
 				data->ObtenerIndicePuntero(this->ni + string("#") + this->methods[i] + string("#cod"))
-				= data->BuscarIndice("Variable",this->nm + string("#")
-				                     + this->methods[i]);
+					= data->BuscarIndice("Variable",this->nm + string("#")
+							+ this->methods[i]);
 				/*data->ObtenerVariable(this->ni+string("#")+this->methods[i])
-	      = data->ObtenerVariable(this->nm+string("#")+this->methods[i]+string("#cod"));*/
+				= data->ObtenerVariable(this->nm+string("#")+this->methods[i]+string("#cod"));*/
 			}
 			else
 			{
@@ -214,7 +214,7 @@ namespace PDTipos
 		data->ObtenerVariable(this->ni+"#NOMBRE") = this->ni;
 		data->ObtenerVariable(this->ni+"#Tipo") = this->nm;
 	}
-	
+
 	void PseudoReferenciaClase::LeerParametros(istream& in)
 	{
 		if(!(in >> this->nm >> this->ni))
@@ -229,7 +229,7 @@ namespace PDTipos
 			return;
 		}
 	}
-	
+
 	void PseudoDebug::InscribirInstancia(PDDatos* data)
 	{
 		cout << endl << "Debugger(depurador) de PseudoD" << endl;
@@ -390,7 +390,7 @@ namespace PDTipos
 			}
 		}
 	}
-	
+
 	PseudoArrayEstructura::PseudoArrayEstructura(string na,string ne,int ta) : PDInstancia()
 	{
 		this->nme=ne;
@@ -398,12 +398,12 @@ namespace PDTipos
 		this->tma=ta;
 		this->FijarClave(string("EstrucArray"),string("Tipos"));
 	}
-	
+
 	PseudoArrayEstructura::~PseudoArrayEstructura()
 	{
 		//NADA
 	}
-	
+
 	void PseudoArrayEstructura::LeerParametros(istream& in)
 	{
 		if(!(in >> this->nme >> this->nma >> this->tma))
@@ -417,7 +417,7 @@ namespace PDTipos
 			);
 		}
 	}
-	
+
 	void PseudoArrayEstructura::InscribirInstancia(PDDatos* data)
 	{
 		int tme = cae(data->ObtenerVariable(this->nme));
@@ -433,18 +433,18 @@ namespace PDTipos
 		data->CrearVariable(this->nme+string("#(")+eas(tmt)+string(")."));
 		data->ObtenerVariable(this->nme+string("#(")+eas(tmt)+string(")."))=this->nma+string("#longitud");
 	}
-	
+
 	PseudoBorrarVariable::PseudoBorrarVariable(string n) : PDInstancia()
 	{
 		this->nm = n;
 		this->FijarClave(string("BorrarSimple"),string("Tipos"));
 	}
-	
+
 	PseudoBorrarVariable::~PseudoBorrarVariable()
 	{
 		//NADA
 	}
-	
+
 	void PseudoBorrarVariable::LeerParametros(istream& in)
 	{
 		if(!(in >> this->nm))
@@ -459,7 +459,7 @@ namespace PDTipos
 			return;
 		}
 	}
-	
+
 	void PseudoBorrarVariable::InscribirInstancia(PDDatos* data)
 	{
 		int i = data->BuscarIndice("Variable",this->nm);
@@ -507,21 +507,20 @@ namespace PDTipos
 			(*data->valorv).pop_back();
 		cout << "Borrando bloque de memoria 11" << endl;*/
 		}
-		
 	}
-	
+
 	PseudoHerencia::PseudoHerencia(string b,string h)
 	{
 		this->nmb = b;
 		this->nmh = h;
 		this->FijarClave(string("Heredar"),string("Tipos"));
 	}
-	
+
 	PseudoHerencia::~PseudoHerencia()
 	{
 		//NADA
 	}
-	
+
 	void PseudoHerencia::LeerParametros(istream& in)
 	{
 		if(!(in >> this->nmb >> this->nmh))
@@ -535,7 +534,7 @@ namespace PDTipos
 			);
 		}
 	}
-	
+
 	void PseudoHerencia::InscribirInstancia(PDDatos* data)
 	{
 		string& base = data->ObtenerVariable(this->nmb);
@@ -569,19 +568,19 @@ namespace PDTipos
 		}
 		hija += base;
 	}
-	
+
 	PseudoDireccionarPuntero::PseudoDireccionarPuntero(string p,string v) : PDInstancia()
 	{
 		this->nmp = p;
 		this->nmv = v;
 		this->FijarClave(string("Redireccionar"),string("Tipos"));
 	}
-	
+
 	PseudoDireccionarPuntero::~PseudoDireccionarPuntero()
 	{
-		
+		// NADA
 	}
-	
+
 	void PseudoDireccionarPuntero::LeerParametros(istream& in)
 	{
 		if(!(in >> this->nmp >> this->nmv))
@@ -595,7 +594,7 @@ namespace PDTipos
 			);
 		}
 	}
-	
+
 	void PseudoDireccionarPuntero::InscribirInstancia(PDDatos* data)
 	{
 		int oi;
@@ -622,7 +621,7 @@ namespace PDTipos
 		}
 		data->ObtenerIndicePuntero(this->nmp) = oi;
 	}
-	
+
 	PseudoMientras::PseudoMientras(string v,string o,string f) : PDInstancia()
 	{
 		this->nmv = v;
@@ -632,9 +631,9 @@ namespace PDTipos
 	}
 	PseudoMientras::~PseudoMientras()
 	{
-		
+		// NADA
 	}
-	
+
 	void PseudoMientras::LeerParametros(istream& in)
 	{
 		// FIXME: Codigo problematico:
@@ -708,18 +707,18 @@ namespace PDTipos
 		{
 			getline(in,lin,'\n');
 			lineas.push_back(lin);
-			lin.erase(std::remove_if(lin.begin(), 
-                              lin.end(),
-                              [](char x){return std::isspace(x);}),
-                lin.end());
-      if((string(lin.substr(0,string("mientras").size())) == "mientras") || (string(lin.substr(0,string("Importar.PseudoD.mientras").size())) == "Importar.PseudoD.mientras"))
-      {
-      	mientras++;
-      }
-      if(lin == "finbucle")
-      {
-      	mientras--;
-      }
+			lin.erase(std::remove_if(lin.begin(),
+				lin.end(),
+				[](char x){return std::isspace(x);}),
+				lin.end());
+			if((string(lin.substr(0,string("mientras").size())) == "mientras") || (string(lin.substr(0,string("Importar.PseudoD.mientras").size())) == "Importar.PseudoD.mientras"))
+			{
+				mientras++;
+			}
+			if(lin == "finbucle")
+			{
+				mientras--;
+			}
 		}
 		this->func = "";
 		for(int i = 0;i < lineas.size();i++)
@@ -727,7 +726,7 @@ namespace PDTipos
 			this->func += lineas[i] + "\n";
 		}
 	}
-	
+
 	void PseudoMientras::InscribirInstancia(PDDatos* data)
 	{
 		// FIXME: Codigo problematico:
@@ -816,7 +815,7 @@ namespace PDTipos
 			res = ValorDelToken(this->nmv,sin3,data);
 		}
 	}
-	
+
 	PseudoClaseContenida::PseudoClaseContenida(string es,string tp,string cm,bool pn) : PDInstancia()
 	{
 		this->nme = es; // estructura
@@ -825,12 +824,12 @@ namespace PDTipos
 		this->ptr = pn; // puntero?
 		this->FijarClave(string("EstrucEstruc"),string("Tipos"));
 	}
-	
+
 	PseudoClaseContenida::~PseudoClaseContenida()
 	{
-		
+		// NADA
 	}
-	
+
 	void PseudoClaseContenida::LeerParametros(istream& in)
 	{
 		if(!(in >> this->ptr >> this->nme >> this->tpe >> this->nmv))
@@ -844,7 +843,7 @@ namespace PDTipos
 			);
 		}
 	}
-	
+
 	void PseudoClaseContenida::InscribirInstancia(PDDatos* data)
 	{
 		int tme,ttpe,ate;
@@ -862,18 +861,18 @@ namespace PDTipos
 				data->ObtenerVariable(this->nme+string("#(")+eas(i)+string(").")) = this->nmv+string("#")+data->ObtenerVariable(this->tpe+string("#(")+eas(i-ate)+string(")."));
 		}
 	}
-	
+
 	PseudoBorrarInteligente::PseudoBorrarInteligente(string var)
 	{
 		this->var = var;
 		this->FijarClave(string("Borrar"),string("Tipos"));
 	}
-	
+
 	PseudoBorrarInteligente::~PseudoBorrarInteligente()
 	{
 		// nada
 	}
-	
+
 	void PseudoBorrarInteligente::LeerParametros(istream& i)
 	{
 		if(!(i >> this->var))
@@ -887,7 +886,7 @@ namespace PDTipos
 			);
 		}
 	}
-	
+
 	void PseudoBorrarInteligente::InscribirInstancia(PDDatos* data)
 	{
 		// Primero se determina el tipo de variable y se busca, siempre se borra la

@@ -83,7 +83,7 @@ llamar arreglo#destruir #(Final).
 
 llamar ImprimirFormato {Hola %\k} {Mundo} #(Final).
 
-
+[
 funcion Math
 	llamar ImprimirFormato
 		{El seno de % es %\k}
@@ -92,4 +92,27 @@ funcion Math
 	finargs
 finfun
 
-llamar Math finargs
+llamar Math finargs]
+
+utilizar entsal.pseudo
+utilizar cadena.pseudo
+
+llamar EscribirLinea
+    llamar Cadena#Concatenar
+        {Hola }
+        {Mundo}
+    finargs
+finargs
+
+[ o también ]
+
+adquirir mensaje
+fijar mensaje a llamar Cadena#Buscar
+    {hola mundo}
+    {mun}
+finargs
+escribir mensaje
+nl
+liberar mensaje
+
+

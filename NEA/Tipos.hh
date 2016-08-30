@@ -20,7 +20,7 @@
 #include <string>
 #include <cstring>
 #include <cstdio>
-	
+
 
 #include "PDData.hh"
 
@@ -28,14 +28,14 @@
 
 /**
 * @brief Contiene Todos los datos estandares en PseudoD.
-* 
+*
 * Ofrece todos los tipos de datos tanto para PseudoD como para Programadores que deseen extender NEA.
 */
 namespace PDTipos
 {
 	using namespace PDvar;
 	using namespace std;
-	
+
 	/**
 	* @brief Representa la clase base para las extenciones de PseudoD.
 	*/
@@ -70,8 +70,7 @@ namespace PDTipos
 		private:
 			string clave;
 	};
-	
-	
+
 	/**
 	* @brief Clase base para todos los tipos de datos no declarados nativos de PseudoD.
 	*/
@@ -91,10 +90,10 @@ namespace PDTipos
 			*/
 			virtual void InscribirInstancia(PDDatos* data) = 0;
 	};
-	
+
 	/**
 	* @brief Tipo del lenguaje, representa un array.
-	* 
+	*
 	* Nota: No confundir, no es un array para C++ es solo para uso de PseudoD.
 	*/
 	class PseudoArray : virtual public PDInstancia
@@ -125,10 +124,10 @@ namespace PDTipos
 			int cant;
 			string nm;
 	};
-	
+
 	/**
 	* @brief Tipo del lenguaje, representa una estructura.
-	* 
+	*
 	* Nota: No confundir, es solo para PseudoD no es una estructura de C++.
 	*/
 	class PseudoClase : virtual public PDInstancia
@@ -136,7 +135,7 @@ namespace PDTipos
 		public:
 			/**
 			* @brief Inicializador.
-			* 
+			*
 			* Crea una instancia que sirve para crear una estructura en PseudoD
 			* @param a nombre de la clase
 			* @param b campos de la dicha clase
@@ -160,10 +159,10 @@ namespace PDTipos
 			string nm;
 			vector<string> methods;
 	};
-	
+
 	/**
 	* @brief Representa una referencia a una instancia de PseudoClase
-	* 
+	*
 	* Nota: No confundir es solo para PseudoD no C++
 	*/
 	class PseudoReferenciaClase : virtual public PDInstancia
@@ -171,7 +170,7 @@ namespace PDTipos
 		public:
 			/**
 			* @brief Inicializador
-			* 
+			*
 			* Crea una instancia que sirve para crear una instancia de una clase ya existente
 			* @param a nombre de la clase a instanciar
 			* @param b nombre de la instancia
@@ -195,10 +194,10 @@ namespace PDTipos
 			string ni;
 			vector<string> methods;
 	};
-	
+
 	/**
 	* @brief Representa una manera de visualizar en texto la memoria del interprete.
-	* 
+	*
 	* Nota: No confundir, es para PseudoD no C++.
 	*/
 	class PseudoDebug : public PDInstancia
@@ -206,7 +205,7 @@ namespace PDTipos
 		public:
 			/**
 			* @brief Inicializador
-			* 
+			*
 			* Crea una instancia que sirve para visualizar los datos de memoria
 			*/
 			PseudoDebug() : PDInstancia(){this->FijarClave(string("debug"),string("PseudoD"));}
@@ -216,20 +215,20 @@ namespace PDTipos
 			virtual ~PseudoDebug(){}
 			/**
 			* @brief Lee y visualiza la memoria del interprete.
-			* 
+			*
 			* Al visualizarla, la muestra como en arreglos de la forma ["valor","valor"] numerovalores. Visualiza casi todos los datos como:
-			* 
+			*
 			* Nombres de las variables.
 			* Valores de las variables.
 			* Nombres de los punteros.
 			* Valores de los puntero y variables a las que apuntan.
 			* Los contenidos de las pilas .
-			* 
+			*
 			* @param data memoria del interprete
 			*/
 			void InscribirInstancia(PDDatos* data);
 	};
-	
+
 	/**
 	* @brief Instancia que sirve para borrar una variable
 	*/
@@ -262,7 +261,7 @@ namespace PDTipos
 			string nme;
 			int tma;
 	};
-	
+
 	/**
 	* @brief Instancia que sirve para borrar una variable
 	*/
@@ -291,7 +290,7 @@ namespace PDTipos
 		private:
 			string nm;
 	};
-	
+
 	/**
 	* @brief Instancia que sirve para heredar dos estructuras ya existentes
 	*/
@@ -321,7 +320,7 @@ namespace PDTipos
 		private:
 			string nmb,nmh;
 	};
-	
+
 	/**
 	* @brief Instancia que sirve para cambiar la direccion en memoria de un punteros
 	* Es solo para PseudoD no C++
@@ -353,7 +352,7 @@ namespace PDTipos
 			string nmp;
 			string nmv;
 	};
-	
+
 	/**
 	* @brief Representa el bucle mientras, pero pide una meta-funcion en vez de un cuerpo
 	* Es solo para PseudoD no C++
@@ -387,9 +386,9 @@ namespace PDTipos
 			string func;
 			string orden;
 	};
-	
+
 	/**
-	* @brief 
+	* @brief Anida una clase en otra
 	* Es solo para PseudoD no C++
 	*/
 	class PseudoClaseContenida : public PDInstancia
@@ -423,9 +422,9 @@ namespace PDTipos
 			string nmv;
 			bool ptr;
 	};
-	
+
 	/**
-	* @brief 
+	* @brief Borra de forma inteligente una instancia
 	* Es solo para PseudoD no C++
 	*/
 	class PseudoBorrarInteligente : public PDInstancia

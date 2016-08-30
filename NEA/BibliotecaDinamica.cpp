@@ -18,12 +18,12 @@ namespace BibliotecaDinamica
 		this->param = args;
 		this->FijarClave("Llamar","BibliotecasDinamicas");
 	}
-	
+
 	PseudoLlamar::~PseudoLlamar()
 	{
 		//~~~~
 	}
-	
+
 	void PseudoLlamar::LeerParametros(istream& in)
 	{
 		if(!(in >> this->var))
@@ -43,7 +43,7 @@ namespace BibliotecaDinamica
 			param.push_back(p);
 		}
 	}
-	
+
 	void PseudoLlamar::InscribirInstancia(PDDatos* data)
 	{
 		void* con = dlopen(data->ObtenerVariable(this->var + string("#lib")).c_str(),RTLD_LAZY);
@@ -85,19 +85,19 @@ namespace BibliotecaDinamica
 			throw;
 		}
 	}
-	
+
 	PseudoLlamarOO::PseudoLlamarOO(string var, vector<string> args)
 	{
 		this->var = var;
 		this->param = args;
 		this->FijarClave("LlamarOO","BibliotecasDinamicas");
 	}
-	
+
 	PseudoLlamarOO::~PseudoLlamarOO()
 	{
 		//~~~~
 	}
-	
+
 	void PseudoLlamarOO::LeerParametros(istream& in)
 	{
 		if(!(in >> this->var))
@@ -117,7 +117,7 @@ namespace BibliotecaDinamica
 			param.push_back(p);
 		}
 	}
-	
+
 	void PseudoLlamarOO::InscribirInstancia(PDDatos* data)
 	{
 		void* con = dlopen(data->ObtenerVariable(this->var + string("#lib")).c_str(),RTLD_LAZY);

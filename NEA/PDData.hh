@@ -46,13 +46,13 @@ long double caf(PDcadena i);
 
 /**
 * @brief Representa el tipo de datos nativo del interprete.
-* 
+*
 * No es extendible.
 */
 namespace PDvar
 {
 	using namespace std;
-	
+
 	/**
 	* @brief Es la clase base para todas las clases de NEA.
 	*/
@@ -73,9 +73,8 @@ namespace PDvar
 			* @return true si son la misma instancia y false de lo contrario.
 			*/
 			virtual bool MismoObjeto(PDObjeto& o){ return this == &o; }
-			
 	};
-	
+
 	/**
 	* @brief Representa la clase base para todas las clases de parametros de PDCallBack.
 	*/
@@ -108,7 +107,7 @@ namespace PDvar
 		private:
 			vector<T> args;
 	};
-	
+
 	/**
 	* @brief Representa un objeto de retro-llamada.
 	*/
@@ -152,43 +151,43 @@ namespace PDvar
 			RV (** Fcn)(AT);
 			AT param;
 	};
-	
+
 	template<typename RV,typename AT>
 	PDCallBack<RV,AT>::PDCallBack (RV (*F)(AT)) : PDObjeto()
 	{
 		this->Fcn = &F;
 	}
-	
+
 	template<typename RV,typename AT>
 	PDCallBack<RV,AT>::~PDCallBack ()
 	{
 		// ~~~~~~~~~Nada
 	}
-	
+
 	template<typename RV,typename AT>
 	RV PDCallBack<RV,AT>::Call(AT p)
 	{
 		return (**this->Fcn)(p);
 	}
-	
+
 	template<typename RV,typename AT>
 	RV PDCallBack<RV,AT>::Call()
 	{
 		return (**this->Fcn)(this->param);
 	}
-	
+
 	template<typename RV,typename AT>
 	void PDCallBack<RV,AT>::Set(AT v)
 	{
 		this->param = v;
 	}
-	
+
 	template<typename RV,typename AT>
 	AT PDCallBack<RV,AT>::Get()
 	{
 		return this->param;
 	}
-	
+
 	/**
 	* @brief Representa un error.
 	* Esta clase simplemente es la clase base, no posee información adicional.
@@ -255,7 +254,7 @@ namespace PDvar
 			string PseudoDClass;
 			string ErrorMessage;
 	};
-	
+
 	/**
 	* @brief Representa un error de sintaxis.
 	*/
@@ -283,7 +282,7 @@ namespace PDvar
 			*/
 			virtual ~ErrorDeSintaxis(void) noexcept;
 	};
-	
+
 	/**
 	* @brief Representa un error de semantica.
 	*/
@@ -311,7 +310,7 @@ namespace PDvar
 			*/
 			virtual ~ErrorDeSemantica(void) noexcept;
 	};
-	
+
 	/**
 	* @brief Representa un error del nucleo.
 	*/
@@ -339,7 +338,7 @@ namespace PDvar
 			*/
 			virtual ~ErrorDelNucleo(void) noexcept;
 	};
-	
+
 	/**
 	* @brief El tipo de dato nativo del interprete, es usado internamente.
 	*/
@@ -498,7 +497,7 @@ namespace PDvar
 			*/
 			void (*PROCESO)(string o,istream& i);
 	};
-	
+
 	/**
 	* @brief Clase base para funciones PDCallBack en forma de orden(plugins y el NIA).
 	*/
@@ -532,13 +531,13 @@ namespace PDvar
 			istream* in; // flujo de tokens
 			string token; // token actual
 			PDDatos* data; // datos del interprete
-			
+
 			explicit PDEntradaBasica(vector<PDVOID_INIC_VACIO> args) : PDVoid(args) {}
 			explicit PDEntradaBasica(PDVOID_INIC_VACIO args) : PDVoid(args) {}
 			explicit PDEntradaBasica(void) : PDVoid() {}
 			virtual PDVOID_INIC_VACIO Obtener(int i = 0) {return PDVOID_INIC_VACIO_NULL;}
 	};
-	
+
 	/**
 	* @brief Devuelve el valor del token.
 	* Diseñado para bucles y condicionales.
@@ -548,7 +547,7 @@ namespace PDvar
 	* @return el valor de los tokens
 	*/
 	string ValorDelToken(string tok,istream& in,PDDatos* data);
-	
+
 	/**
 	* @brief Posee lo necesario para crear modulos dinamicos
 	*/

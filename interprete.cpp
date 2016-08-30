@@ -264,10 +264,11 @@ namespace pseudod
 			{
 				getline(e,lin,'\n');
 				lineas.push_back(lin);
-				lin.erase(std::remove_if(lin.begin(), 
-		                            lin.end(),
-		                            [](char x){return std::isspace(x);}),
-		              lin.end());
+				lin.erase(std::remove_if(lin.begin(),
+					lin.end(),
+					[](char x){return std::isspace(x);}),
+					lin.end()
+				);
 			}
 			string func;
 			for(int i = 0;i < lineas.size();i++)

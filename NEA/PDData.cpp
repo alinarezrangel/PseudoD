@@ -141,7 +141,7 @@ namespace PDvar
 	{}
 	ErrorDelNucleo::~ErrorDelNucleo(void) noexcept
 	{}
-	
+
 	PDDatos::PDDatos(vector<string>& nvar,vector<string>& vvar,vector<string>& npun,vector<int>& vpun,vector< stack<string> >& pil)
 	{
 		this->nombrev = &nvar;
@@ -155,7 +155,7 @@ namespace PDvar
 		this->manager = false;
 		this->adver = 1;
 	}
-	
+
 	PDDatos::PDDatos(void)
 	{
 		this->nombrev = new vector<string>();
@@ -215,7 +215,7 @@ namespace PDvar
 			return (*this->valorv)[(*this->nvapunt)[i]];
 		}
 	}
-	
+
 	int& PDDatos::ObtenerIndicePuntero(string n)
 	{
 		int i = buscar((*this->nombrep),n);
@@ -248,7 +248,7 @@ namespace PDvar
 	{
 		(*this->pilas).push_back(stack<string>());
 	}
-	
+
 	string PDDatos::Sacar(int n)
 	{
 		string val = this->Tope(n);
@@ -269,7 +269,7 @@ namespace PDvar
 			(*this->valorv).push_back(vl);
 		}
 	}
-	
+
 	int PDDatos::BuscarIndice(string t,string n)
 	{
 		int ind = 0;
@@ -283,7 +283,7 @@ namespace PDvar
 		}
 		return ind;
 	}
-	
+
 	bool PDDatos::ExisteVariable(string n,string t)
 	{
 		int ind = -1;
@@ -297,7 +297,7 @@ namespace PDvar
 		}
 		return (ind >= 0);
 	}
-	
+
 	void PDDatos::Ejecutar(string ord)
 	{
 		istringstream in(ord);
@@ -305,12 +305,12 @@ namespace PDvar
 		in >> orden;
 		(*this->PROCESAR)(orden,in,this->PROCESO);
 	}
-	
+
 	void PDDatos::Ejecutar(string ord,istream& in)
 	{
 		(*this->PROCESAR)(ord,in,this->PROCESO);
 	}
-	
+
 	/*
 	explicit PDEntradaBasica(string tok, istream& in, PDDatos& dat);
 			virtual ~PDEntradaBasica(void);
@@ -324,26 +324,26 @@ namespace PDvar
 		this->in = &in;
 		this->data = &dat;
 	}
-	
+
 	PDEntradaBasica::~PDEntradaBasica(void)
 	{
 	}
-	
+
 	string PDEntradaBasica::ObtenerToken(void)
 	{
 		return this->token;
 	}
-	
+
 	istream& PDEntradaBasica::ObtenerFlujo(void)
 	{
 		return (*(this->in));
 	}
-	
+
 	PDDatos* PDEntradaBasica::ObtenerMemoria(void)
 	{
 		return this->data;
 	}
-	
+
 	string ValorDelToken(string tok,istream& in,PDDatos* data)
 	{
 		/*
@@ -446,7 +446,7 @@ namespace PDvar
 		}
 		throw PDvar::ErrorDelNucleo("Error en el parser(expr): 'expr' es '" + tok + "': Token invalido");
 	}
-	
+
 	namespace Din
 	{
 		ModuloDinamico::ModuloDinamico(void)
