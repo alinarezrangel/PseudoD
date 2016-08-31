@@ -1,145 +1,132 @@
-### README.mkd
-##### PseudoD
+# PseudoD
+
+[![Build Status](https://travis-ci.org/alinarezrangel/PseudoD.svg?branch=master)](https://travis-ci.org/alinarezrangel/PseudoD)
+
 PseudoD es un lenguaje de programación interpretado, escrito en C++11 con
-sintaxis completamente en español y orientado a objetos.
+caracteristicas de alto y medio nivel. Es orientado a objetos y posee una
+sintaxis en español.
 
-Tiene un nucleo externo, llamado NEA(**N**ucleo **E**xtensible de la
-**A**plicación), el cual esta diseñado para agregar funcionalidades al
-lenguaje. Tambien extrae de [Python](https://www.python.org/ "Python.org")
-la capacidad de escribir agregados en C/C++.
+## Contacto
 
-Parte de la sintaxis de PseudoD esta inspirada en
-[Ada](http://es.wikipedia.org/wiki/Ada_%28lenguaje_de_programaci%C3%B3n%29 "Lenguaje de programacion Ada"),
-[D](http://es.wikipedia.org/wiki/D_%28lenguaje_de_programaci%C3%B3n%29 "Lenguaje de programacion D")
-y **REXX**. Para extender el lenguaje, ya sea por el NEA, o por agregados
-dinámicos, existe una interfaz simple y orientada a objetos.
+* <proyectopseudod@gmail.com>
 
-PseudoD intenta romper los lazos de la programación con el idioma en general.
+## Como construir
 
-###### BEPD
+### Dependencias
 
-La **B**iblioteca **E**standar de **P**seudo**D**, o **BEPD** se
-encuentra junto a al código de PseudoD en la carpeta `bepd` y este
-contiene 7 archivos, cuya definición detallada esta en `bepd/LEEME.txt`.
+* Paquete `build-essencials` en distros GNU/Linux
+* GCC 4.8 o superior
+* G++ 4.8 o superior
 
-##### El Interprete
-###### Uso
-<code>**PseudoD** *archivo* *ruta de BEPD* *ruta de libpseudod.so*</code>
+Realmente, GCC y G++ no son necesarios mientras se posea un compilador con
+soporte de C++11 o C++14 (como CLANG 3.3 o superior).
 
-* *archivo*: archivo a ejecutar,(*.pd o *.psd, *.pseudo es para bliotecas).
-* *ruta de BEPD*: Ruta de la **B**iblioteca **E**standar de **P**seudo**D**,
-o **BEPD**, por defecto es `/usr/lib/pseudod/1.9.5/`. * *ruta de libpseudod.so*:
-Ruta del NEA de PseudoD, `libpseudod.so`. Por defecto es `/usr/lib/`.
+### Construyendo
 
-A partir de PseudoD u1.9.5 tambien permite:
-<code>**PseudoD** (\-h|\-\-help)</code>
+Para construir PseudoD solo se debe ejecutar `make` en el directorio del
+código fuente:
 
-Para ayuda y:
-<code>**PseudoD** \-i *ruta-de-BEPD* *ruta-de-libpseudod.so*</code>
-
-Para iniciar el interactivo.
-
-###### IPDC
-<code>**ipdc** (\-d | \-s | \-f | \-i) (*archivo* | *ruta*)</code>
-
-Opciones:
-
-* \-d : Muestra la ruta predeterminada de BEPD.
-* \-s *ruta* : Fija la ruta de BEPD.
-* \-f *archivo* : Ejecuta archivo con la ultima version de PseudoD instalada.
-* \-i : Inicia el interprete interactivo.
-
-###### Compilar
-<code>**make**</code>
-
-**Notas**: Si el usuario no esta compilando en sistemas GNU/Linux, se
-debe modificar el Makefile en la linea 9: modifique la linea 9 de
-`COMP = ` a `COMP = -DMINGW=1` o `COMP = -DNUMEROS_EN_C=1`,(ambos
-preferiblemente). Tambien es importante decir que **PseudoD solo compila
-en Windows, bajo cygwin**, y este debe tener instalados G++4.7 o superior,
-GCC4.7 o superior, y make.
-
-Hasta ahora, PseudoD **solo ha sido probado** en los sistemas operativos:
-
-* Windows 7 con cygwin
-* Windows 10 con cygwin
-* Debian wheezy con G++
-* Ubuntu 14 con G++
-
-Se agredece probarlo en otros sistemas y reportar **toda falla** a los foros.
-
-###### Archivos
-Despues de compilar, este directorio tendra 3 archivos más: el ejecutable
-`PseudoD`, la biblioteca de carga dinamica(ver LEEME.txt para referencias)
-`libpseudod.so` y la biblioteca de datos `Datos.o`.
-
-* Mueva el ejecutable a un punto donde sea facil de llamar (`/home/$USER/bin/`, `/usr/bin/`, entre otros).
-* Mueva `libpseudod.so` a `/usr/lib/`, de no estar en un sistema GNU/Linux, dejar en este directorio.
-* Mueva la biblioteca estandar a `/usr/lib/pseudod/1.9.5`.
-
-Modifique el archivo `ipdc`:
-
-* Linea 20: Fije el texto entre comillas " a la ruta donde se movio el contenido de la carpeta `bepd`.
-* Linea 21: Fije el texto entre comillas " a la ruta donde se movio el NEA, `libpseudod.so`.
-* Linea 22: Fije el texto entre comillas " a "si" en vez de "no".
-
-###### Ejemplos de código
-
-Hola Mundo!:
 ```
+$ cd pseudod-code/
+$ make
+```
+
+También puedes ejecutar el instalador sin ejecutar `make`:
+
+```
+$ cd pseudod-code/
+$ sudo ./instalar.sh
+```
+
+## Archivos
+
+Es recomendable leer los siguientes archivos:
+
+* `LEEME.txt` ([LEEME.txt](LEEME.txt)): Este archivo contiene más información
+sobre PseudoD.
+* `ESTRUCTURA.txt` ([ESTRUCTURA.txt](ESTRUCTURA.txt)): Este archivo explica
+la estructura del directorio.
+* `bepd/LEEME.txt` ([bepd/LEEME.txt](bepd/LEEME.txt)): LEEME de la BEPD.
+* `test/LEEME.txt` ([test/LEEME.txt](test/LEEME.txt)): LEEME de la suite de
+pruebas.
+
+## Ejemplos
+
+### Hola Mundo
+
+Con la biblioteca estándar (BEPD)
+
+```pseudod
+utilizar entsal.pseudo
+
+llamar EscribirLinea {Hola Mundo} finargs
+```
+
+Sin la biblioteca estándar (BEPD)
+
+```pseudod
 adquirir mensaje
-fijar mensaje =* Hola Mundo!
+fijar mensaje a {Hola Mundo}
 escribir mensaje
 nl
 ```
 
-Adios Mundo!:
+### Suma de dos numeros
+
+Con la biblioteca estándar (BEPD)
+
+```pseudod
+utilizar mate.pseudo
+utilizar entsal.pseudo
+
+adquirir n1
+adquirir n2
+
+llamar EscribirLinea {Ingrese dos numeros enteros:} finargs
+
+fijar n1 a llamar LeerPalabra finargs
+fijar n2 a llamar LeerPalabra finargs
+
+llamar Imprimir
+	n1
+	{+}
+	n2
+	{=}
+	llamar Sumar
+		n1
+		n2
+	finargs
+finargs
 ```
-adquirir mensaje
-fijar mensaje =* Hola Mundo!
-escribir mensaje
+
+Sin la biblioteca estándar (BEPD)
+
+```pseudod
+adquirir n1
+adquirir n2
+adquirir res
+adquirir msg
+
+fijar msg a {Ingrese dos numeros enteros:}
+escribir msg
 nl
-fijar mensaje =* Adios Mundo!
-escribir mensaje
+
+leer n1
+leer n2
+Importar.Ent.Sumar n1 n2 res
+
+fijar msg a { + }
+escribir n1
+escribir msg
+escribir n2
+
+fijar msg a { = }
+escribir msg
+escribir res
 nl
 ```
 
-Funciones:
-```
-funcion foo
-    adquirir mensaje
-    fijar mensaje =* Se llamo a foo
-    escribir mensaje
-    nl
-    liberar mensaje
-finfun
+## Ayuda
 
-llamar foo #(Final).
-```
-
-Clases y herencia:
-```
-clase foo
-    attr_a
-    :bar
-#(Final).
-heredar Objeto foo
-
-funcion foo#bar
-    adquirir mensaje
-    fijar mensaje =* Hola desde foo#bar
-    escribir mensaje
-    nl
-    liberar mensaje
-finfun
-
-instancia foo MFoo
-llamar MFoo#bar #(Final).
-```
-
-PseudoD fue creado por Alejandro Linarez Rangel, la pagina oficial es
-[pseudos.sourceforge.net](http://www.sourceforge.net/projects/pseudod/),
-alli estan los foros, la wiki y el blog de PseudoD.
-
-Este es PseudoD **2.2.0**.
+* [pseudod.sourceforge.net](http://pseudod.sourceforge.net)
 

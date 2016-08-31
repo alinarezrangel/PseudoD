@@ -1,111 +1,42 @@
 ESTE ARCHIVO CONTIENE TEXTO UNICODE
 
-PseudoD
-creado por Alejandro Linarez Rangel
+   ____                     _       ____
+  |  _ \ ___  ___ _   _  __| | ___ |  _ \
+  | |_) / __|/ _ \ | | |/ _` |/ _ \| | | |
+  |  __/\__ \  __/ |_| | (_| | (_) | |_| |
+  |_|   |___/\___|\__,_|\__,_|\___/|____/
 
-QUE ES
-	PseudoD es un lenguaje de programación en español.
-	Para ver sobre PseudoD, ver http://pseudod.sourceforge.net/
 
-COMPILAR
-	PseudoD fue probado con el compilador de la GCC, G++4.8, G++4.7 y G++4.9,
-	aunque se puede compilar en otros.
-	PseudoD esta escrito en C++11, NO COMPILAR SIN SOPORTE PARA ESTE.
-	
-	PseudoD incluye un Makefile, este compila PseudoD suponiendo que se tiene g++
-	con soporte de C++11 y genera cuatro archivos: Datos.o,libpseudod.so, PseudoD
-	y libpseudodscr.a.
-	
-	libpseudod.so es el NEA de PseudoD
-	PseudoD es el ejecutable,(el interprete) este depende del NEA que es libpseudod.so.
-	Datos.o es la biblioteca de manipulacion de datos de PseudoD, esta no es dinamica.
-	libpseudodsrc.a es el conjunto de Datos.o y pdbase.o.
+Ver README.mkd para una introducción
 
-INTERPRETE
-	Sintaxis:
-		PseudoD (archivo) (ruta de la biblioteca estandar) (NEA)
-	
-		archivo: el archivo a ejecutar, un *.pd o *.psd (*.pseudo es para bibliotecas).
-		ruta: ruta de la biblioteca estandar, si no se ha instalado la biblioteca
-					estandar, escribir "nulo" o "./".
-		NEA: la ruta de libpseudod.so
-		PseudoD ya acepta las opciones -i para iniciar el interactivo,(sin ipd) y
-		-h/--help.
-	Ejemplo:
-		Para ejecutar un archivo llamado prg.pd, suponiendo que PseudoD y libpseudod
-		estan en el directoria actual:
-			./PseudoD prg.pd "nulo" "./libpseudod.so"
-		Si se tiene la biblioteca estandar en, por ejemplo "/home/user/PseudoD",(o
-		en Windows, "C:\\Users\\User\\PseudoD")
-			./PseudoD prg.pd "/home/user/PseudoD/" "./libpseudod.so"
-		La diagonal(/) al final de la ruta de la biblioteca estandar es muy importante.
-		PseudoD por defecto supone que libpseudod.so esta en /usr/lib/libpseudod.so
-		(ALERTA usuarios multisistema, esto no cambia si estas en Windows o Mac OS X
-		en ese caso, es obligatorio especificar la ruta) asi que si se mueve libpseudod
-		a /usr/lib/libpseudod.so, no sera necesario el ultimo parametro.
+=============================================================================
 
-COMPILAR
-	DEPENDENCIAS
-		dlopen -> http://linux.die.net/man/3/dlopen
-		Biblioteca estandar de C++11
-	Primero se debe generar Datos.o, en este caso se genera de forma similar a
-		g++ -fPIC -c -std=c++11 NEA/PDData.cpp -ldl -o Datos.o
-			-fPIC: Necesario, para codigo sin posicion.
-			-c:Necesario, para generar codigo objeto.
-			-std=c++11: NECESARIO EN TODOS
-			-ldl: link con <dlopen>(http://linux.die.net/man/3/dlopen)
-			-o: salida en
-	Hecho esto solo queda generar el resto,(el NEA y el Main).
-	El NEA se genera de forma similar:
-		g++ -fPIC -shared -std=c++11 pseudod.cpp -ldl Datos.o -o libpseudod.so
-			-fPIC: Necesario, para codigo sin posicion
-			-shared: genera un Shared Object
-			-std=c++11 NECESARIO EN TODOS
-			-ldl: link con <dlopen>(http://linux.die.net/man/3/dlopen)
-			Datos.o: link con el sistema de datos
-			-o: salida en
-	El Inteprete se genera:
-		g++ -fPIC -c -std=c++11 interprete.cpp -o pdbase.o -ldl Data.o
-			-fPIC: Necesario, para codigo sin posicion
-			-std=c++11 NECESARIO EN TODOS
-			-ldl: link con <dlopen>(http://linux.die.net/man/3/dlopen)
-			Datos.o: link con el sistema de datos
-			-o: salida en
-			-c: codigo objeto.
-	Y el Main asi:
-		g++ -std=c++11 Main.cpp -ldl Datos.o pdbase.o -o PseudoD
-			-std=c++11: NECESARIO EN TODOS
-			-ldl: link con <dlopen>(http://linux.die.net/man/3/dlopen)
-			Datos.o: link con el sistema de datos
-	-std=c++11 fija el estandar a C++11
-	Si tu compilador no posee alguna de estas opciones, cambiala por su equivalente
-	(para eso el significado de la orden el final).
+                             Suite de pruebas
 
-TU PSEUDOD
-	Este codigo corresponde con PseudoD 2.1.0, con BEPD 2.1.0:2.1.0.
-	Este codigo puede descargarse por las paginas establecidas en ESTRUCTURA.txt.
-	Despues de configurar ipdc, y compilar PseudoD, puedes correr los ejemplos
-	con:
-		ipdc -f ./Ejemplos/HolaMundo.pd
-		ipdc -f ./Ejemplos/AdiosMundo.pd
-		ipdc -f ./Ejemplos/CuentaRegresiva.pd
-		ipdc -f ./Ejemplos/Clases.pseudo
-		ipdc -f ./Ejemplos/BuclesAnidados.pd
+Desde PseudoD 2.0.0, se incluye con el código fuente una suite de pruebas
+simples que siguen un formato unificado. Estas pruebas son pocas, dado que
+la gran mayoria estará en otra rama.
 
-FORMATO DE ERRORES
-	Los errores en PseudoD son mostrados con el siguiente formato:
-		(clase) Error [grado] en (modulo/orden): [sintaxis] (mensaje)
-	Por ejemplo:
-		No:
-			Error: division entre cero
-		Si:
-			(ErrorMatematico) Error en Ent.Dividir: 'Ent.Dividir a b c': division entre cero.
-		No:
-			Error: se esperaba ']'
-		Si:
-			(ErrorDeSintaxis) Error en [: '[ ... ]': se esperaba ']'
+Las pruebas se encuentran en `test/` (ver `test/LEEME.txt`).
 
-PseudoD fue creado por Alejandro Linarez Rangel
+                           Modificando el código
 
-Gracias por usar PseudoD
+Aunque depende en gran medida de los cambios que se deseen realizar, hay
+algunos puntos clave:
+
+* Si desea agregar o modificar opciones de la linea de comandos, vea
+`Main.cpp`.
+* Si desea agregar un módulo del NEA, puede seguir las guias oficiales.
+* Si desea modificar un módulo del NEA, puede ver los archivos dentro del
+directorio `NEA/`.
+
+                        Dependencias y como compilar
+
+Ver README.mkd
+
+                                 Ejemplos
+
+Ejecuta los archivos en `Ejemplos/`
+
+Gracias por usar PseudoD.
 

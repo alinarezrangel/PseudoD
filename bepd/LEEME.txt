@@ -1,48 +1,37 @@
 ESTE ARCHIVO CONTIENE TEXTO UNICODE
 
-Contancto a <proyectopseudod@gmail.com>
-Y a <https://www.sourceforge.net/projects/pseudod>
-PAG. ANCHO 80 caracteres
+   ____                     _       ____
+  |  _ \ ___  ___ _   _  __| | ___ |  _ \
+  | |_) / __|/ _ \ | | |/ _` |/ _ \| | | |
+  |  __/\__ \  __/ |_| | (_| | (_) | |_| |
+  |_|   |___/\___|\__,_|\__,_|\___/|____/
 
- Bienvenido a la Biblioteca Estandar de PseudoD(BEPD). Entre estos archivos
- se podrán encontrar:
- 
-  * Inicializadores del sistema
-  * Jerarquía de clases
-  * Definicion de métodos y atributos
-  * Funciones entrada/salida
-  * Funciones aritmetricas
-  * Funciones mixtas
- 
- Esta es la lista de clases:
- 	
- 	* inic.pseudo: inicializadores del sistema(ESP,NULO,...)
- 	* clases.pseudo: Jerarquía de clases, métodos y atributos.(Numero,Decimal,Fraccion,...)
- 	* entsal.pseudo: Funciones entrada/salida(EscribirEnBuffer,Leer,...)
- 	* mate.pseudo: Funciones matemáticas(Redondear,RadianesAGrados,...)
- 	* tipos.pseudo: funciones mixtas 1(punteros,clases dinamicas,attr. dins.,...)
- 	* algor.pseudo: funciones mixtas 2(pilas,listas,arreglos,nodos,arboles,iteradores,colas,...)
- 	* plugins.pseudo: Carga de plugins.(BibliotecaDinamica)
 
-La Biblioteca Estandar de PseudoD(BEPD) es una colección de archivos y
-directorios destinados a ser utilizados por cualquier programador de PseudoD.
+Ver README.mkd para una introducción
 
-Esta es la versión de BEPD 2.2.0:2.2.0/2.2.0., diseñada para ser usada, con
-minimo PseudoD 2.2.0.
+=============================================================================
 
-Tabla de archivos:
+Bienvenido a la Biblioteca Estándar de PseudoD (BEPD) versión 2.2.0:2.2.0,
+diseñada para ser usada como mínimo con PseudoD 2.2.0.
 
-Nombre        | Descripción                                       |  Versión
------------   | ------------------------------------------------- | ---------
-inic.pseudo   | Inicializa BEPD.                                  | 1.2.0
-clases.pseudo | Declara la jerarquía de clases.                   | 1.5.0
-entsal.pseudo | Funciones de E/S, y E/S en buffer.                | 1.1.0
-mate.pseudo   | Funciones matemáticas avanzadas y basicas.        | 1.1.0
-tipos.pseudo  | Funciones mixtas modificadoras.                   | 1.0.0
-algor.pseudo  | Algoritmos basicos y avanzados.                   | 2.1.0
-plugins.pseudo| Sistema de carga de plug-ins.                     | 1.4.0
-errores.pseudo| Sistema de errores.                               | 1.0.0
+La BEPD declara sistemas necesarios para poder utilizar PseudoD, más algunos
+para facilitar su uso.
 
-Esta versión de BEPD fue diseñada para usarse con PseudoD 2, preferiblemente
-con la versión más reciente.(2.2.0)
+La tabla de versiones de la BEPD es:
+
+ __________________________________________________________________________
+/ Archivo          | Parte de                      | Versión               \
+|------------------|-------------------------------|-----------------------|
+| builtins         | Inicialización                | 2.2.0                 |
+| inic             | Inicialización                | 2.2.0                 |
+| clases           | Utilidades                    | 2.0.0                 |
+| tipos            | Utilidades, Algoritmos        | 2.1.0                 |
+| algor            | Algoritmos                    | 2.1.0                 |
+| cadena           | Utilidades                    | 2.2.0                 |
+| plugins          | Bibliotecas Dinamicas         | 1.9.5                 |
+| entsal           | Entrada y salida              | 2.1.0                 |
+| errores          | Errores                       | 2.2.0                 |
+| mate             | Matemáticas                   | 2.0.0                 |
+\------------------'-------------------------------'-----------------------/
+
 
