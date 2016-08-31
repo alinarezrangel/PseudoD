@@ -9,7 +9,6 @@ install:
 script: make
 os:
 - linux
-- osx
 branches:
   only:
   - master
