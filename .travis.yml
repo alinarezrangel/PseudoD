@@ -1,32 +1,19 @@
 language: cpp
 compiler: gcc
-install: true
+before_install:
+- sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+- sudo apt-get update -qq
+install:
+- sudo apt-get install -qq g++-4.8
+- export CXX="g++-4.8"
 script: make
 os:
 - linux
 - osx
 branches:
-	only:
-	- master
+  only:
+  - master
 env:
-	global:
-	- LANG="es_VEN.UTF-8"
-matrix:
-	include:
-		- compiler: gcc
-			addons:
-				apt:
-					sources:
-						- ubuntu-toolchain-r-test
-					packages:
-						- g++-4.9
-			env: COMPILER=g++-4.9
-		- compiler: gcc
-			addons:
-				apt:
-					sources:
-						- ubuntu-toolchain-r-test
-					packages:
-						- g++-5
-			env: COMPILER=g++-5
+  global:
+  - LANG="es_VEN.UTF-8"
 
