@@ -27,8 +27,8 @@ PAG. ANCHO 80 caracteres
 La Biblioteca Estandar de PseudoD(BEPD) es una colección de archivos y
 directorios destinados a ser utilizados por cualquier programador de PseudoD.
 
-Esta es la versión de BEPD 2.1.0:2.0.0/2.1.0., diseñada para ser usada, con
-minimo PseudoD 2.0.0.
+Esta es la versión de BEPD 2.2.0:2.2.0/2.2.0., diseñada para ser usada, con
+minimo PseudoD 2.2.0.
 
 Tabla de archivos:
 
@@ -43,6 +43,6 @@ algor.pseudo  | Algoritmos basicos y avanzados.                   | 2.1.0
 plugins.pseudo| Sistema de carga de plug-ins.                     | 1.4.0
 errores.pseudo| Sistema de errores.                               | 1.0.0
 
-Esta versión de BEPD fue diseñada para usarse con PseudoD 2.0, preferiblemente
-con la versión más reciente.(2.1.0)
+Esta versión de BEPD fue diseñada para usarse con PseudoD 2, preferiblemente
+con la versión más reciente.(2.2.0)
 

@@ -49,7 +49,7 @@ Algunas preguntas que se podria hacer:
 		estandar.
 	
 	¿Que versión de BEPD es la que trae este código?
-		BEPD 2.1.0:2.1.0. (BEPD 2.1.0 diseñada para PseudoD 2.1.0).
+		BEPD 2.2.0:2.2.0. (BEPD 2.2.0 diseñada para PseudoD 2.2.0).
 	
 	¿Como se usa ipdc?
 		ipdc supone que ya se tiene PseudoD(el ejecutable) en /usr/bin/ o en
@@ -73,11 +73,10 @@ Algunas preguntas que se podria hacer:
 	
 	¿Donde puedo conseguir tutoriales o guias para programar/modificar PseudoD?
 		En los foros de PseudoD(www.sourceforge.net/projects/pseudod/) y en la pagina
-		oficial www.pseudod.com, (www.pseudod.sourceforge.net es principalmente para
-		desarrolladores).
+		oficial www.pseudod.sourceforge.net.
 	
 	¿Cuales son las paginas de PseudoD?
-		PseudoD posee cuatro paginas:
+		PseudoD posee tres paginas:
 			* www.sourceforge.net/p/pseudod : Pagina de desarrolladores, una fuente para descargar
 			  el codigo fuente.
 			* www.github.com/alinarezrangel/PseudoD : Pagina de desarrolladores, otra fuente para

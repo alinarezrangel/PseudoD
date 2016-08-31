@@ -141,5 +141,5 @@ PseudoD fue creado por Alejandro Linarez Rangel, la pagina oficial es
 [pseudos.sourceforge.net](http://www.sourceforge.net/projects/pseudod/),
 alli estan los foros, la wiki y el blog de PseudoD.
 
-Este es PseudoD **2.1.0**.
+Este es PseudoD **2.2.0**.
 

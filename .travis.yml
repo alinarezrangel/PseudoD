@@ -1,0 +1,32 @@
+language: cpp
+compiler: gcc
+install: true
+script: make
+os:
+- linux
+- osx
+branches:
+	only:
+	- master
+env:
+	global:
+	- LANG="es_VEN.UTF-8"
+matrix:
+	include:
+		- compiler: gcc
+			addons:
+				apt:
+					sources:
+						- ubuntu-toolchain-r-test
+					packages:
+						- g++-4.9
+			env: COMPILER=g++-4.9
+		- compiler: gcc
+			addons:
+				apt:
+					sources:
+						- ubuntu-toolchain-r-test
+					packages:
+						- g++-5
+			env: COMPILER=g++-5
+
