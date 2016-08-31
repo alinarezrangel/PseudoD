@@ -1,13 +1,19 @@
 ## PseudoD fue creado por Alejandro Linarez Rangel
 
+ifndef CC
 CC = gcc
+endif
+ifndef CXX
 CXX = g++
+endif
 CFLAGS = -fPIC -O3
 SHARED = -shared
 LIBS = -Wl,--no-as-needed -ldl
 MEM = NEA/PDData.cpp
 # Fijar COMP a -DMINGW=1 o a -DNUMEROS_EN_C=1 para compilar en sistemas Microsoft
-COMP = 
+ifndef COMP
+COMP =
+endif
 # Fijar INTE a -DINTERACTIVO=1 para compilar un interactivo
 # y agrege -DMACOSX=1 para que PseudoD busque las bibliotecas en sistemas
 #  Mac OS X
