@@ -16,36 +16,36 @@ function instalarDesdeCero() {
 	cp *.o /opt/pseudod/libs/
 	cp *.a /opt/pseudod/libs/
 	mkdir /usr/lib/pseudod/
-	mkdir /usr/lib/pseudod/2.1.0/
+	mkdir /usr/lib/pseudod/2.2.0/
 	mkdir /usr/lib/pseudod/plugins/
-	cp ./bepd/* /usr/lib/pseudod/2.1.0/ -r
+	cp ./bepd/* /usr/lib/pseudod/2.2.0/ -r
 	echo "ya se creo /usr/lib/pseudod/ y /opt/pseudod/"
 	echo "fijando los ejecutables..."
 	cp ./PseudoD /opt/pseudod/bin/
 	cp ./ipdc /opt/pseudod/bin/
 	cp ./PseudoD /usr/bin/
 	cp ./ipdc /usr/bin/
-	echo "Listo, ya puedes usar PseudoD 2.1.0"
+	echo "Listo, ya puedes usar PseudoD 2.2.0"
 }
 
 function instalarDesdeOtra() {
-	echo "Se esta instalando PseudoD 2.1.0 actualizado en tu sistema..."
+	echo "Se esta instalando PseudoD 2.2.0 actualizado en tu sistema..."
 	echo "Copiando el codigo fuente"
 	cp * /opt/pseudod/ -r
 	cp *.o /opt/pseudod/libs/
 	cp *.a /opt/pseudod/libs/
-	mkdir /usr/lib/pseudod/2.1.0/
-	cp ./bepd/* /usr/lib/pseudod/2.1.0/ -r
+	mkdir /usr/lib/pseudod/2.2.0/
+	cp ./bepd/* /usr/lib/pseudod/2.2.0/ -r
 	echo "ya se creo /usr/lib/pseudod/ y /opt/pseudod/"
 	echo "fijando los ejecutables..."
 	cp ./PseudoD /opt/pseudod/bin/
 	cp ./ipdc /opt/pseudod/bin/
 	cp ./PseudoD /usr/bin/
 	cp ./ipdc /usr/bin/
-	echo "Listo, ya puedes usar PseudoD 2.1.0"
+	echo "Listo, ya puedes usar PseudoD 2.2.0"
 }
 
-echo "Bienvenido al instalador de PseudoD 2.1.0"
+echo "Bienvenido al instalador de PseudoD 2.2.0"
 echo "Si PseudoD ya esta instalado en tu sistema solo lo actualizara."
 echo "Requisitos:"
 echo "Debes estar como super-usuario"
