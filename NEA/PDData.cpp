@@ -192,6 +192,7 @@ namespace PDvar
 
 	string& PDDatos::ObtenerVariable(string n)
 	{
+		n = this->ResolverNombre(n);
 		int i = buscar((*this->nombrev),n);
 		if(i == -1)
 		{
@@ -205,6 +206,7 @@ namespace PDvar
 
 	string& PDDatos::ObtenerPuntero(string n)
 	{
+		n = this->ResolverNombre(n);
 		int i = buscar((*this->nombrep),n);
 		if(i == -1)
 		{
@@ -218,6 +220,7 @@ namespace PDvar
 
 	int& PDDatos::ObtenerIndicePuntero(string n)
 	{
+		n = this->ResolverNombre(n);
 		int i = buscar((*this->nombrep),n);
 		if(i == -1)
 		{
@@ -272,6 +275,7 @@ namespace PDvar
 
 	int PDDatos::BuscarIndice(string t,string n)
 	{
+		n = this->ResolverNombre(n);
 		int ind = 0;
 		if(t == "Variable")
 		{
@@ -284,8 +288,9 @@ namespace PDvar
 		return ind;
 	}
 
-	bool PDDatos::ExisteVariable(string n,string t)
+	bool PDDatos::ExisteVariable(string t,string n)
 	{
+		n = this->ResolverNombre(n);
 		int ind = -1;
 		if(t == "Variable")
 		{
@@ -309,6 +314,42 @@ namespace PDvar
 	void PDDatos::Ejecutar(string ord,istream& in)
 	{
 		(*this->PROCESAR)(ord,in,this->PROCESO);
+	}
+
+	string PDDatos::ResolverNombre(string nombre)
+	{
+		// Se debe seleccionar todos los texto entre "<" y ">" para
+		// evaluarlos hacia un nombre.
+		if(nombre.find('<') == std::string::npos)
+			return nombre;
+		std::string res = "";
+		std::string buff = "";
+		bool inEval = false;
+		for(int i = 0; i < nombre.size(); i++)
+		{
+			if(nombre[i] == '<')
+			{
+				inEval = true;
+				continue;
+			}
+			if(nombre[i] == '>')
+			{
+				inEval = false;
+				res += this->ObtenerVariable(buff);
+				buff = "";
+				continue;
+			}
+			if(inEval)
+			{
+				buff += nombre[i];
+			}
+			else
+			{
+				res += nombre[i];
+			}
+		}
+		//cout << "DEBUG: " << nombre << " resolved to " << res << endl;
+		return res;
 	}
 
 	/*
@@ -440,7 +481,9 @@ namespace PDvar
 			while((l2 != (char)0xC2) || (l != (char)0xBB)); // Comillas angulares (cierre "»")
 			return tok.substr(2, tok.size()) + str.substr(0, str.size() - 2);
 		}
-		if((buscar((*data->nombrev),tok) != -1)||(buscar((*data->nombrep),tok) != -1))
+		//cout << "Existe variable " << tok << "???" << endl;
+		//cout << (data->ExisteVariable("Variable", tok)) << " y " << (data->ExisteVariable("Puntero", tok)) << endl;
+		if(data->ExisteVariable("Variable", tok) || data->ExisteVariable("Puntero", tok))
 		{
 			return data->ObtenerVariable(tok);
 		}

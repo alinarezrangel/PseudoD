@@ -3,6 +3,28 @@ utilizar clases.pseudo
 utilizar entsal.pseudo
 utilizar mate.pseudo
 
+clase Persona
+	;padre
+	;madre
+	nombre
+finclase
+heredar Objeto Persona
+
+instancia Persona A
+instancia Persona B
+instancia Persona C
+
+redireccionar A#padre B#NOMBRE
+redireccionar A#madre C#NOMBRE
+
+fijar A#nombre a {Persona #A}
+fijar B#nombre a {Persona #B}
+fijar C#nombre a {Persona #C}
+
+llamar EscribirLinea <A#padre>#nombre finargs
+
+salir
+
 instancia Arreglo arreglo
 adquirir i
 adquirir valor
@@ -115,4 +137,38 @@ escribir mensaje
 nl
 liberar mensaje
 
+[
+
+adquirir valor
+fijar valor a {Hola Mundo}
+
+adquirir ref
+fijar ref a valor#NOMBRE
+
+fijar @ref a {Adios Mundo}
+fijar ref a {mensaje}
+
+escribir valor [ -> {Adios Mundo} ]
+nl
+
+[
+<a>#a
+
+a { b: ptr, c: attr }
+
+a.new do A
+a.new do B
+
+a.b = &B;
+
+<A#b>#c = (A.b).c
+A#b#c = A.(b.c)
+
+<a> = Referencia (ref: a)
+
+adquirir yo
+recibir_parametro yo
+fijar <yo>#cadena a {Hola Mundo}
+
+]
 

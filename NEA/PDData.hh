@@ -435,11 +435,11 @@ namespace PDvar
 			int BuscarIndice(string t,string n);
 			/**
 			* @brief Determina si existe la variable o puntero.
-			* @param n nombre de la variable/puntero.
 			* @param t "Variable" para variables o "Puntero" para punteros.
+			* @param n nombre de la variable/puntero.
 			* @return true si existe y false de lo contrario.
 			*/
-			bool ExisteVariable(string n,string t = "Variable");
+			bool ExisteVariable(string t, string n);
 			/**
 			* @brief ejecuta una orden como interprete.
 			* @param ord Orden a ejecutar.
@@ -481,6 +481,15 @@ namespace PDvar
 			* @brief Si esta como manejador principal.
 			*/
 			bool manager;
+		protected:
+			/**
+			* @brief Aplica la reducción de nombres sobre el nombre <v>.
+			* Esta reducción resuelve punteros y referencias dentro del nombre.
+			*
+			* @param nombre Nombre a resolver
+			* @return Nombre resuelto
+			*/
+			string ResolverNombre(string nombre);
 		public:
 			/**
 			* @brief Funcion madre, permite ser recursivo en el lenguaje

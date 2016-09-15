@@ -37,3 +37,8 @@ libpseudod.so:	pseudod.cpp pseudod.hh Data.o
 Data.o: $(MEM) NEA/PDData.hh
 	$(CXX) $(CFLAGS) -c -std=c++11 $(MEM) $(LIBS) $(COMP) -o Data.o
 
+clean:
+	rm Data.o
+	rm pdbase.o
+	rm libpseudodsrc.a
+
