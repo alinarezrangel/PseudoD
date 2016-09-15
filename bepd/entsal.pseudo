@@ -26,6 +26,8 @@ DOCUMENTA]
 DOCUMENTA]
 clase BufferTexto
 	valor
+	:escribir
+	:escribirLinea
 #(Final).
 heredar Objeto BufferTexto
 
@@ -36,10 +38,10 @@ Equivalente a <code class="pseudod">escribir</code>.
 @errors Active
 DOCUMENTA]
 funcion Escribir [ Objeto texto ]
-	adquirir __ESA__
-	recibir_parametro __ESA__
-	escribir __ESA__
-	liberar __ESA__
+	adquirir texto
+	recibir_parametro texto
+	escribir texto
+	liberar texto
 finfun
 
 [DOCUMENTA
@@ -50,11 +52,11 @@ en <code class="pseudod">escribir</code> seguido de <code class="pseudod">nl</co
 @errors Active
 DOCUMENTA]
 funcion EscribirLinea [ Objeto texto ]
-	adquirir __ESA__
-	recibir_parametro __ESA__
-	escribir __ESA__
+	adquirir texto
+	recibir_parametro texto
+	escribir texto
 	nl
-	liberar __ESA__
+	liberar texto
 finfun
 
 [DOCUMENTA
@@ -63,52 +65,44 @@ finfun
 @errors Active
 DOCUMENTA]
 funcion LeerPalabra [ -> Objeto resultado ]
-	adquirir __ESA__
-	leer __ESA__
-	devolver __ESA__
-	liberar __ESA__
+	adquirir valor
+	leer valor
+	devolver valor
+	liberar valor
 finfun
 
 [DOCUMENTA
 @brief Escribe en un objeto <a href="#BufferTexto">BufferTexto</a>.
-@arg buffer Valor del objeto Buffer.
+@argyo.
 @arg texto Texto a escribir en el.
-@dev Nuevo valor buffer.
 @errors Active
 DOCUMENTA]
-funcion EscribirEnBuffer [ Objeto buffer, Objeto texto -> Objeto buffer ]
-	adquirir __ESA__
-	adquirir __ESB__
-	adquirir __ESC__
-	recibir_parametro __ESA__
-	recibir_parametro __ESB__
-	Importar.Cad.Concatenar __ESA__ __ESB__ __ESA__
-	devolver __ESA__
-	liberar __ESA__
-	liberar __ESB__
-	liberar __ESC__
+funcion BufferTexto#escribir [ BufferTexto buffer, Objeto texto ]
+	adquirir yo
+	adquirir texto
+	recibir_parametro yo
+	recibir_parametro texto
+	Importar.Cad.Concatenar <yo>#valor texto <yo>#valor
+	liberar texto
+	liberar yo
 finfun
 
 [DOCUMENTA
 @brief Similar a <a href="#EscribirEnBuffer">EscribirEnBuffer</a>.
 Este adem&aacute;s, agrega un nueva linea despues de texto.
-@arg buffer Valor del objeto Buffer.
+@argyo.
 @arg texto Texto a escribir en el.
-@dev Nuevo valor buffer.
 @errors Active
 DOCUMENTA]
-funcion EscribirLineaEnBuffer [ Objeto buffer, Objeto texto -> Objeto buffer ]
-	adquirir __ESA__
-	adquirir __ESB__
-	adquirir __ESC__
-	recibir_parametro __ESA__
-	recibir_parametro __ESB__
-	Importar.Cad.Concatenar __ESA__ __ESB__ __ESA__
-	Importar.Cad.Concatenar __ESA__ NUEVALINEA __ESA__
-	devolver __ESA__
-	liberar __ESA__
-	liberar __ESB__
-	liberar __ESC__
+funcion BufferTexto#escribirLinea [ Objeto buffer, Objeto texto ]
+	adquirir yo
+	adquirir texto
+	recibir_parametro yo
+	recibir_parametro texto
+	Importar.Cad.concatenar <yo>#valor texto <yo>#valor
+	Importar.Cad.concatenar <yo>#valor NUEVALINEA <yo>#valor
+	liberar texto
+	liberar yo
 finfun
 
 [DOCUMENTA
@@ -172,18 +166,19 @@ Si la lista de argumentos no termina en NULO, se bloqueara y
 terminara con un <i>stack underflow</i>.
 DOCUMENTA]
 funcion Imprimir [ str args... NULO ]
-	adquirir _print_a_
-	adquirir _print_b_
-	recibir_parametro _print_a_
-	sacar _print_b_
-	escribir _print_a_
-	mientras no ¿son_iguales? _print_b_ NULO
+	adquirir inicio
+	adquirir argumento
+	recibir_parametro inicio
+	sacar argumento
+	escribir inicio
+	mientras sean diferentes argumento y NULO
 		escribir_esp
-		escribir _print_b_
-		sacar _print_b_
+		escribir argumento
+		sacar argumento
 	finbucle
-	liberar _print_a_
-	liberar _print_b_
+	empujar NULO
+	liberar inicio
+	liberar argumento
 finfun
 
 [DOCUMENTA
@@ -196,19 +191,20 @@ Si la lista de argumentos no termina en NULO, se bloqueara y
 terminara con un <i>stack underflow</i>.
 DOCUMENTA]
 funcion ImprimirLinea [ str args... NULO ]
-	adquirir _print_a_
-	adquirir _print_b_
-	recibir_parametro _print_a_
-	sacar _print_b_
-	escribir _print_a_
-	mientras no ¿son_iguales? _print_b_ NULO
+	adquirir inicio
+	adquirir argumento
+	recibir_parametro inicio
+	sacar argumento
+	escribir inicio
+	mientras sean diferentes argumento y NULO
 		escribir_esp
-		escribir _print_b_
-		sacar _print_b_
+		escribir argumento
+		sacar argumento
 	finbucle
 	nl
-	liberar _print_a_
-	liberar _print_b_
+	empujar NULO
+	liberar inicio
+	liberar argumento
 finfun
 
 [DOCUMENTA
@@ -235,41 +231,41 @@ o se especifica un comodin de reemplazo y falta el argumento, causara un
 <i>stack underflow</i>.
 DOCUMENTA]
 funcion ImprimirFormato [ str args... ]
-	adquirir _print_a_
-	adquirir _print_b_
-	adquirir _print_c_
-	adquirir _print_d_
-	recibir_parametro _print_a_
-	fijar _print_c_ =* 0
-	Importar.Cad.Tamaño _print_a_ _print_d_
-	mientras comparar Importar.Ent.Comparar _print_c_ < _print_d_
-		fijar _print_b_ =¿? DATOS_DE_IMPRIMIR#CV
-		Importar.Cad.Caracter _print_c_ _print_a_ _print_b_
-		si ¿son_iguales? _print_b_ DATOS_DE_IMPRIMIR#MARCA
-			recibir_parametro _print_b_
+	adquirir cadena
+	adquirir caracter
+	adquirir ind
+	adquirir tam
+	recibir_parametro cadena
+	fijar ind a {0}
+	Importar.Cad.Tamaño cadena tam
+	mientras comparar Importar.Ent.Comparar ind < tam
+		fijar caracter a DATOS_DE_IMPRIMIR#CV
+		Importar.Cad.Caracter ind cadena caracter
+		si son iguales caracter y DATOS_DE_IMPRIMIR#MARCA
+			recibir_parametro caracter
 		fin
-		si ¿son_iguales? _print_b_ DATOS_DE_IMPRIMIR#SPEC
-			Importar.Ent.Sumar _print_c_ UNO _print_c_
-			fijar _print_b_ =¿? DATOS_DE_IMPRIMIR#CV
-			Importar.Cad.Caracter _print_c_ _print_a_ _print_b_
-			si ¿son_iguales? _print_b_ DATOS_DE_IMPRIMIR#NLINE
-				fijar _print_b_ =¿? DATOS_DE_IMPRIMIR#NL
+		si son iguales caracter y DATOS_DE_IMPRIMIR#SPEC
+			Importar.Ent.Sumar ind UNO ind
+			fijar caracter a DATOS_DE_IMPRIMIR#CV
+			Importar.Cad.Caracter ind cadena caracter
+			si son iguales caracter y DATOS_DE_IMPRIMIR#NLINE
+				fijar caracter a DATOS_DE_IMPRIMIR#NL
 			fin
-			si ¿son_iguales? _print_b_ DATOS_DE_IMPRIMIR#NLINER
-				fijar _print_b_ =¿? DATOS_DE_IMPRIMIR#RC
+			si son iguales caracter y DATOS_DE_IMPRIMIR#NLINER
+				fijar caracter a DATOS_DE_IMPRIMIR#RC
 			fin
-			si ¿son_iguales? _print_b_ DATOS_DE_IMPRIMIR#NLINERR
-				fijar _print_b_ =¿? DATOS_DE_IMPRIMIR#CV
+			si son iguales caracter y DATOS_DE_IMPRIMIR#NLINERR
+				fijar caracter a DATOS_DE_IMPRIMIR#CV
 				nl
 			fin
-			escribir _print_b_
-			fijar _print_b_ =¿? DATOS_DE_IMPRIMIR#CV
+			escribir caracter
+			fijar caracter a DATOS_DE_IMPRIMIR#CV
 		fin
-		escribir _print_b_
-		Importar.Ent.Sumar _print_c_ UNO _print_c_
+		escribir caracter
+		Importar.Ent.Sumar ind UNO ind
 	finbucle
-	liberar _print_a_
-	liberar _print_b_
-	liberar _print_c_
-	liberar _print_d_
+	liberar cadena
+	liberar caracter
+	liberar ind
+	liberar tam
 finfun

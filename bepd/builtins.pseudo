@@ -146,17 +146,9 @@ DOCUMENTA]
 funcion PunteroInteligente#apuntar [ Yo, Variable ]
 	adquirir yo
 	adquirir otro
-	adquirir sentencia
-	recibir_resultado yo
-	recibir_resultado otro
-	fijar sentencia a {#direccion}
-	Importar.Cad.Concatenar yo sentencia yo
-	fijar sentencia a {redireccionar }
-	Importar.Cad.Concatenar sentencia yo sentencia
-	Importar.Cad.Concatenar sentencia ESP sentencia
-	Importar.Cad.Concatenar sentencia otro sentencia
-	ejecutar sentencia
-	liberar sentencia
+	recibir_parametro yo
+	recibir_parametro otro
+	redireccionar <yo>#direccion <otro>
 	liberar yo
 	liberar otro
 finfun
@@ -169,22 +161,13 @@ finfun
 DOCUMENTA]
 funcion PunteroInteligente#esNulo [ Yo -> esNulo ]
 	adquirir yo
-	adquirir otro
-	adquirir sentencia
-	recibir_resultado yo
-	fijar sentencia a {#direccion}
-	Importar.Cad.Concatenar yo sentencia yo
-	fijar sentencia a {fijar otro =¿? }
-	Importar.Cad.Concatenar sentencia yo sentencia
-	ejecutar sentencia
-	devolver FALSO
-	si son iguales otro y NULO#NOMBRE
-		sacar sentencia
+	recibir_parametro yo
+	si son iguales <yo>#direccion y NULO#NOMBRE
 		devolver VERDADERO
-	fin
-	liberar sentencia
+	sino
+		devolver FALSO
+	nl
 	liberar yo
-	liberar otro
 finfun
 
 adquirir ___codigo_pseudod_buffer_interno___

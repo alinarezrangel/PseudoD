@@ -10,8 +10,6 @@
 *****************************************
 ****************************************************************************** ]
 
-utilizar inic.pseudo
-utilizar tipos.pseudo
 utilizar cadena.pseudo
 
 [DOCUMENTA
@@ -81,18 +79,186 @@ adquirir ITERACIONES_DE_SENO
 fijar ITERACIONES_DE_SENO a {5}
 
 [DOCUMENTA
+@brief Determina si dos decimales son aproximadamente iguales.
+Nunca de debe comparar decimales con "son iguales" o
+"comparar Importar.Dec.Comparar", esto puede ocasionar fallas
+poco esperadas.
+@pbreak
+Utiliza DELTA
+@arg dec1 Decimal número 1 a comparar
+@arg dec2 Decimal número 2 a comparar
+@dev Si son aproximadamente iguales.
+DOCUMENTA]
+funcion SonIguales [ dec1, dec2 ]
+	adquirir dec1
+	adquirir dec2
+	adquirir resta
+	recibir_parametro dec1
+	recibir_parametro dec2
+	Importar.Dec.Restar dec1 dec2 resta
+	si comparar Importar.Dec.Comparar resta < CERO
+		Importar.Dec.Restar CERO resta resta
+	fin
+	si comparar Importar.Dec.Comparar resta < DELTA
+		devolver VERDADERO
+	sino
+		devolver FALSO
+	fin
+	liberar dec1
+	liberar dec2
+	liberar resta
+finfun
+
+[DOCUMENTA
 @brief Suma dos numeros.
 Si los numeros son enteros, aplica la suma entera, en otro caso aplica
 la suma decimal.
 @pbreak
-Determina si son enteros o no buscando un separador decimal (",") en
+Determina si son enteros o no buscando un separador decimal ("," o ".") en
 los numeros.
 @arg lvalue Valor izquierdo a sumar.
 @arg rvalue Valor derecho a sumar.
 @dev Decimal resultado de la suma.
 DOCUMENTA]
 funcion Sumar [ lvalue, rvalue -> res ]
-	adquirir
+	adquirir lv
+	adquirir rv
+	adquirir sr
+	adquirir decimal
+	recibir_parametro lv
+	recibir_parametro rv
+	fijar decimal a FALSO
+	si son diferentes llamar Cadena#Buscar lv {.} finargs y CMMERROR
+		fijar decimal a VERDADERO
+	sino
+		si son diferentes llamar Cadena#Buscar rv {.} finargs y CMMERROR
+			fijar decimal a VERDADERO
+		fin
+	fin
+	si decimal
+		Importar.Dec.Sumar lv rv sr
+	sino
+		Importar.Ent.Sumar lv rv sr
+	fin
+	devolver sr
+	liberar lv
+	liberar rv
+	liberar sr
+	liberar decimal
+finfun
+
+[DOCUMENTA
+@brief Resta dos numeros.
+Si los numeros son enteros, aplica la resta entera, en otro caso aplica
+la resta decimal.
+@pbreak
+Determina si son enteros o no buscando un separador decimal ("," o ".") en
+los numeros.
+@arg lvalue Valor izquierdo a restar.
+@arg rvalue Valor derecho a restar.
+@dev Decimal resultado de la resta.
+DOCUMENTA]
+funcion Restar [ lvalue, rvalue -> res ]
+	adquirir lv
+	adquirir rv
+	adquirir sr
+	adquirir decimal
+	recibir_parametro lv
+	recibir_parametro rv
+	fijar decimal a FALSO
+	si son diferentes llamar Cadena#Buscar lv {.} finargs y CMMERROR
+		fijar decimal a VERDADERO
+	sino
+		si son diferentes llamar Cadena#Buscar rv {.} finargs y CMMERROR
+			fijar decimal a VERDADERO
+		fin
+	fin
+	si decimal
+		Importar.Dec.Restar lv rv sr
+	sino
+		Importar.Ent.Restar lv rv sr
+	fin
+	devolver sr
+	liberar lv
+	liberar rv
+	liberar sr
+	liberar decimal
+finfun
+
+[DOCUMENTA
+@brief Multiplica dos numeros.
+Si los numeros son enteros, aplica la multiplicación entera, en otro caso aplica
+la multiplicación decimal.
+@pbreak
+Determina si son enteros o no buscando un separador decimal ("," o ".") en
+los numeros.
+@arg lvalue Valor izquierdo a multiplicar.
+@arg rvalue Valor derecho a multiplicar.
+@dev Decimal resultado de la multiplicación.
+DOCUMENTA]
+funcion Multiplicar [ lvalue, rvalue -> res ]
+	adquirir lv
+	adquirir rv
+	adquirir sr
+	adquirir decimal
+	recibir_parametro lv
+	recibir_parametro rv
+	fijar decimal a FALSO
+	si son diferentes llamar Cadena#Buscar lv {.} finargs y CMMERROR
+		fijar decimal a VERDADERO
+	sino
+		si son diferentes llamar Cadena#Buscar rv {.} finargs y CMMERROR
+			fijar decimal a VERDADERO
+		fin
+	fin
+	si decimal
+		Importar.Dec.Multiplicar lv rv sr
+	sino
+		Importar.Ent.Multiplicar lv rv sr
+	fin
+	devolver sr
+	liberar lv
+	liberar rv
+	liberar sr
+	liberar decimal
+finfun
+
+[DOCUMENTA
+@brief Divide dos numeros.
+Si los numeros son enteros, aplica la división entera, en otro caso aplica
+la división decimal.
+@pbreak
+Determina si son enteros o no buscando un separador decimal ("," o ".") en
+los numeros.
+@arg lvalue Valor izquierdo a dividir.
+@arg rvalue Valor derecho a dividir.
+@dev Decimal resultado de la división.
+DOCUMENTA]
+funcion Dividir [ lvalue, rvalue -> res ]
+	adquirir lv
+	adquirir rv
+	adquirir sr
+	adquirir decimal
+	recibir_parametro lv
+	recibir_parametro rv
+	fijar decimal a FALSO
+	si son diferentes llamar Cadena#Buscar lv {.} finargs y CMMERROR
+		fijar decimal a VERDADERO
+	sino
+		si son diferentes llamar Cadena#Buscar rv {.} finargs y CMMERROR
+			fijar decimal a VERDADERO
+		fin
+	fin
+	si decimal
+		Importar.Dec.Dividir lv rv sr
+	sino
+		Importar.Ent.Dividir lv rv sr
+	fin
+	devolver sr
+	liberar lv
+	liberar rv
+	liberar sr
+	liberar decimal
 finfun
 
 [DOCUMENTA
@@ -338,6 +504,33 @@ utiliza el metodo babilonico para calcular la raiz cuadrada de un numero.
 @errors Active
 DOCUMENTA]
 funcion RaizCuadrada [ nm -> sqrt(nm) ]
+	adquirir area
+	adquirir base
+	adquirir altura
+	recibir_parametro area
+	fijar base a {0.5}
+	fijar altura a RAIZ_CUADRADA_MIN
+	mientras no llamar SonIguales base altura finargs
+		fijar base a llamar Dividir
+			llamar Sumar
+				base
+				altura
+			finargs
+			{2}
+		finargs
+		fijar altura a llamar Dividir
+			area
+			base
+		finargs
+	finbucle
+	devolver base
+	liberar altura
+	liberar base
+	liberar area
+finfun
+
+[ FIXME: Poco legible
+funcion RaizCuadrada
 	adquirir __raizcuadrada_a__
 	adquirir __raizcuadrada_an__
 	adquirir __raizcuadrada_anu__
@@ -347,7 +540,7 @@ funcion RaizCuadrada [ nm -> sqrt(nm) ]
 	fijar __raizcuadrada_cpc__ =* 0.5
 	fijar __raizcuadrada_anu__ =¿? RAIZ_CUADRADA_MIN
 	fijar __raizcuadrada_an__ =* 0
-	mientras no ¿son_iguales? __raizcuadrada_an__ __raizcuadrada_anu__
+	mientras sean diferentes __raizcuadrada_an__ y __raizcuadrada_anu__
 		fijar __raizcuadrada_an__ =¿? __raizcuadrada_anu__
 		Importar.Dec.Dividir __raizcuadrada_a__ __raizcuadrada_an__ __raizcuadrada_buf__
 		Importar.Dec.Sumar __raizcuadrada_buf__ __raizcuadrada_an__ __raizcuadrada_buf__
@@ -360,6 +553,7 @@ funcion RaizCuadrada [ nm -> sqrt(nm) ]
 	liberar __raizcuadrada_cpc__
 	liberar __raizcuadrada_buf__
 finfun
+[ $END$ ]
 
 [DOCUMENTA
 @brief Calcula el piso de un numero.
