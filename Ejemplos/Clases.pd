@@ -13,6 +13,9 @@ utilizar inic.pseudo
 utilizar clases.pseudo
 utilizar tipos.pseudo
 
+[ FIXME: Este ejemplo esta obsoleto a favor de PseudoD 2.2.0,
+por favor, no utilice más este ejemplo con fines didacticos ]
+
 [ Igual al struct div_t de C, pero con la siguiente estructura:
 Un atributo res(Resto).
 Un atributo coc(cociente).

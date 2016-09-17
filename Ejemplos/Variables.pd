@@ -27,6 +27,6 @@ finfun
 
 escribir MiVariable [ "Este valor es global" ]
 nl
-llamar Prueba #(Final). [ ... ]
+llamar Prueba finargs [ ... ]
 escribir MiVariable [ "Este valor es global" ]
 nl

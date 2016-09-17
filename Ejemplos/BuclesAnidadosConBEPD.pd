@@ -1,0 +1,39 @@
+[ ***************************************************
+**************
+** BuclesAnidadosConBEPD.pd: Ejemplos de PseudoD.
+** Creador: Alejandro Linarez Rangel
+** Imprime las tablas de multiplicar del 1 al 9.
+** Serie de ejemplos de PseudoD.
+** Contacto a <proyectopseudod@gmail.com> y a los
+** foros de discución en
+**    <https://sourceforge.net/p/pseudod/discussion/?source=navbar>
+**************
+*************************************************** ]
+utilizar entsal.pseudo
+utilizar mate.pseudo
+
+adquirir contador
+adquirir hasta
+
+adquirir multiplicar
+
+fijar contador a {0}
+fijar hasta a {9}
+fijar multiplicar a {1}
+
+mientras comparar Importar.Ent.Comparar contador <= hasta
+	fijar multiplicar a {1}
+	mientras comparar Importar.Ent.Comparar multiplicar <= contador
+		llamar ImprimirLinea
+			contador
+			{*}
+			multiplicar
+			{=}
+			llamar Multiplicar contador multiplicar finargs
+		finargs
+		fijar multiplicar a llamar Sumar multiplicar {1} finargs
+	finbucle
+	fijar contador a llamar Sumar contador {1} finargs
+finbucle
+
+

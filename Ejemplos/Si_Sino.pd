@@ -19,19 +19,19 @@ utilizar mate.pseudo
 adquirir mensaje [ Pregunta al usuario ]
 adquirir respuesta [ Respuesta del usuario ]
 
-fijar mensaje =* ¿Has hecho moo hoy?(S/N):
+fijar mensaje a {¿Has hecho moo hoy?(S/N):}
 
 escribir mensaje [ Escrie el mensaje ]
 escribir_esp [ Escribe un espacio en blanco ]
 leer respuesta [ Lee la respuesta ]
 
 [ Si son iguales la respuesta y SI,(puedes ver su valor en la referencia de PseudoD: http://pseudod.sourceforge.net/) ]
-si ¿son_iguales? respuesta SI
+si son iguales respuesta y SI
 	[ Felicitalo ]
-	fijar mensaje =* ¡¡¡Genial!!!
+	fijar mensaje a {¡¡¡Genial!!!}
 sino
 	[ En otro caso, sorprendete ]
-	fijar mensaje =* ¡¿En serio?!
+	fijar mensaje a {¡¿En serio?!}
 fin
 [ Escribe el resultado ]
 escribir mensaje

@@ -47,7 +47,7 @@ sobre PseudoD.
 * `ESTRUCTURA.txt` ([ESTRUCTURA.txt](ESTRUCTURA.txt)): Este archivo explica
 la estructura del directorio.
 * `bepd/LEEME.txt` ([bepd/LEEME.txt](bepd/LEEME.txt)): LEEME de la BEPD.
-* `test/LEEME.txt` ([test/LEEME.txt](test/LEEME.txt)): LEEME de la suite de
+* `tests/LEEME.txt` ([tests/LEEME.txt](tests/LEEME.txt)): LEEME de la suite de
 pruebas.
 
 ## Ejemplos

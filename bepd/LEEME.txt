@@ -29,9 +29,9 @@ La tabla de versiones de la BEPD es:
 | algor            | Algoritmos                    | 2.1.0                 |
 | cadena           | Utilidades                    | 2.2.0                 |
 | plugins          | Bibliotecas Dinamicas         | 1.9.5                 |
-| entsal           | Entrada y salida              | 2.1.0                 |
+| entsal           | Entrada y salida              | 2.2.0                 |
 | errores          | Errores                       | 2.2.0                 |
-| mate             | Matemáticas                   | 2.0.0                 |
+| mate             | Matemáticas                   | 2.2.0                 |
 \------------------'-------------------------------'-----------------------/
 
 

@@ -19,12 +19,12 @@ utilizar tipos.pseudo
 [ La intefaz Quackable representa cualquier cosa que pueda hacer "Quack" ]
 clase IQuackable
 	:quack
-#(Final).
+finclase
 heredar Objeto IQuackable
 
 clase Pato
 	:quack
-#(Final).
+finclase
 heredar IQuackable Pato
 
 funcion Pato#quack
@@ -37,7 +37,7 @@ finfun
 
 clase Persona
 	:quack
-#(Final).
+finclase
 heredar IQuackable Persona
 
 funcion Persona#quack
@@ -49,19 +49,16 @@ funcion Persona#quack
 finfun
 
 funcion EnElBosque
-	instancia Referencia objeto
-	adquirir metodo
-	recibir_parametro objeto#ref
-	fijar metodo =* quack
-	llamar objeto#llamarMet metodo #(Final).
+	adquirir objeto
+	recibir_parametro objeto
+	llamar <objeto>#quack finargs
 	liberar objeto
-	liberar metodo
 finfun
 
 instancia Pato pato
 instancia Persona persona
-llamar EnElBosque pato#NOMBRE #(Final).
-llamar EnElBosque persona#NOMBRE #(Final).
+llamar EnElBosque pato#NOMBRE finargs
+llamar EnElBosque persona#NOMBRE finargs
 
 [ 2. Utilizar punteros/referencias opacos ]
 
