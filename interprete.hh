@@ -30,28 +30,57 @@ https://sourceforge.net/projects/pseudod/
 #include <exception>
 #include <dlfcn.h>
 
-//#include "pseudod.hh"
+#include "nmemoic.hh"
 #include "NEA/PDData.hh"
 
 namespace pseudod
 {
-	using namespace std;
-	using namespace PDvar;
-	typedef void (*inic_nea)(vector<string>&,vector<string>&,vector<string>&,vector<int>&,vector<stack<string> >&,void (*procesar)(string o,istream& e, void(*FUNCION)(string,istream&)));
-	typedef void (*ejec_nea)(string,istream&);
+	//using namespace std;
+	//using namespace PDvar;
+
+	typedef void (*inic_nea)(
+		std::vector<std::string>&,
+		std::vector<std::string>&,
+		std::vector<std::string>&,
+		std::vector<int>&,
+		std::vector< std::stack<std::string> >&,
+		void (*procesar)(
+			std::string o,
+			std::istream& e,
+			void (*FUNCION)(
+				std::string,
+				std::istream&
+			)
+		)
+	);
+	typedef void (*ejec_nea)(std::string, std::istream&);
 	typedef void (*liber_nea)(void);
+
 	extern bool Ejecutar;
-	extern PDDatos DATOS_INT;
-	extern vector<int> AMBITO;
+	extern PDvar::PDDatos DATOS_INT;
+	extern std::vector<int> AMBITO;
 	extern inic_nea iniciar_nea;
 	extern ejec_nea ejecutar_nea;
 	extern liber_nea liberar_nea;
 	extern void* coneccion_nea;
-	void procesar(string o,istream& e, void(*FUNCION)(string,istream&));
-	string iniciar(string nea,string bepd,string main);
+
+	void procesar(
+		std::string o,
+		std::istream& e,
+		void (*FUNCION)(
+			std::string,
+			std::istream&
+		)
+	);
+	std::string iniciar(
+		std::string nea,
+		std::string bepd,
+		std::string main
+	);
 	int terminar(void);
-	void ejecutar(string linea);
-	void ejecutar(istream& entrada);
+	void ejecutar(std::string linea);
+	void ejecutar(std::istream& entrada);
 }
 
 #endif /* __INTERPRETE_PSEUDOD_H__ */
+

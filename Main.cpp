@@ -34,12 +34,13 @@ https://sourceforge.net/projects/pseudod/
 //#include "pseudod.hh"
 //#include "NEA/PDData.hh"
 #include "interprete.hh"
+
 using namespace std;
 
 int main (int argc, char* argv[])
 {
 	bool interactivo = false;
-	string bepd = "",nea = "",op = "",mn = "",err = "",ord ="";
+	string bepd = "", nea = "", op = "", mn = "", err = "", ord ="";
 	string prgNom = argv[0];
 	if(argc == 1)
 	{
@@ -48,7 +49,7 @@ int main (int argc, char* argv[])
 		return 1;
 	}
 	op = argv[1];
-	if((op == "-h")||(op == "--help"))
+	if((op == "-h") || (op == "--help"))
 	{
 		cout << prgNom << "  -  El interprete de PseudoD" << endl;
 		cout << "Version 2.2.0" << endl;
@@ -64,7 +65,7 @@ int main (int argc, char* argv[])
 		cout << "Creado por Alejandro Linarez Rangel" << endl;
 		return 0;
 	}
-	if((op == "-v")||(op == "--version"))
+	if((op == "-v") || (op == "--version"))
 	{
 		cout << "PseudoD 2.2.0" << endl;
 		return 0;
@@ -78,11 +79,11 @@ int main (int argc, char* argv[])
 	bepd = argv[2];
 	nea = argv[3];
 	mn = op;
-	if((bepd == "--")||(bepd == "-d"))
+	if((bepd == "--") || (bepd == "-d"))
 	{
 		bepd = "/opt/pseudod/bepd/";
 	}
-	if((nea == "--")||(nea == "-d"))
+	if((nea == "--") || (nea == "-d"))
 	{
 		nea = "/usr/lib/libpseudod.so";
 	}
@@ -127,7 +128,39 @@ int main (int argc, char* argv[])
 					buff += l2;
 				}
 				buff += l1;
-				pseudod::ejecutar(buff);
+				try
+				{
+					pseudod::ejecutar(buff);
+				}
+				catch(const PDvar::Error& e)
+				{
+					cerr << "PseudoD lanzo un error:" << endl;
+					cerr << e.Mensaje() << endl;
+					cerr << "En " << pseudod::DATOS_INT.ObtenerVariable("__ARCH__") << endl;
+				}
+				catch(const std::exception& e)
+				{
+					if((string(e.what()) == "stoi")||(string(e.what()) == "stoll")||(string(e.what()) == "stold"))
+					{
+						cerr << "Error al convertir numeros" << endl;
+					}
+					else
+					{
+						cerr << "Error " << e.what() << endl;
+					}
+					cerr << "En " << pseudod::DATOS_INT.ObtenerVariable("__ARCH__") << endl;
+				}
+				catch(string e)
+				{
+					cerr << "PseudoD lanzo un error fatal:" << endl;
+					cerr << e << endl;
+					cerr << "En " << pseudod::DATOS_INT.ObtenerVariable("__ARCH__") << endl;
+				}
+				catch(...)
+				{
+					cerr << "En " << pseudod::DATOS_INT.ObtenerVariable("__ARCH__") << endl;
+					cerr << "Error no identificado!" << endl;
+				}
 				cout << endl << ">>> " << flush;
 			}
 			cout << "Adios!" << endl;
@@ -169,3 +202,4 @@ int main (int argc, char* argv[])
 	}
 	return pseudod::terminar();
 }
+

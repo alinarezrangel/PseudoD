@@ -62,6 +62,7 @@ if [ "$opt" = "n" ]
 fi
 
 echo "Compilando PseudoD..."
+make clean
 make
 
 echo "Ya posees PseudoD instalado en tu sistema?(s/n)"
@@ -80,14 +81,11 @@ echo "Deseas eliminar los ejecutables en el directorio actual?(s/n)"
 read opt
 if [ "$opt" = "s" ]
 	then
-		rm ./PseudoD
-		rm ./libpseudod.so
-		rm ./libpseudodsrc.a
-		rm ./Data.o
-		rm ./pdbase.o
+		make clean
 		echo "Eliminados..."
 fi
 
 echo "Ya puedes usar PseudoD con ipdc o PseudoD"
 echo "Prueba con 'ipdc -f ./Ejemplos/HolaMundo.pd'"
 echo "o 'PseudoD ./Ejemplos/HolaMundo.pd -- --'"
+

@@ -19,71 +19,65 @@ https://sourceforge.net/projects/pseudod/
 namespace pseudod
 {
 	bool Ejecutar = true;
-	PDDatos DATOS_INT;
-	vector<int> AMBITO(2);
+	PDvar::PDDatos DATOS_INT;
+	std::vector<int> AMBITO(2);
 	inic_nea iniciar_nea;
 	ejec_nea ejecutar_nea;
 	liber_nea liberar_nea;
 	void* coneccion_nea;
-	void procesar(string o,istream& e, void(*FUNCION)(string,istream&))
+
+	void procesar(
+		std::string o,
+		std::istream& e,
+		void(*FUNCION)(
+			std::string,
+			std::istream&
+		)
+	)
 	{
-		//static string espacio = "";
-		//static int indicepi = 0;
-		//static string archivo;
-		//static vector<int> AMBITO(2);
 		if(!Ejecutar)
 			return;
 		if(o == "adquirir")
 		{
-			string a;
+			std::string a;
 			e >> a;
-			/*bool existe = false;
-			for (int i = 0; i < (*DATOS_INT.nombrev).size(); i += 1)
-			{
-				if((*DATOS_INT.nombrev)[i] == a)
-					existe = true;
-			}
-			if(existe)
-			{
-				throw PDvar::ErrorDelNucleo("Error en adquirir: 'adquirir nm': La variable ya esta reservada");
-			}*/
-			DATOS_INT.CrearVariable(a,"Variable",0,a);
-			DATOS_INT.CrearVariable(a+string("#Tipo"),"Variable",0,"PseudoVariable");
-			DATOS_INT.CrearVariable(a+string("#NOMBRE"),"Variable",0,a);
+			DATOS_INT.CrearVariable(a, "Variable", 0, a);
+			DATOS_INT.CrearVariable(a + "#Tipo", "Variable", 0, "PseudoVariable");
+			DATOS_INT.CrearVariable(a + "#NOMBRE", "Variable", 0, a);
 		}
 		else if(o == "instancia") // alias de Importar.Tipos.Instancia
 		{
-			(*FUNCION)("Importar.Tipos.Instancia",e);
+			(*FUNCION)("Importar.Tipos.Instancia", e);
 		}
-		else if((o == "estructura")||(o == "clase"))
+		else if((o == "estructura") || (o == "clase"))
 		{
-			(*FUNCION)("Importar.Tipos.Estructura",e);
+			(*FUNCION)("Importar.Tipos.Estructura", e);
 		}
-		else if((o == "heredar"))
+		else if(o == "heredar")
 		{
-			(*FUNCION)("Importar.Tipos.Heredar",e);
+			(*FUNCION)("Importar.Tipos.Heredar", e);
 		}
-		else if((o == "contiene"))
+		else if(o == "contiene")
 		{
-			(*FUNCION)("Importar.Tipos.EstrucEstruc",e);
+			(*FUNCION)("Importar.Tipos.EstrucEstruc", e);
 		}
-		else if((o == "redireccionar"))
+		else if(o == "redireccionar")
 		{
-			(*FUNCION)("Importar.Tipos.Redireccionar",e);
+			(*FUNCION)("Importar.Tipos.Redireccionar", e);
 		}
-		else if((o == "mientras"))
+		else if(o == "mientras")
 		{
-			(*FUNCION)("Importar.PseudoD.Mientras",e);
+			(*FUNCION)("Importar.PseudoD.Mientras", e);
 		}
 		else if(o == "liberar")
 		{
-			(*FUNCION)("Importar.Tipos.Borrar",e);
+			(*FUNCION)("Importar.Tipos.Borrar", e);
 		}
 		else if(o == "puntero")
 		{
-			string var,val;
-			e >> var >> val;
+			std::string var = "", val = "";
 			bool existe = false;
+			e >> var >> val;
 			for (int i = 0; i < (*DATOS_INT.nombrep).size(); i += 1)
 			{
 				if((*DATOS_INT.nombrep)[i] == var)
@@ -93,11 +87,11 @@ namespace pseudod
 			{
 				throw PDvar::ErrorDelNucleo("Error en puntero: 'puntero ptr nval': El puntero ya existe");
 			}
-			DATOS_INT.CrearVariable(var,"Puntero",DATOS_INT.BuscarIndice("Variable",val));
+			DATOS_INT.CrearVariable(var, "Puntero", DATOS_INT.BuscarIndice("Variable",val));
 		}
-		else if((o == "incrementar_p")||(o == "incrementar_puntero"))
+		else if((o == "incrementar_p") || (o == "incrementar_puntero"))
 		{
-			string h;
+			std::string h = "";
 			e >> h;
 			DATOS_INT.ObtenerIndicePuntero(h)++;
 			if(DATOS_INT.ObtenerIndicePuntero(h) >= (*DATOS_INT.nombrev).size())
@@ -105,9 +99,9 @@ namespace pseudod
 				throw PDvar::ErrorDelNucleo("Error en incrementar_p: 'incrementar_p ptr' alias 'incrementar_puntero ptr': Puntero invalido por bloqueo de memoria");
 			}
 		}
-		else if((o == "decrementar_p")||(o == "decrementar_puntero"))
+		else if((o == "decrementar_p") || (o == "decrementar_puntero"))
 		{
-			string h;
+			std::string h = "";
 			e >> h;
 			DATOS_INT.ObtenerIndicePuntero(h)--;
 			if(DATOS_INT.ObtenerIndicePuntero(h) < 0)
@@ -117,40 +111,36 @@ namespace pseudod
 		}
 		else if(o == "escribir")
 		{
-			string h;
+			std::string h = "";
 			e >> h;
-			cout << DATOS_INT.ObtenerVariable(h);
-			#ifdef INTERACTIVO
-				cout << endl;
-			#endif
+			std::cout << DATOS_INT.ObtenerVariable(h);
 		}
 		else if(o == "ejecutar")
 		{
-			string h;
+			std::string h = "";
 			e >> h;
-			istringstream entrada(DATOS_INT.ObtenerVariable(h));
+			std::istringstream entrada(DATOS_INT.ObtenerVariable(h));
 			while(entrada >> h)
-				procesar(h,entrada, FUNCION);
+				procesar(h, entrada, FUNCION);
 		}
 		else if(o == "nl")
 		{
-			cout << endl;
+			std::cout << std::endl;
 		}
-		else if(((o == "oper")||(o == "operador"))||(o == "fijar"))
+		else if((o == "oper") || (o == "operador") || (o == "fijar"))
 		{
 			if(o != "fijar")
 				std::cerr << "Advertencia: oper/operador estan obsoletos" << std::endl;
-			string variable1,oper,h;
+			std::string variable1 = "", oper = "", h = "", linea = "";
 			e  >> variable1 >> oper >> h;
-			string& a = DATOS_INT.ObtenerVariable(variable1);
+			std::string& a = DATOS_INT.ObtenerVariable(variable1);
 			if(oper == "=*") // fijar A =* hola
 			{
-				string B;
-				getline(e,B,'\n');
-				h += B;
+				std::getline(e, linea, '\n');
+				h += linea;
 				a = h;
 			}
-			else if((oper == "=?")||(oper == "=¿?")) // fijar A =? B
+			else if((oper == "=?") || (oper == "=¿?")) // fijar A =? B
 			{
 				a = DATOS_INT.ObtenerVariable(h);
 			}
@@ -162,7 +152,7 @@ namespace pseudod
 				//   Como fue dicho en las anteriores consultas, PseudoD soportara 3
 				//   tipos de cadenas: {a} "a" y «a»
 				// Realmente debe utilizar `ValorDelToken`.
-				a = ValorDelToken(h,e,&DATOS_INT);
+				a = PDvar::ValorDelToken(h, e, &DATOS_INT);
 			}
 			else
 			{
@@ -171,29 +161,28 @@ namespace pseudod
 		}
 		else if(o == "leer")
 		{
-			string variable1;
+			std::string variable1 = "";
 			e >> variable1;
-			string& a = DATOS_INT.ObtenerVariable(variable1);
-			cin >> a;
+			std::string& a = DATOS_INT.ObtenerVariable(variable1);
+			std::cin >> a;
 		}
 		else if(o == "utilizar")
 		{
-			string func;
+			std::string func = "", a = "", h = "";
 			e >> func;
-			string funcion = func;
-			ifstream en(funcion.c_str());
+			std::ifstream en(func.c_str());
 			if(!en)
 			{
 				// el archivo no esta en una ruta actual, ejecutalo desde BEPD
-				funcion = DATOS_INT.ObtenerVariable("__LIB__") + funcion;
+				func = DATOS_INT.ObtenerVariable("__LIB__") + func;
 				en.close();
-				en.open(funcion.c_str());
+				en.open(func.c_str());
 				if(!en)
 				{
 					throw PDvar::ErrorDelNucleo("Error en utilizar: 'utilizar fname': El archivo no existe");
 				}
 			}
-			if(DATOS_INT.BuscarIndice("Variable","utilizar " + funcion) != -1)
+			if(DATOS_INT.BuscarIndice("Variable","utilizar " + func) != -1)
 			{
 				if(DATOS_INT.adver > 1)
 				{
@@ -201,84 +190,71 @@ namespace pseudod
 				}
 				return;
 			}
-			string a = DATOS_INT.ObtenerVariable("__ARCH__");
-			DATOS_INT.ObtenerVariable("__ARCH__") = funcion;
-			string h;
+			a = DATOS_INT.ObtenerVariable("__ARCH__");
+			DATOS_INT.ObtenerVariable("__ARCH__") = func;
+			h = "";
 			while(en >> h)
 			{
-				procesar(h,en, FUNCION);
+				procesar(h, en, FUNCION);
 			}
 			DATOS_INT.ObtenerVariable("__ARCH__") = a;
-			DATOS_INT.CrearVariable("utilizar " + funcion,"Variable",0,"nulo");
+			DATOS_INT.CrearVariable("utilizar " + func, "Variable", 0, "nulo");
 		}
 		else if(o == "llamar")
 		{
-			string var;
-			e >> var;
-			string a = DATOS_INT.ObtenerVariable(var);
-			//
-			string bpalab = "";
-			e >> bpalab;
-			vector<string> param;
-			while((bpalab != "#(Final).")&&(bpalab != "finargs"))
+			std::string var = "", bpalab = "", nombre_var = "", tipo_var = "", h = "";
+			std::vector<std::string> param;
+			int numeral = 0;
+
+			e >> var >> bpalab;
+			std::string a = DATOS_INT.ObtenerVariable(var);
+			while((bpalab != "#(Final).") && (bpalab != "finargs"))
 			{
-				param.push_back(ValorDelToken(bpalab,e,&DATOS_INT));
+				param.push_back(PDvar::ValorDelToken(bpalab, e, &DATOS_INT));
 				if(!(e >> bpalab))
 				{
 					throw PDvar::ErrorDeSintaxis("Error en llamar: 'llamar fn args... FIN': EOF inesperado");
 				}
 			}
-			string nombre_var, tipo_var;
-			int numeral = var.rfind("#");
-			//clog << numeral << endl;
-			if(numeral == string::npos)
+			numeral = var.rfind("#");
+
+			if(numeral == std::string::npos)
 				numeral = var.size();
-			nombre_var = var.substr(0,numeral);
-			tipo_var = DATOS_INT.ObtenerVariable(nombre_var+string("#Tipo"));
-			//clog << tipo_var << endl;
-			for(int i = (param.size()-1);i >= 0;i--)
+			nombre_var = var.substr(0, numeral);
+			tipo_var = DATOS_INT.ObtenerVariable(nombre_var + "#Tipo");
+
+			for(int i = (param.size() - 1);i >= 0;i--)
 			{
-				//string& a = DATOS_INT.ObtenerVariable(param[i]);
-				DATOS_INT.Empujar(param[i],cae(DATOS_INT.ObtenerVariable("VG_PILA_ACTUAL")));
+				DATOS_INT.Empujar(param[i], cae(DATOS_INT.ObtenerVariable("VG_PILA_ACTUAL")));
 			}
 			if(tipo_var != "PseudoFuncion")
 			{
-				DATOS_INT.Empujar(nombre_var,cae(DATOS_INT.ObtenerVariable("VG_PILA_ACTUAL")));
-				//clog << nombre_var << endl;
+				DATOS_INT.Empujar(nombre_var, cae(DATOS_INT.ObtenerVariable("VG_PILA_ACTUAL")));
 			}
-			//*/
-			istringstream st(a);
-			string h;
+			std::istringstream st(a);
 			while(st >> h)
 			{
-				procesar(h,st,FUNCION);
+				procesar(h, st, FUNCION);
 			}
 		}
 		else if(o == "funcion")
 		{
-			vector<string> lineas;
-			string nom,arg;
+			std::string nom = "", arg = "", lin = "", func = "";
 			e >> nom;
-			string lin = "";
 			while(lin != "finfun")
 			{
-				getline(e,lin,'\n');
-				lineas.push_back(lin);
+				std::getline(e, lin, '\n');
+				func += lin + '\n';
 				lin.erase(std::remove_if(lin.begin(),
 					lin.end(),
 					[](char x){return std::isspace(x);}),
 					lin.end()
 				);
 			}
-			string func;
-			for(int i = 0;i < lineas.size();i++)
-			{
-				func += lineas[i] + "\n";
-			}
-			DATOS_INT.CrearVariable(nom,"Variable",0,func);
-			DATOS_INT.CrearVariable(nom+string("#NOMBRE"),"Variable",0,nom);
-			DATOS_INT.CrearVariable(nom+string("#Tipo"),"Variable",0,"PseudoFuncion");
-			DATOS_INT.CrearVariable(nom+string("#cod"),"Puntero",DATOS_INT.BuscarIndice("Variable",nom),"NULO");
+			DATOS_INT.CrearVariable(nom, "Variable", 0, func);
+			DATOS_INT.CrearVariable(nom + "#NOMBRE", "Variable", 0, nom);
+			DATOS_INT.CrearVariable(nom + "#Tipo", "Variable", 0, "PseudoFuncion");
+			DATOS_INT.CrearVariable(nom + "#cod", "Puntero", DATOS_INT.BuscarIndice("Variable", nom), "NULO");
 		}
 		else if(o == "finfun")
 		{
@@ -286,37 +262,33 @@ namespace pseudod
 		}
 		else if(o == "sistema")
 		{
-			string h;
-			getline(e,h,'\n');
+			std::cerr << "Advertencia: sistema esta altamente desaprobado porque es malvado" << std::endl;
+			std::string h = "";
+			std::getline(e, h, '\n');
 			system(h.c_str());
 		}
 		else if(o.front() == '[')
 		{
-			string h;
-			e >> h;
-			while(!(h.back()==']'))
-			{
-				e >> h;
-			}
+			std::string h = "";
+			std::getline(e, h, ']');
 		}
-		else if((o == "empujar")||(o == "enviar_parametro")||(o == "devolver"))
+		else if((o == "empujar") || (o == "enviar_parametro") || (o == "devolver"))
 		{
-			string variable1;
+			std::string variable1;
 			e >> variable1;
-			string& a = DATOS_INT.ObtenerVariable(variable1);
-			DATOS_INT.Empujar(a,cae(DATOS_INT.ObtenerVariable("VG_PILA_ACTUAL")));
+			std::string& a = DATOS_INT.ObtenerVariable(variable1);
+			DATOS_INT.Empujar(a, cae(DATOS_INT.ObtenerVariable("VG_PILA_ACTUAL")));
 		}
-		else if((o == "sacar")||(o == "recibir_resultado")||(o == "recibir_parametro"))
+		else if((o == "sacar") || (o == "recibir_resultado") || (o == "recibir_parametro"))
 		{
-			string variable1;
+			std::string variable1;
 			e >> variable1;
-			string& a = DATOS_INT.ObtenerVariable(variable1);
+			std::string& a = DATOS_INT.ObtenerVariable(variable1);
 			a = DATOS_INT.Sacar(cae(DATOS_INT.ObtenerVariable("VG_PILA_ACTUAL")));
 		}
 		else if(o == "usar_pila")
 		{
 			e >> DATOS_INT.ObtenerVariable("VG_PILA_ACTUAL");
-				//DATOS_INT.ObtenerVariable("VG_PILA_ACTUAL") = eas(indicepi);
 		}
 		else if(o == "crear_pila")
 		{
@@ -325,21 +297,22 @@ namespace pseudod
 		}
 		else if(o == "necesitas")
 		{
-			string var;
+			std::string var;
 			e >> var;
-			if(ValorDelToken(var,e,&DATOS_INT) != DATOS_INT.VERDADERO)
+			if(PDvar::ValorDelToken(var, e, &DATOS_INT) != DATOS_INT.VERDADERO)
 			{
 				throw PDvar::ErrorDeSemantica("Error en necesitas: 'necesitas expr': la expresion es falsa");
 			}
 		}
 		else if(o == "si")
 		{
-			string variable1,val;
+			std::string variable1 = "", val = "", ord = "";
+			bool cond = false;
+			int i = 0;
+
 			e >> variable1;
 			val = ValorDelToken(variable1,e,&DATOS_INT);
-			string cond = ((val == DATOS_INT.VERDADERO)? "si" : "no");
-			string ord;
-			int i = 0;
+			cond = (val == DATOS_INT.VERDADERO);
 			i = AMBITO.size();
 			AMBITO.push_back(0);
 			while(AMBITO.size() != i)
@@ -350,7 +323,7 @@ namespace pseudod
 					getline(e,ord,'\n');
 					e >> ord;
 				}
-				if(cond == "si")
+				if(cond)
 				{
 					procesar(ord, e, FUNCION);
 				}
@@ -358,20 +331,20 @@ namespace pseudod
 				{
 					AMBITO.pop_back();
 				}
-				else if((ord == "si")||(ord == "si_no"))
+				else if((ord == "si") || (ord == "si_no"))
 				{
 					AMBITO.push_back(0);
 				}
-				if((ord == "sino")&&(AMBITO.size() == (i + 1)))
+				if((ord == "sino") && (AMBITO.size() == (i + 1)))
 				{
-					cond = (cond == "si")? "no" : "si";
+					cond = !cond;
 				}
 			}
 		}
 		else if(o == "si_no")
 		{
 			std::cerr << "Advertencia: la orden si_no se considera obsoleta" << std::endl;
-			string variable1,val;
+			std::string variable1 = "", val = "";
 			e >> variable1;
 			if(variable1 == "llamar")
 			{
@@ -380,32 +353,32 @@ namespace pseudod
 			}
 			else if(variable1 == "¿son_iguales?")
 			{
-				string var1,var2;
+				std::string var1 = "", var2 = "";
 				e >> var1 >> var2;
 				val = ((DATOS_INT.ObtenerVariable(var1) == DATOS_INT.ObtenerVariable(var2))? DATOS_INT.VERDADERO : DATOS_INT.FALSO);
 			}
 			else if(variable1 == "ejecutar")
 			{
-				string var1,var2,ord,es,valor;
+				std::string var1,var2,ord,es,valor;
 				e >> ord >> var1 >> var2 >> es >> valor;
 				if(es != "es")
 					throw PDvar::ErrorDelNucleo("Error en si_no: 'si_no expr cdg...': La expresion es invalida");
-				istringstream in(var1 + " " + var2 + " ___codigo_pseudod_buffer_interno___");
+				std::istringstream in(var1 + " " + var2 + " ___codigo_pseudod_buffer_interno___");
 				procesar(ord,in,FUNCION);
 				val = ((DATOS_INT.ObtenerVariable("___codigo_pseudod_buffer_interno___") == DATOS_INT.ObtenerVariable(valor))? DATOS_INT.VERDADERO : DATOS_INT.FALSO);
 			}
 			else if(variable1 == "comparar")
 			{
-				string var1,op,var2,ord;
+				std::string var1,op,var2,ord;
 				e >> ord >> var1 >> op >> var2;
-				istringstream in(var1 + " " + op + " " + var2 + " ___codigo_pseudod_buffer_interno___");
+				std::istringstream in(var1 + " " + op + " " + var2 + " ___codigo_pseudod_buffer_interno___");
 				procesar(ord,in,FUNCION);
 				val = DATOS_INT.ObtenerVariable("___codigo_pseudod_buffer_interno___");
 			}
 			else
 				val = DATOS_INT.ObtenerVariable(variable1);
-			string cond = ((val == DATOS_INT.FALSO)? "si" : "no");
-			string ord;
+			std::string cond = ((val == DATOS_INT.FALSO)? "si" : "no");
+			std::string ord;
 			int i = 0;
 			i = AMBITO.size();
 			AMBITO.push_back(0);
@@ -435,15 +408,16 @@ namespace pseudod
 		{
 			AMBITO.pop_back();
 		}
-		else if((o == "comparar_i")||(o == "¿son_iguales?")) // var1 var2 res
+		else if((o == "comparar_i") || (o == "¿son_iguales?")) // var1 var2 res
 		{
-			string var1, var2;
+			std::cerr << "Advertencia: la orden ¿son_iguales? (comparar_i) se considera obsoleta" << std::endl;
+			std::string var1 = "", var2 = "";
 			e >> var1 >> var2;
-			string variable1;
+			std::string variable1;
 			e >> variable1;
-			string& a = DATOS_INT.ObtenerVariable(variable1);
-			string& b = DATOS_INT.ObtenerVariable(var1);
-			string& c = DATOS_INT.ObtenerVariable(var2);
+			std::string& a = DATOS_INT.ObtenerVariable(variable1);
+			std::string& b = DATOS_INT.ObtenerVariable(var1);
+			std::string& c = DATOS_INT.ObtenerVariable(var2);
 			a = DATOS_INT.FALSO;
 			if(b == c)
 			{
@@ -452,39 +426,45 @@ namespace pseudod
 		}
 		else if(o == "escribir_esp")
 		{
-			cout << " ";
+			std::cout << " ";
 		}
 		else if((o == "sal")||(o == "salir"))
 		{
-			Ejecutar=false;
+			Ejecutar = false;
 		}
 		else
 		{
 				(*FUNCION)(o,e);
 		}
 	}
-	string iniciar(string nea,string bepd,string main)
+	std::string iniciar(std::string nea, std::string bepd, std::string main)
 	{
-		coneccion_nea = dlopen(nea.c_str(),RTLD_LAZY);
+		coneccion_nea = dlopen(nea.c_str(), RTLD_LAZY);
 		if(coneccion_nea == NULL)
 		{
 			return "Error al conectar con el NEA";
 		}
-		iniciar_nea = (inic_nea)dlsym(coneccion_nea,"PDInicializar");
-		ejecutar_nea = (ejec_nea)dlsym(coneccion_nea,"PDEjecutar");
-		liberar_nea = (liber_nea)dlsym(coneccion_nea,"PDFinal");
-		if((iniciar_nea == NULL)||(ejecutar_nea == NULL)||(liberar_nea == NULL))
+		iniciar_nea = (inic_nea) dlsym(coneccion_nea, "PDInicializar");
+		ejecutar_nea = (ejec_nea) dlsym(coneccion_nea, "PDEjecutar");
+		liberar_nea = (liber_nea) dlsym(coneccion_nea, "PDFinal");
+		if((iniciar_nea == NULL) || (ejecutar_nea == NULL) || (liberar_nea == NULL))
 		{
 			dlclose(coneccion_nea);
 			return "Error al adquirir el NEA";
 		}
-		iniciar_nea((*DATOS_INT.nombrev),(*DATOS_INT.valorv),(*DATOS_INT.nombrep)
-			,(*DATOS_INT.nvapunt),(*DATOS_INT.pilas),procesar);
-		DATOS_INT.CrearVariable("__MAIN__","Variable",0,main);
-		DATOS_INT.CrearVariable("__LIB__","Variable",0,bepd);
-		DATOS_INT.CrearVariable("__ARCH__","Variable",0,main);
-		DATOS_INT.CrearVariable("VG_PILA_ACTUAL","Variable",0,"0");
-		DATOS_INT.CrearVariable("VG_NUMERO_PILAS","Variable",0,"0");
+		iniciar_nea(
+			(*DATOS_INT.nombrev),
+			(*DATOS_INT.valorv),
+			(*DATOS_INT.nombrep),
+			(*DATOS_INT.nvapunt),
+			(*DATOS_INT.pilas),
+			procesar
+		);
+		DATOS_INT.CrearVariable("__MAIN__","Variable", 0, main);
+		DATOS_INT.CrearVariable("__LIB__","Variable", 0, bepd);
+		DATOS_INT.CrearVariable("__ARCH__","Variable", 0, main);
+		DATOS_INT.CrearVariable("VG_PILA_ACTUAL", "Variable", 0, "0");
+		DATOS_INT.CrearVariable("VG_NUMERO_PILAS", "Variable", 0, "0");
 		DATOS_INT.PROCESAR = procesar;
 		DATOS_INT.PROCESO = ejecutar_nea;
 		try
@@ -497,7 +477,7 @@ namespace pseudod
 		}
 		catch(const std::exception& e)
 		{
-			string errStr = "";
+			std::string errStr = "";
 			if((e.what() == "stoi")||(e.what() == "stoll"))
 			{
 				errStr = "Error al convertir numeros";
@@ -508,7 +488,7 @@ namespace pseudod
 			}
 			return errStr;
 		}
-		catch(string e)
+		catch(std::string e)
 		{
 			return e;
 		}
@@ -523,17 +503,18 @@ namespace pseudod
 		liberar_nea();
 		return dlclose(coneccion_nea);
 	}
-	void ejecutar(string linea)
+	void ejecutar(std::string linea)
 	{
-		string p;
-		istringstream in(linea);
-		while((Ejecutar)&&(in >> p))
-			procesar(p,in,ejecutar_nea);
+		std::string p;
+		std::istringstream in(linea);
+		while(Ejecutar && (in >> p))
+			procesar(p, in, ejecutar_nea);
 	}
-	void ejecutar(istream& entrada)
+	void ejecutar(std::istream& entrada)
 	{
-		string p;
-		while((Ejecutar)&&(entrada >> p))
-			procesar(p,entrada,ejecutar_nea);
+		std::string p;
+		while(Ejecutar && (entrada >> p))
+			procesar(p, entrada, ejecutar_nea);
 	}
 }
+
