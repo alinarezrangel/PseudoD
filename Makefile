@@ -25,8 +25,8 @@ endif
 PseudoD: libpseudod.so libpseudodsrc.a Main.cpp libpseudodsrc.a
 	$(CXX) -std=c++11 -O3 Main.cpp $(LIBS) libpseudodsrc.a -o PseudoD
 
-libpseudodsrc.a: Data.o pdbase.o
-	ar -cvq libpseudodsrc.a Data.o pdbase.o
+libpseudodsrc.a: Data.o pdbase.o nmemoic.o
+	ar -cvq libpseudodsrc.a Data.o pdbase.o nmemoic.o
 
 pdbase.o: interprete.cpp
 	$(CXX) $(CFLAGS) -c -std=c++11 interprete.cpp $(LIBS) Data.o -o pdbase.o
@@ -37,8 +37,12 @@ libpseudod.so:	pseudod.cpp pseudod.hh Data.o
 Data.o: $(MEM) NEA/PDData.hh
 	$(CXX) $(CFLAGS) -c -std=c++11 $(MEM) $(LIBS) $(COMP) -o Data.o
 
+nmemoic.o: Data.o
+	$(CXX) $(CFLAGS) -c -std=c++11 nmemoic.cpp $(LIBS) $(COMP) -o nmemoic.o
+
 clean:
 	rm Data.o
 	rm pdbase.o
 	rm libpseudodsrc.a
+	rm nmemoic.o
 

@@ -110,10 +110,6 @@ int main (int argc, char* argv[])
 		{
 			while((pseudod::Ejecutar)&&(cin))
 			{
-				/*
-				pseudod::DATOS_INT.Ejecutar(ord,cin);
-				cout << ">>> ";
-				*/
 				char l1 = ' ';
 				char l2 = ' ';
 				string buff = "";

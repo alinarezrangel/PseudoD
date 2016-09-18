@@ -158,13 +158,7 @@ namespace PDTipos
 	void PseudoReferenciaClase::InscribirInstancia(PDDatos* data)
 	{
 		data->CrearVariable(this->ni);
-		data->ObtenerVariable(this->ni)=this->ni;
-		/*int lg = cae(data->ObtenerVariable(this->nm));
-
-		for(int i = 0;i < lg;i++)
-		{
-			this->methods.push_back(data->ObtenerVariable(this->nm+string("#(")+eas(i)+string(").")));
-		}*/
+		data->ObtenerVariable(this->ni) = this->ni;
 
 		string buff = "";
 		for(int i = 0;i < data->ObtenerVariable(this->nm).size();i++)
@@ -203,8 +197,6 @@ namespace PDTipos
 				data->ObtenerIndicePuntero(this->ni + string("#") + this->methods[i] + string("#cod"))
 					= data->BuscarIndice("Variable",this->nm + string("#")
 							+ this->methods[i]);
-				/*data->ObtenerVariable(this->ni+string("#")+this->methods[i])
-				= data->ObtenerVariable(this->nm+string("#")+this->methods[i]+string("#cod"));*/
 			}
 			else
 			{
@@ -232,16 +224,16 @@ namespace PDTipos
 
 	void PseudoDebug::InscribirInstancia(PDDatos* data)
 	{
-		cout << endl << "Debugger(depurador) de PseudoD" << endl;
-		cout << "Al salir con la orden salir se seguira ejecutando el programa" << endl;
-		cout << "Puedes ver la ayuda con \'ayuda\'" << endl;
+		cout << endl << "@ Debugger(depurador) de PseudoD" << endl;
+		cout << "@ Al salir con la orden salir se seguira ejecutando el programa" << endl;
+		cout << "@ Puedes ver la ayuda con \'ayuda\'" << endl;
 		string i;
 		// Reconstuccion total del depurador
 		while(i != "salir")
 		{
 			try
 			{
-				cout << "DEBUG>> ";
+				cout << "@ DEBUG>> ";
 				cin >> i;
 				if(i == "variable")
 				{
@@ -275,7 +267,7 @@ namespace PDTipos
 					cout << "+----------PILA " << pil << "-------+" << endl;
 					while(!buffer.empty())
 					{
-						cout << "|" << buffer.top() << "|" << endl;
+						cout << "|" << std::setw(24) << std::setfill(' ') << std::right << buffer.top() << "|" << endl;
 						buffer.pop();
 					}
 				}
@@ -305,7 +297,7 @@ namespace PDTipos
 				else if(i == "instancia")
 				{
 					cout << "Advertencia: la instancia debe poseer los atributos fundamentales..." << endl;
-					string var;
+					string var = "";
 					cin >> var;
 					string tipo = data->ObtenerVariable(var + string("#Tipo"));
 					cout << "La instancia del tipo " << tipo << " nombrada " << var << " tiene los campos:" << endl;
@@ -340,12 +332,13 @@ namespace PDTipos
 				}
 				else if(i == "clase")
 				{
-					string est;
+					string est = "";
 					cin >> est;
 					cout << "La clase " << est << " tiene los siguientes campos:" << endl;
-					for(int i = 0;i < cae(data->ObtenerVariable(est));i++)
+					std::istringstream iss(data->ObtenerVariable(est));
+					while(iss >> est)
 					{
-						cout << "    " << data->ObtenerVariable(est+"#("+eas(i)+").") << endl;
+						cout << " " << est << endl;
 					}
 				}
 				else if(i == "ayuda")
@@ -364,6 +357,7 @@ namespace PDTipos
 					cout << " ayuda: muestra esta ayuda" << endl;
 					cout << " volcar [q]: volcar todas los [q] de memoria, donde [q] puede ser" << endl;
 					cout << "             (variables|punteros|pilas)" << endl;
+					cout << " ejecutar [orden]: ejecuta el resto de la línea como código en PseudoD" << endl;
 					cout << "Ejecución automatica:" << endl;
 					cout << " Si el depurador no comprende alguna de las ordenes, por" << endl;
 					cout << " defecto, ejecutará la linea con PseudoD." << endl;
@@ -478,34 +472,11 @@ namespace PDTipos
 			}
 			(*data->nombrep).erase((*data->nombrep).begin() + i);
 			(*data->nvapunt).erase((*data->nvapunt).begin() + i);
-		/*cout << "Borrando bloque de memoria 6" << endl;
-		cout << "I:" << (i+1) << ";bkls:" << (*data->nombrev).size() << endl;
-			for (int j = i+1; j < (*data->nombrev).size(); j += 1)
-			{
-		cout << "Overloading el bloque " << (j-1) << " para " << j << ":[" << (*data->nombrep)[j-1] << "," << (*data->nombrep)[j] << "]" << endl;
-				(*data->nombrep)[j-1] = (*data->nombrep)[j];
-				(*data->nvapunt)[j-1] = (*data->nvapunt)[j];
-			}
-		cout << "Borrando bloque de memoria 7" << endl;
-			(*data->nombrep).pop_back();
-			(*data->nvapunt).pop_back();
-		cout << "Borrando bloque de memoria 8" << endl;*/
 		}
 		else
 		{
 			(*data->nombrev).erase((*data->nombrev).begin() + i);
 			(*data->valorv).erase((*data->valorv).begin() + i);
-			/*
-		cout << "Borrando bloque de memoria 9" << endl;
-			for (int j = i+1; j < (*data->nombrev).size(); j += 1)
-			{
-				(*data->nombrev)[j-1] = (*data->nombrev)[j];
-				(*data->valorv)[j-1] = (*data->valorv)[j];
-			}
-		cout << "Borrando bloque de memoria 10" << endl;
-			(*data->nombrev).pop_back();
-			(*data->valorv).pop_back();
-		cout << "Borrando bloque de memoria 11" << endl;*/
 		}
 	}
 
@@ -636,68 +607,6 @@ namespace PDTipos
 
 	void PseudoMientras::LeerParametros(istream& in)
 	{
-		// FIXME: Codigo problematico:
-		/*if(!(in >> this->nmv))
-		{
-			cerr << "Error en " << this->ObtenerClave() << " ,no se pudo leer bien el fichero fuente." << endl;
-			throw string("Error en el la parte " + this->ObtenerClave() + " EOF inesperado");
-		}
-		if(this->nmv == "llamar")
-		{
-			string g;
-			while(g != "#(Final).")
-			{
-				string h;
-				in >> h;
-				g += " "+h;
-			}
-			this->var1 = g;
-			this->llamada = true;
-		}
-		else if(this->nmv == "¿son_iguales?")
-		{
-			in >> this->var1 >> this->var2;
-			this->igualdad = true;
-		}
-		else if(this->nmv == "ejecutar")
-		{
-			string es;
-			in >> this->orden >> this->var1 >> this->var2 >> es >> this->var3;
-			if(es != "es")
-				throw string("Error de sintaxis en " + this->ObtenerClave() + ": mientras ejecutar orden var var  \"es\" var: no se escribio es, se escribio "+es);
-			this->ejecutar = true;
-		}
-		else if(this->nmv == "comparar")
-		{
-			in >> this->orden >> this->var1 >> this->oper >> this->var2;
-			this->comparar = true;
-		}
-		vector<string> lineas;
-		string lin = "";
-		int mientras = 1;
-		while(mientras != 0)
-		{
-			getline(in,lin,'\n');
-			lineas.push_back(lin);
-			lin.erase(std::remove_if(lin.begin(), 
-                              lin.end(),
-                              [](char x){return std::isspace(x);}),
-                lin.end());
-      if((lin == "mientras") || (lin == "Importar.PseudoD.mientras"))
-      {
-      	mientras++;
-      }
-      if(lin == "finbucle")
-      {
-      	mientras--;
-      }
-		}
-		this->func = "";
-		for(int i = 0;i < lineas.size();i++)
-		{
-			this->func += lineas[i] + "\n";
-		}*/
-		// TODO: Adaptado a usar ValorDelToken
 		in >> this->nmv;
 		getline(in,this->orden,'\n');
 		vector<string> lineas;
@@ -729,78 +638,6 @@ namespace PDTipos
 
 	void PseudoMientras::InscribirInstancia(PDDatos* data)
 	{
-		// FIXME: Codigo problematico:
-		/*bool exec = false;
-		if(this->llamada)
-		{
-			istringstream in(this->var1+" #(Final).");
-			(*data->PROCESAR)("llamar",in,(*data->PROCESO));
-			exec = ((((*data->pilas)[cae(data->ObtenerVariable("VG_PILA_ACTUAL"))].top()) == data->VERDADERO)? true : false);
-		}
-		else if(this->igualdad)
-		{
-			exec = data->ObtenerVariable(this->var1) == data->ObtenerVariable(this->var2);
-		}
-		else if(this->comparar)
-		{
-			istringstream in(this->var1 + " " + this->oper + " " + this->var2
-													+ " ___codigo_pseudod_buffer_interno___");
-			(*data->PROCESAR)(this->orden,in,(*data->PROCESO));
-			exec = ((data->ObtenerVariable("___codigo_pseudod_buffer_interno___") == data->VERDADERO)? true : false);
-		}
-		else if(this->ejecutar)
-		{
-			istringstream in(this->var1 + " " + this->var2
-													+ " ___codigo_pseudod_buffer_interno___");
-			(*data->PROCESAR)(this->orden,in,(*data->PROCESO));
-			exec = ((data->ObtenerVariable("___codigo_pseudod_buffer_interno___") == data->ObtenerVariable(this->var3))? true : false);
-		}
-		else
-		{
-			exec = ((data->ObtenerVariable(this->nmv) == data->VERDADERO)? true : false);
-		}
-		while(exec)
-		{
-			std::istringstream in2(this->func);
-			string v;
-			while(in2 >> v)
-			{
-				(*data->PROCESAR)(v,in2,(*data->PROCESO));
-			}
-			if(this->llamada)
-			{
-			istringstream in(this->var1+" #(Final).");
-				(*data->PROCESAR)("llamar",in,(*data->PROCESO));
-	//			exec = ((data->ObtenerVariable("___codigo_pseudod_buffer_interno___")));
-					exec = (((*data->pilas)[cae(data->ObtenerVariable("VG_PILA_ACTUAL"))].top() == data->VERDADERO)? true : false);
-			}
-			else if(this->igualdad)
-			{
-				exec = data->ObtenerVariable(this->var1) == data->ObtenerVariable(this->var2);
-			}
-			else if(this->comparar)
-			{
-				istringstream in(this->var1 + " " + this->oper + " " + this->var2
-														+ " ___codigo_pseudod_buffer_interno___");
-				(*data->PROCESAR)(this->orden,in,(*data->PROCESO));
-				exec = ((data->ObtenerVariable("___codigo_pseudod_buffer_interno___") == data->VERDADERO)? true : false);
-			}
-			else if(this->ejecutar)
-			{
-				istringstream in(this->var1 + " " + this->var2
-														+ " ___codigo_pseudod_buffer_interno___");
-				(*data->PROCESAR)(this->orden,in,(*data->PROCESO));
-				exec = ((data->ObtenerVariable("___codigo_pseudod_buffer_interno___") == data->ObtenerVariable(this->var3))? true : false);
-			}
-			else
-			{
-				exec = ((data->ObtenerVariable(this->nmv) == data->VERDADERO)? true : false);
-			}
-		}
-		if(this->llamada)
-		{
-			(*data->pilas)[cae(data->ObtenerVariable("VG_PILA_ACTUAL"))].pop();
-		}*/
 		istringstream sin(this->orden);
 		string res = ValorDelToken(this->nmv,sin,data);
 		while(res == "verdadero")
@@ -935,3 +772,4 @@ namespace PDTipos
 		}
 	}
 }
+

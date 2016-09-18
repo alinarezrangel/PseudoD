@@ -24,6 +24,8 @@
 	#include <cstdio>
 TODO TODO :YA SE INCLUYERON
 */
+#include <sstream>
+#include <iomanip>
 #include "NEA/INBibliotecaDinamica.h"
 #include "NEA/Bit/INBit.h"
-#include <sstream>
+
