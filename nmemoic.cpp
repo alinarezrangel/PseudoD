@@ -100,6 +100,11 @@ namespace pseudod
 	{
 		return this->valor;
 	}
+	NMemonico::operator std::string(void)
+	{
+		IntentaCrearConversor();
+		return ConversorP2S.find(this->valor)->second;
+	}
 	bool NMemonico::operator==(const NMemonico& otro)
 	{
 		// Utilizamos XOR para hacer la comparación más rápida
@@ -156,6 +161,10 @@ namespace pseudod
 	}
 
 	// Proxy:
+	NMemonicoProxy::operator std::string(void)
+	{
+		return this->original;
+	}
 	bool NMemonicoProxy::operator==(NMemonico otro)
 	{
 		NMemonicoProxy::iterator iter;
@@ -241,6 +250,7 @@ namespace pseudod
 		// Por ello, debemos devolver todos los posibles nmemonicos y
 		// que el parser compare si entre ellos está el que busca.
 		NMemonicoProxy proxy;
+		proxy.original = in;
 		proxy.begin = values.first;
 		proxy.end = values.second;
 		return proxy;

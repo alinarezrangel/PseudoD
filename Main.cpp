@@ -177,7 +177,7 @@ int main (int argc, char* argv[])
 	{
 		if((string(e.what()) == "stoi")||(string(e.what()) == "stoll")||(string(e.what()) == "stold"))
 		{
-			cerr << "Error al convertir numeros" << endl;
+			cerr << "Error al convertir numeros: " << e.what() << endl;
 		}
 		else
 		{

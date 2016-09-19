@@ -17,7 +17,7 @@ adquirir hasta
 
 adquirir multiplicar
 
-fijar contador a {0}
+fijar contador a {1}
 fijar hasta a {9}
 fijar multiplicar a {1}
 
@@ -35,5 +35,3 @@ mientras comparar Importar.Ent.Comparar contador <= hasta
 	finbucle
 	fijar contador a llamar Sumar contador {1} finargs
 finbucle
-
-

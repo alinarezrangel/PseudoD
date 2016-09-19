@@ -90,7 +90,7 @@ namespace pseudod
 			}
 			DATOS_INT.CrearVariable(var, "Puntero", DATOS_INT.BuscarIndice("Variable",val));
 		}
-		else if((o == "incrementar_p") || (o == "incrementar_puntero"))
+		else if(proxy == NMemonico::PD_INCREMENTAR_PUNTERO)
 		{
 			std::string h = "";
 			e >> h;
@@ -100,7 +100,7 @@ namespace pseudod
 				throw PDvar::ErrorDelNucleo("Error en incrementar_p: 'incrementar_p ptr' alias 'incrementar_puntero ptr': Puntero invalido por bloqueo de memoria");
 			}
 		}
-		else if((o == "decrementar_p") || (o == "decrementar_puntero"))
+		else if(proxy == NMemonico::PD_DECREMENTAR_PUNTERO)
 		{
 			std::string h = "";
 			e >> h;
@@ -110,13 +110,13 @@ namespace pseudod
 				throw PDvar::ErrorDelNucleo("Error en decrementar_p: 'decrementar_p ptr' alias 'decrementar_puntero ptr': Puntero onvalido por bloqueo de memoria");
 			}
 		}
-		else if(o == "escribir")
+		else if(proxy == NMemonico::PD_ESCRIBIR)
 		{
 			std::string h = "";
 			e >> h;
 			std::cout << DATOS_INT.ObtenerVariable(h);
 		}
-		else if(o == "ejecutar")
+		else if(proxy == NMemonico::PD_EJECUTAR)
 		{
 			std::string h = "";
 			e >> h;
@@ -124,28 +124,29 @@ namespace pseudod
 			while(entrada >> h)
 				procesar(h, entrada, FUNCION);
 		}
-		else if(o == "nl")
+		else if(proxy == NMemonico::PD_NUEVALINEA)
 		{
 			std::cout << std::endl;
 		}
-		else if((o == "oper") || (o == "operador") || (o == "fijar"))
+		else if(proxy == NMemonico::PD_FIJAR)
 		{
 			if(o != "fijar")
 				std::cerr << "Advertencia: oper/operador estan obsoletos" << std::endl;
 			std::string variable1 = "", oper = "", h = "", linea = "";
 			e  >> variable1 >> oper >> h;
 			std::string& a = DATOS_INT.ObtenerVariable(variable1);
-			if(oper == "=*") // fijar A =* hola
+			NMemonicoProxy pr = ConvertirCadenaANMemonico(oper);
+			if(pr == NMemonico::PD_OPERADOR_FIJAR) // fijar A =* hola
 			{
 				std::getline(e, linea, '\n');
 				h += linea;
 				a = h;
 			}
-			else if((oper == "=?") || (oper == "=¿?")) // fijar A =? B
+			else if(pr == NMemonico::PD_OPERADOR_IGUAL) // fijar A =? B
 			{
 				a = DATOS_INT.ObtenerVariable(h);
 			}
-			else if(oper == "a") // fijar A a B
+			else if(pr == NMemonico::PD_OPERADOR_A) // fijar A a B
 			{
 				// B puede ser:
 				// * Variable (igual a fijar a =? b)
@@ -157,17 +158,17 @@ namespace pseudod
 			}
 			else
 			{
-				throw PDvar::ErrorDeSintaxis("Error en fijar: 'fijar a OP b': no se detecta 'OP'");
+				throw PDvar::ErrorDeSintaxis("Error en fijar: 'fijar a OP b': no se detecta 'OP' como " + oper);
 			}
 		}
-		else if(o == "leer")
+		else if(proxy == NMemonico::PD_LEER)
 		{
 			std::string variable1 = "";
 			e >> variable1;
 			std::string& a = DATOS_INT.ObtenerVariable(variable1);
 			std::cin >> a;
 		}
-		else if(o == "utilizar")
+		else if(proxy == NMemonico::PD_UTILIZAR)
 		{
 			std::string func = "", a = "", h = "";
 			e >> func;
@@ -183,7 +184,7 @@ namespace pseudod
 					throw PDvar::ErrorDelNucleo("Error en utilizar: 'utilizar fname': El archivo no existe");
 				}
 			}
-			if(DATOS_INT.BuscarIndice("Variable","utilizar " + func) != -1)
+			if(DATOS_INT.BuscarIndice("Variable", "utilizar " + func) != -1)
 			{
 				if(DATOS_INT.adver > 1)
 				{
@@ -201,7 +202,7 @@ namespace pseudod
 			DATOS_INT.ObtenerVariable("__ARCH__") = a;
 			DATOS_INT.CrearVariable("utilizar " + func, "Variable", 0, "nulo");
 		}
-		else if(o == "llamar")
+		else if(proxy == NMemonico::PD_LLAMAR)
 		{
 			std::string var = "", bpalab = "", nombre_var = "", tipo_var = "", h = "";
 			std::vector<std::string> param;
@@ -238,7 +239,7 @@ namespace pseudod
 				procesar(h, st, FUNCION);
 			}
 		}
-		else if(o == "funcion")
+		else if(proxy == NMemonico::PD_FUNCION)
 		{
 			std::string nom = "", arg = "", lin = "", func = "";
 			e >> nom;
@@ -257,7 +258,7 @@ namespace pseudod
 			DATOS_INT.CrearVariable(nom + "#Tipo", "Variable", 0, "PseudoFuncion");
 			DATOS_INT.CrearVariable(nom + "#cod", "Puntero", DATOS_INT.BuscarIndice("Variable", nom), "NULO");
 		}
-		else if(o == "finfun")
+		else if(proxy == NMemonico::PD_FIN_FUNCION)
 		{
 			// Nada
 		}
@@ -273,30 +274,30 @@ namespace pseudod
 			std::string h = "";
 			std::getline(e, h, ']');
 		}
-		else if((o == "empujar") || (o == "enviar_parametro") || (o == "devolver"))
+		else if(proxy == NMemonico::PD_EMPUJAR)
 		{
 			std::string variable1;
 			e >> variable1;
 			std::string& a = DATOS_INT.ObtenerVariable(variable1);
 			DATOS_INT.Empujar(a, cae(DATOS_INT.ObtenerVariable("VG_PILA_ACTUAL")));
 		}
-		else if((o == "sacar") || (o == "recibir_resultado") || (o == "recibir_parametro"))
+		else if(proxy == NMemonico::PD_SACAR)
 		{
 			std::string variable1;
 			e >> variable1;
 			std::string& a = DATOS_INT.ObtenerVariable(variable1);
 			a = DATOS_INT.Sacar(cae(DATOS_INT.ObtenerVariable("VG_PILA_ACTUAL")));
 		}
-		else if(o == "usar_pila")
+		else if(proxy == NMemonico::PD_USAR_PILA)
 		{
 			e >> DATOS_INT.ObtenerVariable("VG_PILA_ACTUAL");
 		}
-		else if(o == "crear_pila")
+		else if(proxy == NMemonico::PD_CREAR_PILA)
 		{
 			DATOS_INT.CrearPila();
 			DATOS_INT.ObtenerVariable("VG_NUMERO_PILAS") = eas((*DATOS_INT.pilas).size());
 		}
-		else if(o == "necesitas")
+		else if(proxy == NMemonico::PD_NECESITAS)
 		{
 			std::string var;
 			e >> var;
@@ -305,44 +306,46 @@ namespace pseudod
 				throw PDvar::ErrorDeSemantica("Error en necesitas: 'necesitas expr': la expresion es falsa");
 			}
 		}
-		else if(o == "si")
+		else if(proxy == NMemonico::PD_SI)
 		{
-			std::string variable1 = "", val = "", ord = "";
+			std::string variable1 = "", val = "";
 			bool cond = false;
 			int i = 0;
+			NMemonicoProxy ord;
 
 			e >> variable1;
-			val = ValorDelToken(variable1,e,&DATOS_INT);
+			val = ValorDelToken(variable1, e, &DATOS_INT);
 			cond = (val == DATOS_INT.VERDADERO);
 			i = AMBITO.size();
 			AMBITO.push_back(0);
 			while(AMBITO.size() != i)
 			{
 				e >> ord;
-				if(ord == "=*")
+				if(ord == NMemonico::PD_OPERADOR_FIJAR)
 				{
-					getline(e,ord,'\n');
+					std::string line = "";
+					getline(e, line, '\n');
 					e >> ord;
 				}
 				if(cond)
 				{
 					procesar(ord, e, FUNCION);
 				}
-				else if(ord == "fin")
+				else if(ord == NMemonico::PD_FIN_SI)
 				{
 					AMBITO.pop_back();
 				}
-				else if((ord == "si") || (ord == "si_no"))
+				else if((ord == NMemonico::PD_SI) || (ord == NMemonico::PD_SI_NO))
 				{
 					AMBITO.push_back(0);
 				}
-				if((ord == "sino") && (AMBITO.size() == (i + 1)))
+				if((ord == NMemonico::PD_SINO) && (AMBITO.size() == (i + 1)))
 				{
 					cond = !cond;
 				}
 			}
 		}
-		else if(o == "si_no")
+		else if(proxy == NMemonico::PD_SI_NO)
 		{
 			std::cerr << "Advertencia: la orden si_no se considera obsoleta" << std::endl;
 			std::string variable1 = "", val = "";
@@ -405,11 +408,11 @@ namespace pseudod
 				}
 			}
 		}
-		else if(o == "fin")
+		else if(proxy == NMemonico::PD_FIN_SI)
 		{
 			AMBITO.pop_back();
 		}
-		else if((o == "comparar_i") || (o == "¿son_iguales?")) // var1 var2 res
+		else if(proxy == NMemonico::PD_SON_IGUALES) // var1 var2 res
 		{
 			std::cerr << "Advertencia: la orden ¿son_iguales? (comparar_i) se considera obsoleta" << std::endl;
 			std::string var1 = "", var2 = "";
@@ -425,11 +428,11 @@ namespace pseudod
 				a = DATOS_INT.VERDADERO;
 			}
 		}
-		else if(o == "escribir_esp")
+		else if(proxy == NMemonico::PD_ESCRIBIR_ESPACIO)
 		{
 			std::cout << " ";
 		}
-		else if((o == "sal")||(o == "salir"))
+		else if(proxy == NMemonico::PD_SALIR)
 		{
 			Ejecutar = false;
 		}

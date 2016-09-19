@@ -134,6 +134,10 @@ namespace pseudod
 			*/
 			operator Palabra(void); // Convertir a ENUM
 			/**
+			* @brief Convierte este nmemonico a una cadena.
+			*/
+			operator std::string(void); // Convertir a ENUM
+			/**
 			* @brief Compara si los dos nmemonicos son iguales.
 			* @param otro Otro nmemonico a comparar.
 			*/
@@ -219,6 +223,9 @@ namespace pseudod
 			iterator;
 		iterator begin;
 		iterator end;
+		std::string original;
+
+		operator std::string(void);
 
 		bool operator==(NMemonico otro);
 		bool operator!=(NMemonico otro);
