@@ -23,7 +23,7 @@ static std::multimap<std::string, pseudod::NMemonico::Palabra> ConversorS2P =
 	{"redireccionar", pseudod::NMemonico::PD_REDIRECCIONAR},
 	{"mientras", pseudod::NMemonico::PD_MIENTRAS},
 	{"incrementar_p", pseudod::NMemonico::PD_INCREMENTAR_PUNTERO},
-	{"decrementar_p" pseudod::NMemonico::PD_DECREMENTAR_PUNTERO},
+	{"decrementar_p", pseudod::NMemonico::PD_DECREMENTAR_PUNTERO},
 	{"incrementar_puntero", pseudod::NMemonico::PD_INCREMENTAR_PUNTERO},
 	{"decrementar_puntero", pseudod::NMemonico::PD_DECREMENTAR_PUNTERO},
 	{"escribir", pseudod::NMemonico::PD_ESCRIBIR},
@@ -81,66 +81,66 @@ static inline void IntentaCrearConversor(void)
 		return;
 	for(auto i = ConversorS2P.begin(); i != ConversorS2P.end(); i++)
 	{
-		ConversorP2S[i->second] = i->first;
+		ConversorP2S.insert(std::make_pair(i->second, i->first));
 	}
 	CreadoConversor = true;
 }
 
 namespace pseudod
 {
-	NMemonico(void) : valor(NMemonico::PD_OTRO) {}
-	NMemonico(NMemonico::Palabra otro) : valor(otro) {}
-	NMemonico(const NMemonico& otro) : valor(otro.ObtenerValor()) {}
-	NMemonico(NMemonico&& otro) : valor(otro.ObtenerValor())
+	NMemonico::NMemonico(void) : valor(NMemonico::PD_OTRO) {}
+	NMemonico::NMemonico(NMemonico::Palabra otro) : valor(otro) {}
+	NMemonico::NMemonico(const NMemonico& otro) : valor(otro.ObtenerValor()) {}
+	NMemonico::NMemonico(NMemonico&& otro) : valor(otro.ObtenerValor())
 	{
 		otro.valor = NMemonico::PD_OTRO;
 	}
-	~NMemonico(void) {}
-	operator NMemonico::Palabra(void)
+	NMemonico::~NMemonico(void) {}
+	NMemonico::operator NMemonico::Palabra(void)
 	{
 		return this->valor;
 	}
-	bool operator==(const NMemonico& otro)
+	bool NMemonico::operator==(const NMemonico& otro)
 	{
 		// Utilizamos XOR para hacer la comparación más rápida
 		return !(this->valor ^ otro.valor);
 	}
-	bool operator==(NMemonico::Palabra otro)
+	bool NMemonico::operator==(NMemonico::Palabra otro)
 	{
 		return !(this->valor ^ otro);
 	}
-	bool operator!=(const NMemonico& otro)
+	bool NMemonico::operator!=(const NMemonico& otro)
 	{
 		return !(*this == otro);
 	}
-	bool operator!=(NMemonico::Palabra otro)
+	bool NMemonico::operator!=(NMemonico::Palabra otro)
 	{
 		return !(*this == otro);
 	}
 	// Los siguientes metodos son los mismos que los superiores,
 	// solo que constantes.
-	bool operator==(const NMemonico& otro) const
+	bool NMemonico::operator==(const NMemonico& otro) const
 	{
 		return !(this->valor ^ otro.valor);
 	}
-	bool operator==(NMemonico::Palabra otro) const
+	bool NMemonico::operator==(NMemonico::Palabra otro) const
 	{
 		return !(this->valor ^ otro);
 	}
-	bool operator!=(const NMemonico& otro) const
+	bool NMemonico::operator!=(const NMemonico& otro) const
 	{
 		return !(*this == otro);
 	}
-	bool operator!=(NMemonico::Palabra otro) const
+	bool NMemonico::operator!=(NMemonico::Palabra otro) const
 	{
 		return !(*this == otro);
 	}
-	NMemonico& operator=(const NMemonico& otro)
+	NMemonico& NMemonico::operator=(const NMemonico& otro)
 	{
 		this->valor = otro.valor;
 		return *this;
 	}
-	NMemonico& operator=(NMemonico::Palabra otro)
+	NMemonico& NMemonico::operator=(NMemonico::Palabra otro)
 	{
 		this->valor = otro;
 		return *this;
@@ -158,14 +158,15 @@ namespace pseudod
 	// Proxy:
 	bool NMemonicoProxy::operator==(NMemonico otro)
 	{
-		NMemonicoProxy::iterator iter
-			= std::find(this->begin, this->end, otro.ObtenerValor());
-		if(iter == this->end)
+		NMemonicoProxy::iterator iter;
+		for(iter = this->begin; iter != this->end; iter++)
 		{
-			// Not found
-			return false;
+			if(iter->second == otro.ObtenerValor())
+			{
+				return true;
+			}
 		}
-		return true;
+		return false;
 	}
 	bool NMemonicoProxy::operator!=(NMemonico otro)
 	{
@@ -173,14 +174,15 @@ namespace pseudod
 	}
 	bool NMemonicoProxy::operator==(NMemonico::Palabra otro)
 	{
-		NMemonicoProxy::iterator iter
-			= std::find(this->begin, this->end, otro);
-		if(iter == this->end)
+		NMemonicoProxy::iterator iter;
+		for(iter = this->begin; iter != this->end; iter++)
 		{
-			// Not found
-			return false;
+			if(iter->second == otro)
+			{
+				return true;
+			}
 		}
-		return true;
+		return false;
 	}
 	bool NMemonicoProxy::operator!=(NMemonico::Palabra otro)
 	{
@@ -189,14 +191,15 @@ namespace pseudod
 	// Comparaciones constantes:
 	bool NMemonicoProxy::operator==(NMemonico otro) const
 	{
-		NMemonicoProxy::iterator iter
-			= std::find(this->begin, this->end, otro.ObtenerValor());
-		if(iter == this->end)
+		NMemonicoProxy::iterator iter;
+		for(iter = this->begin; iter != this->end; iter++)
 		{
-			// Not found
-			return false;
+			if(iter->second == otro.ObtenerValor())
+			{
+				return true;
+			}
 		}
-		return true;
+		return false;
 	}
 	bool NMemonicoProxy::operator!=(NMemonico otro) const
 	{
@@ -204,14 +207,15 @@ namespace pseudod
 	}
 	bool NMemonicoProxy::operator==(NMemonico::Palabra otro) const
 	{
-		NMemonicoProxy::iterator iter
-			= std::find(this->begin, this->end, otro);
-		if(iter == this->end)
+		NMemonicoProxy::iterator iter;
+		for(iter = this->begin; iter != this->end; iter++)
 		{
-			// Not found
-			return false;
+			if(iter->second == otro)
+			{
+				return true;
+			}
 		}
-		return true;
+		return false;
 	}
 	bool NMemonicoProxy::operator!=(NMemonico::Palabra otro) const
 	{
@@ -237,8 +241,8 @@ namespace pseudod
 		// Por ello, debemos devolver todos los posibles nmemonicos y
 		// que el parser compare si entre ellos está el que busca.
 		NMemonicoProxy proxy;
-		proxy.begin = values->first;
-		proxy.end = values->second;
+		proxy.begin = values.first;
+		proxy.end = values.second;
 		return proxy;
 	}
 
