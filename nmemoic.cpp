@@ -102,11 +102,12 @@ namespace pseudod
 	}
 	bool operator==(const NMemonico& otro)
 	{
-		return (this->valor == otro.valor);
+		// Utilizamos XOR para hacer la comparación más rápida
+		return !(this->valor ^ otro.valor);
 	}
 	bool operator==(NMemonico::Palabra otro)
 	{
-		return (this->valor == otro);
+		return !(this->valor ^ otro);
 	}
 	bool operator!=(const NMemonico& otro)
 	{
@@ -116,13 +117,15 @@ namespace pseudod
 	{
 		return !(*this == otro);
 	}
+	// Los siguientes metodos son los mismos que los superiores,
+	// solo que constantes.
 	bool operator==(const NMemonico& otro) const
 	{
-		return (this->valor == otro.valor);
+		return !(this->valor ^ otro.valor);
 	}
 	bool operator==(NMemonico::Palabra otro) const
 	{
-		return (this->valor == otro);
+		return !(this->valor ^ otro);
 	}
 	bool operator!=(const NMemonico& otro) const
 	{
@@ -142,6 +145,7 @@ namespace pseudod
 		this->valor = otro;
 		return *this;
 	}
+	// Obtener valor:
 	NMemonico::Palabra& NMemonico::ObtenerValor(void)
 	{
 		return this->valor;
@@ -151,6 +155,7 @@ namespace pseudod
 		return this->valor;
 	}
 
+	// Proxy:
 	bool NMemonicoProxy::operator==(NMemonico otro)
 	{
 		NMemonicoProxy::iterator iter
@@ -181,6 +186,7 @@ namespace pseudod
 	{
 		return !(*this == otro);
 	}
+	// Comparaciones constantes:
 	bool NMemonicoProxy::operator==(NMemonico otro) const
 	{
 		NMemonicoProxy::iterator iter

@@ -37,7 +37,8 @@ namespace pseudod
 	{
 		if(!Ejecutar)
 			return;
-		if(o == "adquirir")
+		NMemonicoProxy proxy = ConvertirCadenaANMemonico(o);
+		if(proxy == NMemonico::PD_ADQUIRIR)
 		{
 			std::string a;
 			e >> a;
@@ -45,15 +46,15 @@ namespace pseudod
 			DATOS_INT.CrearVariable(a + "#Tipo", "Variable", 0, "PseudoVariable");
 			DATOS_INT.CrearVariable(a + "#NOMBRE", "Variable", 0, a);
 		}
-		else if(o == "instancia") // alias de Importar.Tipos.Instancia
+		else if(proxy == NMemonico::PD_INSTANCIA) // alias de Importar.Tipos.Instancia
 		{
 			(*FUNCION)("Importar.Tipos.Instancia", e);
 		}
-		else if((o == "estructura") || (o == "clase"))
+		else if(proxy == NMemonico::PD_CLASE)
 		{
 			(*FUNCION)("Importar.Tipos.Estructura", e);
 		}
-		else if(o == "heredar")
+		else if(proxy == NMemonico::PD_HEREDAR)
 		{
 			(*FUNCION)("Importar.Tipos.Heredar", e);
 		}
@@ -61,19 +62,19 @@ namespace pseudod
 		{
 			(*FUNCION)("Importar.Tipos.EstrucEstruc", e);
 		}
-		else if(o == "redireccionar")
+		else if(proxy == NMemonico::PD_REDIRECCIONAR)
 		{
 			(*FUNCION)("Importar.Tipos.Redireccionar", e);
 		}
-		else if(o == "mientras")
+		else if(proxy == NMemonico::PD_MIENTRAS)
 		{
 			(*FUNCION)("Importar.PseudoD.Mientras", e);
 		}
-		else if(o == "liberar")
+		else if(proxy == NMemonico::PD_LIBERAR)
 		{
 			(*FUNCION)("Importar.Tipos.Borrar", e);
 		}
-		else if(o == "puntero")
+		else if(proxy == NMemonico::PD_PUNTERO)
 		{
 			std::string var = "", val = "";
 			bool existe = false;
