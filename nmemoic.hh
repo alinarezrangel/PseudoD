@@ -20,6 +20,7 @@
 #include <map>
 #include <unordered_map>
 #include <exception>
+#include <algorithm>
 #include <dlfcn.h>
 
 #include "NEA/PDData.hh"
@@ -42,6 +43,10 @@ namespace pseudod
 	class NMemonico : public PDvar::PDObjeto
 	{
 		public:
+			/**
+			* @brief Conjunto de palabras del nmemonico.
+			* Estas son todas las palabras que admite el nmemonico.
+			*/
 			enum Palabra
 			{
 				PD_ADQUIRIR, // adquirir
@@ -93,29 +98,151 @@ namespace pseudod
 				PD_OTRO // ???
 			};
 
+			/**
+			* @brief Crea un nuevo nmemonico.
+			* La palabra predeterminada es PD_OTRO.
+			*/
 			NMemonico(void);
+			/**
+			* @brief Crea un nuevo nmemonico.
+			* Utiliza la palabra provista.
+			* @param otro Palabra a utilizar.
+			*/
 			NMemonico(Palabra otro);
+			/**
+			* @brief Crea un nuevo nmemonico.
+			* Copia todos los datos desde el otro.
+			* @param otro NMemonico a copiar.
+			*/
 			NMemonico(const NMemonico& otro);
+			/**
+			* @brief Mueve un nmemonico.
+			* Mueve todos los datos desde el otro nmemonico.
+			* @param otro Fuente desde la cual se moverán los datos.
+			*/
 			NMemonico(NMemonico&& otro);
+			/**
+			* @brief Destruye el nmemonico.
+			*/
 			virtual ~NMemonico(void);
 
 			// Operadores
 
+			/**
+			* @brief Convierte este nmemonico a una palabra.
+			* Realmente devuelve la palabra interna.
+			*/
 			operator Palabra(void); // Convertir a ENUM
+			/**
+			* @brief Compara si los dos nmemonicos son iguales.
+			* @param otro Otro nmemonico a comparar.
+			*/
 			bool operator==(const NMemonico& otro); // Comparar desde otro
+			/**
+			* @brief Comparar si las dos palabras son iguales.
+			* @param otro Otra palabra a comparar.
+			*/
 			bool operator==(Palabra otro); // Comparar a ENUM
+			/**
+			* @brief Compara si los dos nmemonicos son diferentes.
+			* @param otro Otro nmemonico a comparar.
+			*/
+			bool operator!=(const NMemonico& otro); // Comparar desde otro
+			/**
+			* @brief Comparar si las dos palabras son diferentes.
+			* @param otro Otra palabra a comparar.
+			*/
+			bool operator!=(Palabra otro); // Comparar a ENUM
+			/**
+			* @brief Versión constante de operator==
+			* @param otro Otro valor a comparar.
+			*/
 			bool operator==(const NMemonico& otro) const; // Comparar desde otro
+			/**
+			* @brief Versión constante de operator==
+			* @param otro Otro valor a comparar.
+			*/
 			bool operator==(Palabra otro) const; // Comparar a ENUM
+			/**
+			* @brief Versión constante de operator!=
+			* @param otro Otro valor a comparar.
+			*/
+			bool operator!=(const NMemonico& otro) const; // Comparar desde otro
+			/**
+			* @brief Versión constante de operator!=
+			* @param otro Otro valor a comparar.
+			*/
+			bool operator!=(Palabra otro) const; // Comparar a ENUM
+			/**
+			* @brief Asigna desde otro nmemonico.
+			* Copia todos los datos desde el otro nmemonico hasta este.
+			* @param otro NMemonico a copiar.
+			*/
 			NMemonico& operator=(const NMemonico& otro); // Fijar desde otro
+			/**
+			* @brief Asigna otra palabra.
+			* Cambia la palabra actual a la especificada.
+			* @param otro Nueva palabra del nmemonico.
+			*/
 			NMemonico& operator=(Palabra otro); // Fijar a otro
 
+			/**
+			* @brief Obtinene una referencia a la palabra.
+			* @return Referencia a la palabra de este nmemonico.
+			*/
 			Palabra& ObtenerValor(void);
+			/**
+			* @brief Obtinene la palabra.
+			* @return La palabra de este nmemonico.
+			*/
 			Palabra ObtenerValor(void) const;
 		private:
 			Palabra valor;
 	};
 
-	std::istream& operator>>(std::istream& in, NMemonico& res);
+	/**
+	* @brief Proxy para obtener nmemonicos.
+	* Existen nmemonicos con el mismo simbolo sintactico
+	* pero con distintos simbolos semánticos. En caso
+	* que se lea o detecte uno de estos, se deben devolver
+	* todos los simbolos semánticos y que el parser seleccione
+	* el util. Este proxy permite realizar este tipo de operaciones
+	* y es eficiente solamente en conjuntos pequeños.
+	*
+	* Todos los operadores de igualdad determinan si el valor
+	* esta en el conjunto.
+	*/
+	struct NMemonicoProxy
+	{
+		typedef
+			std::multimap<std::string, pseudod::NMemonico::Palabra>::iterator
+			iterator;
+		iterator begin;
+		iterator end;
+
+		bool operator==(NMemonico otro);
+		bool operator!=(NMemonico otro);
+		bool operator==(NMemonico::Palabra otro);
+		bool operator!=(NMemonico::Palabra otro);
+		bool operator==(NMemonico otro) const;
+		bool operator!=(NMemonico otro) const;
+		bool operator==(NMemonico::Palabra otro) const;
+		bool operator!=(NMemonico::Palabra otro) const;
+	};
+
+	/**
+	* @brief Convierte una cadena a un conjunto de nmemonicos.
+	* El conjunto contiene todos los simbolos semánticos que
+	* concuerdan con el simbolo sintáctico especificado.
+	*
+	* Si el simbolo semantico no existe, todas las comparaciones
+	* sobre el proxy devolverán falso.
+	*
+	* @param in Simbolo sintáctico a convertir.
+	*/
+	NMemonicoProxy ConvertirCadenaANMemonico(std::string in);
+
+	std::istream& operator>>(std::istream& in, NMemonicoProxy& res);
 	std::ostream& operator<<(std::ostream& out, NMemonico res);
 }
 

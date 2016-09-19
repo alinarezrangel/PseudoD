@@ -67,9 +67,24 @@ static std::multimap<std::string, pseudod::NMemonico::Palabra> ConversorS2P =
 	{"comparar_i", pseudod::NMemonico::PD_SON_IGUALES},
 	{"¿son_iguales?", pseudod::NMemonico::PD_SON_IGUALES},
 	{"escribir_esp", pseudod::NMemonico::PD_ESCRIBIR_ESPACIO},
+	{"[", pseudod::NMemonico::PD_COMENTARIO},
+	{"]", pseudod::NMemonico::PD_COMENTARIO},
 	{"sal", pseudod::NMemonico::PD_SALIR},
 	{"salir", pseudod::NMemonico::PD_SALIR}
 };
+static std::multimap<pseudod::NMemonico::Palabra, std::string> ConversorP2S;
+static bool CreadoConversor = false;
+
+static inline void IntentaCrearConversor(void)
+{
+	if(CreadoConversor)
+		return;
+	for(auto i = ConversorS2P.begin(); i != ConversorS2P.end(); i++)
+	{
+		ConversorP2S[i->second] = i->first;
+	}
+	CreadoConversor = true;
+}
 
 namespace pseudod
 {
@@ -93,6 +108,14 @@ namespace pseudod
 	{
 		return (this->valor == otro);
 	}
+	bool operator!=(const NMemonico& otro)
+	{
+		return !(*this == otro);
+	}
+	bool operator!=(NMemonico::Palabra otro)
+	{
+		return !(*this == otro);
+	}
 	bool operator==(const NMemonico& otro) const
 	{
 		return (this->valor == otro.valor);
@@ -100,6 +123,14 @@ namespace pseudod
 	bool operator==(NMemonico::Palabra otro) const
 	{
 		return (this->valor == otro);
+	}
+	bool operator!=(const NMemonico& otro) const
+	{
+		return !(*this == otro);
+	}
+	bool operator!=(NMemonico::Palabra otro) const
+	{
+		return !(*this == otro);
 	}
 	NMemonico& operator=(const NMemonico& otro)
 	{
@@ -120,13 +151,103 @@ namespace pseudod
 		return this->valor;
 	}
 
-	std::istream& operator>>(std::istream& in, NMemonico& res)
+	bool NMemonicoProxy::operator==(NMemonico otro)
 	{
-		std::string value = "";
-		in >> value;
-		//decltype(ConversorS2P)::iterator = ConversorS2P[value];
+		NMemonicoProxy::iterator iter
+			= std::find(this->begin, this->end, otro.ObtenerValor());
+		if(iter == this->end)
+		{
+			// Not found
+			return false;
+		}
+		return true;
+	}
+	bool NMemonicoProxy::operator!=(NMemonico otro)
+	{
+		return !(*this == otro);
+	}
+	bool NMemonicoProxy::operator==(NMemonico::Palabra otro)
+	{
+		NMemonicoProxy::iterator iter
+			= std::find(this->begin, this->end, otro);
+		if(iter == this->end)
+		{
+			// Not found
+			return false;
+		}
+		return true;
+	}
+	bool NMemonicoProxy::operator!=(NMemonico::Palabra otro)
+	{
+		return !(*this == otro);
+	}
+	bool NMemonicoProxy::operator==(NMemonico otro) const
+	{
+		NMemonicoProxy::iterator iter
+			= std::find(this->begin, this->end, otro.ObtenerValor());
+		if(iter == this->end)
+		{
+			// Not found
+			return false;
+		}
+		return true;
+	}
+	bool NMemonicoProxy::operator!=(NMemonico otro) const
+	{
+		return !(*this == otro);
+	}
+	bool NMemonicoProxy::operator==(NMemonico::Palabra otro) const
+	{
+		NMemonicoProxy::iterator iter
+			= std::find(this->begin, this->end, otro);
+		if(iter == this->end)
+		{
+			// Not found
+			return false;
+		}
+		return true;
+	}
+	bool NMemonicoProxy::operator!=(NMemonico::Palabra otro) const
+	{
+		return !(*this == otro);
+	}
+
+	NMemonicoProxy ConvertirCadenaANMemonico(std::string in)
+	{
+		auto values = ConversorS2P.equal_range(in);
+		// decltype(values) =
+		//    std::pair<decltype(ConversorS2P)::iterator (begin),
+		//              decltype(ConversorS2P)::iterator (end)>
+
+		// values es un iterador sobre todos los nmemonicos que concuerdan
+		// con "val"
+		// Sin embargo, debido al funcionamiento de los nmemonicos no
+		// podemos determinar a exactitud cual es:
+		// > Podemos determinar que cadena le pertenece a un nmemonico,
+		// > más no que nmemonico le pertenece a una cadena: esto es
+		// > debido a que los nmemonicos comparten cadenas (existen
+		// > dos nmemonicos con simbolos distintos y cadenas iguales)
+		// > y cuya diferencia es únicamente semantica y no sintáctica.
+		// Por ello, debemos devolver todos los posibles nmemonicos y
+		// que el parser compare si entre ellos está el que busca.
+		NMemonicoProxy proxy;
+		proxy.begin = values->first;
+		proxy.end = values->second;
+		return proxy;
+	}
+
+	std::istream& operator>>(std::istream& in, NMemonicoProxy& res)
+	{
+		std::string val = "";
+		in >> val;
+		res = ConvertirCadenaANMemonico(val);
 		return in;
 	}
-	std::ostream& operator<<(std::ostream& out, NMemonico res);
+	std::ostream& operator<<(std::ostream& out, NMemonico res)
+	{
+		IntentaCrearConversor();
+		out << ConversorP2S.find(res)->second;
+		return out;
+	}
 }
 
