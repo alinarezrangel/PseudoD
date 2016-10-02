@@ -10,7 +10,7 @@
 *****************************************
 ****************************************************************************** ]
 
-utilizar inic.pseudo
+utilizar mate.pseudo
 
 [DOCUMENTA
 @file Documentación de clases.pseudo.
@@ -44,120 +44,22 @@ Almacena el resultado en el argumento res.
 @errors Active
 DOCUMENTA]
 funcion Fraccion#sumar [ Yo, Tu ]
-	adquirir __REF_YO__
-	adquirir __REF_TU__
-	adquirir __REF_RES__
-	adquirir __BUFFER_A__
-	adquirir __BUFFER_B__
-	adquirir __BUFFER_RA__
-	adquirir __BUFFER_RB__
-	adquirir __BUFFER_RC__
-	recibir_parametro __REF_YO__ [ sacamos las referencias ]
-	recibir_parametro __REF_TU__
-	recibir_parametro __REF_RES__
-	empujar __REF_TU__ [ guardamos las referencias YO y TU para usos posteriores ]
-	empujar __REF_YO__
-	[ fijamos los buffers a los atributos que queremos obtener ]
-	fijar __BUFFER_A__ =* #numerador
-	fijar __BUFFER_B__ =* #denominador
-	Importar.Cad.Concatenar __REF_YO__ __BUFFER_A__ __REF_YO__
-	[ al concatenar la referencia con el atributo, lo podemos fijar y obtener ]
-	Importar.Cad.Concatenar __REF_TU__ __BUFFER_B__ __REF_TU__
-	[ Fijamos otro buffer a la accion a realizar con las referencias ]
-	fijar __BUFFER_A__ =* Importar.Ent.Multiplicar
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	[ Ya le concatenamos un espacio, al concatenar la referencia, (su atributo)
-	podemos fijarla ]
-	Importar.Cad.Concatenar __BUFFER_A__ __REF_YO__ __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __REF_TU__ __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	[ Almacenamos el resultado en        __BUFFER_RA__ ]
-	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_RA__#NOMBRE __BUFFER_A__
-	ejecutar __BUFFER_A__ [ ejecutamos la sentencia Multiplicar ]
-	[ Ya ejecutamos de a/b + c/d la parte ad, ad esta en __BUFFER_RA__ ]
-	[ las referencias les agregamos los atributos antes, pero ahora necesitamos
-	otro atributos, asi que sacamos las referencias que guardamos anteriormente ]
-	sacar __REF_YO__
-	sacar __REF_TU__
-	empujar __REF_TU__ [ las volvemos a guardar ]
-	empujar __REF_YO__
-	[ accedemos a los atributos ]
-	fijar __BUFFER_A__ =* #denominador
-	fijar __BUFFER_B__ =* #numerador
-	Importar.Cad.Concatenar __REF_YO__ __BUFFER_A__ __REF_YO__
-	Importar.Cad.Concatenar __REF_TU__ __BUFFER_B__ __REF_TU__
-	[ Tambien multiplicamos ]
-	fijar __BUFFER_A__ =* Importar.Ent.Multiplicar
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __REF_YO__ __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __REF_TU__ __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	[ pero almacenamos en __BUFFER_RB__ ]
-	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_RB__#NOMBRE __BUFFER_A__
-	ejecutar __BUFFER_A__ [ ejecutamos la otra multiplicacion ]
-	[ Ya tenemos la parte de a/b + c/d, bc l cual esta en __BUFFER_RB__ ]
-	sacar __REF_YO__ [ sacamos las referencias guardadas ]
-	sacar __REF_TU__
-	empujar __REF_TU__ [ guardamos las referencias para el ultimo paso ]
-	empujar __REF_YO__
-	[ accedemos a los atributos ]
-	fijar __BUFFER_A__ =* #denominador
-	fijar __BUFFER_B__ =* #denominador
-	Importar.Cad.Concatenar __REF_YO__ __BUFFER_A__ __REF_YO__
-	Importar.Cad.Concatenar __REF_TU__ __BUFFER_B__ __REF_TU__
-	[ Multiplicamos ]
-	fijar __BUFFER_A__ =* Importar.Ent.Multiplicar
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __REF_YO__ __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __REF_TU__ __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	[ Y almacenamos en __BUFFER_RC__ ]
-	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_RC__#NOMBRE __BUFFER_A__
-	ejecutar __BUFFER_A__ [ ejecutamos... ]
-	[ Ya tenemos la parte de a/b + c/d, bd en __BUFFER_RC__ ]
-	[ Sumamos ad y bc ]
-	Importar.Ent.Sumar __BUFFER_RA__ __BUFFER_RB__ __BUFFER_RA__
-	sacar __REF_YO__
-	sacar __REF_TU__ [ sacamos las referencias para el ultimo paso ]
-	[ Ahora vamos a fijar los valores a __REF_RES__ ]
-	fijar __BUFFER_A__ =* fijar
-	fijar __BUFFER_B__ =* #numerador
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __REF_RES__ __BUFFER_A__
-	[ Primero el numerador ]
-	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	[ lo fijamos a... ]
-	fijar __BUFFER_B__ =* =¿?
-	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	[ La suma de ad y bc ]
-	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_RA__#NOMBRE __BUFFER_A__
-	ejecutar __BUFFER_A__ [ ejecutamos ]
-	[ Ahora fijaremos el denominador a bd ]
-	fijar __BUFFER_A__ =* fijar
-	fijar __BUFFER_B__ =* #denominador
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __REF_RES__ __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	fijar __BUFFER_B__ =* =¿?
-	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	[ recordar que __BUFFER_RC__ es el resultado de multiplicar bd ]
-	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_RC__#NOMBRE __BUFFER_A__
-	ejecutar __BUFFER_A__ [ ejecutamos ]
-	liberar __REF_YO__ [ y liberamos memoria ]
-	liberar __REF_TU__
-	liberar __BUFFER_A__
-	liberar __BUFFER_B__
-	liberar __BUFFER_RA__
-	liberar __BUFFER_RB__
-	liberar __BUFFER_RC__
-	liberar __REF_RES__
+	adquirir yo
+	adquirir tu
+	adquirir res
+	recibir_parametro yo
+	recibir_parametro tu
+	recibir_parametro res
+	fijar <res>#numerador a llamar Sumar
+		llamar Multiplicar <yo>#numerador <tu>#denominador finargs
+		llamar Multiplicar <yo>#denominador <tu>#numerador finargs
+	finargs
+	fijar <res>#denominador a llamar Multiplicar
+		<yo>#denominador <tu>#denominador
+	finargs
+	liberar yo
+	liberar tu
+	liberar res
 finfun
 
 [DOCUMENTA
@@ -170,98 +72,22 @@ Almacena el resultado en el argumento Yo.
 @errors Active
 DOCUMENTA]
 funcion Fraccion#restar [ Yo, Tu ]
-	adquirir __REF_YO__
-	adquirir __REF_TU__
-	adquirir __REF_RES__
-	adquirir __BUFFER_A__
-	adquirir __BUFFER_B__
-	adquirir __BUFFER_RA__
-	[ TODO: identico a Fraccion#sumar., solo que resta en una parte ]
-	adquirir __BUFFER_RB__
-	adquirir __BUFFER_RC__
-	recibir_parametro __REF_YO__
-	recibir_parametro __REF_TU__
-	recibir_parametro __REF_RES__
-	empujar __REF_TU__
-	empujar __REF_YO__
-	fijar __BUFFER_A__ =* #numerador
-	fijar __BUFFER_B__ =* #denominador
-	Importar.Cad.Concatenar __REF_YO__ __BUFFER_A__ __REF_YO__
-	Importar.Cad.Concatenar __REF_TU__ __BUFFER_B__ __REF_TU__
-	fijar __BUFFER_A__ =* Importar.Ent.Multiplicar
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __REF_YO__ __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __REF_TU__ __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_RA__#NOMBRE __BUFFER_A__
-	ejecutar __BUFFER_A__
-	sacar __REF_YO__
-	sacar __REF_TU__
-	empujar __REF_TU__
-	empujar __REF_YO__
-	fijar __BUFFER_A__ =* #denominador
-	fijar __BUFFER_B__ =* #numerador
-	Importar.Cad.Concatenar __REF_YO__ __BUFFER_A__ __REF_YO__
-	Importar.Cad.Concatenar __REF_TU__ __BUFFER_B__ __REF_TU__
-	fijar __BUFFER_A__ =* Importar.Ent.Multiplicar
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __REF_YO__ __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __REF_TU__ __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_RB__#NOMBRE __BUFFER_A__
-	ejecutar __BUFFER_A__
-	sacar __REF_YO__
-	sacar __REF_TU__
-	empujar __REF_TU__
-	empujar __REF_YO__
-	fijar __BUFFER_A__ =* #denominador
-	fijar __BUFFER_B__ =* #denominador
-	Importar.Cad.Concatenar __REF_YO__ __BUFFER_A__ __REF_YO__
-	Importar.Cad.Concatenar __REF_TU__ __BUFFER_B__ __REF_TU__
-	fijar __BUFFER_A__ =* Importar.Ent.Multiplicar
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __REF_YO__ __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __REF_TU__ __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_RC__#NOMBRE __BUFFER_A__
-	ejecutar __BUFFER_A__
-	[ Aqui se resta, no se suma ]
-	Importar.Ent.Restar __BUFFER_RA__ __BUFFER_RB__ __BUFFER_RA__
-	sacar __REF_YO__
-	sacar __REF_TU__
-	fijar __BUFFER_A__ =* fijar
-	fijar __BUFFER_B__ =* #numerador
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __REF_RES__ __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	fijar __BUFFER_B__ =* =¿?
-	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_RA__#NOMBRE __BUFFER_A__
-	ejecutar __BUFFER_A__
-	fijar __BUFFER_A__ =* fijar
-	fijar __BUFFER_B__ =* #denominador
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __REF_RES__ __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	fijar __BUFFER_B__ =* =¿?
-	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_RC__#NOMBRE __BUFFER_A__
-	ejecutar __BUFFER_A__
-	liberar __REF_YO__
-	liberar __REF_TU__
-	liberar __BUFFER_A__
-	liberar __BUFFER_B__
-	liberar __BUFFER_RA__
-	liberar __BUFFER_RB__
-	liberar __BUFFER_RC__
-	liberar __REF_RES__
+	adquirir yo
+	adquirir tu
+	adquirir res
+	recibir_parametro yo
+	recibir_parametro tu
+	recibir_parametro res
+	fijar <res>#numerador a llamar Restar
+		llamar Multiplicar <yo>#numerador <tu>#denominador finargs
+		llamar Multiplicar <yo>#denominador <tu>#numerador finargs
+	finargs
+	fijar <res>#denominador a llamar Multiplicar
+		<yo>#denominador <tu>#denominador
+	finargs
+	liberar yo
+	liberar tu
+	liberar res
 finfun
 
 [DOCUMENTA
@@ -274,88 +100,21 @@ Almacena el resultado en el argumento Yo.
 @errors Active
 DOCUMENTA]
 funcion Fraccion#multiplicar [ Yo, Tu ]
-	adquirir __REF_YO__
-	adquirir __REF_TU__
-	adquirir __REF_RES__
-	adquirir __BUFFER_A__
-	adquirir __BUFFER_B__
-	adquirir __BUFFER_RA__
-	adquirir __BUFFER_RB__
-	adquirir __BUFFER_RC__
-	recibir_parametro __REF_YO__
-	recibir_parametro __REF_TU__ [ sacamos las referencias ]
-	recibir_parametro __REF_RES__
-	empujar __REF_TU__ [ las guardamos para otras acciones ]
-	empujar __REF_YO__
-	[ Como vamos a multiplicar numerador por numerador,
-	  accedemos a esos atributos ]
-	fijar __BUFFER_A__ =* #numerador
-	fijar __BUFFER_B__ =* #numerador
-	Importar.Cad.Concatenar __REF_YO__ __BUFFER_A__ __REF_YO__
-	Importar.Cad.Concatenar __REF_TU__ __BUFFER_B__ __REF_TU__
-	[ Vamos a multiplicar ]
-	fijar __BUFFER_A__ =* Importar.Ent.Multiplicar
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __REF_YO__ __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __REF_TU__ __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	[ almacenamos en __BUFFER_RA__ ]
-	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_RA__#NOMBRE __BUFFER_A__
-	ejecutar __BUFFER_A__
-	sacar __REF_YO__ [ sacamos las referencias de nuevo ]
-	sacar __REF_TU__
-	empujar __REF_TU__ [ y las guardamos ]
-	empujar __REF_YO__
-	[ multiplicamos denominador por denominador ]
-	fijar __BUFFER_A__ =* #denominador
-	fijar __BUFFER_B__ =* #denominador
-	Importar.Cad.Concatenar __REF_YO__ __BUFFER_A__ __REF_YO__
-	Importar.Cad.Concatenar __REF_TU__ __BUFFER_B__ __REF_TU__
-	fijar __BUFFER_A__ =* Importar.Ent.Multiplicar
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __REF_YO__ __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __REF_TU__ __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	[ y almacenamos en __BUFFER_RB__ ]
-	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_RB__#NOMBRE __BUFFER_A__
-	ejecutar __BUFFER_A__ [ ejecutamos ]
-	sacar __REF_YO__ [ sacamos las referencias ]
-	sacar __REF_TU__
-	[ fijamos el resultado ]
-	fijar __BUFFER_A__ =* fijar
-	fijar __BUFFER_B__ =* #numerador
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __REF_RES__ __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
-	[ primero el numerador ]
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	fijar __BUFFER_B__ =* =¿?
-	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_RA__#NOMBRE __BUFFER_A__
-	ejecutar __BUFFER_A__ [ ejecutamos ]
-	fijar __BUFFER_A__ =* fijar
-	fijar __BUFFER_B__ =* #denominador
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __REF_RES__ __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
-	[ Despues el denominador ]
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	fijar __BUFFER_B__ =* =¿?
-	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_RB__#NOMBRE __BUFFER_A__
-	ejecutar __BUFFER_A__ [ Ejecutamos ]
-	liberar __REF_YO__ [ y liberamos memoria ]
-	liberar __REF_TU__
-	liberar __BUFFER_A__
-	liberar __BUFFER_B__
-	liberar __BUFFER_RA__
-	liberar __BUFFER_RB__
-	liberar __BUFFER_RC__
-	liberar __REF_RES__
+	adquirir yo
+	adquirir tu
+	adquirir res
+	recibir_parametro yo
+	recibir_parametro tu
+	recibir_parametro res
+	fijar <res>#numerador a llamar Multiplicar
+		<yo>#numerador <tu>#numerador
+	finargs
+	fijar <res>#denominador a llamar Multiplicar
+		<yo>#denominador <tu>#denominador
+	finargs
+	liberar yo
+	liberar tu
+	liberar res
 finfun
 
 [DOCUMENTA
@@ -368,79 +127,21 @@ Almacena el resultado en el argumento Yo.
 @errors Active
 DOCUMENTA]
 funcion Fraccion#dividir [ Yo, Tu ]
-	adquirir __REF_YO__
-	adquirir __REF_TU__
-	adquirir __REF_RES__
-	adquirir __BUFFER_A__
-	adquirir __BUFFER_B__
-	adquirir __BUFFER_RA__
-	adquirir __BUFFER_RB__
-	adquirir __BUFFER_RC__
-	recibir_parametro __REF_YO__
-	recibir_parametro __REF_TU__
-	recibir_parametro __REF_RES__
-	empujar __REF_TU__
-	empujar __REF_YO__ [ como Fraccion#multiplicar. solo que multiplicamos en X ]
-	fijar __BUFFER_A__ =* #numerador
-	fijar __BUFFER_B__ =* #denominador
-	Importar.Cad.Concatenar __REF_YO__ __BUFFER_A__ __REF_YO__
-	Importar.Cad.Concatenar __REF_TU__ __BUFFER_B__ __REF_TU__
-	fijar __BUFFER_A__ =* Importar.Ent.Multiplicar
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __REF_YO__ __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __REF_TU__ __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_RA__#NOMBRE __BUFFER_A__
-	ejecutar __BUFFER_A__
-	sacar __REF_YO__
-	sacar __REF_TU__
-	empujar __REF_TU__
-	empujar __REF_YO__
-	fijar __BUFFER_A__ =* #denominador
-	fijar __BUFFER_B__ =* #numerador
-	Importar.Cad.Concatenar __REF_YO__ __BUFFER_A__ __REF_YO__
-	Importar.Cad.Concatenar __REF_TU__ __BUFFER_B__ __REF_TU__
-	fijar __BUFFER_A__ =* Importar.Ent.Multiplicar
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __REF_YO__ __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __REF_TU__ __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_RB__#NOMBRE __BUFFER_A__
-	ejecutar __BUFFER_A__
-	sacar __REF_YO__
-	sacar __REF_TU__
-	fijar __BUFFER_A__ =* fijar
-	fijar __BUFFER_B__ =* #numerador
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __REF_RES__ __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	fijar __BUFFER_B__ =* =¿?
-	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_RA__#NOMBRE __BUFFER_A__
-	ejecutar __BUFFER_A__
-	fijar __BUFFER_A__ =* fijar
-	fijar __BUFFER_B__ =* #denominador
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __REF_RES__ __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	fijar __BUFFER_B__ =* =¿?
-	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_RB__#NOMBRE __BUFFER_A__
-	ejecutar __BUFFER_A__
-	liberar __REF_YO__
-	liberar __REF_TU__
-	liberar __BUFFER_A__
-	liberar __BUFFER_B__
-	liberar __BUFFER_RA__
-	liberar __BUFFER_RB__
-	liberar __BUFFER_RC__
-	liberar __REF_RES__
+	adquirir yo
+	adquirir tu
+	adquirir res
+	recibir_parametro yo
+	recibir_parametro tu
+	recibir_parametro res
+	fijar <res>#numerador a llamar Multiplicar
+		<yo>#numerador <tu>#denominador
+	finargs
+	fijar <res>#denominador a llamar Multiplicar
+		<yo>#denominador <tu>#numerador
+	finargs
+	liberar yo
+	liberar tu
+	liberar res
 finfun
 
 [DOCUMENTA
@@ -466,48 +167,21 @@ Devuelve verdadero si a y b son verdadero.
 @errors Active
 DOCUMENTA]
 funcion Boole#Y
-	adquirir __VAL_YO__
-	adquirir __VAL_TU__
-	adquirir __BUFFER_A__
-	adquirir __BUFFER_B__
-	adquirir __BUFFER_C__
-	adquirir __VALOR__
-	fijar __VALOR__ =¿? FALSO
-	recibir_parametro __VAL_YO__
-	recibir_parametro __VAL_TU__
-	fijar __BUFFER_A__ =* fijar
-	fijar __BUFFER_B__ =* =¿?
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__#NOMBRE __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __VAL_YO__ __BUFFER_A__
-	ejecutar __BUFFER_A__
-	fijar __BUFFER_A__ =* fijar
-	fijar __BUFFER_C__ =* =¿?
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_C__#NOMBRE __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_C__ __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __VAL_TU__ __BUFFER_A__
-	ejecutar __BUFFER_A__
-	si __BUFFER_C__
-		si __BUFFER_B__
-			fijar __VALOR__ =¿? VERDADERO
+	adquirir yo
+	adquirir tu
+	recibir_parametro yo
+	recibir_parametro tu
+	si <yo>
+		si <tu>
+			devolver VERDADERO
+		sino
+			devolver FALSO
 		fin
+	sino
+		devolver FALSO
 	fin
-	si_no __BUFFER_C__
-		fijar __VALOR__ =¿? FALSO
-	fin
-	empujar __VALOR__
-	liberar __VAL_YO__
-	liberar __VAL_TU__
-	liberar __BUFFER_A__
-	liberar __BUFFER_B__
-	liberar __BUFFER_C__
-	liberar __VALOR__
+	liberar yo
+	liberar tu
 finfun
 
 [DOCUMENTA
@@ -519,46 +193,21 @@ Devuelve verdadero si a es verdadero, b es verdadero, o ambos son verdadero.
 @errors Active
 DOCUMENTA]
 funcion Boole#O
-	adquirir __VAL_YO__
-	adquirir __VAL_TU__
-	adquirir __BUFFER_A__
-	adquirir __BUFFER_B__
-	adquirir __BUFFER_C__
-	adquirir __VALOR__
-	fijar __VALOR__ =¿? FALSO
-	recibir_parametro __VAL_YO__
-	recibir_parametro __VAL_TU__
-	fijar __BUFFER_A__ =* fijar
-	fijar __BUFFER_B__ =* =¿?
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__#NOMBRE __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __VAL_YO__ __BUFFER_A__
-	ejecutar __BUFFER_A__
-	fijar __BUFFER_A__ =* fijar
-	fijar __BUFFER_C__ =* =¿?
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_C__#NOMBRE __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_C__ __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __VAL_TU__ __BUFFER_A__
-	ejecutar __BUFFER_A__
-	si __BUFFER_C__
-		fijar __VALOR__ =¿? VERDADERO
+	adquirir yo
+	adquirir tu
+	adquirir res
+	recibir_parametro yo
+	recibir_parametro tu
+	si <yo>
+		fijar res a VERDADERO
 	fin
-	si __BUFFER_B__
-		fijar __VALOR__ =¿? VERDADERO
+	si <tu>
+		fijar res a VERDADERO
 	fin
-	empujar __VALOR__
-	liberar __VAL_YO__
-	liberar __VAL_TU__
-	liberar __BUFFER_A__
-	liberar __BUFFER_B__
-	liberar __BUFFER_C__
-	liberar __VALOR__
+	devolver res
+	liberar yo
+	liberar tu
+	liberar res
 finfun
 
 [DOCUMENTA
@@ -570,46 +219,17 @@ Devuelve verdadero si a y b son distintos.
 @errors Active
 DOCUMENTA]
 funcion Boole#O-EXCLUSIVO
-	adquirir __VAL_YO__
-	adquirir __VAL_TU__
-	adquirir __BUFFER_A__
-	adquirir __BUFFER_B__
-	adquirir __BUFFER_C__
-	adquirir __VALOR__
-	fijar __VALOR__ =¿? FALSO
-	recibir_parametro __VAL_YO__
-	recibir_parametro __VAL_TU__
-	fijar __BUFFER_A__ =* fijar
-	fijar __BUFFER_B__ =* =¿?
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__#NOMBRE __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __VAL_YO__ __BUFFER_A__
-	ejecutar __BUFFER_A__
-	fijar __BUFFER_A__ =* fijar
-	fijar __BUFFER_C__ =* =¿?
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_C__#NOMBRE __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_C__ __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __VAL_TU__ __BUFFER_A__
-	ejecutar __BUFFER_A__
-	si ¿son_iguales? __BUFFER_B__ __BUFFER_C__
-		fijar __VALOR__ =¿? FALSO
+	adquirir yo
+	adquirir tu
+	recibir_parametro yo
+	recibir_parametro tu
+	si son diferentes <yo> y <tu>
+		devolver VERDADERO
+	sino
+		devolver FALSO
 	fin
-	si_no ¿son_iguales? __BUFFER_B__ __BUFFER_C__
-		fijar __VALOR__ =¿? VERDADERO
-	fin
-	empujar __VALOR__
-	liberar __VAL_YO__
-	liberar __VAL_TU__
-	liberar __BUFFER_A__
-	liberar __BUFFER_B__
-	liberar __BUFFER_C__
-	liberar __VALOR__
+	liberar yo
+	liberar tu
 finfun
 
 [DOCUMENTA
@@ -620,32 +240,14 @@ Devuelve verdadero si a es falso, y falso si a es verdadero.
 @errors Active
 DOCUMENTA]
 funcion Boole#NO
-	adquirir __VAL_YO__
-	adquirir __BUFFER_A__
-	adquirir __BUFFER_B__
-	adquirir __VALOR__
-	fijar __VALOR__ =¿? FALSO
-	recibir_parametro __VAL_YO__
-	fijar __BUFFER_A__ =* fijar
-	fijar __BUFFER_B__ =* =¿?
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__#NOMBRE __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __BUFFER_B__ __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ ESP __BUFFER_A__
-	Importar.Cad.Concatenar __BUFFER_A__ __VAL_YO__ __BUFFER_A__
-	ejecutar __BUFFER_A__
-	si __BUFFER_B__
-		fijar __VALOR__ =¿? FALSO
+	adquirir yo
+	recibir_parametro yo
+	si <yo>
+		devolver FALSO
+	sino
+		devolver VERDADERO
 	fin
-	si_no __BUFFER_B__
-		fijar __VALOR__ =¿? VERDADERO
-	fin
-	empujar __VALOR__
-	liberar __VAL_YO__
-	liberar __BUFFER_A__
-	liberar __BUFFER_B__
-	liberar __VALOR__
+	liberar yo
 finfun
 
 [DOCUMENTA
@@ -671,28 +273,18 @@ heredar Objeto Numero
 @errors Active
 DOCUMENTA]
 funcion Numero#sumar
-	adquirir __REF_YO__
-	adquirir __REF_TU__
-	adquirir __REF_RES__
-	adquirir __BUFFER_A__
-	adquirir __BUFFER_B__
-	recibir_parametro __REF_YO__
-	recibir_parametro __REF_TU__
-	recibir_parametro __REF_RES__
-	fijar __BUFFER_A__ =* #valor 
-	fijar __BUFFER_B__ =* Importar.Ent.Sumar 
-	Importar.Cad.Concatenar __REF_YO__ __BUFFER_A__ __REF_YO__
-	Importar.Cad.Concatenar __REF_TU__ __BUFFER_A__ __REF_TU__
-	Importar.Cad.Concatenar __REF_RES__ __BUFFER_A__ __REF_RES__
-	Importar.Cad.Concatenar __BUFFER_B__ __REF_YO__ __BUFFER_B__
-	Importar.Cad.Concatenar __BUFFER_B__ __REF_TU__ __BUFFER_B__
-	Importar.Cad.Concatenar __BUFFER_B__ __REF_RES__ __BUFFER_B__
-	ejecutar __BUFFER_B__
-	liberar __REF_YO__
-	liberar __REF_TU__
-	liberar __REF_RES__
-	liberar __BUFFER_A__
-	liberar __BUFFER_B__
+	adquirir yo
+	adquirir tu
+	adquirir res
+	recibir_parametro yo
+	recibir_parametro tu
+	recibir_parametro res
+	fijar <res>#valor a llamar Sumar
+		<yo>#valor <tu>#valor
+	finargs
+	liberar yo
+	liberar tu
+	liberar res
 finfun
 
 [DOCUMENTA
@@ -703,28 +295,18 @@ finfun
 @errors Active
 DOCUMENTA]
 funcion Numero#restar
-	adquirir __REF_YO__
-	adquirir __REF_TU__
-	adquirir __REF_RES__
-	adquirir __BUFFER_A__
-	adquirir __BUFFER_B__
-	recibir_parametro __REF_YO__
-	recibir_parametro __REF_TU__
-	recibir_parametro __REF_RES__
-	fijar __BUFFER_A__ =* #valor 
-	fijar __BUFFER_B__ =* Importar.Ent.Restar 
-	Importar.Cad.Concatenar __REF_YO__ __BUFFER_A__ __REF_YO__
-	Importar.Cad.Concatenar __REF_TU__ __BUFFER_A__ __REF_TU__
-	Importar.Cad.Concatenar __REF_RES__ __BUFFER_A__ __REF_RES__
-	Importar.Cad.Concatenar __BUFFER_B__ __REF_YO__ __BUFFER_B__
-	Importar.Cad.Concatenar __BUFFER_B__ __REF_TU__ __BUFFER_B__
-	Importar.Cad.Concatenar __BUFFER_B__ __REF_RES__ __BUFFER_B__
-	ejecutar __BUFFER_B__
-	liberar __REF_YO__
-	liberar __REF_TU__
-	liberar __REF_RES__
-	liberar __BUFFER_A__
-	liberar __BUFFER_B__
+	adquirir yo
+	adquirir tu
+	adquirir res
+	recibir_parametro yo
+	recibir_parametro tu
+	recibir_parametro res
+	fijar <res>#valor a llamar Restar
+		<yo>#valor <tu>#valor
+	finargs
+	liberar yo
+	liberar tu
+	liberar res
 finfun
 
 [DOCUMENTA
@@ -735,28 +317,18 @@ finfun
 @errors Active
 DOCUMENTA]
 funcion Numero#multiplicar
-	adquirir __REF_YO__
-	adquirir __REF_TU__
-	adquirir __REF_RES__
-	adquirir __BUFFER_A__
-	adquirir __BUFFER_B__
-	recibir_parametro __REF_YO__
-	recibir_parametro __REF_TU__
-	recibir_parametro __REF_RES__
-	fijar __BUFFER_A__ =* #valor 
-	fijar __BUFFER_B__ =* Importar.Ent.Multiplicar 
-	Importar.Cad.Concatenar __REF_YO__ __BUFFER_A__ __REF_YO__
-	Importar.Cad.Concatenar __REF_TU__ __BUFFER_A__ __REF_TU__
-	Importar.Cad.Concatenar __REF_RES__ __BUFFER_A__ __REF_RES__
-	Importar.Cad.Concatenar __BUFFER_B__ __REF_YO__ __BUFFER_B__
-	Importar.Cad.Concatenar __BUFFER_B__ __REF_TU__ __BUFFER_B__
-	Importar.Cad.Concatenar __BUFFER_B__ __REF_RES__ __BUFFER_B__
-	ejecutar __BUFFER_B__
-	liberar __REF_YO__
-	liberar __REF_TU__
-	liberar __REF_RES__
-	liberar __BUFFER_A__
-	liberar __BUFFER_B__
+	adquirir yo
+	adquirir tu
+	adquirir res
+	recibir_parametro yo
+	recibir_parametro tu
+	recibir_parametro res
+	fijar <res>#valor a llamar Multiplicar
+		<yo>#valor <tu>#valor
+	finargs
+	liberar yo
+	liberar tu
+	liberar res
 finfun
 
 [DOCUMENTA
@@ -767,28 +339,18 @@ finfun
 @errors Active
 DOCUMENTA]
 funcion Numero#dividir
-	adquirir __REF_YO__
-	adquirir __REF_TU__
-	adquirir __REF_RES__
-	adquirir __BUFFER_A__
-	adquirir __BUFFER_B__
-	recibir_parametro __REF_YO__
-	recibir_parametro __REF_TU__
-	recibir_parametro __REF_RES__
-	fijar __BUFFER_A__ =* #valor 
-	fijar __BUFFER_B__ =* Importar.Ent.Dividir 
-	Importar.Cad.Concatenar __REF_YO__ __BUFFER_A__ __REF_YO__
-	Importar.Cad.Concatenar __REF_TU__ __BUFFER_A__ __REF_TU__
-	Importar.Cad.Concatenar __REF_RES__ __BUFFER_A__ __REF_RES__
-	Importar.Cad.Concatenar __BUFFER_B__ __REF_YO__ __BUFFER_B__
-	Importar.Cad.Concatenar __BUFFER_B__ __REF_TU__ __BUFFER_B__
-	Importar.Cad.Concatenar __BUFFER_B__ __REF_RES__ __BUFFER_B__
-	ejecutar __BUFFER_B__
-	liberar __REF_YO__
-	liberar __REF_TU__
-	liberar __REF_RES__
-	liberar __BUFFER_A__
-	liberar __BUFFER_B__
+	adquirir yo
+	adquirir tu
+	adquirir res
+	recibir_parametro yo
+	recibir_parametro tu
+	recibir_parametro res
+	fijar <res>#valor a llamar Dividir
+		<yo>#valor <tu>#valor
+	finargs
+	liberar yo
+	liberar tu
+	liberar res
 finfun
 
 [DOCUMENTA
@@ -814,28 +376,18 @@ heredar Objeto Decimal
 @errors Active
 DOCUMENTA]
 funcion Decimal#sumar
-	adquirir __REF_YO__
-	adquirir __REF_TU__
-	adquirir __REF_RES__
-	adquirir __BUFFER_A__
-	adquirir __BUFFER_B__
-	recibir_parametro __REF_YO__
-	recibir_parametro __REF_TU__
-	recibir_parametro __REF_RES__
-	fijar __BUFFER_A__ =* #valor 
-	fijar __BUFFER_B__ =* Importar.Dec.Sumar 
-	Importar.Cad.Concatenar __REF_YO__ __BUFFER_A__ __REF_YO__
-	Importar.Cad.Concatenar __REF_TU__ __BUFFER_A__ __REF_TU__
-	Importar.Cad.Concatenar __REF_RES__ __BUFFER_A__ __REF_RES__
-	Importar.Cad.Concatenar __BUFFER_B__ __REF_YO__ __BUFFER_B__
-	Importar.Cad.Concatenar __BUFFER_B__ __REF_TU__ __BUFFER_B__
-	Importar.Cad.Concatenar __BUFFER_B__ __REF_RES__ __BUFFER_B__
-	ejecutar __BUFFER_B__
-	liberar __REF_YO__
-	liberar __REF_TU__
-	liberar __REF_RES__
-	liberar __BUFFER_A__
-	liberar __BUFFER_B__
+	adquirir yo
+	adquirir tu
+	adquirir res
+	recibir_parametro yo
+	recibir_parametro tu
+	recibir_parametro res
+	fijar <res>#valor a llamar Sumar
+		<yo>#valor <tu>#valor
+	finargs
+	liberar yo
+	liberar tu
+	liberar res
 finfun
 
 [DOCUMENTA
@@ -846,28 +398,18 @@ finfun
 @errors Active
 DOCUMENTA]
 funcion Decimal#restar
-	adquirir __REF_YO__
-	adquirir __REF_TU__
-	adquirir __REF_RES__
-	adquirir __BUFFER_A__
-	adquirir __BUFFER_B__
-	recibir_parametro __REF_YO__
-	recibir_parametro __REF_TU__
-	recibir_parametro __REF_RES__
-	fijar __BUFFER_A__ =* #valor 
-	fijar __BUFFER_B__ =* Importar.Dec.Restar 
-	Importar.Cad.Concatenar __REF_YO__ __BUFFER_A__ __REF_YO__
-	Importar.Cad.Concatenar __REF_TU__ __BUFFER_A__ __REF_TU__
-	Importar.Cad.Concatenar __REF_RES__ __BUFFER_A__ __REF_RES__
-	Importar.Cad.Concatenar __BUFFER_B__ __REF_YO__ __BUFFER_B__
-	Importar.Cad.Concatenar __BUFFER_B__ __REF_TU__ __BUFFER_B__
-	Importar.Cad.Concatenar __BUFFER_B__ __REF_RES__ __BUFFER_B__
-	ejecutar __BUFFER_B__
-	liberar __REF_YO__
-	liberar __REF_TU__
-	liberar __REF_RES__
-	liberar __BUFFER_A__
-	liberar __BUFFER_B__
+	adquirir yo
+	adquirir tu
+	adquirir res
+	recibir_parametro yo
+	recibir_parametro tu
+	recibir_parametro res
+	fijar <res>#valor a llamar Restar
+		<yo>#valor <tu>#valor
+	finargs
+	liberar yo
+	liberar tu
+	liberar res
 finfun
 
 [DOCUMENTA
@@ -878,28 +420,18 @@ finfun
 @errors Active
 DOCUMENTA]
 funcion Decimal#multiplicar
-	adquirir __REF_YO__
-	adquirir __REF_TU__
-	adquirir __REF_RES__
-	adquirir __BUFFER_A__
-	adquirir __BUFFER_B__
-	recibir_parametro __REF_YO__
-	recibir_parametro __REF_TU__
-	recibir_parametro __REF_RES__
-	fijar __BUFFER_A__ =* #valor 
-	fijar __BUFFER_B__ =* Importar.Dec.Multiplicar 
-	Importar.Cad.Concatenar __REF_YO__ __BUFFER_A__ __REF_YO__
-	Importar.Cad.Concatenar __REF_TU__ __BUFFER_A__ __REF_TU__
-	Importar.Cad.Concatenar __REF_RES__ __BUFFER_A__ __REF_RES__
-	Importar.Cad.Concatenar __BUFFER_B__ __REF_YO__ __BUFFER_B__
-	Importar.Cad.Concatenar __BUFFER_B__ __REF_TU__ __BUFFER_B__
-	Importar.Cad.Concatenar __BUFFER_B__ __REF_RES__ __BUFFER_B__
-	ejecutar __BUFFER_B__
-	liberar __REF_YO__
-	liberar __REF_TU__
-	liberar __REF_RES__
-	liberar __BUFFER_A__
-	liberar __BUFFER_B__
+	adquirir yo
+	adquirir tu
+	adquirir res
+	recibir_parametro yo
+	recibir_parametro tu
+	recibir_parametro res
+	fijar <res>#valor a llamar Multiplicar
+		<yo>#valor <tu>#valor
+	finargs
+	liberar yo
+	liberar tu
+	liberar res
 finfun
 
 [DOCUMENTA
@@ -910,28 +442,18 @@ finfun
 @errors Active
 DOCUMENTA]
 funcion Decimal#dividir
-	adquirir __REF_YO__
-	adquirir __REF_TU__
-	adquirir __REF_RES__
-	adquirir __BUFFER_A__
-	adquirir __BUFFER_B__
-	recibir_parametro __REF_YO__
-	recibir_parametro __REF_TU__
-	recibir_parametro __REF_RES__
-	fijar __BUFFER_A__ =* #valor 
-	fijar __BUFFER_B__ =* Importar.Dec.Dividir 
-	Importar.Cad.Concatenar __REF_YO__ __BUFFER_A__ __REF_YO__
-	Importar.Cad.Concatenar __REF_TU__ __BUFFER_A__ __REF_TU__
-	Importar.Cad.Concatenar __REF_RES__ __BUFFER_A__ __REF_RES__
-	Importar.Cad.Concatenar __BUFFER_B__ __REF_YO__ __BUFFER_B__
-	Importar.Cad.Concatenar __BUFFER_B__ __REF_TU__ __BUFFER_B__
-	Importar.Cad.Concatenar __BUFFER_B__ __REF_RES__ __BUFFER_B__
-	ejecutar __BUFFER_B__
-	liberar __REF_YO__
-	liberar __REF_TU__
-	liberar __REF_RES__
-	liberar __BUFFER_A__
-	liberar __BUFFER_B__
+	adquirir yo
+	adquirir tu
+	adquirir res
+	recibir_parametro yo
+	recibir_parametro tu
+	recibir_parametro res
+	fijar <res>#valor a llamar Dividir
+		<yo>#valor <tu>#valor
+	finargs
+	liberar yo
+	liberar tu
+	liberar res
 finfun
 
 [DOCUMENTA

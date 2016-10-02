@@ -93,3 +93,5 @@ continuar con la exploración del código.
 ¿PseudoD es un traductor?
 	No, PseudoD no es un traductor, el interpreta el código fuente.
 
+¿Cuales son las páginas de PseudoD?
+	La página oficial de PseudoD se encuentra en <http://pseudod.sourceforge.net>.

@@ -9,8 +9,6 @@
 *****************************************
 ****************************************************************************** ]
 
-utilizar inic.pseudo
-
 [DOCUMENTA
 @file Documentación de tipos.pseudo.
 Aqui se encuentran funciones comunes de PseudoD, la clase Referencia, es
