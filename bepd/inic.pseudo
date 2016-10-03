@@ -121,3 +121,15 @@ funcion EsNulo [ valor -> boole ]
 	liberar valor
 finfun
 
+[DOCUMENTA
+@brief Cambia dinámicamente la pila utilizada.
+Equivalente a "usar_pila <i>".
+@arg i Número de la pila a utilizar
+@errors Active
+DOCUMENTA]
+funcion UsarPila [ i ]
+	adquirir i
+	recibir_parametro i
+	fijar VG_PILA_ACTUAL a i
+	liberar i
+finfun

@@ -252,11 +252,11 @@ funcion Referencia#llamarMet [ ref instancia, met, args... ]
 finfun
 
 adquirir __pseudod_ReservarDatos_i__
-fijar __pseudod_ReservarDatos_i__ =* -9223372036854775807
+fijar __pseudod_ReservarDatos_i__ a {-9223372036854775807}
 adquirir __pseudod_pilaReseva_i__
-fijar __pseudod_pilaReseva_i__ =* 1
 crear_pila
-usar_pila 1
+fijar __pseudod_pilaReseva_i__ a VG_NUMERO_DE_PILAS
+fijar VG_PILA_ACTUAL a __pseudod_pilaReseva_i__
 empujar NULO
 usar_pila 0
 

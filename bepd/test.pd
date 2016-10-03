@@ -1,17 +1,34 @@
 utilizar entsal.pseudo
 utilizar mate.pseudo
 
-llamar EscribirLinea {Ingrese un número:} finargs
+adquirir padding
 
-adquirir v1
+clase Foo
+	:bar
+finclase
+heredar Objeto Foo
 
-fijar v1 a llamar LeerPalabra finargs
+funcion Foo#bar
+	adquirir yo
+	recibir_parametro yo
+	llamar ImprimirLinea {Soy} yo {+Foo y estoy en Bar} NULO finargs
+	liberar yo
+finfun
 
-llamar ImprimirFormato
-	{RaizCuadrada(%) = %\k}
-	v1
-	llamar RaizCuadrada
-		v1
-	finargs
-finargs
+instancia Foo A
+instancia Foo B
+instancia Foo C
 
+llamar EscribirLinea {intento con ABC} finargs
+
+llamar A#bar finargs
+llamar B#bar finargs
+llamar C#bar finargs
+
+liberar padding
+
+llamar EscribirLinea {borrado padding, ABC} finargs
+
+llamar A#bar finargs
+llamar B#bar finargs
+llamar C#bar finargs

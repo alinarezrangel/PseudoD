@@ -9,8 +9,9 @@
 *****************************************
 ****************************************************************************** ]
 
-utilizar inic.pseudo
 utilizar tipos.pseudo
+utilizar mate.pseudo
+utilizar cadena.pseudo
 
 [DOCUMENTA
 @file Documentación de algor.pseudo.
@@ -39,12 +40,9 @@ El arreglo inicial tiene un tamaño 0 y esta vacio.
 @errors Active
 DOCUMENTA]
 funcion Arreglo#crear [ ref yo ]
-	instancia Referencia yo
-	recibir_parametro yo#ref
-	adquirir tamaño
-	fijar tamaño =* tamaño
-	llamar yo#fijarAttr tamaño CERO #(Final).
-	liberar tamaño
+	adquirir yo
+	recibir_parametro yo
+	fijar <yo>#tamaño a {0}
 	liberar yo
 finfun
 
@@ -56,27 +54,17 @@ debes invocar a liberar.
 @errors Active
 DOCUMENTA]
 funcion Arreglo#destruir [ ref yo ]
-	instancia Referencia yo
-	adquirir tamaño
-	adquirir indice
-	adquirir variable
-	adquirir orden
-	recibir_parametro yo#ref
-	fijar tamaño =* tamaño
-	llamar yo#obtenerAttr tamaño #(Final).
-	recibir_resultado tamaño
-	fijar indice =* 0
-	mientras comparar Importar.Ent.Comparar indice < tamaño
-		fijar variable =* en
-		Importar.Cad.Concatenar variable indice variable
-		llamar DestruirAtributoDinamico yo#ref variable #(Final).
-		Importar.Ent.Sumar indice UNO indice
+	adquirir yo
+	adquirir i
+	recibir_parametro yo
+	fijar i a {0}
+	mientras comparar Importar.Ent.Comparar i < <yo>#tamaño
+		llamar DestruirAtributoDinamico yo
+			llamar Cadena#Concatenar {en} i finargs
+		finargs
 	finbucle
-	liberar orden
-	liberar variable
-	liberar indice
-	liberar tamaño
 	liberar yo
+	liberar i
 finfun
 
 [DOCUMENTA
@@ -88,35 +76,16 @@ Si la posición es invalida, devuelve NULO.
 @errors Active
 DOCUMENTA]
 funcion Arreglo#obtener [ ref yo, i -> ref at ]
-	instancia Referencia yo
-	adquirir tamaño
-	adquirir prefijo
-	adquirir indice
-	adquirir valido
-	recibir_parametro yo#ref
-	recibir_parametro indice
-	fijar tamaño =* tamaño
-	llamar yo#obtenerAttr tamaño #(Final).
-	recibir_resultado tamaño
-	fijar valido =¿? VERDADERO
-	si comparar Importar.Ent.Comparar indice < CERO
+	adquirir yo
+	adquirir i
+	recibir_parametro yo
+	recibir_parametro i
+	si comparar Importar.Ent.Comparar i >= <yo>#tamaño
 		devolver NULO
-		fijar valido =¿? FALSO
+	sino
+		devolver <yo>#en<i>
 	fin
-	si comparar Importar.Ent.Comparar indice > tamaño
-		devolver NULO
-		fijar valido =¿? FALSO
-	fin
-	si valido
-		fijar prefijo =* #en
-		Importar.Cad.Concatenar yo#ref prefijo prefijo
-		Importar.Cad.Concatenar prefijo indice prefijo
-		devolver prefijo
-	fin
-	liberar valido
-	liberar prefijo
-	liberar indice
-	liberar tamaño
+	liberar i
 	liberar yo
 finfun
 
@@ -129,25 +98,25 @@ También incrementa el tamaño del arreglo.
 @errors Active
 DOCUMENTA]
 funcion Arreglo#agregar [ ref yo, tipo tipo -> indice ]
-	instancia Referencia yo
-	adquirir tamaño
-	adquirir attr
+	adquirir yo
 	adquirir tipo
-	recibir_parametro yo#ref
+	recibir_parametro yo
 	recibir_parametro tipo
-	fijar attr =* tamaño
-	llamar yo#obtenerAttr attr #(Final).
-	recibir_resultado tamaño
-	fijar attr =* en
-	Importar.Cad.Concatenar attr tamaño attr
-	llamar CrearAtributoDinamico yo#ref attr tipo #(Final).
-	devolver tamaño
-	Importar.Ent.Sumar tamaño UNO tamaño
-	fijar attr =* tamaño
-	llamar yo#fijarAttr attr tamaño #(Final).
-	liberar attr
-	liberar tipo
-	liberar tamaño
+	llamar CrearAtributoDinamico yo
+		llamar Cadena#Concatenar {en} <yo>#tamaño finargs
+		tipo
+	finargs
+	fijar <yo>#tamaño a llamar Sumar <yo>#tamaño {1} finargs
 	liberar yo
+	liberar tipo
 finfun
 
+[DOCUMENTA
+@brief Ordena un arreglo utilizando el bubblesort.
+Nota: el ordenamiento ocurre <i>in situ</i>
+@arg arr Arreglo a ordenar.
+@errors Active
+DOCUMENTA]
+funcion OrdenamientoDeBurbuja [ arr ]
+	devolver NULO
+finfun
