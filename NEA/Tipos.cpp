@@ -264,7 +264,7 @@ namespace PDTipos
 						cout << "NO EXISTE" << endl;
 					}
 					auto buffer = (*data->pilas)[pil];
-					cout << "+----------PILA " << pil << "-------+" << endl;
+					cout << "+----------PILA " << pil << "--------+" << endl;
 					while(!buffer.empty())
 					{
 						cout << "|" << std::setw(24) << std::setfill(' ') << std::right << buffer.top() << "|" << endl;
@@ -297,38 +297,39 @@ namespace PDTipos
 				else if(i == "instancia")
 				{
 					cout << "Advertencia: la instancia debe poseer los atributos fundamentales..." << endl;
-					string var = "";
+					string var = "", est = "";
 					cin >> var;
-					string tipo = data->ObtenerVariable(var + string("#Tipo"));
-					cout << "La instancia del tipo " << tipo << " nombrada " << var << " tiene los campos:" << endl;
-					int met = cae(data->ObtenerVariable(tipo));
-					for (int i = 0; i < met; i += 1)
-					{
-						string campo = data->ObtenerVariable(tipo + "#(" + eas(i) + ").");
-						cout << "     ";
-						bool b = false,p = false;
-						if((campo[0] == ':')||(campo[0] == ';'))
-						{
-							if(campo[0] == ':')
-							{
-								cout << "[METODO]";
-								b = true;
-							}
-							else
-							{
-								cout << "[PUNTERO]";
-								p = true;
-							}
-							campo.replace(0,1,"");
-						}
-						string valor = data->ObtenerVariable(var+"#"+campo);
-						if(b)
-							valor = tipo + "#" + campo;
-						if(p)
-							valor = "DIR[" + eas(data->ObtenerIndicePuntero(var+"#"+campo)) + "] VAL[" + valor + "] NVARPTR[" + (*data->nombrev)[data->ObtenerIndicePuntero(var+"#"+campo)] + "]";
-						cout << campo << "  =  " << valor << endl;
-					}
+					est = data->ObtenerVariable(var + string("#Tipo"));
+					cout << "La instancia del tipo " << est << " nombrada " << var << " tiene los campos:" << endl;
 					cout << "    [VALOR BRUTO]  =  " << data->ObtenerVariable(var) << endl;
+					std::istringstream iss(data->ObtenerVariable(est));
+					while(iss >> est)
+					{
+						bool igcnt = false;
+						cout << "    ";
+						if(est.front() == ':')
+						{
+							cout << " [METODO] ";
+							igcnt = true;
+						}
+						if(est.front() == ';')
+							cout << " [PUNTERO] ";
+						if((est.front() == ':') || (est.front() == ';'))
+						{
+							est = est.substr(1, est.size());
+						}
+						string cnt = data->ObtenerVariable(var + "#" + est);
+						if(cnt.size() > 80)
+						{
+							igcnt = true; // Contenido muy largo, ver con <variable a#b>
+						}
+						cout << est;
+						if(!igcnt)
+						{
+							cout << " = " << cnt;
+						}
+						cout << endl;
+					}
 				}
 				else if(i == "clase")
 				{
@@ -729,7 +730,7 @@ namespace PDTipos
 		// Primero se determina el tipo de variable y se busca, siempre se borra la
 		// variable #NOMBRE. y #Tipo. sin importar su tipo, si no se encuentra
 		// ignora, se usa PseudoBorrarVariable
-		string tipo,nombre;
+		string tipo, nombre;
 		tipo = data->ObtenerVariable(this->var+string("#Tipo"));
 		nombre = data->ObtenerVariable(this->var+string("#NOMBRE"));
 		PseudoBorrarVariable bv(this->var);
@@ -740,34 +741,16 @@ namespace PDTipos
 		PseudoBorrarVariable bt(this->var+string("#Tipo."));
 		bt.InscribirInstancia(data);
 		//*/
-		vector<string> metodos;
 		string buff = "";
-		for(int i = 0;i < data->ObtenerVariable(tipo).size();i++)
+		istringstream iss(data->ObtenerVariable(tipo));
+		while(iss >> buff)
 		{
-			if(data->ObtenerVariable(tipo)[i] == ' ')
+			if((buff.front() == ';')
+				||(buff.front() == ':'))
 			{
-				if(buff != "")
-				{
-					metodos.push_back(buff);
-					buff = "";
-				}
-				continue;
+				buff.replace(0, 1, "");
 			}
-			buff += data->ObtenerVariable(tipo)[i];
-		}
-		for (int i = 0; i < metodos.size(); i += 1)
-		{
-			if((metodos[i][0] == ';')
-				||(metodos[i][0] == ':'))
-			{
-				string G = metodos[i];
-				G.replace(0,1,"");
-				metodos[i] = G;
-			}
-		}
-		for (int i = 0; i < metodos.size(); i += 1)
-		{
-			PseudoBorrarVariable a(this->var+string("#")+metodos[i]);
+			PseudoBorrarVariable a(this->var + string("#") + buff);
 			a.InscribirInstancia(data);
 		}
 	}
