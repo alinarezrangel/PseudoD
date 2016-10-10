@@ -392,7 +392,7 @@ namespace PDvar
 		*/
 		if(tok == "llamar")
 		{
-			data->Ejecutar("llamar",in);
+			data->Ejecutar("llamar", in);
 			string top = data->Sacar(cae(data->ObtenerVariable("VG_PILA_ACTUAL")));
 			return top;
 		}

@@ -730,28 +730,41 @@ namespace PDTipos
 		// Primero se determina el tipo de variable y se busca, siempre se borra la
 		// variable #NOMBRE. y #Tipo. sin importar su tipo, si no se encuentra
 		// ignora, se usa PseudoBorrarVariable
-		string tipo, nombre;
+		string tipo;
 		tipo = data->ObtenerVariable(this->var+string("#Tipo"));
-		nombre = data->ObtenerVariable(this->var+string("#NOMBRE"));
+		int index = data->BuscarIndice(
+			"Variable",
+			this->var
+		);
+		int todelete = 1;
 		PseudoBorrarVariable bv(this->var);
 		bv.InscribirInstancia(data);
-		/*
-		PseudoBorrarVariable bn(this->var+string("#NOMBRE."));
-		bn.InscribirInstancia(data);
-		PseudoBorrarVariable bt(this->var+string("#Tipo."));
-		bt.InscribirInstancia(data);
-		//*/
+
 		string buff = "";
 		istringstream iss(data->ObtenerVariable(tipo));
 		while(iss >> buff)
 		{
+			bool ptr = false;
 			if((buff.front() == ';')
 				||(buff.front() == ':'))
 			{
+				ptr = true;
 				buff.replace(0, 1, "");
 			}
-			PseudoBorrarVariable a(this->var + string("#") + buff);
+			std::string varname = this->var + string("#") + buff;
+			PseudoBorrarVariable a(varname);
 			a.InscribirInstancia(data);
+			if(!ptr)
+				todelete++;
+		}
+		int size = data->nvapunt->size();
+		for(int i = 0; i < size; i++)
+		{
+			int& pval = (*data->nvapunt)[i];
+			if(pval >= index)
+			{
+				pval -= todelete;
+			}
 		}
 	}
 }
