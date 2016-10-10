@@ -1,34 +1,16 @@
-utilizar entsal.pseudo
-utilizar mate.pseudo
+adquirir relleno [ no importa su tipo o valor ]
 
-adquirir padding
+adquirir valorImportante
+fijar valorImportante a {IMPORTANTE}
 
-clase Foo
-	:bar
-finclase
-heredar Objeto Foo
+puntero ptr valorImportante
 
-funcion Foo#bar
-	adquirir yo
-	recibir_parametro yo
-	llamar ImprimirLinea {Soy} yo {+Foo y estoy en Bar} NULO finargs
-	liberar yo
-finfun
+escribir ptr
+nl
 
-instancia Foo A
-instancia Foo B
-instancia Foo C
+liberar relleno [ ERROR ]
 
-llamar EscribirLinea {intento con ABC} finargs
+escribir ptr
+nl
 
-llamar A#bar finargs
-llamar B#bar finargs
-llamar C#bar finargs
 
-liberar padding
-
-llamar EscribirLinea {borrado padding, ABC} finargs
-
-llamar A#bar finargs
-llamar B#bar finargs
-llamar C#bar finargs
