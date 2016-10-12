@@ -2,16 +2,16 @@
 ****************************************************************************
 ****************************   PseudoD    **********************************
 ***** Creado por Alejandro Linarez Rangel El 14 de septiembre de 2014. *****
-*** Este es PseudoD version 2.1.0                                      *****
-*** Log de este archivo:                                               *****
-*** Formato: DD/MM/YYYY: txt                                           *****
-*** **** 17/09/2016: Se creo el archivo.                               *****
+*****                                                                  *****
+***** Página oficial de PseudoD en:                                    *****
+*****     http://pseudod.sourceforge.net/                              *****
+*****                                                                  *****
 ****************************************************************************
 **************************************************************************/
 
 #include "nmemoic.hh"
 
-static std::multimap<std::string, pseudod::NMemonico::Palabra> ConversorS2P =
+static std::multimap<PDCadena, pseudod::NMemonico::Palabra> ConversorS2P =
 {
 	{"adquirir", pseudod::NMemonico::PD_ADQUIRIR},
 	{"puntero", pseudod::NMemonico::PD_PUNTERO},
@@ -161,7 +161,7 @@ namespace pseudod
 	}
 
 	// Proxy:
-	NMemonicoProxy::operator std::string(void)
+	NMemonicoProxy::operator PDCadena(void)
 	{
 		return this->original;
 	}
@@ -231,7 +231,7 @@ namespace pseudod
 		return !(*this == otro);
 	}
 
-	NMemonicoProxy ConvertirCadenaANMemonico(std::string in)
+	NMemonicoProxy ConvertirCadenaANMemonico(PDCadena in)
 	{
 		auto values = ConversorS2P.equal_range(in);
 		// decltype(values) =

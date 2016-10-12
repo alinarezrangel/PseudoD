@@ -2,11 +2,10 @@
 ****************************************************************************
 ****************************   PseudoD    **********************************
 ***** Creado por Alejandro Linarez Rangel El 14 de septiembre de 2014. *****
-*** Este es PseudoD version 2.1.0                                      *****
-*** Log de este archivo:                                               *****
-*** Formato: DD/MM/YYYY: txt                                           *****
-*** **** 02/01/2016: Se creo el archivo.                               *****
-*** **** 22/03/2016: Agregadas advertencias.                           *****
+*****                                                                  *****
+***** Página oficial de PseudoD en:                                    *****
+*****     http://pseudod.sourceforge.net/                              *****
+*****                                                                  *****
 ****************************************************************************
 **************************************************************************/
 
@@ -27,12 +26,9 @@ namespace pseudod
 	void* coneccion_nea;
 
 	void procesar(
-		std::string o,
+		PDCadena o,
 		std::istream& e,
-		void(*FUNCION)(
-			std::string,
-			std::istream&
-		)
+		PDFuncionNEA FUNCION
 	)
 	{
 		if(!Ejecutar)
@@ -40,11 +36,11 @@ namespace pseudod
 		NMemonicoProxy proxy = ConvertirCadenaANMemonico(o);
 		if(proxy == NMemonico::PD_ADQUIRIR)
 		{
-			std::string a;
+			PDCadena a;
 			e >> a;
-			DATOS_INT.CrearVariable(a, "Variable", 0, a);
-			DATOS_INT.CrearVariable(a + "#Tipo", "Variable", 0, "PseudoVariable");
-			DATOS_INT.CrearVariable(a + "#NOMBRE", "Variable", 0, a);
+			DATOS_INT.CrearVariable(a, true, 0, a);
+			DATOS_INT.CrearVariable(a + "#Tipo", true, 0, "PseudoVariable");
+			DATOS_INT.CrearVariable(a + "#NOMBRE", true, 0, a);
 		}
 		else if(proxy == NMemonico::PD_INSTANCIA) // alias de Importar.Tipos.Instancia
 		{
@@ -76,49 +72,49 @@ namespace pseudod
 		}
 		else if(proxy == NMemonico::PD_PUNTERO)
 		{
-			std::string var = "", val = "";
-			bool existe = false;
+			PDCadena var = "", val = "";
 			e >> var >> val;
-			for (int i = 0; i < (*DATOS_INT.nombrep).size(); i += 1)
-			{
-				if((*DATOS_INT.nombrep)[i] == var)
-					existe = true;
-			}
-			if(existe)
-			{
-				throw PDvar::ErrorDelNucleo("Error en puntero: 'puntero ptr nval': El puntero ya existe");
-			}
-			DATOS_INT.CrearVariable(var, "Puntero", DATOS_INT.BuscarIndice("Variable",val));
+			DATOS_INT.CrearVariable(
+				var,
+				false,
+				DATOS_INT.BuscarIndice(true, val)
+			);
 		}
 		else if(proxy == NMemonico::PD_INCREMENTAR_PUNTERO)
 		{
-			std::string h = "";
+			PDCadena h = "";
 			e >> h;
 			DATOS_INT.ObtenerIndicePuntero(h)++;
 			if(DATOS_INT.ObtenerIndicePuntero(h) >= (*DATOS_INT.nombrev).size())
 			{
-				throw PDvar::ErrorDelNucleo("Error en incrementar_p: 'incrementar_p ptr' alias 'incrementar_puntero ptr': Puntero invalido por bloqueo de memoria");
+				throw PDvar::ErrorDelNucleo(
+					PDCadena("Error en incrementar_p: 'incrementar_p ptr' alias ") +
+					"'incrementar_puntero ptr': Puntero invalido por bloqueo de memoria"
+				);
 			}
 		}
 		else if(proxy == NMemonico::PD_DECREMENTAR_PUNTERO)
 		{
-			std::string h = "";
+			PDCadena h = "";
 			e >> h;
 			DATOS_INT.ObtenerIndicePuntero(h)--;
 			if(DATOS_INT.ObtenerIndicePuntero(h) < 0)
 			{
-				throw PDvar::ErrorDelNucleo("Error en decrementar_p: 'decrementar_p ptr' alias 'decrementar_puntero ptr': Puntero onvalido por bloqueo de memoria");
+				throw PDvar::ErrorDelNucleo(
+					PDCadena("Error en decrementar_p: 'decrementar_p ptr' alias ") +
+					"'decrementar_puntero ptr': Puntero invalido por bloqueo de memoria"
+				);
 			}
 		}
 		else if(proxy == NMemonico::PD_ESCRIBIR)
 		{
-			std::string h = "";
+			PDCadena h = "";
 			e >> h;
 			std::cout << DATOS_INT.ObtenerVariable(h);
 		}
 		else if(proxy == NMemonico::PD_EJECUTAR)
 		{
-			std::string h = "";
+			PDCadena h = "";
 			e >> h;
 			std::istringstream entrada(DATOS_INT.ObtenerVariable(h));
 			while(entrada >> h)
@@ -132,9 +128,9 @@ namespace pseudod
 		{
 			if(o != "fijar")
 				std::cerr << "Advertencia: oper/operador estan obsoletos" << std::endl;
-			std::string variable1 = "", oper = "", h = "", linea = "";
-			e  >> variable1 >> oper >> h;
-			std::string& a = DATOS_INT.ObtenerVariable(variable1);
+			PDCadena variable1 = "", oper = "", h = "", linea = "";
+			e >> variable1 >> oper >> h;
+			PDCadena& a = DATOS_INT.ObtenerVariable(variable1);
 			NMemonicoProxy pr = ConvertirCadenaANMemonico(oper);
 			if(pr == NMemonico::PD_OPERADOR_FIJAR) // fijar A =* hola
 			{
@@ -163,14 +159,14 @@ namespace pseudod
 		}
 		else if(proxy == NMemonico::PD_LEER)
 		{
-			std::string variable1 = "";
+			PDCadena variable1 = "";
 			e >> variable1;
-			std::string& a = DATOS_INT.ObtenerVariable(variable1);
+			PDCadena& a = DATOS_INT.ObtenerVariable(variable1);
 			std::cin >> a;
 		}
 		else if(proxy == NMemonico::PD_UTILIZAR)
 		{
-			std::string func = "", a = "", h = "";
+			PDCadena func = "", a = "", h = "";
 			e >> func;
 			std::ifstream en(func.c_str());
 			if(!en)
@@ -184,7 +180,7 @@ namespace pseudod
 					throw PDvar::ErrorDelNucleo("Error en utilizar: 'utilizar fname': El archivo no existe");
 				}
 			}
-			if(DATOS_INT.BuscarIndice("Variable", "utilizar " + func) != -1)
+			if(DATOS_INT.BuscarIndice(true, "utilizar " + func) != -1)
 			{
 				if(DATOS_INT.adver > 1)
 				{
@@ -200,16 +196,16 @@ namespace pseudod
 				procesar(h, en, FUNCION);
 			}
 			DATOS_INT.ObtenerVariable("__ARCH__") = a;
-			DATOS_INT.CrearVariable("utilizar " + func, "Variable", 0, "nulo");
+			DATOS_INT.CrearVariable("utilizar " + func, true, 0, "nulo");
 		}
 		else if(proxy == NMemonico::PD_LLAMAR)
 		{
-			std::string var = "", bpalab = "", nombre_var = "", tipo_var = "", h = "";
-			std::vector<std::string> param;
+			PDCadena var = "", bpalab = "", nombre_var = "", tipo_var = "", h = "";
+			std::vector<PDCadena> param;
 			int numeral = 0;
 
 			e >> var >> bpalab;
-			std::string a = DATOS_INT.ObtenerVariable(var);
+			PDCadena a = DATOS_INT.ObtenerVariable(var);
 			while((bpalab != "#(Final).") && (bpalab != "finargs"))
 			{
 				param.push_back(PDvar::ValorDelToken(bpalab, e, &DATOS_INT));
@@ -241,7 +237,7 @@ namespace pseudod
 		}
 		else if(proxy == NMemonico::PD_FUNCION)
 		{
-			std::string nom = "", arg = "", lin = "", func = "";
+			PDCadena nom = "", arg = "", lin = "", func = "";
 			e >> nom;
 			while(lin != "finfun")
 			{
@@ -253,10 +249,10 @@ namespace pseudod
 					lin.end()
 				);
 			}
-			DATOS_INT.CrearVariable(nom, "Variable", 0, func);
-			DATOS_INT.CrearVariable(nom + "#NOMBRE", "Variable", 0, nom);
-			DATOS_INT.CrearVariable(nom + "#Tipo", "Variable", 0, "PseudoFuncion");
-			DATOS_INT.CrearVariable(nom + "#cod", "Puntero", DATOS_INT.BuscarIndice("Variable", nom), "NULO");
+			DATOS_INT.CrearVariable(nom, true, 0, func);
+			DATOS_INT.CrearVariable(nom + "#NOMBRE", true, 0, nom);
+			DATOS_INT.CrearVariable(nom + "#Tipo", true, 0, "PseudoFuncion");
+			DATOS_INT.CrearVariable(nom + "#cod", false, DATOS_INT.BuscarIndice(true, nom), "NULO");
 		}
 		else if(proxy == NMemonico::PD_FIN_FUNCION)
 		{
@@ -265,7 +261,7 @@ namespace pseudod
 		else if(o == "sistema")
 		{
 			std::cerr << "Advertencia: sistema esta altamente desaprobado porque es malvado" << std::endl;
-			std::string h = "";
+			PDCadena h = "";
 			std::getline(e, h, '\n');
 			system(h.c_str());
 		}
@@ -276,16 +272,16 @@ namespace pseudod
 		}
 		else if(proxy == NMemonico::PD_EMPUJAR)
 		{
-			std::string variable1;
+			PDCadena variable1;
 			e >> variable1;
-			std::string& a = DATOS_INT.ObtenerVariable(variable1);
+			PDCadena& a = DATOS_INT.ObtenerVariable(variable1);
 			DATOS_INT.Empujar(a, cae(DATOS_INT.ObtenerVariable("VG_PILA_ACTUAL")));
 		}
 		else if(proxy == NMemonico::PD_SACAR)
 		{
-			std::string variable1;
+			PDCadena variable1;
 			e >> variable1;
-			std::string& a = DATOS_INT.ObtenerVariable(variable1);
+			PDCadena& a = DATOS_INT.ObtenerVariable(variable1);
 			a = DATOS_INT.Sacar(cae(DATOS_INT.ObtenerVariable("VG_PILA_ACTUAL")));
 		}
 		else if(proxy == NMemonico::PD_USAR_PILA)
@@ -299,7 +295,7 @@ namespace pseudod
 		}
 		else if(proxy == NMemonico::PD_NECESITAS)
 		{
-			std::string var;
+			PDCadena var;
 			e >> var;
 			if(PDvar::ValorDelToken(var, e, &DATOS_INT) != DATOS_INT.VERDADERO)
 			{
@@ -308,7 +304,7 @@ namespace pseudod
 		}
 		else if(proxy == NMemonico::PD_SI)
 		{
-			std::string variable1 = "", val = "";
+			PDCadena variable1 = "", val = "";
 			bool cond = false;
 			int i = 0;
 			NMemonicoProxy ord;
@@ -323,7 +319,7 @@ namespace pseudod
 				e >> ord;
 				if(ord == NMemonico::PD_OPERADOR_FIJAR)
 				{
-					std::string line = "";
+					PDCadena line = "";
 					getline(e, line, '\n');
 					e >> ord;
 				}
@@ -348,7 +344,7 @@ namespace pseudod
 		else if(proxy == NMemonico::PD_SI_NO)
 		{
 			std::cerr << "Advertencia: la orden si_no se considera obsoleta" << std::endl;
-			std::string variable1 = "", val = "";
+			PDCadena variable1 = "", val = "";
 			e >> variable1;
 			if(variable1 == "llamar")
 			{
@@ -357,13 +353,13 @@ namespace pseudod
 			}
 			else if(variable1 == "¿son_iguales?")
 			{
-				std::string var1 = "", var2 = "";
+				PDCadena var1 = "", var2 = "";
 				e >> var1 >> var2;
 				val = ((DATOS_INT.ObtenerVariable(var1) == DATOS_INT.ObtenerVariable(var2))? DATOS_INT.VERDADERO : DATOS_INT.FALSO);
 			}
 			else if(variable1 == "ejecutar")
 			{
-				std::string var1,var2,ord,es,valor;
+				PDCadena var1,var2,ord,es,valor;
 				e >> ord >> var1 >> var2 >> es >> valor;
 				if(es != "es")
 					throw PDvar::ErrorDelNucleo("Error en si_no: 'si_no expr cdg...': La expresion es invalida");
@@ -373,7 +369,7 @@ namespace pseudod
 			}
 			else if(variable1 == "comparar")
 			{
-				std::string var1,op,var2,ord;
+				PDCadena var1,op,var2,ord;
 				e >> ord >> var1 >> op >> var2;
 				std::istringstream in(var1 + " " + op + " " + var2 + " ___codigo_pseudod_buffer_interno___");
 				procesar(ord,in,FUNCION);
@@ -381,8 +377,8 @@ namespace pseudod
 			}
 			else
 				val = DATOS_INT.ObtenerVariable(variable1);
-			std::string cond = ((val == DATOS_INT.FALSO)? "si" : "no");
-			std::string ord;
+			PDCadena cond = ((val == DATOS_INT.FALSO)? "si" : "no");
+			PDCadena ord = "";
 			int i = 0;
 			i = AMBITO.size();
 			AMBITO.push_back(0);
@@ -415,13 +411,13 @@ namespace pseudod
 		else if(proxy == NMemonico::PD_SON_IGUALES) // var1 var2 res
 		{
 			std::cerr << "Advertencia: la orden ¿son_iguales? (comparar_i) se considera obsoleta" << std::endl;
-			std::string var1 = "", var2 = "";
+			PDCadena var1 = "", var2 = "";
 			e >> var1 >> var2;
-			std::string variable1;
+			PDCadena variable1 = "";
 			e >> variable1;
-			std::string& a = DATOS_INT.ObtenerVariable(variable1);
-			std::string& b = DATOS_INT.ObtenerVariable(var1);
-			std::string& c = DATOS_INT.ObtenerVariable(var2);
+			PDCadena& a = DATOS_INT.ObtenerVariable(variable1);
+			PDCadena& b = DATOS_INT.ObtenerVariable(var1);
+			PDCadena& c = DATOS_INT.ObtenerVariable(var2);
 			a = DATOS_INT.FALSO;
 			if(b == c)
 			{
@@ -441,7 +437,7 @@ namespace pseudod
 				(*FUNCION)(o,e);
 		}
 	}
-	std::string iniciar(std::string nea, std::string bepd, std::string main)
+	PDCadena iniciar(PDCadena nea, PDCadena bepd, PDCadena main)
 	{
 		coneccion_nea = dlopen(nea.c_str(), RTLD_LAZY);
 		if(coneccion_nea == NULL)
@@ -464,11 +460,11 @@ namespace pseudod
 			(*DATOS_INT.pilas),
 			procesar
 		);
-		DATOS_INT.CrearVariable("__MAIN__","Variable", 0, main);
-		DATOS_INT.CrearVariable("__LIB__","Variable", 0, bepd);
-		DATOS_INT.CrearVariable("__ARCH__","Variable", 0, main);
-		DATOS_INT.CrearVariable("VG_PILA_ACTUAL", "Variable", 0, "0");
-		DATOS_INT.CrearVariable("VG_NUMERO_PILAS", "Variable", 0, "0");
+		DATOS_INT.CrearVariable("__MAIN__", true, 0, main);
+		DATOS_INT.CrearVariable("__LIB__", true, 0, bepd);
+		DATOS_INT.CrearVariable("__ARCH__", true, 0, main);
+		DATOS_INT.CrearVariable("VG_PILA_ACTUAL", true, 0, "0");
+		DATOS_INT.CrearVariable("VG_NUMERO_PILAS", true, 0, "0");
 		DATOS_INT.PROCESAR = procesar;
 		DATOS_INT.PROCESO = ejecutar_nea;
 		try
@@ -482,7 +478,7 @@ namespace pseudod
 		catch(const std::exception& e)
 		{
 			std::string errStr = "";
-			if((e.what() == "stoi")||(e.what() == "stoll"))
+			if((e.what() == PDCadena("stoi")) || (e.what() == PDCadena("stoll")))
 			{
 				errStr = "Error al convertir numeros";
 			}
@@ -507,16 +503,16 @@ namespace pseudod
 		liberar_nea();
 		return dlclose(coneccion_nea);
 	}
-	void ejecutar(std::string linea)
+	void ejecutar(PDCadena linea)
 	{
-		std::string p;
+		PDCadena p;
 		std::istringstream in(linea);
 		while(Ejecutar && (in >> p))
 			procesar(p, in, ejecutar_nea);
 	}
 	void ejecutar(std::istream& entrada)
 	{
-		std::string p;
+		PDCadena p;
 		while(Ejecutar && (entrada >> p))
 			procesar(p, entrada, ejecutar_nea);
 	}

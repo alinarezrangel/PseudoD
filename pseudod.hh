@@ -2,43 +2,46 @@
 ****************************************************************************
 ****************************   PseudoD    **********************************
 ***** Creado por Alejandro Linarez Rangel El 14 de septiembre de 2014. *****
-*** Este es PseudoD version 2.1.0                                      *****
-*** Log de este archivo:                                               *****
-*** Formato: DD/MM/YYYY: txt                                           *****
-*** **** 14/09/2014: Se creo el archivo.                               *****
+*****                                                                  *****
+***** Página oficial de PseudoD en:                                    *****
+*****     http://pseudod.sourceforge.net/                              *****
+*****                                                                  *****
 ****************************************************************************
 **************************************************************************/
 
+#ifndef __PSEUDOD_NEA_CORE_H__
+#define __PSEUDOD_NEA_CORE_H__
 
-#ifndef DLL_H
-#define DLL_H
-	
-	#include <iostream>
-	#include <fstream>
-	#include <cstdlib>
-	#include <vector>
-	#include <stack>
-	#include <string>
-	#include <cstring>
-	#include <cstdio>
-	#include <algorithm>
-	#include <cctype>
-	#include <sstream>
-	
-	#include "./includefilelib.hh"
-	
-	using namespace std;
-	
-	#include "./includefile.hh"
-	
-	using namespace PDvar;
-	
-	PDDatos* PDDATA;
-	string C;
-	
-	extern "C" void PDInicializar(vector<string>& nvar,vector<string>& vvar,vector<string>& npun,vector<int>& vpun,vector< stack<string> >& pil,void (*procesar)(string o,istream& e, void(*)(string,istream&)));
-	string PDS(string o);
-	extern "C" void PDEjecutar(string o,istream& i);
-	extern "C" void PDFinal(void);
-	
-#endif /* ~~~~DLL_H */
+#include <iostream>
+#include <fstream>
+#include <cstdlib>
+#include <vector>
+#include <stack>
+#include <string>
+#include <cstring>
+#include <cstdio>
+#include <algorithm>
+#include <cctype>
+#include <sstream>
+
+#include "NEA/PDData.hh"
+
+#include "includefilelib.hh"
+#include "includefile.hh"
+
+extern PDvar::PDDatos* PDDATA;
+
+PDCadena PDS(PDCadena o);
+
+extern "C" void PDInicializar(
+	std::vector<PDCadena>&,
+	std::vector<PDCadena>&,
+	std::vector<PDCadena>&,
+	std::vector<int>&,
+	std::vector<std::stack<PDCadena>>&,
+	PDFuncionNIA
+);
+extern "C" void PDEjecutar(PDCadena, std::istream&);
+extern "C" void PDFinal(void);
+
+#endif /* ~~~~__PSEUDOD_NEA_CORE_H__ */

@@ -2,21 +2,13 @@
 ****************************************************************************
 ****************************   PseudoD    **********************************
 ***** Creado por Alejandro Linarez Rangel El 14 de septiembre de 2014. *****
-*** Este es PseudoD version 2.1.0                                      *****
-*** Log de este archivo:                                               *****
-*** Formato: DD/MM/YYYY: txt                                           *****
-*** **** 14/09/2014: Se creo el archivo.                               *****
-*** **** 06/03/2015: Se agrego soporte para errores fatales.           *****
-*** **** 10/04/2015: Mejoras a si,si_no y mientras.                    *****
-*** **** 02/01/2016: Interprete embebido.                              *****
-*** **** 22/03/2016: Agregadas opciones -d.                            *****
+*****                                                                  *****
+***** Página oficial de PseudoD en:                                    *****
+*****     http://pseudod.sourceforge.net/                              *****
+*****                                                                  *****
 ****************************************************************************
 **************************************************************************/
 
-/*
-Define la macro INTERACTIVO a 1 para un interprete en linea de comandos
-https://sourceforge.net/projects/pseudod/
-*/
 #include <iostream>
 #include <fstream>
 #include <cstdlib>

@@ -33,21 +33,23 @@
 #define PDVOID_INIC_VACIO char
 #define PDVOID_INIC_VACIO_NULL ('a')
 
-typedef long long int PDentero;
-typedef long double PDdecimal;
-typedef std::string PDcadena;
+typedef long long int PDEntero;
+typedef long double PDDecimal;
+typedef std::string PDCadena;
+typedef void(*PDFuncionNEA)(PDCadena, std::istream&);
+typedef void (*PDFuncionNIA)(PDCadena, std::istream&, PDFuncionNEA);
 
 template<class T>
 int buscar(std::vector<T> a,T b);
-PDcadena eas(long long int i);
-PDcadena dac(long double i);
-long long int cae(PDcadena i);
-long double caf(PDcadena i);
+PDCadena eas(PDEntero i);
+PDCadena dac(PDDecimal i);
+PDEntero cae(PDCadena i);
+PDDecimal caf(PDCadena i);
 
 /**
-* @brief Representa el tipo de datos nativo del interprete.
+* @brief Espacio de nombres principal de PseudoD.
 *
-* No es extendible.
+* Posee las clases PDDatos y PDObjeto.
 */
 namespace PDvar
 {
@@ -82,10 +84,11 @@ namespace PDvar
 	class PDVoid : virtual public PDObjeto
 	{
 		public:
+			typedef T type;
 			/**
 			* @brief Inicializador a base de vector
 			*/
-			explicit PDVoid(vector<T> args) : PDObjeto() {this->args = args;}
+			explicit PDVoid(std::vector<T> args) : PDObjeto() {this->args = args;}
 			/**
 			* @brief Inicializador a base de objeto
 			*/
@@ -105,7 +108,7 @@ namespace PDvar
 			*/
 			virtual T Obtener(int i = 0){return args[i];}
 		private:
-			vector<T> args;
+			std::vector<T> args;
 	};
 
 	/**
@@ -205,7 +208,7 @@ namespace PDvar
 			* @param classname Nombre del mnejador en PseudoD.
 			* @param message Mensaje de error.
 			*/
-			explicit Error(string classname,string message) noexcept;
+			explicit Error(PDCadena classname, PDCadena message) noexcept;
 			/**
 			* @brief Crea un error
 			* Copia la información desde otro error.
@@ -230,26 +233,26 @@ namespace PDvar
 			* Devuelve un string con el nombre de la clase en PseudoD que
 			* representa este error.
 			*/
-			string ObtenerClaseEnPseudoD(void) const noexcept;
+			PDCadena ObtenerClaseEnPseudoD(void) const noexcept;
 			/**
 			* @brief Obtiene el error elemental
 			* este es un string con el mensaje de error.
 			*/
-			string ObtenerErrorElemental(void) const noexcept;
+			PDCadena ObtenerErrorElemental(void) const noexcept;
 			/**
 			* @brief Devuelve el mensaje de error
 			* este mensaje es estructurado para que un usuario pueda leerlo.
 			*/
-			string Mensaje(void) const noexcept;
+			PDCadena Mensaje(void) const noexcept;
 		protected:
 			/**
 			* @brief Fija la clase manejadora.
 			*/
-			void FijarClase(string classname) noexcept;
+			void FijarClase(PDCadena classname) noexcept;
 			/**
 			* @brief Fija el mensaje de error.
 			*/
-			void FijarMensaje(string message) noexcept;
+			void FijarMensaje(PDCadena message) noexcept;
 		private:
 			string PseudoDClass;
 			string ErrorMessage;
@@ -270,7 +273,7 @@ namespace PDvar
 			* @brief Crea un error
 			* @param message Mensaje de error.
 			*/
-			explicit ErrorDeSintaxis(string message) noexcept;
+			explicit ErrorDeSintaxis(PDCadena message) noexcept;
 			/**
 			* @brief Crea un error
 			* Copia la información desde otro error.
@@ -298,7 +301,7 @@ namespace PDvar
 			* @brief Crea un error
 			* @param message Mensaje de error.
 			*/
-			explicit ErrorDeSemantica(string message) noexcept;
+			explicit ErrorDeSemantica(PDCadena message) noexcept;
 			/**
 			* @brief Crea un error
 			* Copia la información desde otro error.
@@ -326,7 +329,7 @@ namespace PDvar
 			* @brief Crea un error
 			* @param message Mensaje de error.
 			*/
-			explicit ErrorDelNucleo(string message) noexcept;
+			explicit ErrorDelNucleo(PDCadena message) noexcept;
 			/**
 			* @brief Crea un error
 			* Copia la información desde otro error.
@@ -353,50 +356,56 @@ namespace PDvar
 			* @param vpun Vector con los indices de los ounteros.
 			* @param pil Vector de Pilas,(stacks) del lenguaje.
 			*/
-			PDDatos(vector<string>& nvar,vector<string>& vvar,vector<string>& npun,vector<int>& vpun,vector< stack<string> >& pil);
+			explicit PDDatos(
+				std::vector<PDCadena>& nvar,
+				std::vector<PDCadena>& vvar,
+				std::vector<PDCadena>& npun,
+				std::vector<int>& vpun,
+				std::vector<std::stack<PDCadena>>& pil
+			);
 			/**
 			* @brief inicia la instancia como Manejador principal de la memoria.
 			* este tiene acceso a la memoria y la maneja de forma independiente.
 			*/
-			PDDatos(void);
+			explicit PDDatos(void);
 			/**
 			* @brief Destruye la clase
 			*/
-			~PDDatos();
+			virtual ~PDDatos();
 		  /**
 		  * @brief Es la constante que devuelven las funciones en caso de error.
 		  */
-			string ERROR;
+			PDCadena ERROR;
 			/**
 			* @brief El valor de De Boole 1 o true en PseudoD
 			*/
-			string VERDADERO;
+			PDCadena VERDADERO;
 			/**
 			* @brief El valor de De Boole 0 o false en PSeudoD
 			*/
-			string FALSO;
+			PDCadena FALSO;
 			/**
 			* @brief Devuelve el valor de la variable o puntero.
 			* @param n Nombre de la variable  puntero.
 			*/
-			string& ObtenerVariable(string n);
+			PDCadena& ObtenerVariable(PDCadena n);
 			/**
 			* @brief Devuelve el valor del puntero.
 			* @param n Nombre del puntero.
 			*/
-			string& ObtenerPuntero(string n);
+			PDCadena& ObtenerPuntero(PDCadena n);
 			/**
 			* @brief devuelve el indice al que apunte el puntero.
 			* @param n nombre del puntero
 			* @return Valor indice al que apunta
 			*/
-			int& ObtenerIndicePuntero(string n);
+			int& ObtenerIndicePuntero(PDCadena n);
 			/**
 			* @brief Devuelve el tope de la pila.
 			* @param p Numero de la pila
 			* @return Tope de la pila
 			*/
-			string Tope(int p);
+			PDCadena Tope(int p);
 			/**
 			* @brief Borra el tope de una pila
 			* @param p Numero de la pila
@@ -407,13 +416,13 @@ namespace PDvar
 			* @param n numero de pila
 			* @return El tope.
 			*/
-			string Sacar(int n);
+			PDCadena Sacar(int n);
 			/**
 			* @brief Empuja un valor en una pila
 			* @param n Valor que se empujara
 			* @param p Numero de la pila
 			*/
-			void Empujar(string n,int p);
+			void Empujar(PDCadena n, int p);
 			/**
 			* @brief Crea una nueva pila
 			*/
@@ -421,57 +430,57 @@ namespace PDvar
 			/**
 			* @brief Crea una nueva variable o puntero
 			* @param n Nombre de la nueva variable o puntero
-			* @param t Tipo, "Variable" para crear una variable o "Puntero" para crear un puntero.
+			* @param t Tipo, true para crear una variable y false para un puntero
 			* @param va Si es un puntero, direccion a la que apunta.
 			* @param vl Se es una variable, se fija su valor a el valor de vl.
 			*/
-			void CrearVariable(string n,string t = "Variable", int va = 0,string vl = "nulo");
+			void CrearVariable(PDCadena n, bool t = true, int va = 0, string vl = "nulo");
 			/**
 			* @brief Obtiene el indice de la variable o puntero
-			* @param t tipo, "Variable" para una variable y "Puntero" para un puntero.
+			* @param t tipo, true para una variable y false para un puntero
 			* @param n Nombre a buscar
 			* @return indice
 			*/
-			int BuscarIndice(string t,string n);
+			int BuscarIndice(bool t, PDCadena n);
 			/**
 			* @brief Determina si existe la variable o puntero.
-			* @param t "Variable" para variables o "Puntero" para punteros.
+			* @param t tipo, true para una variable y false para un puntero
 			* @param n nombre de la variable/puntero.
 			* @return true si existe y false de lo contrario.
 			*/
-			bool ExisteVariable(string t, string n);
+			bool ExisteVariable(bool t, PDCadena n);
 			/**
 			* @brief ejecuta una orden como interprete.
 			* @param ord Orden a ejecutar.
 			*/
-			void Ejecutar(string ord);
+			void Ejecutar(PDCadena ord);
 			/**
 			* @brief ejecuta una orden como interprete.
 			* @param ord Orden a ejecutar.
 			* @param in Flujo de tokens
 			*/
-			void Ejecutar(string ord,istream& in);
+			void Ejecutar(PDCadena ord, std::istream& in);
 		public:
 			/**
 			* @brief puntero a los nombres de variable
 			*/
-			vector<string>* nombrev;
+			std::vector<PDCadena>* nombrev;
 			/**
 			* @brief Puntero a los valores de las variables
 			*/
-			vector<string>* valorv;
+			std::vector<PDCadena>* valorv;
 			/**
 			* @brief Puntero a los nombres de los punteros
 			*/
-			vector<string>* nombrep;
+			std::vector<PDCadena>* nombrep;
 			/**
 			* @brief Puntero a los valores-indice de los punteros.
 			*/
-			vector<int>*    nvapunt;
+			std::vector<int>*    nvapunt;
 			/**
 			* @brief Puntero a vector que contiene las pilas.
 			*/
-			vector< stack< string > >* pilas;
+			std::vector<std::stack<PDCadena>>* pilas;
 			/**
 			* @brief nivel de las advertencias.
 			*/
@@ -489,7 +498,7 @@ namespace PDvar
 			* @param nombre Nombre a resolver
 			* @return Nombre resuelto
 			*/
-			string ResolverNombre(string nombre);
+			PDCadena ResolverNombre(PDCadena nombre);
 		public:
 			/**
 			* @brief Funcion madre, permite ser recursivo en el lenguaje
@@ -497,14 +506,14 @@ namespace PDvar
 			* (*PROCESAR)(orden,flujo,PROCESO);
 			* esto ejecuta orden como una orden global de PseudoD
 			*/
-			void (*PROCESAR)(string o,istream& e, void(*)(string,istream&));
+			PDFuncionNIA PROCESAR;
 			/**
 			* @brief Funcion hija, necesaria para la funcion madre
 			* este puntero a funcion es una sub-funcion, la base del NEA. Se llama de la forma:
 			* (*PROCESO)(orden,flujo);
 			* Esto ejecuta orden como una orden que esta en el NEA
 			*/
-			void (*PROCESO)(string o,istream& i);
+			PDFuncionNEA PROCESO;
 	};
 
 	/**
@@ -516,7 +525,7 @@ namespace PDvar
 			/**
 			* @brief Crea la entrada con el token tok, el flujo in, y los datos dat.
 			*/
-			explicit PDEntradaBasica(string tok, istream& in, PDDatos& dat);
+			explicit PDEntradaBasica(PDCadena tok, std::istream& in, PDDatos& dat);
 			/**
 			* @brief Destruye la entrada.
 			*/
@@ -525,7 +534,7 @@ namespace PDvar
 			* @brief Obtiene el flujo de tokens.
 			* @return Flujo de tokens
 			*/
-			istream& ObtenerFlujo(void);
+			std::istream& ObtenerFlujo(void);
 			/**
 			* @brief Obtiene el puntero a el manejador de memoria del interprete.
 			* @return Puntero al manejador.
@@ -535,10 +544,10 @@ namespace PDvar
 			* @brief Obtiene el token actual.
 			* @return Token actual.
 			*/
-			string ObtenerToken(void);
+			PDCadena ObtenerToken(void);
 		private:
-			istream* in; // flujo de tokens
-			string token; // token actual
+			std::istream* in; // flujo de tokens
+			PDCadena token; // token actual
 			PDDatos* data; // datos del interprete
 
 			explicit PDEntradaBasica(vector<PDVOID_INIC_VACIO> args) : PDVoid(args) {}
@@ -555,7 +564,7 @@ namespace PDvar
 	* @param data Puntero a la memoria del interprete.
 	* @return el valor de los tokens
 	*/
-	string ValorDelToken(string tok,istream& in,PDDatos* data);
+	PDCadena ValorDelToken(PDCadena tok, std::istream& in, PDDatos* data);
 
 	/**
 	* @brief Posee lo necesario para crear modulos dinamicos
@@ -567,9 +576,9 @@ namespace PDvar
 		*/
 		struct Argumentos
 		{
-			std::string Instancia;
-			std::string FuncionLlamada;
-			std::vector<std::string>* Argumentos;
+			PDCadena Instancia;
+			PDCadena FuncionLlamada;
+			std::vector<PDCadena>* Argumentos;
 			PDDatos** Manejador;
 		};
 

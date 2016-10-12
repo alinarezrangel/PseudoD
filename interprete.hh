@@ -2,10 +2,10 @@
 ****************************************************************************
 ****************************   PseudoD    **********************************
 ***** Creado por Alejandro Linarez Rangel El 14 de septiembre de 2014. *****
-*** Este es PseudoD version 2.1.0                                      *****
-*** Log de este archivo:                                               *****
-*** Formato: DD/MM/YYYY: txt                                           *****
-*** **** 2/01/2016: Se creo el archivo.                               *****
+*****                                                                  *****
+***** Página oficial de PseudoD en:                                    *****
+*****     http://pseudod.sourceforge.net/                              *****
+*****                                                                  *****
 ****************************************************************************
 **************************************************************************/
 
@@ -35,25 +35,15 @@ https://sourceforge.net/projects/pseudod/
 
 namespace pseudod
 {
-	//using namespace std;
-	//using namespace PDvar;
-
 	typedef void (*inic_nea)(
-		std::vector<std::string>&,
-		std::vector<std::string>&,
-		std::vector<std::string>&,
+		std::vector<PDCadena>&,
+		std::vector<PDCadena>&,
+		std::vector<PDCadena>&,
 		std::vector<int>&,
-		std::vector< std::stack<std::string> >&,
-		void (*procesar)(
-			std::string o,
-			std::istream& e,
-			void (*FUNCION)(
-				std::string,
-				std::istream&
-			)
-		)
+		std::vector<std::stack<PDCadena>>&,
+		PDFuncionNIA
 	);
-	typedef void (*ejec_nea)(std::string, std::istream&);
+	typedef void (*ejec_nea)(PDCadena, std::istream&);
 	typedef void (*liber_nea)(void);
 
 	extern bool Ejecutar;
@@ -65,21 +55,18 @@ namespace pseudod
 	extern void* coneccion_nea;
 
 	void procesar(
-		std::string o,
-		std::istream& e,
-		void (*FUNCION)(
-			std::string,
-			std::istream&
-		)
+		PDCadena,
+		std::istream&,
+		PDFuncionNEA
 	);
-	std::string iniciar(
-		std::string nea,
-		std::string bepd,
-		std::string main
+	PDCadena iniciar(
+		PDCadena,
+		PDCadena,
+		PDCadena
 	);
 	int terminar(void);
-	void ejecutar(std::string linea);
-	void ejecutar(std::istream& entrada);
+	void ejecutar(PDCadena);
+	void ejecutar(std::istream&);
 }
 
 #endif /* __INTERPRETE_PSEUDOD_H__ */

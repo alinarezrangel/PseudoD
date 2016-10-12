@@ -2,10 +2,10 @@
 ****************************************************************************
 ****************************   PseudoD    **********************************
 ***** Creado por Alejandro Linarez Rangel El 14 de septiembre de 2014. *****
-*** Este es PseudoD version 2.1.0                                      *****
-*** Log de este archivo:                                               *****
-*** Formato: DD/MM/YYYY: txt                                           *****
-*** **** 17/09/2016: Se creo el archivo.                               *****
+*****                                                                  *****
+***** Página oficial de PseudoD en:                                    *****
+*****     http://pseudod.sourceforge.net/                              *****
+*****                                                                  *****
 ****************************************************************************
 **************************************************************************/
 
@@ -219,13 +219,13 @@ namespace pseudod
 	struct NMemonicoProxy
 	{
 		typedef
-			std::multimap<std::string, pseudod::NMemonico::Palabra>::iterator
+			std::multimap<PDCadena, pseudod::NMemonico::Palabra>::iterator
 			iterator;
 		iterator begin;
 		iterator end;
-		std::string original;
+		PDCadena original;
 
-		operator std::string(void);
+		operator PDCadena(void);
 
 		bool operator==(NMemonico otro);
 		bool operator!=(NMemonico otro);
@@ -247,7 +247,7 @@ namespace pseudod
 	*
 	* @param in Simbolo sintáctico a convertir.
 	*/
-	NMemonicoProxy ConvertirCadenaANMemonico(std::string in);
+	NMemonicoProxy ConvertirCadenaANMemonico(PDCadena in);
 
 	std::istream& operator>>(std::istream& in, NMemonicoProxy& res);
 	std::ostream& operator<<(std::ostream& out, NMemonico res);

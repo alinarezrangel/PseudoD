@@ -12,10 +12,6 @@
 ****************************************************************************
 **************************************************************************/
 
-
-#ifndef PDDATA_DEFINED_H
-#define PDDATA_DEFINED_H
-
 #include "PDData.hh"
 
 template<class T>
@@ -31,7 +27,7 @@ int buscar(std::vector<T> a,T b)
 	return -1;
 }
 
-std::string eas(long long int i)
+PDCadena eas(PDEntero i)
 {
 #ifndef MINGW
 	return std::to_string(i);
@@ -42,7 +38,7 @@ std::string eas(long long int i)
 #endif
 }
 
-std::string dac(long double i)
+PDCadena dac(PDDecimal i)
 {
 #ifndef MINGW
 	return std::to_string(i);
@@ -53,7 +49,7 @@ std::string dac(long double i)
 #endif
 }
 
-long long int cae(std::string i)
+PDEntero cae(PDCadena i)
 {
 #ifndef MINGW
 	return std::stoll(i);
@@ -62,7 +58,7 @@ long long int cae(std::string i)
 #endif
 }
 
-long double caf(std::string i)
+PDDecimal caf(PDCadena i)
 {
 #ifndef MINGW
 	return std::stold(i);
@@ -81,7 +77,7 @@ namespace PDvar
 		this->PseudoDClass = other.ObtenerClaseEnPseudoD();
 		this->ErrorMessage = other.ObtenerErrorElemental();
 	}
-	Error::Error(string classname,string message) noexcept
+	Error::Error(PDCadena classname, PDCadena message) noexcept
 		: PseudoDClass(classname), ErrorMessage(message)
 	{
 	}
@@ -92,34 +88,35 @@ namespace PDvar
 	{
 		this->PseudoDClass = other.ObtenerClaseEnPseudoD();
 		this->ErrorMessage = other.ObtenerErrorElemental();
+		return *this;
 	}
 	const char* Error::what(void) noexcept
 	{
 		return this->ObtenerErrorElemental().c_str();
 	}
-	string Error::ObtenerClaseEnPseudoD(void) const noexcept
+	PDCadena Error::ObtenerClaseEnPseudoD(void) const noexcept
 	{
 		return this->PseudoDClass;
 	}
-	string Error::ObtenerErrorElemental(void) const noexcept
+	PDCadena Error::ObtenerErrorElemental(void) const noexcept
 	{
 		return this->ErrorMessage;
 	}
-	void Error::FijarClase(string classname) noexcept
+	void Error::FijarClase(PDCadena classname) noexcept
 	{
 		this->PseudoDClass = classname;
 	}
-	void Error::FijarMensaje(string message) noexcept
+	void Error::FijarMensaje(PDCadena message) noexcept
 	{
 		this->ErrorMessage = message;
 	}
-	string Error::Mensaje(void) const noexcept
+	PDCadena Error::Mensaje(void) const noexcept
 	{
 		return "(" + this->ObtenerClaseEnPseudoD() + ") " + this->ObtenerErrorElemental();
 	}
 	ErrorDeSintaxis::ErrorDeSintaxis(void) noexcept : Error("ErrorDeSintaxis","")
 	{}
-	ErrorDeSintaxis::ErrorDeSintaxis(string message) noexcept : Error("ErrorDeSintaxis",message)
+	ErrorDeSintaxis::ErrorDeSintaxis(PDCadena message) noexcept : Error("ErrorDeSintaxis",message)
 	{}
 	ErrorDeSintaxis::ErrorDeSintaxis(const Error& other) noexcept : Error(other)
 	{}
@@ -127,7 +124,7 @@ namespace PDvar
 	{}
 	ErrorDeSemantica::ErrorDeSemantica(void) noexcept : Error("ErrorDeSemantica","")
 	{}
-	ErrorDeSemantica::ErrorDeSemantica(string message) noexcept : Error("ErrorDeSemantica",message)
+	ErrorDeSemantica::ErrorDeSemantica(PDCadena message) noexcept : Error("ErrorDeSemantica",message)
 	{}
 	ErrorDeSemantica::ErrorDeSemantica(const Error& other) noexcept : Error(other)
 	{}
@@ -135,21 +132,27 @@ namespace PDvar
 	{}
 	ErrorDelNucleo::ErrorDelNucleo(void) noexcept : Error("ErrorDelNucleo","")
 	{}
-	ErrorDelNucleo::ErrorDelNucleo(string message) noexcept : Error("ErrorDelNucleo",message)
+	ErrorDelNucleo::ErrorDelNucleo(PDCadena message) noexcept : Error("ErrorDelNucleo",message)
 	{}
 	ErrorDelNucleo::ErrorDelNucleo(const Error& other) noexcept : Error(other)
 	{}
 	ErrorDelNucleo::~ErrorDelNucleo(void) noexcept
 	{}
 
-	PDDatos::PDDatos(vector<string>& nvar,vector<string>& vvar,vector<string>& npun,vector<int>& vpun,vector< stack<string> >& pil)
+	PDDatos::PDDatos(
+		std::vector<PDCadena>& nvar,
+		std::vector<PDCadena>& vvar,
+		std::vector<PDCadena>& npun,
+		std::vector<int>& vpun,
+		std::vector<std::stack<PDCadena>>& pil
+	)
 	{
 		this->nombrev = &nvar;
 		this->valorv = &vvar;
 		this->nombrep = &npun;
 		this->nvapunt = &vpun;
 		this->pilas = &pil;
-		this->ERROR = ":C++:Error:";
+		this->ERROR = ":C++:error:";
 		this->VERDADERO = "verdadero";
 		this->FALSO = "falso";
 		this->manager = false;
@@ -158,12 +161,12 @@ namespace PDvar
 
 	PDDatos::PDDatos(void)
 	{
-		this->nombrev = new vector<string>();
-		this->valorv = new vector<string>();
-		this->nombrep = new vector<string>();
-		this->nvapunt = new vector<int>();
-		this->pilas = new vector< stack<string> >();
-		this->ERROR = ":C++:Error:";
+		this->nombrev = new std::vector<PDCadena>();
+		this->valorv = new std::vector<PDCadena>();
+		this->nombrep = new std::vector<PDCadena>();
+		this->nvapunt = new std::vector<int>();
+		this->pilas = new std::vector<std::stack<PDCadena>>();
+		this->ERROR = ":C++:error:";
 		this->VERDADERO = "verdadero";
 		this->FALSO = "falso";
 		this->manager = true;
@@ -190,7 +193,7 @@ namespace PDvar
 		}
 	}
 
-	string& PDDatos::ObtenerVariable(string n)
+	PDCadena& PDDatos::ObtenerVariable(PDCadena n)
 	{
 		n = this->ResolverNombre(n);
 		int i = buscar((*this->nombrev),n);
@@ -204,13 +207,16 @@ namespace PDvar
 		}
 	}
 
-	string& PDDatos::ObtenerPuntero(string n)
+	PDCadena& PDDatos::ObtenerPuntero(PDCadena n)
 	{
 		n = this->ResolverNombre(n);
 		int i = buscar((*this->nombrep),n);
 		if(i == -1)
 		{
-			throw PDvar::ErrorDelNucleo("Error en el manejador de datos: C++'ObtenerPuntero(" + n + ")': No se encontro el puntero");
+			throw PDvar::ErrorDelNucleo(
+				"Error en el manejador de datos: C++'ObtenerPuntero(" +
+				n + ")': No se encontro el puntero"
+			);
 		}
 		else
 		{
@@ -218,13 +224,16 @@ namespace PDvar
 		}
 	}
 
-	int& PDDatos::ObtenerIndicePuntero(string n)
+	int& PDDatos::ObtenerIndicePuntero(PDCadena n)
 	{
 		n = this->ResolverNombre(n);
-		int i = buscar((*this->nombrep),n);
+		int i = buscar((*this->nombrep), n);
 		if(i == -1)
 		{
-			throw PDvar::ErrorDelNucleo("Error en el manejador de datos: C++'ObtenerVariable(" + n + ")': No se encontro la variable o puntero");
+			throw PDvar::ErrorDelNucleo(
+				"Error en el manejador de datos: C++'ObtenerVariable(" +
+				n + ")': No se encontro la variable o puntero"
+			);
 		}
 		else
 		{
@@ -232,7 +241,7 @@ namespace PDvar
 		}
 	}
 
-	string PDDatos::Tope(int p)
+	PDCadena PDDatos::Tope(int p)
 	{
 		return (*this->pilas)[p].top();
 	}
@@ -242,88 +251,88 @@ namespace PDvar
 		(*this->pilas)[p].pop();
 	}
 
-	void PDDatos::Empujar(string n, int p)
+	void PDDatos::Empujar(PDCadena n, int p)
 	{
 		(*this->pilas)[p].push(n);
 	}
 
 	void PDDatos::CrearPila()
 	{
-		(*this->pilas).push_back(stack<string>());
+		(*this->pilas).push_back(std::stack<PDCadena>());
 	}
 
-	string PDDatos::Sacar(int n)
+	PDCadena PDDatos::Sacar(int n)
 	{
-		string val = this->Tope(n);
+		PDCadena val = this->Tope(n);
 		this->BorrarTope(n);
 		return val;
 	}
 
-	void PDDatos::CrearVariable(string n,string t,int va,string vl)
+	void PDDatos::CrearVariable(PDCadena n, bool t, int va, PDCadena vl)
 	{
-		if(t == "Puntero")
-		{
-			(*this->nombrep).push_back(n);
-			(*this->nvapunt).push_back(va);
-		}
-		else
+		if(t)
 		{
 			(*this->nombrev).push_back(n);
 			(*this->valorv).push_back(vl);
 		}
+		else
+		{
+			(*this->nombrep).push_back(n);
+			(*this->nvapunt).push_back(va);
+		}
 	}
 
-	int PDDatos::BuscarIndice(string t,string n)
+	int PDDatos::BuscarIndice(bool t, PDCadena n)
 	{
 		n = this->ResolverNombre(n);
 		int ind = 0;
-		if(t == "Variable")
+		if(t)
 		{
-			ind = buscar((*this->nombrev),n);
+			ind = buscar((*this->nombrev), n);
 		}
 		else
 		{
-			ind = buscar((*this->nombrep),n);
+			ind = buscar((*this->nombrep), n);
 		}
 		return ind;
 	}
 
-	bool PDDatos::ExisteVariable(string t,string n)
+	bool PDDatos::ExisteVariable(bool t, PDCadena n)
 	{
 		n = this->ResolverNombre(n);
 		int ind = -1;
-		if(t == "Variable")
+		if(t)
 		{
-			ind = buscar((*this->nombrev),n);
+			ind = buscar((*this->nombrev), n);
 		}
 		else
 		{
-			ind = buscar((*this->nombrep),n);
+			ind = buscar((*this->nombrep), n);
 		}
 		return (ind >= 0);
 	}
 
-	void PDDatos::Ejecutar(string ord)
+	void PDDatos::Ejecutar(PDCadena ord)
 	{
 		istringstream in(ord);
-		string orden = "escribir CMMERROR";
+		PDCadena orden = "escribir CMMERROR";
 		in >> orden;
-		(*this->PROCESAR)(orden,in,this->PROCESO);
+		(*this->PROCESAR)(orden, in, this->PROCESO);
 	}
 
-	void PDDatos::Ejecutar(string ord,istream& in)
+	void PDDatos::Ejecutar(PDCadena ord, std::istream& in)
 	{
-		(*this->PROCESAR)(ord,in,this->PROCESO);
+		(*this->PROCESAR)(ord, in, this->PROCESO);
 	}
 
-	string PDDatos::ResolverNombre(string nombre)
+	PDCadena PDDatos::ResolverNombre(PDCadena nombre)
 	{
 		// Se debe seleccionar todos los texto entre "<" y ">" para
 		// evaluarlos hacia un nombre.
 		if(nombre.find('<') == std::string::npos)
 			return nombre;
-		std::string res = "";
-		std::string buff = "";
+		PDCadena res = "";
+		PDCadena buff = "";
 		bool inEval = false;
 		for(int i = 0; i < nombre.size(); i++)
 		{
@@ -348,18 +357,10 @@ namespace PDvar
 				res += nombre[i];
 			}
 		}
-		//cout << "DEBUG: " << nombre << " resolved to " << res << endl;
 		return res;
 	}
 
-	/*
-	explicit PDEntradaBasica(string tok, istream& in, PDDatos& dat);
-			virtual ~PDEntradaBasica(void);
-			istream& ObtenerFlujo(void);
-			PDDatos* ObtenerMemoria(void);
-			string ObtenerToken(void);
-	*/
-	PDEntradaBasica::PDEntradaBasica(string tok, istream& in, PDDatos& dat)
+	PDEntradaBasica::PDEntradaBasica(PDCadena tok, std::istream& in, PDDatos& dat)
 	{
 		this->token = tok;
 		this->in = &in;
@@ -370,12 +371,12 @@ namespace PDvar
 	{
 	}
 
-	string PDEntradaBasica::ObtenerToken(void)
+	PDCadena PDEntradaBasica::ObtenerToken(void)
 	{
 		return this->token;
 	}
 
-	istream& PDEntradaBasica::ObtenerFlujo(void)
+	std::istream& PDEntradaBasica::ObtenerFlujo(void)
 	{
 		return (*(this->in));
 	}
@@ -385,11 +386,8 @@ namespace PDvar
 		return this->data;
 	}
 
-	string ValorDelToken(string tok,istream& in,PDDatos* data)
+	PDCadena ValorDelToken(PDCadena tok, std::istream& in, PDDatos* data)
 	{
-		/*
-		(variable|llamar funcion args #(Final).|comparar|ejecutar|¿son_iguales?|no)
-		*/
 		if(tok == "llamar")
 		{
 			data->Ejecutar("llamar", in);
@@ -398,38 +396,49 @@ namespace PDvar
 		}
 		if(tok == "comparar")
 		{
-			string orden,arg1,op,arg2;
+			PDCadena orden = "", arg1 = "", op = "", arg2 = "";
 			in >> orden >> arg1 >> op >> arg2;
-			orden += " " + arg1 + " " + op + " " + arg2 + " ___codigo_pseudod_buffer_interno___";
+			orden += " " + arg1 + " " + op + " " + arg2 +
+				" ___codigo_pseudod_buffer_interno___";
 			data->Ejecutar(orden);
 			return data->ObtenerVariable("___codigo_pseudod_buffer_interno___");
 		}
 		if(tok == "ejecutar")
 		{
-			string orden,arg1,op,arg2,arg3;
+			PDCadena orden = "", arg1 = "", op = "", arg2 = "", arg3 = "";
 			in >> orden >> arg1 >> op >> arg2 >> arg3;
 			if(arg2 != "es")
 				throw string("Token invalido: se esperaba \"es\" no " + arg2);
 			orden += " " + arg1 + " " + op + " ___codigo_pseudod_buffer_interno___";
 			data->Ejecutar(orden);
-			return ((data->ObtenerVariable("___codigo_pseudod_buffer_interno___") == data->ObtenerVariable(arg3))? "verdadero" : "falso");
+			return (
+				(data->ObtenerVariable("___codigo_pseudod_buffer_interno___")
+					== data->ObtenerVariable(arg3))? 
+					"verdadero" : "falso"
+				);
 		}
 		if(tok == "¿son_iguales?") // verificado
 		{
-			string arg1,arg2;
+			PDCadena arg1 = "", arg2 = "";
 			in >> arg1 >> arg2;
-			return ((data->ObtenerVariable(arg1) == data->ObtenerVariable(arg2))? "verdadero" : "falso");
+			return (
+				(data->ObtenerVariable(arg1) == data->ObtenerVariable(arg2))?
+					"verdadero" : "falso"
+				);
 		}
-		if((tok == "son")||(tok == "sean"))
+		if((tok == "son") || (tok == "sean"))
 		{
-			string op,tok1,val1,tok2,val2,ytok;
+			PDCadena op = "", tok1 = "", val1 = "", tok2 = "", val2 = "", ytok = "";
 			in >> op >> tok1;
-			val1 = ValorDelToken(tok1,in,data);
+			val1 = ValorDelToken(tok1, in, data);
 			in >> ytok >> tok2;
-			val2 = ValorDelToken(tok2,in,data);
+			val2 = ValorDelToken(tok2, in, data);
 			if(ytok != "y")
 			{
-				throw PDvar::ErrorDeSintaxis("Error en el parser(expr): 'son/sean iguales/diferentes expr y expr': se esperaba 'y' no " + ytok);
+				throw PDvar::ErrorDeSintaxis(
+					PDCadena("Error en el parser(expr): 'son/sean iguales/diferentes") +
+					" expr y expr': se esperaba 'y' no " + ytok
+				);
 			}
 			if(op == "iguales")
 			{
@@ -444,7 +453,8 @@ namespace PDvar
 		{
 			string pd;
 			in >> pd;
-			return (ValorDelToken(pd,in,data) == "verdadero")? "falso" : "verdadero";
+			return (ValorDelToken(pd, in, data) == "verdadero")?
+				"falso" : "verdadero";
 		}
 		if(tok[0] == '{')
 		{
@@ -456,11 +466,14 @@ namespace PDvar
 			getline(in, str, '}');
 			return tok.substr(1, tok.size()) + str;
 		}
-		if((tok.size() >= 2) && (tok[0] == (char)0xC2) && (tok[1] == (char)0xAB)) // Comillas angulares (apertura "«")
+		if((tok.size() >= 2)
+			&& (tok[0] == (char)0xC2)
+			&& (tok[1] == (char)0xAB)) // Comillas angulares (apertura "«")
 		{
 			char l = tok[tok.size() - 1];
 			char l2 = tok[tok.size() - 2];
-			if((l2 == (char)0xC2) && (l == (char)0xBB)) // Comillas angulares (cierre "»")
+			// Comillas angulares (cierre "»")
+			if((l2 == (char)0xC2) && (l == (char)0xBB))
 			{
 				// Fin:
 				return tok.substr(2, tok.size() - 4);
@@ -468,7 +481,7 @@ namespace PDvar
 			// Busca el final:
 			l = (char)0;
 			l2 = (char)0;
-			string str = "";
+			PDCadena str = "";
 			do
 			{
 				str += in.get();
@@ -478,16 +491,18 @@ namespace PDvar
 					l2 = str[str.size() - 2];
 				}
 			}
-			while((l2 != (char)0xC2) || (l != (char)0xBB)); // Comillas angulares (cierre "»")
+			while((l2 != (char)0xC2) || (l != (char)0xBB));
+			// <= Comillas angulares (cierre "»")
 			return tok.substr(2, tok.size()) + str.substr(0, str.size() - 2);
 		}
-		//cout << "Existe variable " << tok << "???" << endl;
-		//cout << (data->ExisteVariable("Variable", tok)) << " y " << (data->ExisteVariable("Puntero", tok)) << endl;
-		if(data->ExisteVariable("Variable", tok) || data->ExisteVariable("Puntero", tok))
+		if(data->ExisteVariable(true, tok) || data->ExisteVariable(false, tok))
 		{
 			return data->ObtenerVariable(tok);
 		}
-		throw PDvar::ErrorDelNucleo("Error en el parser(expr): 'expr' es '" + tok + "': Token invalido");
+		throw PDvar::ErrorDelNucleo(
+			"Error en el parser(expr): 'expr' es '" + tok +
+			"': Token invalido"
+		);
 	}
 
 	namespace Din
@@ -502,5 +517,3 @@ namespace PDvar
 		}
 	}
 }
-
-#endif

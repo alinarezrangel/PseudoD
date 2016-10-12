@@ -19,6 +19,7 @@ namespace BibliotecaDinamica
 {
 	using namespace PDvar;
 	using namespace PDTipos;
+	using namespace std;
 
 	/**
 	* @brief Llama un modulo dinamico

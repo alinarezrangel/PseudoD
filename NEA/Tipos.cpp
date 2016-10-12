@@ -181,21 +181,21 @@ namespace PDTipos
 			if(this->methods[i][0] == ';')
 			{
 				this->methods[i].replace(0,1,"");
-				data->CrearVariable(this->ni + string("#") + this->methods[i],"Puntero",0);
+				data->CrearVariable(this->ni + string("#") + this->methods[i], false,0);
 			}
 			else if(this->methods[i][0] == ':')
 			{
 				this->methods[i].replace(0,1,"");
-				data->CrearVariable(this->ni + string("#") + this->methods[i],"Puntero",0);
-				data->CrearVariable(this->ni + string("#") + this->methods[i] + string("#cod"),"Puntero",0);
+				data->CrearVariable(this->ni + string("#") + this->methods[i], false,0);
+				data->CrearVariable(this->ni + string("#") + this->methods[i] + string("#cod"), false,0);
 				// No tiene sentido tener una copia de cada metodo de la instancia,
 				// En cambio, puedes tener un puntero al metodo, que ocupa menos
 				// espacio.
 				data->ObtenerIndicePuntero(this->ni + string("#") + this->methods[i])
-					= data->BuscarIndice("Variable",this->nm + string("#")
+					= data->BuscarIndice(true, this->nm + string("#")
 							+ this->methods[i]);
 				data->ObtenerIndicePuntero(this->ni + string("#") + this->methods[i] + string("#cod"))
-					= data->BuscarIndice("Variable",this->nm + string("#")
+					= data->BuscarIndice(true, this->nm + string("#")
 							+ this->methods[i]);
 			}
 			else
@@ -368,7 +368,7 @@ namespace PDTipos
 				}
 				else if(i != "salir")
 				{
-					data->Ejecutar(i,cin);
+					data->Ejecutar(i, cin);
 				}
 			}
 			catch(const PDvar::Error& e)
@@ -457,10 +457,10 @@ namespace PDTipos
 
 	void PseudoBorrarVariable::InscribirInstancia(PDDatos* data)
 	{
-		int i = data->BuscarIndice("Variable",this->nm);
+		int i = data->BuscarIndice(true, this->nm);
 		if(i == -1)
 		{
-			i = data->BuscarIndice("Puntero",this->nm);
+			i = data->BuscarIndice(false, this->nm);
 			if(i == -1)
 			{
 				throw PDvar::ErrorDelNucleo(
@@ -468,7 +468,9 @@ namespace PDTipos
 				+ this->ObtenerClave()
 				+ ": '"
 				+ this->ObtenerClave()
-				+ " nm': No existe la variable o puntero 'nm'"
+				+ " nm': No existe la variable o puntero '"
+				+ this->nm
+				+ "'"
 			);
 			}
 			(*data->nombrep).erase((*data->nombrep).begin() + i);
@@ -522,16 +524,16 @@ namespace PDTipos
 					curr_mtd.replace(0,1,"");
 					string hija_mtd = this->nmh + string("#") + curr_mtd;
 					string base_mtd = this->nmb + string("#") + curr_mtd;
-					data->CrearVariable(hija_mtd,"Variable",0);
-					data->CrearVariable(hija_mtd + "#NOMBRE","Variable",0);
-					data->CrearVariable(hija_mtd + "#Tipo","Variable",0);
-					data->CrearVariable(hija_mtd + string("#cod"),"Puntero",0);
+					data->CrearVariable(hija_mtd, true,0);
+					data->CrearVariable(hija_mtd + "#NOMBRE", true,0);
+					data->CrearVariable(hija_mtd + "#Tipo", true,0);
+					data->CrearVariable(hija_mtd + string("#cod"), true,0);
 					data->ObtenerVariable(hija_mtd)
 						= data->ObtenerVariable(base_mtd);
 					data->ObtenerVariable(hija_mtd + "#NOMBRE") = hija_mtd;
 					data->ObtenerVariable(hija_mtd + "#Tipo") = "PseudoFuncion";
 					data->ObtenerIndicePuntero(hija_mtd + string("#cod"))
-						= data->BuscarIndice("Variable",hija_mtd);
+						= data->BuscarIndice(true, hija_mtd);
 				}
 				curr_mtd = "";
 				continue;
@@ -570,7 +572,7 @@ namespace PDTipos
 	void PseudoDireccionarPuntero::InscribirInstancia(PDDatos* data)
 	{
 		int oi;
-		if(data->BuscarIndice("Puntero",this->nmp) == -1)
+		if(data->BuscarIndice(false, this->nmp) == -1)
 		{
 			throw PDvar::ErrorDelNucleo(
 				"Error en "
@@ -580,7 +582,7 @@ namespace PDTipos
 				+ " ptr nvla' alias 'redireccionar ptr nval': No existe el puntero 'ptr'"
 			);
 		}
-		oi = data->BuscarIndice("Variable",this->nmv);
+		oi = data->BuscarIndice(true, this->nmv);
 		if(oi == -1)
 		{
 			throw PDvar::ErrorDelNucleo(
@@ -733,7 +735,7 @@ namespace PDTipos
 		string tipo;
 		tipo = data->ObtenerVariable(this->var+string("#Tipo"));
 		int index = data->BuscarIndice(
-			"Variable",
+			true,
 			this->var
 		);
 		int todelete = 1;

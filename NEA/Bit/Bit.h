@@ -14,6 +14,8 @@
 
 namespace Bit
 {
+	using namespace std;
+
 	class PseudoBitAnd : public PDTipos::PDInstancia
 	{
 		public:
