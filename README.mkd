@@ -44,6 +44,8 @@ Es recomendable leer los siguientes archivos:
 
 * `LEEME.txt` ([LEEME.txt](LEEME.txt)): Este archivo contiene más información
 sobre PseudoD.
+* `CONTRIBUTE.txt` ([CONTRIBUTE.txt](CONTRIBUTE.txt)): Como contribuir con el
+proyecto y estilo de código.
 * `ESTRUCTURA.txt` ([ESTRUCTURA.txt](ESTRUCTURA.txt)): Este archivo explica
 la estructura del directorio.
 * `bepd/LEEME.txt` ([bepd/LEEME.txt](bepd/LEEME.txt)): LEEME de la BEPD.

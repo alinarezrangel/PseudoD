@@ -50,7 +50,7 @@ La estructura del directorio de PseudoD es:
      |    |    +- fmt.txt
      |    |    +- salida.txt
      |    |    +- test.pd
-     |    +- LEEME.txt
+     |    +- LEEME.txt              <= *
      +- Ejemplos/
      |    +- AdiosMundo.pd
      |    +- BuclesAnidados.pd
@@ -80,6 +80,8 @@ La estructura del directorio de PseudoD es:
      +- README.mkd                  <= *
      +- LEEME.txt                   <= *
      +- ESTRUCTURA.txt              <= *
+     +- CONTRIBUTE.txt              <= *
+     +- CODEOFCONDUCT.txt           <= *
 
 Los archivos marcados con `<= *` son archivos que se deberían leer antes de
 continuar con la exploración del código.

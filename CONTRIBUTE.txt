@@ -1,0 +1,55 @@
+ESTE ARCHIVO CONTIENE TEXTO UNICODE
+
+   ____                     _       ____
+  |  _ \ ___  ___ _   _  __| | ___ |  _ \
+  | |_) / __|/ _ \ | | |/ _` |/ _ \| | | |
+  |  __/\__ \  __/ |_| | (_| | (_) | |_| |
+  |_|   |___/\___|\__,_|\__,_|\___/|____/
+
+
+Ver README.mkd para una introducción
+
+=============================================================================
+
+                        Como contribuir
+
+El código de conducta esta disponible en el archivo `CODEOFCONDUCT.txt` y
+es el código de conducta del Contributor Covenant, version 1.4 disponible en
+http://contributor-covenant.org/version/1/4/es/.
+
+                         Enviando *pull requests*
+
+Si desea incluir una característica, solucionar una falla u otra modificación
+al código fuente de PseudoD, puede realizar un «pull request». Un pull
+request es una solicitud para que el repositorio oficial de PseudoD se mezcle
+con tu código, permitiendo a tu contribución ser oficial. Para realizar un
+pull request basta con clonar el proyecto (o, «realizar un "fork"»), realizar
+tus cambios (ver más abajo) y enviar la solicitud con la herramienta `git`.
+En caso que sea imposible utilizar git, puede contactar a
+<proyectopseudod@gmail.com> y acordar una forma de realizar el pull request.
+
+                         Requisítos para un pull request
+
+* La primera línea del mensaje del commit debe ser menor a 50 caracteres.
+  Puede utilizar más parrafos de ser necesario (no comenzar un mensaje de
+  commit con un paragrafo, de forma que este sea una única línea). El nombre
+  debe ser simple y descriptivo, indicado facilmente los cambios realizados.
+
+    Por ejemplo:
+
+      Si: «Agregado soporte para macOS 10.4»
+      No: «Mejoras macOS 10.4»
+
+      Si: «Implementados sistemas de recolección de basura»
+      No: «Ahora PseudoD puede leer archivos de forma nativa,
+           agregado soporte para codificación UTF-7 y Latin-1»
+
+* Se pide que solo sea realizado un cambio, evitando solucionar varios
+  problemas o implementar varias características en un solo «commit».
+
+* Evítese agregar código dependiente del sistema. El único código
+  dependiente de sistema que se aceptará será aquel que este diseñado
+  para agregar soporte a otras plataformas, o código que utilize
+  bibliotecas POSIX que puedan ser utilizadas en sistemas mayormente
+  compatibles (no necesariamente POSIX completo).
+

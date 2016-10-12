@@ -17,7 +17,7 @@ Desde PseudoD 2.0.0, se incluye con el código fuente una suite de pruebas
 simples que siguen un formato unificado. Estas pruebas son pocas, dado que
 la gran mayoria estará en otra rama.
 
-Las pruebas se encuentran en `test/` (ver `test/LEEME.txt`).
+Las pruebas se encuentran en `tests/` (ver `tests/LEEME.txt`).
 
                            Modificando el código
 
