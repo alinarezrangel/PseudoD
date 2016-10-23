@@ -136,7 +136,7 @@ namespace pseudod
 			/**
 			* @brief Convierte este nmemonico a una cadena.
 			*/
-			operator std::string(void); // Convertir a ENUM
+			operator std::string(void); // Convertir a std::string
 			/**
 			* @brief Compara si los dos nmemonicos son iguales.
 			* @param otro Otro nmemonico a comparar.
@@ -254,4 +254,3 @@ namespace pseudod
 }
 
 #endif /* __NMEMOICOS_PSEUDOD_H__ */
-

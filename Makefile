@@ -6,10 +6,11 @@ endif
 ifndef CXX
 CXX = g++
 endif
-CFLAGS = -fPIC -O3
+NIAPATH=NIA
+NEAPATH=NEA
+CFLAGS = -fPIC -O3 -I$(NIAPATH)/ -I.
 SHARED = -shared
 LIBS = -Wl,--no-as-needed -ldl
-MEM = NEA/PDData.cpp
 DEBUG=-g -Wall
 OPT=-O3
 # Fijar COMP a -DMINGW=1 o a -DNUMEROS_EN_C=1 para compilar en sistemas Microsoft
@@ -24,27 +25,26 @@ endif
 # pero si es necesaria para compilar en Windows.
 #INTE = -DINTERACTIVO=1
 
-PseudoD: libpseudod.so libpseudodsrc.a Main.cpp libpseudodsrc.a
-	$(CXX) -std=c++11 $(DEBUG) $(OPT) Main.cpp $(LIBS) libpseudodsrc.a -o PseudoD
+PseudoD: libpseudod.so libpseudodsrc.a $(NIAPATH)/Main.cpp libpseudodsrc.a
+	$(CXX) -std=c++11 $(DEBUG) $(OPT) $(CFLAGS) $(NIAPATH)/Main.cpp $(LIBS) libpseudodsrc.a -o PseudoD
 
 libpseudodsrc.a: Data.o pdbase.o nmemoic.o
 	ar -cvq libpseudodsrc.a Data.o pdbase.o nmemoic.o
 
-pdbase.o: interprete.cpp
-	$(CXX) $(DEBUG) $(OPT) $(CFLAGS) -c -std=c++11 interprete.cpp $(LIBS) Data.o -o pdbase.o
+pdbase.o: $(NIAPATH)/interprete.cpp
+	$(CXX) $(DEBUG) $(OPT) $(CFLAGS) -c -std=c++11 $(NIAPATH)/interprete.cpp $(LIBS) Data.o -o pdbase.o
 
-libpseudod.so:	pseudod.cpp pseudod.hh Data.o
-	$(CXX) $(DEBUG) $(OPT) $(CFLAGS) $(SHARED) -std=c++11 pseudod.cpp $(LIBS) Data.o -o libpseudod.so
+libpseudod.so: $(NIAPATH)/pseudod.cpp $(NIAPATH)/pseudod.hh Data.o
+	$(CXX) $(DEBUG) $(OPT) $(CFLAGS) $(SHARED) -std=c++11 $(NIAPATH)/pseudod.cpp $(LIBS) Data.o -o libpseudod.so
 
-Data.o: $(MEM) NEA/PDData.hh
-	$(CXX) $(DEBUG) $(OPT) $(CFLAGS) -c -std=c++11 $(MEM) $(LIBS) $(COMP) -o Data.o
+Data.o: $(MEM) $(NEAPATH)/PDData.hh
+	$(CXX) $(DEBUG) $(OPT) $(CFLAGS) -c -std=c++11 $(NEAPATH)/PDData.cpp $(LIBS) $(COMP) -o Data.o
 
 nmemoic.o: Data.o
-	$(CXX) $(DEBUG) $(OPT) $(CFLAGS) -c -std=c++11 nmemoic.cpp $(LIBS) $(COMP) -o nmemoic.o
+	$(CXX) $(DEBUG) $(OPT) $(CFLAGS) -c -std=c++11 $(NIAPATH)/nmemoic.cpp $(LIBS) $(COMP) -o nmemoic.o
 
 clean:
 	rm Data.o
 	rm pdbase.o
 	rm libpseudodsrc.a
 	rm nmemoic.o
-
