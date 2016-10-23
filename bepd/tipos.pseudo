@@ -11,15 +11,17 @@
 
 [DOCUMENTA
 @file Documentación de tipos.pseudo.
-Aqui se encuentran funciones comunes de PseudoD, la clase Referencia, es
+Aqui se encuentran funciones comunes de PseudoD, la clase <Referencia>, es
 la clase principal de este archivo, permitiendo referenciar variables de
 forma eficiente y simple.
 DOCUMENTA]
 
 [DOCUMENTA
 @brief Representa una referencia a un objeto.
-Este requiere que se campo ref sea fijado a el nombre(ref) de la
+Este requiere que se campo ref sea fijado a el nombre (ref) de la
 variable a fijar. Esta variable puede ser una instancia de cualquier clase.
+
+@obsolete
 DOCUMENTA]
 clase Referencia
 	ref
@@ -29,16 +31,16 @@ clase Referencia
 	:redireccionarAttr
 	:llamarMet
 	:obtenerValor
-#(Final).
+finclase
 heredar Objeto Referencia
 
 [DOCUMENTA
 @brief Devuelve en forma de cadena, el atributo de la referencia.
 Por ejemplo: si la referencia es A y el atributo es B devuelve A#B
-@arg instancia Referencia comun al valor Yo(PseudoD lo pasa automaticamente)
+@argyo
 @arg attr Atributo a devolver.
 @dev El atributo en forma de cadena.
-@errors Active
+@races None
 DOCUMENTA]
 funcion Referencia#obtenerAttrStr [ ref instancia, attr ]
 	adquirir __REFERENCIA_OBT_ATTR_STR_REF__
@@ -51,7 +53,7 @@ funcion Referencia#obtenerAttrStr [ ref instancia, attr ]
 	Importar.Cad.Concatenar __REFERENCIA_OBT_ATTR_STR_BUFF2__ __REFERENCIA_OBT_ATTR_STR_ATTR__ __REFERENCIA_OBT_ATTR_STR_BUFF2__
 	fijar __REFERENCIA_OBT_ATTR_STR_BUFF__ =* #ref
 	Importar.Cad.Concatenar __REFERENCIA_OBT_ATTR_STR_REF__ __REFERENCIA_OBT_ATTR_STR_BUFF__ __REFERENCIA_OBT_ATTR_STR_REF__
-	fijar __REFERENCIA_OBT_ATTR_STR_BUFF__ =* Importar.Cad.Concatenar 
+	fijar __REFERENCIA_OBT_ATTR_STR_BUFF__ =* Importar.Cad.Concatenar
 	Importar.Cad.Concatenar __REFERENCIA_OBT_ATTR_STR_BUFF__ __REFERENCIA_OBT_ATTR_STR_REF__ __REFERENCIA_OBT_ATTR_STR_BUFF__
 	Importar.Cad.Concatenar __REFERENCIA_OBT_ATTR_STR_BUFF__ ESP __REFERENCIA_OBT_ATTR_STR_BUFF__
 	Importar.Cad.Concatenar __REFERENCIA_OBT_ATTR_STR_BUFF__ __REFERENCIA_OBT_ATTR_STR_BUFF2__#NOMBRE __REFERENCIA_OBT_ATTR_STR_BUFF__
@@ -67,13 +69,13 @@ finfun
 
 [DOCUMENTA
 @brief Devuelve el valor del atributo.
-A diferencia de <code>Referencia#obtenerAttrStr</code>, este devuelve el valor
+A diferencia de <Referencia\#obtenerAttrStr>, este devuelve el valor
 del atributo, por ejemplo: dada la referencia A y el atributo B devuelve el valor
-de A#B y no la cadena A#B.
-@arg instancia Referencia comun al valor Yo(PseudoD la pasa automaticamente)
+de `A#B` y no la cadena `A#B`.
+@argyo
 @arg attr Atributo a acceder.
 @dev El valor del atributo.
-@errors Inactive
+@races Fatal.NonAttr
 Si el atributo no existe, lanzara un error fatal.
 DOCUMENTA]
 funcion Referencia#obtenerAttr [ ref instancia, attr ]
@@ -87,14 +89,14 @@ funcion Referencia#obtenerAttr [ ref instancia, attr ]
 	Importar.Cad.Concatenar __REFERENCIA_OBT_ATTR_BUFF2__ __REFERENCIA_OBT_ATTR_ATTR__ __REFERENCIA_OBT_ATTR_BUFF2__
 	fijar __REFERENCIA_OBT_ATTR_BUFF__ =* #ref
 	Importar.Cad.Concatenar __REFERENCIA_OBT_ATTR_REF__ __REFERENCIA_OBT_ATTR_BUFF__ __REFERENCIA_OBT_ATTR_REF__
-	fijar __REFERENCIA_OBT_ATTR_BUFF__ =* Importar.Cad.Concatenar 
+	fijar __REFERENCIA_OBT_ATTR_BUFF__ =* Importar.Cad.Concatenar
 	Importar.Cad.Concatenar __REFERENCIA_OBT_ATTR_BUFF__ __REFERENCIA_OBT_ATTR_REF__ __REFERENCIA_OBT_ATTR_BUFF__
 	Importar.Cad.Concatenar __REFERENCIA_OBT_ATTR_BUFF__ ESP __REFERENCIA_OBT_ATTR_BUFF__
 	Importar.Cad.Concatenar __REFERENCIA_OBT_ATTR_BUFF__ __REFERENCIA_OBT_ATTR_BUFF2__#NOMBRE __REFERENCIA_OBT_ATTR_BUFF__
 	Importar.Cad.Concatenar __REFERENCIA_OBT_ATTR_BUFF__ ESP __REFERENCIA_OBT_ATTR_BUFF__
 	Importar.Cad.Concatenar __REFERENCIA_OBT_ATTR_BUFF__ __REFERENCIA_OBT_ATTR_BUFF__#NOMBRE __REFERENCIA_OBT_ATTR_BUFF__
 	ejecutar __REFERENCIA_OBT_ATTR_BUFF__
-	fijar __REFERENCIA_OBT_ATTR_BUFF2__ =* devolver 
+	fijar __REFERENCIA_OBT_ATTR_BUFF2__ =* devolver
 	Importar.Cad.Concatenar __REFERENCIA_OBT_ATTR_BUFF2__ __REFERENCIA_OBT_ATTR_BUFF__ __REFERENCIA_OBT_ATTR_BUFF__
 	ejecutar __REFERENCIA_OBT_ATTR_BUFF__
 	liberar __REFERENCIA_OBT_ATTR_ATTR__
@@ -106,9 +108,9 @@ finfun
 [DOCUMENTA
 @brief Devuelve el valor del atributo.
 Devuelve su valor bruto.
-@arg instancia Referencia comun al valor Yo(PseudoD la pasa automaticamente)
+@argyo
 @dev El valor del atributo.
-@errors Active
+@races None
 DOCUMENTA]
 funcion Referencia#obtenerValor [ ref instancia ]
 	adquirir __REFERENCIA_OBT_ATTR_ATTR__
@@ -118,11 +120,11 @@ funcion Referencia#obtenerValor [ ref instancia ]
 	recibir_parametro __REFERENCIA_OBT_ATTR_REF__
 	fijar __REFERENCIA_OBT_ATTR_BUFF__ =* #ref
 	Importar.Cad.Concatenar __REFERENCIA_OBT_ATTR_REF__ __REFERENCIA_OBT_ATTR_BUFF__ __REFERENCIA_OBT_ATTR_REF__
-	fijar __REFERENCIA_OBT_ATTR_BUFF__ =* empujar 
+	fijar __REFERENCIA_OBT_ATTR_BUFF__ =* empujar
 	Importar.Cad.Concatenar __REFERENCIA_OBT_ATTR_BUFF__ __REFERENCIA_OBT_ATTR_REF__ __REFERENCIA_OBT_ATTR_BUFF__
 	ejecutar __REFERENCIA_OBT_ATTR_BUFF__
 	sacar __REFERENCIA_OBT_ATTR_BUFF2__
-	fijar __REFERENCIA_OBT_ATTR_BUFF__ =* empujar 
+	fijar __REFERENCIA_OBT_ATTR_BUFF__ =* empujar
 	Importar.Cad.Concatenar __REFERENCIA_OBT_ATTR_BUFF__ __REFERENCIA_OBT_ATTR_BUFF2__ __REFERENCIA_OBT_ATTR_BUFF__
 	ejecutar __REFERENCIA_OBT_ATTR_BUFF__
 	liberar __REFERENCIA_OBT_ATTR_ATTR__
@@ -134,10 +136,10 @@ finfun
 [DOCUMENTA
 @brief Fija el valor del atributo.
 En este proceso destruye el valor anterior.
-@arg instancia Referencia comun al valor Yo(PseudoD la pasa automaticamente)
+@argyo
 @arg attr Atributo a fijar.
 @arg val Nuevo valor para el atributo.
-@errors Inactive
+@races Fatal.NonAttr
 Si el atributo no existe, lanzara un error fatal.
 DOCUMENTA]
 funcion Referencia#fijarAttr [ ref instancia, attr, val ]
@@ -151,17 +153,17 @@ funcion Referencia#fijarAttr [ ref instancia, attr, val ]
 	Importar.Cad.Concatenar __REFERENCIA_FJR_ATTR_BUFF2__ __REFERENCIA_FJR_ATTR_ATTR__ __REFERENCIA_FJR_ATTR_BUFF2__
 	fijar __REFERENCIA_FJR_ATTR_BUFF__ =* #ref
 	Importar.Cad.Concatenar __REFERENCIA_FJR_ATTR_REF__ __REFERENCIA_FJR_ATTR_BUFF__ __REFERENCIA_FJR_ATTR_REF__
-	fijar __REFERENCIA_FJR_ATTR_BUFF__ =* Importar.Cad.Concatenar 
+	fijar __REFERENCIA_FJR_ATTR_BUFF__ =* Importar.Cad.Concatenar
 	Importar.Cad.Concatenar __REFERENCIA_FJR_ATTR_BUFF__ __REFERENCIA_FJR_ATTR_REF__ __REFERENCIA_FJR_ATTR_BUFF__
 	Importar.Cad.Concatenar __REFERENCIA_FJR_ATTR_BUFF__ ESP __REFERENCIA_FJR_ATTR_BUFF__
 	Importar.Cad.Concatenar __REFERENCIA_FJR_ATTR_BUFF__ __REFERENCIA_FJR_ATTR_BUFF2__#NOMBRE __REFERENCIA_FJR_ATTR_BUFF__
 	Importar.Cad.Concatenar __REFERENCIA_FJR_ATTR_BUFF__ ESP __REFERENCIA_FJR_ATTR_BUFF__
 	Importar.Cad.Concatenar __REFERENCIA_FJR_ATTR_BUFF__ __REFERENCIA_FJR_ATTR_BUFF__#NOMBRE __REFERENCIA_FJR_ATTR_BUFF__
 	ejecutar __REFERENCIA_FJR_ATTR_BUFF__
-	fijar __REFERENCIA_FJR_ATTR_BUFF2__ =* fijar 
+	fijar __REFERENCIA_FJR_ATTR_BUFF2__ =* fijar
 	Importar.Cad.Concatenar __REFERENCIA_FJR_ATTR_BUFF2__ __REFERENCIA_FJR_ATTR_BUFF__ __REFERENCIA_FJR_ATTR_BUFF__
 	Importar.Cad.Concatenar __REFERENCIA_FJR_ATTR_BUFF__ ESP __REFERENCIA_FJR_ATTR_BUFF__
-	fijar __REFERENCIA_FJR_ATTR_BUFF2__ =* =¿? 
+	fijar __REFERENCIA_FJR_ATTR_BUFF2__ =* =¿?
 	Importar.Cad.Concatenar __REFERENCIA_FJR_ATTR_BUFF__ __REFERENCIA_FJR_ATTR_BUFF2__ __REFERENCIA_FJR_ATTR_BUFF__
 	recibir_parametro __REFERENCIA_FJR_ATTR_BUFF2__
 	Importar.Cad.Concatenar __REFERENCIA_FJR_ATTR_BUFF__ __REFERENCIA_FJR_ATTR_BUFF2__#NOMBRE __REFERENCIA_FJR_ATTR_BUFF__
@@ -176,10 +178,10 @@ finfun
 @brief Redirecciona el valor del atributo puntero.
 Solo funciona si el atributo pasado es un puntero. Lo redirecciona a una
 nueva variable.
-@arg instancia Referencia comun al valor Yo(PseudoD la pasa automaticamente)
+@argyo
 @arg attr Atributo puntero a redireccionar.
 @arg var Variable a redireccionar el puntero(referencia comun).
-@errors Inactive
+@races Fatal.NonAttr
 Si el atributo no existe, lanzara un error fatal.
 DOCUMENTA]
 funcion Referencia#redireccionarAttr [ ref instancia, attr, val ]
@@ -193,14 +195,14 @@ funcion Referencia#redireccionarAttr [ ref instancia, attr, val ]
 	Importar.Cad.Concatenar __REFERENCIA_RED_ATTR_BUFF2__ __REFERENCIA_RED_ATTR_ATTR__ __REFERENCIA_RED_ATTR_BUFF2__
 	fijar __REFERENCIA_RED_ATTR_BUFF__ =* #ref
 	Importar.Cad.Concatenar __REFERENCIA_RED_ATTR_REF__ __REFERENCIA_RED_ATTR_BUFF__ __REFERENCIA_RED_ATTR_REF__
-	fijar __REFERENCIA_RED_ATTR_BUFF__ =* Importar.Cad.Concatenar 
+	fijar __REFERENCIA_RED_ATTR_BUFF__ =* Importar.Cad.Concatenar
 	Importar.Cad.Concatenar __REFERENCIA_RED_ATTR_BUFF__ __REFERENCIA_RED_ATTR_REF__ __REFERENCIA_RED_ATTR_BUFF__
 	Importar.Cad.Concatenar __REFERENCIA_RED_ATTR_BUFF__ ESP __REFERENCIA_RED_ATTR_BUFF__
 	Importar.Cad.Concatenar __REFERENCIA_RED_ATTR_BUFF__ __REFERENCIA_RED_ATTR_BUFF2__#NOMBRE __REFERENCIA_RED_ATTR_BUFF__
 	Importar.Cad.Concatenar __REFERENCIA_RED_ATTR_BUFF__ ESP __REFERENCIA_RED_ATTR_BUFF__
 	Importar.Cad.Concatenar __REFERENCIA_RED_ATTR_BUFF__ __REFERENCIA_RED_ATTR_BUFF__#NOMBRE __REFERENCIA_RED_ATTR_BUFF__
 	ejecutar __REFERENCIA_RED_ATTR_BUFF__
-	fijar __REFERENCIA_RED_ATTR_BUFF2__ =* redireccionar 
+	fijar __REFERENCIA_RED_ATTR_BUFF2__ =* redireccionar
 	Importar.Cad.Concatenar __REFERENCIA_RED_ATTR_BUFF2__ __REFERENCIA_RED_ATTR_BUFF__ __REFERENCIA_RED_ATTR_BUFF__
 	Importar.Cad.Concatenar __REFERENCIA_RED_ATTR_BUFF__ ESP __REFERENCIA_RED_ATTR_BUFF__
 	recibir_parametro __REFERENCIA_RED_ATTR_BUFF2__
@@ -214,11 +216,11 @@ finfun
 
 [DOCUMENTA
 @brief Llama al metodo de la referencia.
-@arg instancia Referencia comun al valor Yo(PseudoD la pasa automaticamente)
+@argyo
 @arg met Metodo a llamar
 @arg args Argumentos a pasar.
 @dev El resultado de la funcion.
-@errors Inactive
+@races Fatal.NonAttr
 Si el método no existe, lanzara un error fatal.
 DOCUMENTA]
 funcion Referencia#llamarMet [ ref instancia, met, args... ]
@@ -232,14 +234,14 @@ funcion Referencia#llamarMet [ ref instancia, met, args... ]
 	Importar.Cad.Concatenar __REFERENCIA_LMR_ATTR_BUFF2__ __REFERENCIA_LMR_ATTR_ATTR__ __REFERENCIA_LMR_ATTR_BUFF2__
 	fijar __REFERENCIA_LMR_ATTR_BUFF__ =* #ref
 	Importar.Cad.Concatenar __REFERENCIA_LMR_ATTR_REF__ __REFERENCIA_LMR_ATTR_BUFF__ __REFERENCIA_LMR_ATTR_REF__
-	fijar __REFERENCIA_LMR_ATTR_BUFF__ =* Importar.Cad.Concatenar 
+	fijar __REFERENCIA_LMR_ATTR_BUFF__ =* Importar.Cad.Concatenar
 	Importar.Cad.Concatenar __REFERENCIA_LMR_ATTR_BUFF__ __REFERENCIA_LMR_ATTR_REF__ __REFERENCIA_LMR_ATTR_BUFF__
 	Importar.Cad.Concatenar __REFERENCIA_LMR_ATTR_BUFF__ ESP __REFERENCIA_LMR_ATTR_BUFF__
 	Importar.Cad.Concatenar __REFERENCIA_LMR_ATTR_BUFF__ __REFERENCIA_LMR_ATTR_BUFF2__#NOMBRE __REFERENCIA_LMR_ATTR_BUFF__
 	Importar.Cad.Concatenar __REFERENCIA_LMR_ATTR_BUFF__ ESP __REFERENCIA_LMR_ATTR_BUFF__
 	Importar.Cad.Concatenar __REFERENCIA_LMR_ATTR_BUFF__ __REFERENCIA_LMR_ATTR_BUFF__#NOMBRE __REFERENCIA_LMR_ATTR_BUFF__
 	ejecutar __REFERENCIA_LMR_ATTR_BUFF__
-	fijar __REFERENCIA_LMR_ATTR_BUFF2__ =* llamar  
+	fijar __REFERENCIA_LMR_ATTR_BUFF2__ =* llamar
 	Importar.Cad.Concatenar __REFERENCIA_LMR_ATTR_BUFF2__ __REFERENCIA_LMR_ATTR_BUFF__ __REFERENCIA_LMR_ATTR_BUFF__
 	fijar __REFERENCIA_LMR_ATTR_BUFF2__ =* #(Final).
 	Importar.Cad.Concatenar __REFERENCIA_LMR_ATTR_BUFF__ ESP __REFERENCIA_LMR_ATTR_BUFF__
@@ -265,10 +267,11 @@ usar_pila 0
 Cuando el nombre de un dato no importa (por ejemplo, en arreglos dinamicos)
 se puede solicitar un dato, que se puede manipular por punteros. Es similar
 a new tipoData en C++ y malloc(sizeof(tipoData)) en C.
+
 Modifica VG_BUFFER.
 @arg tipoData Tipo del dato.
 @dev data Referencia al bloque dinamico.
-@errors Active
+@races None
 DOCUMENTA]
 funcion ReservarDato [ tipoData -> ref data ]
 	adquirir __RESEVAR_DATO_TIPO__
@@ -286,7 +289,7 @@ funcion ReservarDato [ tipoData -> ref data ]
 		fijar __pseudod_ReservarDatos_i__ =¿? __RESEVAR_DATO_BUFFER__
 		fijar __RESEVAR_DATO_RET__ =¿? VERDADERO
 	fin
-	fijar __RESEVAR_DATO_BUFFER__ =* instancia 
+	fijar __RESEVAR_DATO_BUFFER__ =* instancia
 	Importar.Cad.Concatenar __RESEVAR_DATO_BUFFER__ __RESEVAR_DATO_TIPO__ __RESEVAR_DATO_BUFFER__
 	Importar.Cad.Concatenar __RESEVAR_DATO_BUFFER__ ESP __RESEVAR_DATO_BUFFER__
 	Importar.Cad.Concatenar __RESEVAR_DATO_BUFFER__ __pseudod_ReservarDatos_i__ __RESEVAR_DATO_BUFFER__
@@ -308,12 +311,14 @@ finfun
 @brief Libera un dato reservado con ReservarDato.
 No cuenta para datos multiples. Tal como free de C
 o delete de C++.
+
 Además, fija el PunteroInteligente a nulo, de forma que el metodo esNulo
 siempre devuelva verdadero.
+
 Modifica VG_BUFFER.
 @arg ptr Puntero al nombre del dato reservado(referencia a instancia de PunteroInteligente).
-@errors Inactive
-Cuando ptr apunta a nulo,(ptr#esNulo devuelve verdadero) el comportamiento de
+@races Undefined.NullPointer
+Cuando ptr apunta a nulo (ptr#esNulo devuelve verdadero) el comportamiento de
 la función es indefinido.
 DOCUMENTA]
 funcion LiberarDato [ ptr ]
@@ -325,7 +330,7 @@ funcion LiberarDato [ ptr ]
 	fijar __LIBERAR_DATO_BUFFA__ =* direccion
 	llamar __LIBERAR_DATO_REF__#obtenerAttr __LIBERAR_DATO_BUFFA__ #(Final).
 	recibir_resultado __LIBERAR_DATO_BUFFB__
-	fijar __LIBERAR_DATO_BUFFA__ =* liberar 
+	fijar __LIBERAR_DATO_BUFFA__ =* liberar
 	Importar.Cad.Concatenar __LIBERAR_DATO_BUFFA__ __LIBERAR_DATO_BUFFB__ __LIBERAR_DATO_BUFFA__
 	ejecutar __LIBERAR_DATO_BUFFA__
 	fijar VG_BUFFER =¿? VG_PILA_ACTUAL
@@ -348,7 +353,7 @@ clase Iterador
 	;actual
 	:¿valido?
 	:reiniciar
-#(Final).
+finclase
 heredar Objeto Iterador
 
 [DOCUMENTA
@@ -359,7 +364,7 @@ clase IteradorDel
 	:¿valido?
 	:reiniciar
 	:siguiente
-#(Final).
+finclase
 heredar Iterador IteradorDel
 
 [DOCUMENTA
@@ -370,7 +375,7 @@ clase IteradorTra
 	:¿valido?
 	:reiniciar
 	:anterior
-#(Final).
+finclase
 heredar Iterador IteradorTra
 
 [DOCUMENTA
@@ -382,16 +387,16 @@ clase IteradorBi
 	:reiniciar
 	:siguiente
 	:anterior
-#(Final).
+finclase
 heredar Iterador IteradorBi
 
 [DOCUMENTA
 @brief Crea un atributo dinamico.
-Equivalente a escribir <code class="pseudod">instancia tattr yo#nattr</code>.
+Equivalente a escribir `instancia tattr yo#nattr`.
 @arg yo Nombre de la instancia sobre la que se creara el atributo.
 @arg nattr Nombre del atributo a crear.
 @arg tattr Tipo de latributo a crear.
-@errors Inactive
+@races Fatal.HaveAttr
 Si el atributo ya existe, lanzara un error fatal.
 DOCUMENTA]
 funcion CrearAtributoDinamico [ yo, nattr, tattr ]
@@ -404,7 +409,7 @@ funcion CrearAtributoDinamico [ yo, nattr, tattr ]
 	recibir_resultado _CrearAtributoDinamico_yo
 	recibir_resultado _CrearAtributoDinamico_nattr
 	recibir_resultado _CrearAtributoDinamico_tattr
-	fijar _CrearAtributoDinamico_buf =* instancia 
+	fijar _CrearAtributoDinamico_buf =* instancia
 	Importar.Cad.Concatenar _CrearAtributoDinamico_buf _CrearAtributoDinamico_tattr _CrearAtributoDinamico_buff
 	fijar _CrearAtributoDinamico_buf =* #
 	Importar.Cad.Concatenar _CrearAtributoDinamico_buff ESP _CrearAtributoDinamico_buff
@@ -421,10 +426,10 @@ finfun
 
 [DOCUMENTA
 @brief Destruye un atributo dinamico.
-Este puede ser creado con CrearAtributoDinamico.
+Este puede ser creado con <CrearAtributoDinamico>.
 @arg yo Instancia sobre la que existe el atributo.
 @arg nattr Nombre del atributo.
-@errors Inactive
+@races Fatal.NonAttr
 De ya estar destruido el atributo, lanzara un error fatal.
 DOCUMENTA]
 funcion DestruirAtributoDinamico [ yo, nattr ]
@@ -449,4 +454,3 @@ funcion DestruirAtributoDinamico [ yo, nattr ]
 	liberar _DestruirAtributoDinamico_buf
 	liberar _DestruirAtributoDinamico_buff
 finfun
-

@@ -13,7 +13,7 @@
 
 [DOCUMENTA
 @file Documentación de inic.pseudo.
-Inicializa otras partes de BEPD, en conjunto con builtins, definen
+Inicializa otras partes de BEPD, en conjunto con <builtins.pseudo>, definen
 todas las constantes elementales de PseudoD.
 DOCUMENTA]
 
@@ -49,7 +49,7 @@ estandares, tambien se puede usar la orden nl ]
 fijar NL a {CV}
 
 [DOCUMENTA
-@brief Representa el caracter de nueva linea,(\r\n).
+@brief Representa el caracter de nueva linea (`\r\n`).
 DOCUMENTA]
 adquirir NUEVALINEA
 
@@ -82,6 +82,7 @@ adquirir NO
 fijar NO a {N}
 
 [ Crear e inicializar las variables super-globales ]
+
 [DOCUMENTA
 @brief Buffer de datos simples
 DOCUMENTA]
@@ -92,12 +93,14 @@ fijar VG_BUFFER_DATOS a NULO
 @brief Puntero al buffer de datos
 DOCUMENTA]
 puntero VG_BUFFER VG_BUFFER_DATOS [ VG_BUFFER es un puntero/sinonimo de VG_BUFFER_DATOS ]
-[DOCUMENTA
-@brief Flag indicador si se deberian guardar los datos en el bufferantes de reescribirlo.
-DOCUMENTA]
 
+[DOCUMENTA
+@brief Flag indicador si se deberian guardar los datos en el buffer
+antes de reescribirlo.
+DOCUMENTA]
 adquirir VG_BUFFER_DATOS_DATA [ Si se tienen datos especiales en el buffer ]
 fijar VG_BUFFER_DATOS_DATA a FALSO
+
 [DOCUMENTA
 @brief Puntero al flag de buffer
 DOCUMENTA]
@@ -107,8 +110,8 @@ puntero VG_BUFFER_DATA VG_BUFFER_DATOS_DATA
 [DOCUMENTA
 @brief Determina si el valor es nulo.
 @arg valor Valor a determinar.
-@dev Si es NULO o no.
-@errors Active
+@dev Si es <builtins.pseudo#NULO> o no.
+@races None
 DOCUMENTA]
 funcion EsNulo [ valor -> boole ]
 	adquirir valor
@@ -123,13 +126,23 @@ finfun
 
 [DOCUMENTA
 @brief Cambia dinámicamente la pila utilizada.
-Equivalente a "usar_pila <i>".
+Equivalente a `usar_pila <i>`.
 @arg i Número de la pila a utilizar
-@errors Active
+@races None
 DOCUMENTA]
 funcion UsarPila [ i ]
 	adquirir i
 	recibir_parametro i
 	fijar VG_PILA_ACTUAL a i
 	liberar i
+finfun
+
+[DOCUMENTA
+@brief Obtiene dinámicamente la pila actualmente utilizada.
+Equivalente a obtener el valor de <pseudod.pseudo#VG_PILA_ACTUAL>.
+@dev Pila actual
+@races None
+DOCUMENTA]
+funcion ObtenerPila [ i ]
+	devolver VG_PILA_ACTUAL
 finfun

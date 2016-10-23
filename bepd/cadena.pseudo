@@ -28,7 +28,7 @@ redireccionar Cadena#cod Cadena
 @arg c1 Primera cadena a concatenar
 @arg c2 Segunda cadena a concatenar
 @dev c1 concatenado con c2
-@errors Active
+@races None
 DOCUMENTA]
 funcion Cadena#Concatenar [ c1, c2 -> c1 ++ c2 ]
 	adquirir c1
@@ -49,7 +49,7 @@ finfun
 @arg desde Numero de caracter donde comenzará la subcadena.
 @arg longitud Numero de caracteres que se extraerán.
 @dev La subcadena
-@errors Active
+@races None
 DOCUMENTA]
 funcion Cadena#SubCadena [ en, desde, longitud -> en(desde:longitud) ]
 	adquirir cadena
@@ -73,6 +73,7 @@ finfun
 @arg que Cadena a buscar.
 @arg desde Opcional: Desde que caracter se buscará.
 @dev El índice de la primera aparición.
+@races None
 DOCUMENTA]
 funcion Cadena#Buscar [ en, que, desde? -> indice ]
 	adquirir cadena
@@ -93,4 +94,3 @@ funcion Cadena#Buscar [ en, que, desde? -> indice ]
 	liberar indice
 	liberar desde
 finfun
-

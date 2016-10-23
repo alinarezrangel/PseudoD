@@ -12,17 +12,16 @@
 
 [DOCUMENTA
 @file Documentación de plugins.pseudo.
-Declara la clase BibliotecaDinamica, la cual es necesaria para cargar y
+Declara la clase <BibliotecaDinamica>, la cual es necesaria para cargar y
 llamar agregados dinámicos.
 DOCUMENTA]
 
 [DOCUMENTA
 @brief Representa un plug in dinamico.
-Se puede utilizar este plugin con <code class="pseudod">Importar.BibliotecasDinamicas.Llamar</code>
+Se puede utilizar este plugin con `Importar.BibliotecasDinamicas.Llamar`
 DOCUMENTA]
 clase BibliotecaDinamica
 	lib
 	sim
-#(Final).
+finclase
 heredar Objeto BibliotecaDinamica
-

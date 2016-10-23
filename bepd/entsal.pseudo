@@ -13,8 +13,8 @@ utilizar clases.pseudo
 
 [DOCUMENTA
 @file Documentación de entsal.pseudo
-Este archivo provee manipulación de <i>flujos</i>, en estos, las operaciones
-de entrada y salida, se realiza comúnmente por operaciones <i>append</i>,
+Este archivo provee manipulación de *flujos*, en estos, las operaciones
+de entrada y salida, se realiza comúnmente por operaciones *append*,
 por las cuales, se agrega el contenido al flujo de salida, para lectura,
 una vez que se lee del flujo, esa palabra es eliminada, prohibiendo su
 lectura más de dos veces.
@@ -27,14 +27,14 @@ clase BufferTexto
 	valor
 	:escribir
 	:escribirLinea
-#(Final).
+finclase
 heredar Objeto BufferTexto
 
 [DOCUMENTA
 @brief Escribe un texto en la salida estándar.
-Equivalente a <code class="pseudod">escribir</code>.
+Equivalente a `escribir`
 @arg texto Valor a escribir.
-@errors Active
+@races None
 DOCUMENTA]
 funcion Escribir [ Objeto texto ]
 	adquirir texto
@@ -44,11 +44,11 @@ funcion Escribir [ Objeto texto ]
 finfun
 
 [DOCUMENTA
-@brief Casi identico a <a href="#Escribir">Escribir</a>.
+@brief Casi identico a <Escribir>.
 La diferencia esta en que ingresa un valor nueva linea al final, como
-en <code class="pseudod">escribir</code> seguido de <code class="pseudod">nl</code>
+en `escribir` seguido de `nl`
 @arg texto Valor a escribir.
-@errors Active
+@races None
 DOCUMENTA]
 funcion EscribirLinea [ Objeto texto ]
 	adquirir texto
@@ -61,7 +61,7 @@ finfun
 [DOCUMENTA
 @brief Lee un valor desde la entrada estandar, y lo retorna.
 @dev El valor leido.
-@errors Active
+@races None
 DOCUMENTA]
 funcion LeerPalabra [ -> Objeto resultado ]
 	adquirir valor
@@ -71,10 +71,10 @@ funcion LeerPalabra [ -> Objeto resultado ]
 finfun
 
 [DOCUMENTA
-@brief Escribe en un objeto <a href="#BufferTexto">BufferTexto</a>.
-@argyo.
+@brief Escribe en un objeto <BufferTexto>.
+@argyo
 @arg texto Texto a escribir en el.
-@errors Active
+@races None
 DOCUMENTA]
 funcion BufferTexto#escribir [ BufferTexto buffer, Objeto texto ]
 	adquirir yo
@@ -87,11 +87,11 @@ funcion BufferTexto#escribir [ BufferTexto buffer, Objeto texto ]
 finfun
 
 [DOCUMENTA
-@brief Similar a <a href="#EscribirEnBuffer">EscribirEnBuffer</a>.
-Este adem&aacute;s, agrega un nueva linea despues de texto.
-@argyo.
+@brief Similar a <BufferTexto\#escribir>.
+Este además, agrega un nueva linea despues de texto.
+@argyo
 @arg texto Texto a escribir en el.
-@errors Active
+@races None
 DOCUMENTA]
 funcion BufferTexto#escribirLinea [ Objeto buffer, Objeto texto ]
 	adquirir yo
@@ -107,13 +107,12 @@ finfun
 [DOCUMENTA
 @brief Representa una configuracion de salida.
 Donde:
-@list
-@listel <b>MARCA</b> Es el comodin para el reemplazo.
-@listel <b>SPEC</b> Es el comodin para el caracter especial.
-@listel <b>NLINE</b> Es el comodin para el nueva linea,(junto con <b>SPEC</b>).
-@listel <b>NLINER</b> Es el comodin para el retorno de carro,(junto con <b>SPEC</b>).
-@listel <b>NLINE</b> Es el comodin para el nueva linea del sistema,(junto con <b>SPEC</b>).
-@listend
+
+ * `MARCA` Es el comodin para el reemplazo.
+ * `SPEC` Es el comodin para el caracter especial.
+ * `NLINE` Es el comodin para el nueva linea,(junto con `SPEC`).
+ * `NLINER` Es el comodin para el retorno de carro,(junto con `SPEC`).
+ * `NLINE` Es el comodin para el nueva linea del sistema,(junto con `SPEC`).
 DOCUMENTA]
 clase DatosDeSalida
 	MARCA
@@ -124,19 +123,18 @@ clase DatosDeSalida
 	CV
 	NL
 	RC
-#(Final).
+finclase
 heredar Objeto DatosDeSalida
 
 [DOCUMENTA
-@brief Es la configuracion por defecto del sistema de E/S.
+@brief Es la configuracion predeterminada del sistema de E/S.
 Donde:
-@list
-@listel <b>MARCA</b> es %.
-@listel <b>SPEC</b> es \.
-@listel <b>NLINE</b> es n.
-@listel <b>NLINER</b> es r.
-@listel <b>NLINERR</b> es k.
-@listend
+
+ * <b>MARCA</b> es %.
+ * <b>SPEC</b> es \.
+ *  <b>NLINE</b> es n.
+ *  <b>NLINER</b> es r.
+ * <b>NLINERR</b> es k.
 DOCUMENTA]
 instancia DatosDeSalida DATOS_DE_IMPRIMIR
 fijar DATOS_DE_IMPRIMIR#MARCA =* %
@@ -158,11 +156,11 @@ sacar VG_BUFFER
 [DOCUMENTA
 @brief Imprime una lista de argumentos.
 Los separa por espacios.
-@arg str Primer argumento a imprimir,(obligatorio).
-@arg args... Lista de argumentos terminada en NULO.
-@errors Invalid
-Si la lista de argumentos no termina en NULO, se bloqueara y
-terminara con un <i>stack underflow</i>.
+@arg str Primer argumento a imprimir (obligatorio).
+@arg args... Lista de argumentos terminada en <builtins.pseudo#NULO>.
+@races Stack.Underflow
+Si la lista de argumentos no termina en <builtins.pseudo#NULO>, se bloqueara y
+terminara con un *stack underflow*.
 DOCUMENTA]
 funcion Imprimir [ str args... NULO ]
 	adquirir inicio
@@ -183,11 +181,11 @@ finfun
 [DOCUMENTA
 @brief Equivalente a imprimir.
 Solo que agrega un nl al final.
-@arg str Primer argumento a imprimir,(obligatorio).
-@arg args... Lista de argumentos terminada en NULO.
-@errors Invalid
-Si la lista de argumentos no termina en NULO, se bloqueara y
-terminara con un <i>stack underflow</i>.
+@arg str Primer argumento a imprimir (obligatorio).
+@arg args... Lista de argumentos terminada en <builtins.pseudo#NULO>.
+@races Stack.Underflow
+Si la lista de argumentos no termina en <builtins.pseudo#NULO>, se bloqueara y
+terminara con un *stack underflow*.
 DOCUMENTA]
 funcion ImprimirLinea [ str args... NULO ]
 	adquirir inicio
@@ -209,25 +207,26 @@ finfun
 [DOCUMENTA
 @brief Equivalente en PseudoD a printf.
 El formateo se realiza de la siguiente forma:
-Si se encuentra un comodin de reemplazo,(por defecto %) se saca un argumento
+
+Si se encuentra un comodin de reemplazo,(por defecto `%`) se saca un argumento
 y se imprime, si encambio, se encuentra un comodin de caracter especial,
 se formatea el siguiente caracter y se imprime.
-@pbreak
-Es decir, lo que en C es "Hola\r\nMundo %s" aqui es "Hola\r\n Mundo %".
-Si se desea imprimir un caracter %, basta con agregar un \ atras: "\%" = "%".
+
+Es decir, lo que en C es `"Hola\r\nMundo %s"` aqui es `"Hola\r\n Mundo %"`.
+Si se desea imprimir un caracter `%`, basta con agregar un \ atras: `"\%"` = `"%"`.
 En caso de que se requiera el nuevalinea del sistema, utilize
-\k. "\k" = std::endl.
-@pbreak
+`\k`. `"\k"` = `std::endl`.
+
 A diferencia de C printf, este no requiere especificación del tipo, solo el
-comodin. En total, lo formatos aceptados son: \r = Retorno de carro, \n =
-Nueva linea, \k = Nueva linea del sistema, % = Argumento. Para escapar \ use
-\\.
+comodin. En total, lo formatos aceptados son: `\r` = Retorno de carro, `\n` =
+Nueva linea, `\k` = Nueva linea del sistema, `%` = Argumento. Para escapar `\` use
+`\\`.
 @arg str Cadena a formatear
 @arg args... Lista de argumentos, no se verifica su tamaño.
-@errors Inactive
+@races Stack.Underflow
 Si se especifica un comodin de caracter especial en el final de la cadena,
 o se especifica un comodin de reemplazo y falta el argumento, causara un
-<i>stack underflow</i>.
+*stack underflow*.
 DOCUMENTA]
 funcion ImprimirFormato [ str args... ]
 	adquirir cadena

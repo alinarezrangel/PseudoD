@@ -37,7 +37,7 @@ heredar Objeto Arreglo
 @brief Crea el arreglo.
 El arreglo inicial tiene un tamaño 0 y esta vacio.
 @argyo
-@errors Active
+@races None
 DOCUMENTA]
 funcion Arreglo#crear [ ref yo ]
 	adquirir yo
@@ -51,7 +51,7 @@ finfun
 Adicionalmente, si se necesita destruir por completo el arreglo,
 debes invocar a liberar.
 @argyo
-@errors Active
+@races None
 DOCUMENTA]
 funcion Arreglo#destruir [ ref yo ]
 	adquirir yo
@@ -69,11 +69,11 @@ finfun
 
 [DOCUMENTA
 @brief Obtiene un elemento en una determinada posición.
-Si la posición es invalida, devuelve NULO.
+Si la posición es invalida, devuelve <builtins.pseudo#NULO>.
 @argyo
-@arg i Índice del elemento, entre 0 y tamaño.
+@arg i Índice del elemento, entre `0` y `tamaño`.
 @dev Referencia al elemento.
-@errors Active
+@races None
 DOCUMENTA]
 funcion Arreglo#obtener [ ref yo, i -> ref at ]
 	adquirir yo
@@ -95,7 +95,7 @@ También incrementa el tamaño del arreglo.
 @argyo
 @arg tipo Tipo del dato a agregar.
 @dev Índice del nuevo elemento.
-@errors Active
+@races None
 DOCUMENTA]
 funcion Arreglo#agregar [ ref yo, tipo tipo -> indice ]
 	adquirir yo
@@ -113,9 +113,9 @@ finfun
 
 [DOCUMENTA
 @brief Ordena un arreglo utilizando el bubblesort.
-Nota: el ordenamiento ocurre <i>in situ</i>
+Nota: el ordenamiento ocurre *in situ*
 @arg arr Arreglo a ordenar.
-@errors Active
+@races None
 DOCUMENTA]
 funcion OrdenamientoDeBurbuja [ arr ]
 	devolver NULO

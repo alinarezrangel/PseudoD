@@ -27,7 +27,7 @@ fijar NULO a {nulo}
 @brief Representa el valor de Boole 1 o verdadero.
 Es utilizada para sentencias si - si_no. Tambien es devuelto por algunas
 funciones para indicar un afirmativo o que el resultado es verdadero,(como
-EsNulo).
+<inic.pseudo#EsNulo>).
 DOCUMENTA]
 adquirir VERDADERO
 fijar VERDADERO a {verdadero}
@@ -36,14 +36,14 @@ fijar VERDADERO a {verdadero}
 @brief Representa el valor de Boole 0 o falso.
 Es utilizada para sentencias si - si_no. Tambien es devuelto por algunas
 funciones para indicar un negativo o que el resultado es falso,(como
-EsNulo).
+<inic.pseudo#EsNulo>).
 DOCUMENTA]
 adquirir FALSO
 fijar FALSO a {falso}
 
 [DOCUMENTA
 @brief Es el numero 0.
-Se inserto por simetria con UNO, DOS, UNON, TRES y CUATRO.
+Se inserto por simetria con <UNO>, <DOS>, <UNON>, <TRES> y <CUATRO>.
 DOCUMENTA]
 adquirir CERO [ cero,(0) ]
 fijar CERO a {0}
@@ -105,7 +105,7 @@ DOCUMENTA]
 clase Objeto
 	NOMBRE
 	Tipo
-#(Final).
+finclase
 [ No hereda ]
 
 [DOCUMENTA
@@ -113,7 +113,7 @@ clase Objeto
 Cada instancia creada con adquirir es una instancia de esta.
 DOCUMENTA]
 clase PseudoVariable
-#(Final).
+finclase
 heredar Objeto PseudoVariable
 
 [DOCUMENTA
@@ -122,26 +122,26 @@ Cada funcion declarada, se almacena en un objeto de esta clase.
 DOCUMENTA]
 clase PseudoFuncion
 	;cod
-#(Final).
+finclase
 heredar Objeto PseudoFuncion
 
 [DOCUMENTA
-@brief Es un puntero, mejor que los declarados con <code class="pseudod">puntero</code>.
-Es adem&aacute;s orientado a objetos y permite acceder de forma m&aacute;s eficiente
+@brief Es un puntero, mejor que los declarados con `puntero`.
+Es además orientado a objetos y permite acceder de forma más eficiente
 a la memoria apuntada.
 DOCUMENTA]
 clase PunteroInteligente
 	;direccion
 	:apuntar
 	:esNulo
-#(Final).
+finclase
 heredar Objeto PunteroInteligente
 
 [DOCUMENTA
 @brief Redirecciona el puntero a otro objeto.
 @argyo
 @arg Variable Referencia comun a la nueva variable a ser apuntada.
-@errors Active
+@races None
 DOCUMENTA]
 funcion PunteroInteligente#apuntar [ Yo, Variable ]
 	adquirir yo
@@ -157,7 +157,7 @@ finfun
 @brief Determina si el puntero es nulo.
 @argyo
 @dev VERDADERO si el puntero es nulo y FALSO de lo contrario.
-@errors Active
+@races None
 DOCUMENTA]
 funcion PunteroInteligente#esNulo [ Yo -> esNulo ]
 	adquirir yo

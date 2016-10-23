@@ -41,14 +41,14 @@ fijar DELTA a {0.000005}
 
 [DOCUMENTA
 @brief Mayor cantidad de decimales que puede almacenar un numero.
-Es el limite visualizable de <code class="cpp">long double</code>,(para numeros
+Es el limite visualizable de `long double` (para numeros
 mayores, se visualizaran con notacion cientifica).
 DOCUMENTA]
 adquirir PRECISION_DECIMAL
 fijar PRECISION_DECIMAL a {6}
 
 [DOCUMENTA
-@brief Es el punto de inicio de la funcion RaizCuadrada.
+@brief Es el punto de inicio de la funcion <RaizCuadrada>.
 A menor valor, mayor es la precicion de la funcion pero es mas lenta.
 DOCUMENTA]
 adquirir RAIZ_CUADRADA_MIN
@@ -64,14 +64,14 @@ fijar NO_ES_NUMERO a {**(No es un numero)**}
 [DOCUMENTA
 @brief Es la cantidad de veces que la función seno itera.
 Es inversamente proporcional a la velocidad.
-@pbreak
-Como Seno(x) utiliza series de Taylor para calcular el seno, este determina
-cuantas veces se tendra que iterar, un numero mayor o igual a cinco(5) ya
+
+Como `Seno(x)` utiliza series de Taylor para calcular el seno, este determina
+cuantas veces se tendra que iterar, un numero mayor o igual a cinco (5) ya
 se vuelve lento. Si se requiere una alta precisión, puede seleccionar
 un numero alto, como 7 o 9, pero esto es a costa de la velocidad. Si por
 el contrario, se requiere una precisión promedio, puede dejarlo en su
 valor predeterminado o en 5. Recuerde que este numero tambien es utilizado
-por Coseno(x) y Tangente(x), y la función Tangente(x) dura el doble
+por `Coseno(x)` y `Tangente(x)`, y la función `Tangente(x)` dura el doble
 que las otras dos, por lo que un numero muy elevado para calcular tangentes
 es altamente ineficiente.
 DOCUMENTA]
@@ -80,14 +80,15 @@ fijar ITERACIONES_DE_SENO a {5}
 
 [DOCUMENTA
 @brief Determina si dos decimales son aproximadamente iguales.
-Nunca de debe comparar decimales con "son iguales" o
-"comparar Importar.Dec.Comparar", esto puede ocasionar fallas
+Nunca de debe comparar decimales con `son iguales` o
+`comparar Importar.Dec.Comparar`, esto puede ocasionar fallas
 poco esperadas.
-@pbreak
+
 Utiliza DELTA
 @arg dec1 Decimal número 1 a comparar
 @arg dec2 Decimal número 2 a comparar
 @dev Si son aproximadamente iguales.
+@races None
 DOCUMENTA]
 funcion SonIguales [ dec1, dec2 ]
 	adquirir dec1
@@ -113,12 +114,13 @@ finfun
 @brief Suma dos numeros.
 Si los numeros son enteros, aplica la suma entera, en otro caso aplica
 la suma decimal.
-@pbreak
+
 Determina si son enteros o no buscando un separador decimal ("," o ".") en
 los numeros.
 @arg lvalue Valor izquierdo a sumar.
 @arg rvalue Valor derecho a sumar.
 @dev Decimal resultado de la suma.
+@races None
 DOCUMENTA]
 funcion Sumar [ lvalue, rvalue -> res ]
 	adquirir lv
@@ -151,12 +153,13 @@ finfun
 @brief Resta dos numeros.
 Si los numeros son enteros, aplica la resta entera, en otro caso aplica
 la resta decimal.
-@pbreak
+
 Determina si son enteros o no buscando un separador decimal ("," o ".") en
 los numeros.
 @arg lvalue Valor izquierdo a restar.
 @arg rvalue Valor derecho a restar.
 @dev Decimal resultado de la resta.
+@races None
 DOCUMENTA]
 funcion Restar [ lvalue, rvalue -> res ]
 	adquirir lv
@@ -189,12 +192,13 @@ finfun
 @brief Multiplica dos numeros.
 Si los numeros son enteros, aplica la multiplicación entera, en otro caso aplica
 la multiplicación decimal.
-@pbreak
+
 Determina si son enteros o no buscando un separador decimal ("," o ".") en
 los numeros.
 @arg lvalue Valor izquierdo a multiplicar.
 @arg rvalue Valor derecho a multiplicar.
 @dev Decimal resultado de la multiplicación.
+@races None
 DOCUMENTA]
 funcion Multiplicar [ lvalue, rvalue -> res ]
 	adquirir lv
@@ -227,12 +231,13 @@ finfun
 @brief Divide dos numeros.
 Si los numeros son enteros, aplica la división entera, en otro caso aplica
 la división decimal.
-@pbreak
+
 Determina si son enteros o no buscando un separador decimal ("," o ".") en
 los numeros.
 @arg lvalue Valor izquierdo a dividir.
 @arg rvalue Valor derecho a dividir.
 @dev Decimal resultado de la división.
+@races None
 DOCUMENTA]
 funcion Dividir [ lvalue, rvalue -> res ]
 	adquirir lv
@@ -265,8 +270,8 @@ finfun
 @brief Calcula el valor de una base elevado a un exponente.
 @arg base Base de la potencia
 @arg exponente Exponente de la potencia
-@dev El resultado de base^exponente.
-@errors Active
+@dev El resultado de `base^exponente`.
+@races None
 DOCUMENTA]
 funcion ElevarValor [ base,expo ]
 	adquirir base
@@ -292,10 +297,10 @@ finfun
 
 [DOCUMENTA
 @brief Calcula el factorial de un numero n.
-Si n < 0,  devuelve 1 al igual que si n == 0 o 1.
+Si `n < 0`,  devuelve 1 al igual que si `n == 0` o 1.
 @arg n Numero a calcular el factorial.
 @dev El factorial de dicho numero, o 1.
-@errors Active
+@races None
 DOCUMENTA]
 funcion Factorial
 	adquirir numero
@@ -318,7 +323,7 @@ finfun
 @brief Convierte grados sexadecimales a radianes.
 @arg grados Grados a convertir
 @dev El valor en Radianes
-@errors Active
+@races None
 DOCUMENTA]
 funcion GradosARadianes
 	adquirir grados
@@ -338,7 +343,7 @@ finfun
 @brief Convierte radianes a grados sexadecimales.
 @arg radianes Valor en radianes a convertir
 @dev El valor en Grados sexadecimales
-@errors Active
+@races None
 DOCUMENTA]
 funcion RadianesAGrados
 	adquirir grados
@@ -356,12 +361,12 @@ finfun
 
 [DOCUMENTA
 @brief Calcula el valor absoluto de un numero.
-El valor absoluto de un numero x, es |x| y se define
-como {x Si x >= 0} o {-x Si < 0}, es decir, siempre es
+El valor absoluto de un numero x, es `|x|` y se define
+como `{x Si x >= 0} o {-x Si < 0}`, es decir, siempre es
 positivo.
 @arg val Valor a calcular el valor absoluto.
 @dev El valor absoluto de val.
-@errors Active
+@races None
 DOCUMENTA]
 funcion ValorAbsoluto [ val ]
 	adquirir valor
@@ -375,10 +380,10 @@ finfun
 
 [DOCUMENTA
 @brief Ajusta un numero decimal para el seno/coseno.
-Simplemente lo reduce al rango [0-PI).
+Simplemente lo reduce al rango `[0-PI)`.
 @arg ang Angulo a ajustar.
 @dev Angulo ajustado.
-@errors Active
+@races None
 DOCUMENTA]
 funcion AjustarParaSeno [ ang ]
 	adquirir ang
@@ -402,7 +407,7 @@ finfun
 @brief Calcula el seno de un angulo.
 @arg ang Angulo en radianes.
 @dev Decimal resultado del seno.
-@errors Active
+@races None
 DOCUMENTA]
 funcion Seno [ ang ]
 	[ **********************************************
@@ -479,10 +484,10 @@ finfun
 
 [DOCUMENTA
 @brief Calcula el coseno de un angulo.
-Realmente llama a Seno((PI/2) - ang), lo cual es equivalente.
+Realmente llama a `Seno((PI/2) - ang)`, lo cual es equivalente.
 @arg ang Angulo en radianes.
 @dev El coseno del angulo.
-@errors Active
+@races <Seno>
 DOCUMENTA]
 funcion Coseno [ ang ]
 	adquirir angulo
@@ -501,7 +506,7 @@ finfun
 utiliza el metodo babilonico para calcular la raiz cuadrada de un numero.
 @arg nm Numero a radicar.
 @dev Decimal resultado de la radicacion.
-@errors Active
+@races None
 DOCUMENTA]
 funcion RaizCuadrada [ nm -> sqrt(nm) ]
 	adquirir area
@@ -558,10 +563,10 @@ finfun
 [DOCUMENTA
 @brief Calcula el piso de un numero.
 El piso de X, es el numero entero menor o igual más cercano a X.
-Por ejemplo: piso(3.232) = 3, piso(3.99999) = 3, piso(8) = 8.
+Por ejemplo: `piso(3.232) = 3`, `piso(3.99999) = 3`, `piso(8) = 8`.
 @arg nm Numero a calcular el piso.
 @dev El piso de nm.
-@errors Active
+@races None
 DOCUMENTA]
 funcion Piso [ nm -> floor(nm) ]
 	adquirir valor
@@ -574,10 +579,10 @@ finfun
 [DOCUMENTA
 @brief Calcula el techo de un numero.
 El techo de X, es el numero entero mayor o igual más cercano a X.
-Por ejemplo: techo(3.232) = 4, techo(3.99999) = 4, techo(8) = 8.
+Por ejemplo: `techo(3.232) = 4`, `techo(3.99999) = 4`, `techo(8) = 8`.
 @arg nm Numero a calcular el techo.
 @dev El techo de nm.
-@errors Active
+@races None
 DOCUMENTA]
 funcion Techo [ nm -> ceil(nm) ]
 	adquirir valor
@@ -603,7 +608,7 @@ clase Division
 	resto
 	cociente
 	:divide
-#(Final).
+finclase
 heredar Objeto Division
 
 [DOCUMENTA
@@ -612,8 +617,8 @@ Los datos de la division son almacenados en la instancia actual.
 De ser el divisor cero, no realizara accion.
 @argyo
 @arg dividendo Numero a dividir.
-@arg divisor Numero que dividira.
-@errors Active
+@arg divisor Numero que dividira
+@races None
 DOCUMENTA]
 funcion Division#divide [ yo, a, b :: yo.cociente = a/b yo.resto = a % b ]
 	instancia Referencia __Division_divide_yo__
@@ -642,4 +647,3 @@ funcion Division#divide [ yo, a, b :: yo.cociente = a/b yo.resto = a % b ]
 	liberar __Division_divide_res__
 	liberar __Division_divide_mt__
 finfun
-

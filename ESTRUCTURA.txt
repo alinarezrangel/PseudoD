@@ -97,3 +97,7 @@ continuar con la exploración del código.
 
 ¿Cuales son las páginas de PseudoD?
 	La página oficial de PseudoD se encuentra en <http://pseudod.sourceforge.net>.
+
+¿Como instalo PseudoD?
+	Debe ejecutar `./instalar.sh` con permisos de administrador en el
+	directorio raiz del proyecto.
