@@ -136,47 +136,13 @@ namespace pseudod
 			/**
 			* @brief Convierte este nmemonico a una cadena.
 			*/
-			operator std::string(void); // Convertir a std::string
-			/**
-			* @brief Compara si los dos nmemonicos son iguales.
-			* @param otro Otro nmemonico a comparar.
-			*/
-			bool operator==(const NMemonico& otro); // Comparar desde otro
-			/**
-			* @brief Comparar si las dos palabras son iguales.
-			* @param otro Otra palabra a comparar.
-			*/
-			bool operator==(Palabra otro); // Comparar a ENUM
-			/**
-			* @brief Compara si los dos nmemonicos son diferentes.
-			* @param otro Otro nmemonico a comparar.
-			*/
-			bool operator!=(const NMemonico& otro); // Comparar desde otro
-			/**
-			* @brief Comparar si las dos palabras son diferentes.
-			* @param otro Otra palabra a comparar.
-			*/
-			bool operator!=(Palabra otro); // Comparar a ENUM
-			/**
-			* @brief Versión constante de operator==
-			* @param otro Otro valor a comparar.
-			*/
-			bool operator==(const NMemonico& otro) const; // Comparar desde otro
-			/**
-			* @brief Versión constante de operator==
-			* @param otro Otro valor a comparar.
-			*/
-			bool operator==(Palabra otro) const; // Comparar a ENUM
-			/**
-			* @brief Versión constante de operator!=
-			* @param otro Otro valor a comparar.
-			*/
-			bool operator!=(const NMemonico& otro) const; // Comparar desde otro
-			/**
-			* @brief Versión constante de operator!=
-			* @param otro Otro valor a comparar.
-			*/
-			bool operator!=(Palabra otro) const; // Comparar a ENUM
+			operator PDCadena(void); // Convertir a std::string
+
+			friend bool operator==(const NMemonico& yo, const NMemonico& otro); // Comparar desde otro
+			friend bool operator==(const NMemonico& yo, NMemonico::Palabra otro); // Comparar a ENUM
+			friend bool operator!=(const NMemonico& yo, const NMemonico& otro); // Comparar desde otro
+			friend bool operator!=(const NMemonico& yo, NMemonico::Palabra otro); // Comparar a ENUM
+
 			/**
 			* @brief Asigna desde otro nmemonico.
 			* Copia todos los datos desde el otro nmemonico hasta este.
@@ -204,6 +170,11 @@ namespace pseudod
 			Palabra valor;
 	};
 
+	bool operator==(const NMemonico& yo, const NMemonico& otro); // Comparar desde otro
+	bool operator==(const NMemonico& yo, NMemonico::Palabra otro); // Comparar a ENUM
+	bool operator!=(const NMemonico& yo, const NMemonico& otro); // Comparar desde otro
+	bool operator!=(const NMemonico& yo, NMemonico::Palabra otro); // Comparar a ENUM
+
 	/**
 	* @brief Proxy para obtener nmemonicos.
 	* Existen nmemonicos con el mismo simbolo sintactico
@@ -227,15 +198,25 @@ namespace pseudod
 
 		operator PDCadena(void);
 
-		bool operator==(NMemonico otro);
-		bool operator!=(NMemonico otro);
-		bool operator==(NMemonico::Palabra otro);
-		bool operator!=(NMemonico::Palabra otro);
-		bool operator==(NMemonico otro) const;
-		bool operator!=(NMemonico otro) const;
-		bool operator==(NMemonico::Palabra otro) const;
-		bool operator!=(NMemonico::Palabra otro) const;
+		NMemonicoProxy& operator=(const NMemonicoProxy& yo);
+		NMemonicoProxy& operator=(const NMemonico& yo);
+		NMemonicoProxy& operator=(const NMemonico::Palabra& yo);
+
+		friend bool operator==(const NMemonicoProxy& yo, NMemonico otro);
+		friend bool operator!=(const NMemonicoProxy& yo, NMemonico otro);
+		friend bool operator==(const NMemonicoProxy& yo, const NMemonicoProxy& otro);
+		friend bool operator!=(const NMemonicoProxy& yo, const NMemonicoProxy& otro);
+		friend bool operator==(const NMemonicoProxy& yo, NMemonico::Palabra otro);
+		friend bool operator!=(const NMemonicoProxy& yo, NMemonico::Palabra otro);
 	};
+
+	/* Operadores de igualdad */
+	bool operator==(const NMemonicoProxy& yo, NMemonico otro);
+	bool operator!=(const NMemonicoProxy& yo, NMemonico otro);
+	bool operator==(const NMemonicoProxy& yo, const NMemonicoProxy& otro);
+	bool operator!=(const NMemonicoProxy& yo, const NMemonicoProxy& otro);
+	bool operator==(const NMemonicoProxy& yo, NMemonico::Palabra otro);
+	bool operator!=(const NMemonicoProxy& yo, NMemonico::Palabra otro);
 
 	/**
 	* @brief Convierte una cadena a un conjunto de nmemonicos.
@@ -250,6 +231,7 @@ namespace pseudod
 	NMemonicoProxy ConvertirCadenaANMemonico(PDCadena in);
 
 	std::istream& operator>>(std::istream& in, NMemonicoProxy& res);
+	std::ostream& operator<<(std::ostream& out, const NMemonicoProxy& res);
 	std::ostream& operator<<(std::ostream& out, NMemonico res);
 }
 

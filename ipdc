@@ -77,20 +77,30 @@ fi
 if [ "$param1" = "-s" ] # -s RUTA (-f|-i|-fo) (a)
 	then
 		RUTA_PSEUDOD=$param2
-		param1=$param3
-		param2=$param4
+		param1=$3
+		param2=$4
+		param3=$5
+		param4=$6
 fi
 
 if [ "$param2" = "-s" ] # (-f|-i|-fo) -s RUTA (a)
 	then
 		RUTA_PSEUDOD=$param3
-		param2=$param4
+		param1=$1
+		param2=$4
+		param3=$5
+		param4=$6
 fi
 
 if [ "$param3" = "-s" ] # (-f|-i|-fo) (a) (-s) RUTA
 	then
 		RUTA_PSEUDOD=$param4
+		param1=$1
+		param2=$2
+		param3=$5
+		param4=$6
 fi
+
 if [ "$param1" = "-f" ]
 	then
 		PseudoD "$param2" "$RUTA_PSEUDOD" "$RUTA_LIB";
@@ -103,4 +113,3 @@ if [ "$param1" = "-io" ]
 	then
 		ipd nulo "$RUTA_PSEUDOD" "$RUTA_LIB";
 fi
-

@@ -11,6 +11,28 @@
 
 #include "nmemoic.hh"
 
+/*
+ * A lo largo del archivo comparamos los enumerados, caracteres y cualquier
+ * otro tipo entero utilizando la operacion XOR (^) en vez de la igualdad
+ * (==). Esto se debe a que algunos compiladores compilan la expresión
+ * `a == b` en:
+
+	CMP _a, _b
+	JZ areEquals
+	MOV BX, 0
+	JMP endif1
+	areEquals: MOV BX, 1
+	endif1:
+	CMP BX, 0
+	JZ theIfBody:
+	JMP endIf
+	...
+	endIf: ; None
+
+ * Esto ocasiona una cantidad innecesaria de "branches", o ramas que
+ * realentizan la ejecución del código.
+*/
+
 static std::multimap<PDCadena, pseudod::NMemonico::Palabra> ConversorS2P =
 {
 	{"adquirir", pseudod::NMemonico::PD_ADQUIRIR},
@@ -70,7 +92,9 @@ static std::multimap<PDCadena, pseudod::NMemonico::Palabra> ConversorS2P =
 	{"[", pseudod::NMemonico::PD_COMENTARIO},
 	{"]", pseudod::NMemonico::PD_COMENTARIO},
 	{"sal", pseudod::NMemonico::PD_SALIR},
-	{"salir", pseudod::NMemonico::PD_SALIR}
+	{"salir", pseudod::NMemonico::PD_SALIR},
+	{"NEA expr", pseudod::NMemonico::PD_NEA},
+	{"ALIAS expr", pseudod::NMemonico::PD_ALIAS}
 };
 static std::multimap<pseudod::NMemonico::Palabra, std::string> ConversorP2S;
 static bool CreadoConversor = false;
@@ -100,45 +124,32 @@ namespace pseudod
 	{
 		return this->valor;
 	}
-	NMemonico::operator std::string(void)
+	NMemonico::operator PDCadena(void)
 	{
+		if(!(this->valor ^ NMemonico::PD_NEA) || (this->valor ^ NMemonico::PD_ALIAS))
+		{
+			// No podemos determinar cual era la palabra clave original.
+			return "undeterminated";
+		}
 		IntentaCrearConversor();
 		return ConversorP2S.find(this->valor)->second;
 	}
-	bool NMemonico::operator==(const NMemonico& otro)
+	bool operator==(const NMemonico& yo, const NMemonico& otro)
 	{
 		// Utilizamos XOR para hacer la comparación más rápida
-		return !(this->valor ^ otro.valor);
+		return !(yo.valor ^ otro.valor);
 	}
-	bool NMemonico::operator==(NMemonico::Palabra otro)
+	bool operator==(const NMemonico& yo, NMemonico::Palabra otro)
 	{
-		return !(this->valor ^ otro);
+		return !(yo.valor ^ otro);
 	}
-	bool NMemonico::operator!=(const NMemonico& otro)
+	bool operator!=(const NMemonico& yo, const NMemonico& otro)
 	{
-		return !(*this == otro);
+		return !(yo == otro);
 	}
-	bool NMemonico::operator!=(NMemonico::Palabra otro)
+	bool operator!=(const NMemonico& yo, NMemonico::Palabra otro)
 	{
-		return !(*this == otro);
-	}
-	// Los siguientes metodos son los mismos que los superiores,
-	// solo que constantes.
-	bool NMemonico::operator==(const NMemonico& otro) const
-	{
-		return !(this->valor ^ otro.valor);
-	}
-	bool NMemonico::operator==(NMemonico::Palabra otro) const
-	{
-		return !(this->valor ^ otro);
-	}
-	bool NMemonico::operator!=(const NMemonico& otro) const
-	{
-		return !(*this == otro);
-	}
-	bool NMemonico::operator!=(NMemonico::Palabra otro) const
-	{
-		return !(*this == otro);
+		return !(yo == otro);
 	}
 	NMemonico& NMemonico::operator=(const NMemonico& otro)
 	{
@@ -165,59 +176,35 @@ namespace pseudod
 	{
 		return this->original;
 	}
-	bool NMemonicoProxy::operator==(NMemonico otro)
+	NMemonicoProxy& NMemonicoProxy::operator=(const NMemonicoProxy& yo)
+	{
+		this->begin = yo.begin;
+		this->end = yo.end;
+		this->original = yo.original;
+		return *this;
+	}
+	NMemonicoProxy& NMemonicoProxy::operator=(const NMemonico& yo)
+	{
+		*this = ConvertirCadenaANMemonico(ConversorP2S.equal_range(yo.ObtenerValor()).first->second);
+		return *this;
+	}
+	NMemonicoProxy& NMemonicoProxy::operator=(const NMemonico::Palabra& yo)
+	{
+		*this = ConvertirCadenaANMemonico(ConversorP2S.equal_range(yo).first->second);
+		return *this;
+	}
+	bool operator==(const NMemonicoProxy& yo, NMemonico otro)
+	{
+		return (yo == otro.ObtenerValor());
+	}
+	bool operator!=(const NMemonicoProxy& yo, NMemonico otro)
+	{
+		return !(yo == otro);
+	}
+	bool operator==(const NMemonicoProxy& yo, NMemonico::Palabra otro)
 	{
 		NMemonicoProxy::iterator iter;
-		for(iter = this->begin; iter != this->end; iter++)
-		{
-			if(iter->second == otro.ObtenerValor())
-			{
-				return true;
-			}
-		}
-		return false;
-	}
-	bool NMemonicoProxy::operator!=(NMemonico otro)
-	{
-		return !(*this == otro);
-	}
-	bool NMemonicoProxy::operator==(NMemonico::Palabra otro)
-	{
-		NMemonicoProxy::iterator iter;
-		for(iter = this->begin; iter != this->end; iter++)
-		{
-			if(iter->second == otro)
-			{
-				return true;
-			}
-		}
-		return false;
-	}
-	bool NMemonicoProxy::operator!=(NMemonico::Palabra otro)
-	{
-		return !(*this == otro);
-	}
-	// Comparaciones constantes:
-	bool NMemonicoProxy::operator==(NMemonico otro) const
-	{
-		NMemonicoProxy::iterator iter;
-		for(iter = this->begin; iter != this->end; iter++)
-		{
-			if(iter->second == otro.ObtenerValor())
-			{
-				return true;
-			}
-		}
-		return false;
-	}
-	bool NMemonicoProxy::operator!=(NMemonico otro) const
-	{
-		return !(*this == otro);
-	}
-	bool NMemonicoProxy::operator==(NMemonico::Palabra otro) const
-	{
-		NMemonicoProxy::iterator iter;
-		for(iter = this->begin; iter != this->end; iter++)
+		for(iter = yo.begin; iter != yo.end; iter++)
 		{
 			if(iter->second == otro)
 			{
@@ -226,14 +213,35 @@ namespace pseudod
 		}
 		return false;
 	}
-	bool NMemonicoProxy::operator!=(NMemonico::Palabra otro) const
+	bool operator!=(const NMemonicoProxy& yo, NMemonico::Palabra otro)
 	{
-		return !(*this == otro);
+		return !(yo == otro);
+	}
+	bool operator==(const NMemonicoProxy& yo, const NMemonicoProxy& otro)
+	{
+		NMemonicoProxy::iterator iter;
+		for(iter = yo.begin; iter != yo.end; iter++)
+		{
+			if(otro == iter->second)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	bool operator!=(const NMemonicoProxy& yo, const NMemonicoProxy& otro)
+	{
+		return !(yo == otro);
 	}
 
 	NMemonicoProxy ConvertirCadenaANMemonico(PDCadena in)
 	{
-		auto values = ConversorS2P.equal_range(in);
+		PDCadena aConvertir = in;
+		if(in.substr(0, PDCadena("Importar.").size()) == PDCadena("Importar."))
+		{
+			aConvertir = "NEA expr";
+		}
+		auto values = ConversorS2P.equal_range(aConvertir);
 		// decltype(values) =
 		//    std::pair<decltype(ConversorS2P)::iterator (begin),
 		//              decltype(ConversorS2P)::iterator (end)>
@@ -263,6 +271,11 @@ namespace pseudod
 		res = ConvertirCadenaANMemonico(val);
 		return in;
 	}
+	std::ostream& operator<<(std::ostream& out, const NMemonicoProxy& res)
+	{
+		out << res.original;
+		return out;
+	}
 	std::ostream& operator<<(std::ostream& out, NMemonico res)
 	{
 		IntentaCrearConversor();
@@ -270,4 +283,3 @@ namespace pseudod
 		return out;
 	}
 }
-
