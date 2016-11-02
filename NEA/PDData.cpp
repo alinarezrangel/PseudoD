@@ -14,131 +14,8 @@
 
 #include "PDData.hh"
 
-template<class T>
-int buscar(std::vector<T> a,T b)
-{
-	for(int i = (a.size() - 1);i >= 0;i--)
-	{
-		if(a[i] == b)
-		{
-			return i;
-		}
-	}
-	return -1;
-}
-
-PDCadena eas(PDEntero i)
-{
-#ifndef MINGW
-	return std::to_string(i);
-#else
-	char buffer[50];
-	sprintf(buffer,"%d",i);
-	return std::string(buffer);
-#endif
-}
-
-PDCadena dac(PDDecimal i)
-{
-#ifndef MINGW
-	return std::to_string(i);
-#else
-	char buffer[50];
-	sprintf(buffer,"%a",i);
-	return std::string(buffer);
-#endif
-}
-
-PDEntero cae(PDCadena i)
-{
-#ifndef MINGW
-	return std::stoll(i);
-#else
-	return atoi(i.c_str());
-#endif
-}
-
-PDDecimal caf(PDCadena i)
-{
-#ifndef MINGW
-	return std::stold(i);
-#else
-	return atof(i.c_str());
-#endif
-}
-
 namespace PDvar
 {
-	Error::Error(void) noexcept : PseudoDClass("Error"), ErrorMessage("")
-	{
-	}
-	Error::Error(const Error& other) noexcept
-	{
-		this->PseudoDClass = other.ObtenerClaseEnPseudoD();
-		this->ErrorMessage = other.ObtenerErrorElemental();
-	}
-	Error::Error(PDCadena classname, PDCadena message) noexcept
-		: PseudoDClass(classname), ErrorMessage(message)
-	{
-	}
-	Error::~Error(void) noexcept
-	{
-	}
-	Error& Error::operator=(const Error& other) noexcept
-	{
-		this->PseudoDClass = other.ObtenerClaseEnPseudoD();
-		this->ErrorMessage = other.ObtenerErrorElemental();
-		return *this;
-	}
-	const char* Error::what(void) noexcept
-	{
-		return this->ObtenerErrorElemental().c_str();
-	}
-	PDCadena Error::ObtenerClaseEnPseudoD(void) const noexcept
-	{
-		return this->PseudoDClass;
-	}
-	PDCadena Error::ObtenerErrorElemental(void) const noexcept
-	{
-		return this->ErrorMessage;
-	}
-	void Error::FijarClase(PDCadena classname) noexcept
-	{
-		this->PseudoDClass = classname;
-	}
-	void Error::FijarMensaje(PDCadena message) noexcept
-	{
-		this->ErrorMessage = message;
-	}
-	PDCadena Error::Mensaje(void) const noexcept
-	{
-		return "(" + this->ObtenerClaseEnPseudoD() + ") " + this->ObtenerErrorElemental();
-	}
-	ErrorDeSintaxis::ErrorDeSintaxis(void) noexcept : Error("ErrorDeSintaxis","")
-	{}
-	ErrorDeSintaxis::ErrorDeSintaxis(PDCadena message) noexcept : Error("ErrorDeSintaxis",message)
-	{}
-	ErrorDeSintaxis::ErrorDeSintaxis(const Error& other) noexcept : Error(other)
-	{}
-	ErrorDeSintaxis::~ErrorDeSintaxis(void) noexcept
-	{}
-	ErrorDeSemantica::ErrorDeSemantica(void) noexcept : Error("ErrorDeSemantica","")
-	{}
-	ErrorDeSemantica::ErrorDeSemantica(PDCadena message) noexcept : Error("ErrorDeSemantica",message)
-	{}
-	ErrorDeSemantica::ErrorDeSemantica(const Error& other) noexcept : Error(other)
-	{}
-	ErrorDeSemantica::~ErrorDeSemantica(void) noexcept
-	{}
-	ErrorDelNucleo::ErrorDelNucleo(void) noexcept : Error("ErrorDelNucleo","")
-	{}
-	ErrorDelNucleo::ErrorDelNucleo(PDCadena message) noexcept : Error("ErrorDelNucleo",message)
-	{}
-	ErrorDelNucleo::ErrorDelNucleo(const Error& other) noexcept : Error(other)
-	{}
-	ErrorDelNucleo::~ErrorDelNucleo(void) noexcept
-	{}
-
 	PDDatos::PDDatos(
 		std::vector<PDCadena>& nvar,
 		std::vector<PDCadena>& vvar,
@@ -413,8 +290,8 @@ namespace PDvar
 			data->Ejecutar(orden);
 			return (
 				(data->ObtenerVariable("___codigo_pseudod_buffer_interno___")
-					== data->ObtenerVariable(arg3))? 
-					"verdadero" : "falso"
+					== data->ObtenerVariable(arg3))?
+					data->VERDADERO : data->FALSO
 				);
 		}
 		if(tok == "¿son_iguales?") // verificado
@@ -423,7 +300,7 @@ namespace PDvar
 			in >> arg1 >> arg2;
 			return (
 				(data->ObtenerVariable(arg1) == data->ObtenerVariable(arg2))?
-					"verdadero" : "falso"
+					data->VERDADERO : data->FALSO
 				);
 		}
 		if((tok == "son") || (tok == "sean"))
@@ -442,19 +319,23 @@ namespace PDvar
 			}
 			if(op == "iguales")
 			{
-				return ((val1 == val2)? "verdadero" : "falso");
+				return ((val1 == val2)? data->VERDADERO : data->FALSO);
 			}
 			if(op == "diferentes")
 			{
-				return ((val1 != val2)? "verdadero" : "falso");
+				return ((val1 != val2)? data->VERDADERO : data->FALSO);
 			}
+			throw PDvar::ErrorDeSintaxis(
+				PDCadena("Error en el parser(expr): 'son/sean iguales/diferentes") +
+				" expr y expr': se esperaba 'iguales/diferentes' no " + op
+			);
 		}
 		if(tok == "no") // verificado
 		{
 			string pd;
 			in >> pd;
-			return (ValorDelToken(pd, in, data) == "verdadero")?
-				"falso" : "verdadero";
+			return (ValorDelToken(pd, in, data) == data->VERDADERO)?
+				data->FALSO : data->VERDADERO;
 		}
 		if(tok[0] == '{')
 		{
@@ -484,6 +365,12 @@ namespace PDvar
 			PDCadena str = "";
 			do
 			{
+				if(!in)
+				{
+					throw PDvar::ErrorDeSintaxis(
+						"Error en el parser(expr): 'expr' es «»: EOF inesperado"
+					);
+				}
 				str += in.get();
 				if(str.size() >= 2)
 				{
