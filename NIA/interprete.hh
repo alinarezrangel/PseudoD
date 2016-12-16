@@ -13,8 +13,8 @@
 Define la macro INTERACTIVO a 1 para un interprete en linea de comandos
 https://sourceforge.net/projects/pseudod/
 */
-#ifndef __INTERPRETE_PSEUDOD_H__
-#define __INTERPRETE_PSEUDOD_H__
+#ifndef __PSEUDOD_NIA_INTERPRETE_HH__
+#define __PSEUDOD_NIA_INTERPRETE_HH__ 1
 
 #include <iostream>
 #include <fstream>
@@ -69,5 +69,4 @@ namespace pseudod
 	void ejecutar(std::istream&);
 }
 
-#endif /* __INTERPRETE_PSEUDOD_H__ */
-
+#endif

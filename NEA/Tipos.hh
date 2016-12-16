@@ -10,8 +10,9 @@
 **************************************************************************/
 
 
-#ifndef __CPPPDTIPOS_H__
-#define __CPPPDTIPOS_H__
+#ifndef __PSEUDOD_NEA_TIPOS_HH__
+#define __PSEUDOD_NEA_TIPOS_HH__ 1
+
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
@@ -454,4 +455,4 @@ namespace PDTipos
 	};
 }
 
-#endif /* ~~__CPPPDTIPOS_H__ */
+#endif

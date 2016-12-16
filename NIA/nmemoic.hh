@@ -9,8 +9,8 @@
 ****************************************************************************
 **************************************************************************/
 
-#ifndef __NMEMOICOS_PSEUDOD_H__
-#define __NMEMOICOS_PSEUDOD_H__
+#ifndef __PSEUDOD_NIA_NMEMOIC_HH__
+#define __PSEUDOD_NIA_NMEMOIC_HH__ 1
 
 #include <iostream>
 #include <sstream>
@@ -253,5 +253,4 @@ namespace pseudod
 	std::ostream& operator<<(std::ostream& out, NMemonico res);
 }
 
-#endif /* __NMEMOICOS_PSEUDOD_H__ */
-
+#endif

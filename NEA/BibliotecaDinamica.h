@@ -10,8 +10,8 @@
 **************************************************************************/
 
 
-#ifndef __BIBLIOTECADINAMICO_H__
-#define __BIBLIOTECADINAMICO_H__
+#ifndef __PSEUDOD_NEA_BIBLIOTECADINAMICA_HH__
+#define __PSEUDOD_NEA_BIBLIOTECADINAMICA_HH__ 1
 /**
 * @brief Aqui se encuentran todos lo referente a bibliotecas de carga dinamica.
 */
@@ -84,5 +84,4 @@ namespace BibliotecaDinamica
 	};
 }
 
-#endif /* __BIBLIOTECADINAMICO_H__ */
-
+#endif

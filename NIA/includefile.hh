@@ -14,9 +14,9 @@
 /*
 	TODO:Variables globales en esta cabecera:NINGUNA
 	TODO:Tipos PRE-definidos en esta cabecera: string,ostream,istream,vector,stack,PDDatos.
-	
+
 */
 #include "NEA/Tipos.hh"
 #include "NEA/BibliotecaDinamica.h"
-#include "NEA/Bit/Bit.h"
+#include "NEA/Bit/Bit.hh"
 #include "NEA/PDData.hh"

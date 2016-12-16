@@ -9,9 +9,8 @@
 ****************************************************************************
 **************************************************************************/
 
-
-#ifndef PDDATA_HEADER_H
-#define PDDATA_HEADER_H
+#ifndef __PSEUDOD_NEA_PDDATA_HH__
+#define __PSEUDOD_NEA_PDDATA_HH__ 1
 
 #include <iostream>
 #include <fstream>

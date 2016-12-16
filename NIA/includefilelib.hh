@@ -11,10 +11,11 @@
 
 
 /*
-	TODO: Esta cabecera SOLO debe incluir BIBLIOTECAS estandares, y que no necesiten SIMBOLOS especiales de COMPILACION.
+	NOTE: Esta cabecera SOLO debe incluir BIBLIOTECAS estandares, y que no
+	necesiten SIMBOLOS especiales de COMPILACION.
 */
 /*
-#include <iostream>
+	#include <iostream>
 	#include <fstream>
 	#include <cstdlib>
 	#include <vector>
@@ -22,10 +23,9 @@
 	#include <string>
 	#include <cstring>
 	#include <cstdio>
-TODO TODO :YA SE INCLUYERON
+	NOTE:YA SE INCLUYERON
 */
 #include <sstream>
 #include <iomanip>
 #include "NEA/INBibliotecaDinamica.h"
-#include "NEA/Bit/INBit.h"
-
+#include "NEA/Bit/INBit.hh"

@@ -9,8 +9,8 @@
 ****************************************************************************
 **************************************************************************/
 
-#ifndef __PSEUDOD_NEA_CORE_H__
-#define __PSEUDOD_NEA_CORE_H__
+#ifndef __PSEUDOD_NIA_PSEUDOD_HH__
+#define __PSEUDOD_NIA_PSEUDOD_HH__ 1
 
 #include <iostream>
 #include <fstream>
@@ -44,4 +44,4 @@ extern "C" void PDInicializar(
 extern "C" void PDEjecutar(PDCadena, std::istream&);
 extern "C" void PDFinal(void);
 
-#endif /* ~~~~__PSEUDOD_NEA_CORE_H__ */
+#endif

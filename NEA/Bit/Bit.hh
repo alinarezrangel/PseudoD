@@ -9,8 +9,8 @@
 ****************************************************************************
 **************************************************************************/
 
-#ifndef __MANEJADOR_DE_BITS__
-#define __MANEJADOR_DE_BITS__
+#ifndef __PSEUDOD_NEA_BITS_BIT_HH__
+#define __PSEUDOD_NEA_BITS_BIT_HH__ 1
 
 namespace Bit
 {
@@ -66,4 +66,3 @@ namespace Bit
 }
 
 #endif
-
