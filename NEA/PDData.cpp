@@ -16,61 +16,39 @@
 
 namespace PDvar
 {
-	PDDatos::PDDatos(
-		std::vector<PDCadena>& nvar,
-		std::vector<PDCadena>& vvar,
-		std::vector<PDCadena>& npun,
-		std::vector<int>& vpun,
-		std::vector<std::stack<PDCadena>>& pil
-	)
+	PDDatos::PDDatos(PDDatos& dt)
 	{
-		this->nombrev = &nvar;
-		this->valorv = &vvar;
-		this->nombrep = &npun;
-		this->nvapunt = &vpun;
-		this->pilas = &pil;
-		this->ERROR = ":C++:error:";
-		this->VERDADERO = "verdadero";
-		this->FALSO = "falso";
+		this->nombrev = dt.nombrev;
+		this->valorv = dt.valorv;
+		this->nombrep = dt.nombrep;
+		this->nvapunt = dt.nvapunt;
+		this->pilas = dt.pilas;
+		this->ERROR = dt.ERROR;
+		this->VERDADERO = dt.VERDADERO;
+		this->FALSO = dt.FALSO;
 		this->manager = false;
-		this->adver = 1;
+		this->adver = dt.adver;
 	}
 
 	PDDatos::PDDatos(void)
 	{
-		this->nombrev = new std::vector<PDCadena>();
-		this->valorv = new std::vector<PDCadena>();
-		this->nombrep = new std::vector<PDCadena>();
-		this->nvapunt = new std::vector<int>();
-		this->pilas = new std::vector<std::stack<PDCadena>>();
-		this->ERROR = ":C++:error:";
-		this->VERDADERO = "verdadero";
-		this->FALSO = "falso";
+		this->nombrev = std::make_shared<std::vector<PDCadena>>(std::vector<PDCadena>());
+		this->valorv = std::make_shared<std::vector<Variante>>(std::vector<Variante>());
+		this->nombrep = std::make_shared<std::vector<PDCadena>>(std::vector<PDCadena>());
+		this->nvapunt = std::make_shared<std::vector<int>>(std::vector<int>());
+		this->pilas = std::make_shared<std::vector<std::stack<Variante>>>(std::vector<std::stack<Variante>>());
+		this->ERROR = PDCadena(":C++:error:");
+		this->VERDADERO = PDCadena("verdadero");
+		this->FALSO = PDCadena("falso");
 		this->manager = true;
 		this->adver = 1;
 	}
 
 	PDDatos::~PDDatos()
 	{
-		if(this->manager)
-		{
-			delete this->nombrev;
-			delete this->valorv;
-			delete this->nombrep;
-			delete this->nvapunt;
-			delete this->pilas;
-		}
-		else
-		{
-			this->nombrev = NULL;
-			this->valorv = NULL;
-			this->nombrep = NULL;
-			this->nvapunt = NULL;
-			this->pilas = NULL;
-		}
 	}
 
-	PDCadena& PDDatos::ObtenerVariable(PDCadena n)
+	Variante& PDDatos::ObtenerVariable(PDCadena n)
 	{
 		n = this->ResolverNombre(n);
 		int i = buscar((*this->nombrev),n);
@@ -84,7 +62,7 @@ namespace PDvar
 		}
 	}
 
-	PDCadena& PDDatos::ObtenerPuntero(PDCadena n)
+	Variante& PDDatos::ObtenerPuntero(PDCadena n)
 	{
 		n = this->ResolverNombre(n);
 		int i = buscar((*this->nombrep),n);
@@ -118,7 +96,7 @@ namespace PDvar
 		}
 	}
 
-	PDCadena PDDatos::Tope(int p)
+	Variante PDDatos::Tope(int p)
 	{
 		return (*this->pilas)[p].top();
 	}
@@ -128,24 +106,24 @@ namespace PDvar
 		(*this->pilas)[p].pop();
 	}
 
-	void PDDatos::Empujar(PDCadena n, int p)
+	void PDDatos::Empujar(const Variante& n, int p)
 	{
 		(*this->pilas)[p].push(n);
 	}
 
 	void PDDatos::CrearPila()
 	{
-		(*this->pilas).push_back(std::stack<PDCadena>());
+		(*this->pilas).push_back(std::stack<Variante>());
 	}
 
-	PDCadena PDDatos::Sacar(int n)
+	Variante PDDatos::Sacar(int n)
 	{
-		PDCadena val = this->Tope(n);
+		Variante val = this->Tope(n);
 		this->BorrarTope(n);
 		return val;
 	}
 
-	void PDDatos::CrearVariable(PDCadena n, bool t, int va, PDCadena vl)
+	void PDDatos::CrearVariable(PDCadena n, bool t, int va, const Variante& vl)
 	{
 		if(t)
 		{
@@ -191,7 +169,7 @@ namespace PDvar
 
 	void PDDatos::Ejecutar(PDCadena ord)
 	{
-		istringstream in(ord);
+		std::istringstream in(ord);
 		PDCadena orden = "escribir CMMERROR";
 		in >> orden;
 		(*this->PROCESAR)(orden, in, this->PROCESO);
@@ -221,7 +199,7 @@ namespace PDvar
 			if(nombre[i] == '>')
 			{
 				inEval = false;
-				res += this->ObtenerVariable(buff);
+				res += this->ObtenerVariable(buff).ObtenerCadena();
 				buff = "";
 				continue;
 			}
@@ -235,6 +213,23 @@ namespace PDvar
 			}
 		}
 		return res;
+	}
+	PDDatos& PDDatos::operator=(PDDatos& dt)
+	{
+		if(this != &dt)
+		{
+			this->nombrev = dt.nombrev;
+			this->valorv = dt.valorv;
+			this->nombrep = dt.nombrep;
+			this->nvapunt = dt.nvapunt;
+			this->pilas = dt.pilas;
+			this->ERROR = dt.ERROR;
+			this->VERDADERO = dt.VERDADERO;
+			this->FALSO = dt.FALSO;
+			this->manager = false;
+			this->adver = dt.adver;
+		}
+		return *this;
 	}
 
 	PDEntradaBasica::PDEntradaBasica(PDCadena tok, std::istream& in, PDDatos& dat)
@@ -263,12 +258,12 @@ namespace PDvar
 		return this->data;
 	}
 
-	PDCadena ValorDelToken(PDCadena tok, std::istream& in, PDDatos* data)
+	PDvar::Variante ValorDelToken(PDCadena tok, std::istream& in, PDDatos* data)
 	{
 		if(tok == "llamar")
 		{
 			data->Ejecutar("llamar", in);
-			string top = data->Sacar(cae(data->ObtenerVariable("VG_PILA_ACTUAL")));
+			PDvar::Variante top = data->Sacar(data->ObtenerVariable("VG_PILA_ACTUAL"));
 			return top;
 		}
 		if(tok == "comparar")
@@ -285,7 +280,7 @@ namespace PDvar
 			PDCadena orden = "", arg1 = "", op = "", arg2 = "", arg3 = "";
 			in >> orden >> arg1 >> op >> arg2 >> arg3;
 			if(arg2 != "es")
-				throw string("Token invalido: se esperaba \"es\" no " + arg2);
+				throw PDvar::ErrorDeSintaxis("Token invalido: se esperaba \"es\" no " + arg2);
 			orden += " " + arg1 + " " + op + " ___codigo_pseudod_buffer_interno___";
 			data->Ejecutar(orden);
 			return (
@@ -305,11 +300,11 @@ namespace PDvar
 		}
 		if((tok == "son") || (tok == "sean"))
 		{
-			PDCadena op = "", tok1 = "", val1 = "", tok2 = "", val2 = "", ytok = "";
+			PDCadena op = "", tok1 = "", tok2 = "", ytok = "";
 			in >> op >> tok1;
-			val1 = ValorDelToken(tok1, in, data);
+			PDvar::Variante val1 = ValorDelToken(tok1, in, data);
 			in >> ytok >> tok2;
-			val2 = ValorDelToken(tok2, in, data);
+			PDvar::Variante val2 = ValorDelToken(tok2, in, data);
 			if(ytok != "y")
 			{
 				throw PDvar::ErrorDeSintaxis(
@@ -332,7 +327,7 @@ namespace PDvar
 		}
 		if(tok == "no") // verificado
 		{
-			string pd;
+			PDCadena pd;
 			in >> pd;
 			return (ValorDelToken(pd, in, data) == data->VERDADERO)?
 				data->FALSO : data->VERDADERO;
@@ -343,8 +338,8 @@ namespace PDvar
 			{
 				return tok.substr(1, tok.size() - 2);
 			}
-			string str = "";
-			getline(in, str, '}');
+			PDCadena str = "";
+			std::getline(in, str, '}');
 			return tok.substr(1, tok.size()) + str;
 		}
 		if((tok.size() >= 2)

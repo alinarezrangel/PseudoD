@@ -20,15 +20,11 @@ PDCadena PDS(PDCadena o)
 }
 
 extern "C" void PDInicializar(
-	std::vector<PDCadena>& nvar,
-	std::vector<PDCadena>& vvar,
-	std::vector<PDCadena>& npun,
-	std::vector<int>& vpun,
-	std::vector<std::stack<PDCadena>>& pil,
+	PDvar::PDDatos* datos,
 	PDFuncionNIA fnc
 )
 {
-	PDDATA = new PDvar::PDDatos(nvar, vvar, npun, vpun, pil);
+	PDDATA = new PDvar::PDDatos(*datos);
 	PDDATA->PROCESAR = fnc;
 	PDDATA->PROCESO = PDEjecutar;
 }
@@ -37,24 +33,24 @@ extern "C" void PDEjecutar(PDCadena o, std::istream& i)
 {
 	if(o == PDS("SaludarA"))
 	{
-		PDCadena v;
+		PDCadena v = "";
 		i >> v;
-		PDCadena r = PDDATA->ObtenerVariable(v);
-		std::cout << "Hola " << r << " mucho gusto!" << std::endl;
+		PDvar::Variante& r = PDDATA->ObtenerVariable(v);
+		std::cout << "Hola " << r.ObtenerCadena() << " mucho gusto!" << std::endl;
 	}
 	else if(o == PDS("ModificarA"))
 	{
-		PDCadena v;
+		PDCadena v = "";
 		i >> v;
-		PDCadena& r = PDDATA->ObtenerVariable(v);
+		PDvar::Variante& r = PDDATA->ObtenerVariable(v);
 		r = PDDATA->VERDADERO;
 	}
 	else if(o == PDS("LlamarA"))
 	{
 		PDCadena v;
 		i >> v;
-		std::ifstream in(PDDATA->ObtenerVariable(v).c_str());
-		PDCadena a = PDDATA->ObtenerVariable("__ARCH__");
+		std::ifstream in(PDDATA->ObtenerVariable(v).ObtenerCadena().c_str());
+		PDvar::Variante& a = PDDATA->ObtenerVariable("__ARCH__");
 		PDDATA->ObtenerVariable("__ARCH__") = PDDATA->ObtenerVariable(v);
 		while(in >> v)
 		{
@@ -64,26 +60,23 @@ extern "C" void PDEjecutar(PDCadena o, std::istream& i)
 	}
 	else if(o == PDS("Cad.Concatenar"))
 	{
-		PDCadena a = "", b = "", r = "", va = "", vb = "";
+		PDCadena a = "", b = "", r = "";
 		i >> a >> b >> r;
-		PDCadena& vr = PDDATA->ObtenerVariable(r);
-		va = PDDATA->ObtenerVariable(a);
-		vb = PDDATA->ObtenerVariable(b);
-		vr = va + vb;
+		PDvar::Variante& vr = PDDATA->ObtenerVariable(r);
+		PDvar::Variante& va = PDDATA->ObtenerVariable(a);
+		PDvar::Variante& vb = PDDATA->ObtenerVariable(b);
+		vr = va.ObtenerCadena() + vb.ObtenerCadena();
 	}
 	else if(o == PDS("Cad.Sub_Cadena"))
 	{
-		PDCadena a = "", b = "", r = "", r2 = "", va = "", vb = "";
-		PDEntero v1 = 0, v2 = 0;
+		PDCadena a = "", b = "", r = "", r2 = "";
 		i >> a >> b >> r2 >> r;
-		PDCadena& vr = PDDATA->ObtenerVariable(r);
-		va = PDDATA->ObtenerVariable(a);
-		vb = PDDATA->ObtenerVariable(b);
-		PDCadena& vr2 = PDDATA->ObtenerVariable(r2);
-		v1 = cae(va);
-		v2 = cae(vb);
-		if((v1 + v2) <= vr2.size())
-			vr = vr2.substr(v1,v2);
+		PDvar::Variante& vr = PDDATA->ObtenerVariable(r);
+		PDvar::Variante& va = PDDATA->ObtenerVariable(a);
+		PDvar::Variante& vb = PDDATA->ObtenerVariable(b);
+		PDvar::Variante& vr2 = PDDATA->ObtenerVariable(r2);
+		if((va.ObtenerEntero() + vb.ObtenerEntero()) <= vr2.ObtenerCadena().size())
+			vr = vr2.ObtenerCadena().substr(va.ObtenerEntero(), vb.ObtenerEntero());
 		else
 		{
 			vr = PDDATA->ERROR;
@@ -95,33 +88,33 @@ extern "C" void PDEjecutar(PDCadena o, std::istream& i)
 	}
 	else if(o == PDS("Cad.Reemplazar"))
 	{
-		PDCadena a = "", b = "", r = "", va = "", vb = "";
+		PDCadena a = "", b = "", r = "";
 		i >> a >> b >> r;
-		PDCadena& vr = PDDATA->ObtenerVariable(r);
-		va = PDDATA->ObtenerVariable(a);
-		vb = PDDATA->ObtenerVariable(b);
-		while(vr.find(va.c_str(), 0) != std::string::npos)
+		PDvar::Variante& vr = PDDATA->ObtenerVariable(r);
+		PDvar::Variante& va = PDDATA->ObtenerVariable(a);
+		PDvar::Variante& vb = PDDATA->ObtenerVariable(b);
+		while(vr.ObtenerCadena().find(va.ObtenerCadena().c_str(), 0) != std::string::npos)
 		{
-			int i2 = vr.find(va.c_str(), 0);
-			vr.replace(i2, va.size(), vb);
+			int i2 = vr.ObtenerCadena().find(va.ObtenerCadena().c_str(), 0);
+			vr.ObtenerCadena().replace(i2, va.ObtenerCadena().size(), vb.ObtenerCadena().c_str());
 		}
 	}
 	else if(o == PDS("Cad.Caracter_Especial"))
 	{
-		PDCadena a = "", r = "", va = "";
+		PDCadena a = "", r = "";
 		i >> a >> r;
-		va = PDDATA->ObtenerVariable(a);
-		PDCadena& vr = PDDATA->ObtenerVariable(r);
-		if(va == "NL")
-			vr += "\n";
-		else if(va == "RC")
-			vr += "\r";
-		else if(va == "CN")
-			vr += "\0";
-		else if(va == "EB")
-			vr += " ";
-		else if(va == "CV")
-			vr = "";
+		PDvar::Variante& va = PDDATA->ObtenerVariable(a);
+		PDvar::Variante& vr = PDDATA->ObtenerVariable(r);
+		if(va == PDCadena("NL"))
+			vr.ObtenerCadena() += "\n";
+		else if(va == PDCadena("RC"))
+			vr.ObtenerCadena() += "\r";
+		else if(va == PDCadena("CN"))
+			vr.ObtenerCadena() += "\0";
+		else if(va == PDCadena("EB"))
+			vr.ObtenerCadena() += " ";
+		else if(va == PDCadena("CV"))
+			vr.ObtenerCadena() = "";
 		else
 		{
 			vr = PDDATA->ERROR;
@@ -132,15 +125,14 @@ extern "C" void PDEjecutar(PDCadena o, std::istream& i)
 	}
 	else if(o == PDS("Cad.Buscar"))
 	{
-		PDCadena a = "", b = "", c = "", r = "", va = "", vb = "", vc = "";
+		PDCadena a = "", b = "", c = "", r = "";
 		i >> a >> b >> c >> r;
-		PDCadena& vr = PDDATA->ObtenerVariable(r);
-		va = PDDATA->ObtenerVariable(a);
-		vb = PDDATA->ObtenerVariable(b);
-		vc = PDDATA->ObtenerVariable(c);
-		PDEntero v1 = cae(vb);
-		if(vc.find(va, v1) != std::string::npos)
-			vr = eas(vc.find(va.c_str(), v1));
+		PDvar::Variante& vr = PDDATA->ObtenerVariable(r);
+		PDvar::Variante& va = PDDATA->ObtenerVariable(a);
+		PDvar::Variante& vb = PDDATA->ObtenerVariable(b);
+		PDvar::Variante& vc = PDDATA->ObtenerVariable(c);
+		if(vc.ObtenerCadena().find(va.ObtenerCadena().c_str(), vb.ObtenerEntero()) != std::string::npos)
+			vr.ObtenerEntero() = vc.ObtenerCadena().find(va.ObtenerCadena().c_str(), vb.ObtenerEntero());
 		else
 			vr = PDDATA->ERROR;
 	}
@@ -148,17 +140,17 @@ extern "C" void PDEjecutar(PDCadena o, std::istream& i)
 	{
 		PDCadena a = "", r = "";
 		i >> a >> r;
-		PDDATA->ObtenerVariable(r) = eas(PDDATA->ObtenerVariable(a).size());
+		PDDATA->ObtenerVariable(r).ObtenerEntero() = PDDATA->ObtenerVariable(a).ObtenerCadena().size();
 	}
 	else if(o == PDS("Cad.Caracter"))
 	{
-		PDCadena a = "", r = "", r2 = "", v2 = "";
+		PDCadena a = "", r = "", r2 = "";
 		i >> a >> r >> r2;
-		PDEntero v = cae(PDDATA->ObtenerVariable(a));
-		v2 = PDDATA->ObtenerVariable(r);
-		PDCadena& v3 = PDDATA->ObtenerVariable(r2);
-		if(v < v2.size())
-			v3 += v2[v];
+		PDEntero v = PDDATA->ObtenerVariable(a);
+		PDvar::Variante& v2 = PDDATA->ObtenerVariable(r);
+		PDvar::Variante& v3 = PDDATA->ObtenerVariable(r2);
+		if(v < v2.ObtenerCadena().size())
+			v3.ObtenerCadena() += v2.ObtenerCadena()[v];
 		else
 		{
 			v3 = PDDATA->ERROR;
@@ -169,57 +161,41 @@ extern "C" void PDEjecutar(PDCadena o, std::istream& i)
 	}
 	else if(o == PDS("Ent.Sumar"))
 	{
-		PDCadena a = "", b = "", r = "", va = "", vb = "";
-		PDEntero v1 = 0, v2 = 0;
+		PDCadena a = "", b = "", r = "";
 		i >> a >> b >> r;
-		PDCadena& vr = PDDATA->ObtenerVariable(r);
-		va = PDDATA->ObtenerVariable(a);
-		vb = PDDATA->ObtenerVariable(b);
-		v1 = cae(va);
-		v2 = cae(vb);
-		PDEntero v3 = v1 + v2;
-		vr = eas(v3);
+		PDvar::Variante& vr = PDDATA->ObtenerVariable(r);
+		PDvar::Variante& va = PDDATA->ObtenerVariable(a);
+		PDvar::Variante& vb = PDDATA->ObtenerVariable(b);
+		vr = va.ObtenerEntero() + vb.ObtenerEntero();
 	}
 	else if(o == PDS("Ent.Restar"))
 	{
-		PDCadena a = "", b = "", r = "", va = "", vb = "";
-		PDEntero v1 = 0, v2 = 0;
+		PDCadena a = "", b = "", r = "";
 		i >> a >> b >> r;
-		PDCadena& vr = PDDATA->ObtenerVariable(r);
-		va = PDDATA->ObtenerVariable(a);
-		vb = PDDATA->ObtenerVariable(b);
-		v1 = cae(va);
-		v2 = cae(vb);
-		PDEntero v3 = v1 - v2;
-		vr = eas(v3);
+		PDvar::Variante& vr = PDDATA->ObtenerVariable(r);
+		PDvar::Variante& va = PDDATA->ObtenerVariable(a);
+		PDvar::Variante& vb = PDDATA->ObtenerVariable(b);
+		vr = va.ObtenerEntero() - vb.ObtenerEntero();
 	}
 	else if(o == PDS("Ent.Multiplicar"))
 	{
-		PDCadena a = "", b = "", r = "", va = "", vb = "";
-		PDEntero v1 = 0, v2 = 0;
+		PDCadena a = "", b = "", r = "";
 		i >> a >> b >> r;
-		PDCadena& vr = PDDATA->ObtenerVariable(r);
-		va = PDDATA->ObtenerVariable(a);
-		vb = PDDATA->ObtenerVariable(b);
-		v1 = cae(va);
-		v2 = cae(vb);
-		PDEntero v3 = v1 * v2;
-		vr = eas(v3);
+		PDvar::Variante& vr = PDDATA->ObtenerVariable(r);
+		PDvar::Variante& va = PDDATA->ObtenerVariable(a);
+		PDvar::Variante& vb = PDDATA->ObtenerVariable(b);
+		vr = va.ObtenerEntero() * vb.ObtenerEntero();
 	}
 	else if(o == PDS("Ent.Dividir"))
 	{
-		PDCadena a = "", b = "", r = "", va = "", vb = "";
-		PDEntero v1 = 0, v2 = 0;
+		PDCadena a = "", b = "", r = "";
 		i >> a >> b >> r;
-		PDCadena& vr = PDDATA->ObtenerVariable(r);
-		va = PDDATA->ObtenerVariable(a);
-		vb = PDDATA->ObtenerVariable(b);
-		v1 = cae(va);
-		v2 = cae(vb);
-		if(v2 != 0)
+		PDvar::Variante& vr = PDDATA->ObtenerVariable(r);
+		PDvar::Variante& va = PDDATA->ObtenerVariable(a);
+		PDvar::Variante& vb = PDDATA->ObtenerVariable(b);
+		if(vb.ObtenerEntero() != 0)
 		{
-			PDEntero v3 = v1 / v2;
-			vr = eas(v3);
+			vr = va.ObtenerEntero() / vb.ObtenerEntero();
 		}
 		else
 		{
@@ -231,30 +207,27 @@ extern "C" void PDEjecutar(PDCadena o, std::istream& i)
 	}
 	else if(o == PDS("Ent.Comparar"))
 	{
-		PDCadena c = "", a = "", b = "", r = "", va = "", vb = "";
-		PDEntero v1 = 0, v2 = 0;
+		PDCadena c = "", a = "", b = "", r = "";
 		i >> a >> c >> b >> r;
-		PDCadena& vr = PDDATA->ObtenerVariable(r);
-		va = PDDATA->ObtenerVariable(a);
-		vb = PDDATA->ObtenerVariable(b);
-		v1 = cae(va);
-		v2 = cae(vb);
+		PDvar::Variante& vr = PDDATA->ObtenerVariable(r);
+		PDvar::Variante& va = PDDATA->ObtenerVariable(a);
+		PDvar::Variante& vb = PDDATA->ObtenerVariable(b);
 		if(c == "=")
-			vr = ((v1 == v2)? PDDATA->VERDADERO : PDDATA->FALSO);
+			vr = ((va.ObtenerEntero() == vb.ObtenerEntero())? PDDATA->VERDADERO : PDDATA->FALSO);
 		else if(c == "<")
-			vr = ((v1 < v2)? PDDATA->VERDADERO : PDDATA->FALSO);
+			vr = ((va.ObtenerEntero() < vb.ObtenerEntero())? PDDATA->VERDADERO : PDDATA->FALSO);
 		else if(c == "<=")
-			vr = ((v1 <= v2)? PDDATA->VERDADERO : PDDATA->FALSO);
+			vr = ((va.ObtenerEntero() <= vb.ObtenerEntero())? PDDATA->VERDADERO : PDDATA->FALSO);
 		else if(c == ">")
-			vr = ((v1 > v2)? PDDATA->VERDADERO : PDDATA->FALSO);
+			vr = ((va.ObtenerEntero() > vb.ObtenerEntero())? PDDATA->VERDADERO : PDDATA->FALSO);
 		else if(c == ">=")
-			vr = ((v1 >= v2)? PDDATA->VERDADERO : PDDATA->FALSO);
+			vr = ((va.ObtenerEntero() >= vb.ObtenerEntero())? PDDATA->VERDADERO : PDDATA->FALSO);
 		else if(c == "!=")
-			vr = ((v1 != v2)? PDDATA->VERDADERO : PDDATA->FALSO);
+			vr = ((va.ObtenerEntero() != vb.ObtenerEntero())? PDDATA->VERDADERO : PDDATA->FALSO);
 		else if(c == "<?")
-			vr = eas(((v1 <= v2)? v1 : v2));
+			vr = ((va.ObtenerEntero() <= vb.ObtenerEntero())? va : vb);
 		else if(c == "?>")
-			vr = eas(((v1 >= v2)? v1 : v2));
+			vr = ((va.ObtenerEntero() >= vb.ObtenerEntero())? va : vb);
 		else
 		{
 			vr = PDDATA->ERROR;
@@ -265,94 +238,75 @@ extern "C" void PDEjecutar(PDCadena o, std::istream& i)
 	}
 	else if(o == PDS("Dec.Sumar"))
 	{
-		PDCadena a = "", b = "", r = "", va = "", vb = "";
-		PDDecimal v1 = 0, v2 = 0;
+		PDCadena a = "", b = "", r = "";
 		i >> a >> b >> r;
-		PDCadena& vr = PDDATA->ObtenerVariable(r);
-		va = PDDATA->ObtenerVariable(a);
-		vb = PDDATA->ObtenerVariable(b);
-		v1 = caf(va);
-		v2 = caf(vb);
-		PDDecimal v3 = v1 + v2;
-		vr = dac(v3);
+		PDvar::Variante& vr = PDDATA->ObtenerVariable(r);
+		PDvar::Variante& va = PDDATA->ObtenerVariable(a);
+		PDvar::Variante& vb = PDDATA->ObtenerVariable(b);
+		vr = va.ObtenerReal() + vb.ObtenerReal();
 	}
 	else if(o == PDS("Dec.Restar"))
 	{
-		PDCadena a = "", b = "", r = "", va = "", vb = "";
-		PDDecimal v1 = 0, v2 = 0;
+		PDCadena a = "", b = "", r = "";
 		i >> a >> b >> r;
-		PDCadena& vr = PDDATA->ObtenerVariable(r);
-		va = PDDATA->ObtenerVariable(a);
-		vb = PDDATA->ObtenerVariable(b);
-		v1 = caf(va);
-		v2 = caf(vb);
-		PDDecimal v3 = v1 - v2;
-		vr = dac(v3);
+		PDvar::Variante& vr = PDDATA->ObtenerVariable(r);
+		PDvar::Variante& va = PDDATA->ObtenerVariable(a);
+		PDvar::Variante& vb = PDDATA->ObtenerVariable(b);
+		vr = va.ObtenerReal() - vb.ObtenerReal();
 	}
 	else if(o == PDS("Dec.Multiplicar"))
 	{
-		PDCadena a = "", b = "", r = "", va = "", vb = "";
-		PDDecimal v1 = 0, v2 = 0;
+		PDCadena a = "", b = "", r = "";
 		i >> a >> b >> r;
-		PDCadena& vr = PDDATA->ObtenerVariable(r);
-		va = PDDATA->ObtenerVariable(a);
-		vb = PDDATA->ObtenerVariable(b);
-		v1 = caf(va);
-		v2 = caf(vb);
-		PDDecimal v3 = v1 * v2;
-		vr = dac(v3);
+		PDvar::Variante& vr = PDDATA->ObtenerVariable(r);
+		PDvar::Variante& va = PDDATA->ObtenerVariable(a);
+		PDvar::Variante& vb = PDDATA->ObtenerVariable(b);
+		vr = va.ObtenerReal() * vb.ObtenerReal();
 	}
 	else if(o == PDS("Dec.Dividir"))
 	{
-		PDCadena a = "", b = "", r = "", va = "", vb = "";
-		PDDecimal v1 = 0, v2 = 0;
+		PDCadena a = "", b = "", r = "";
 		i >> a >> b >> r;
-		PDCadena& vr = PDDATA->ObtenerVariable(r);
-		va = PDDATA->ObtenerVariable(a);
-		vb = PDDATA->ObtenerVariable(b);
-		v1 = caf(va);
-		v2 = caf(vb);
-		if(v2 == 0)
+		PDvar::Variante& vr = PDDATA->ObtenerVariable(r);
+		PDvar::Variante& va = PDDATA->ObtenerVariable(a);
+		PDvar::Variante& vb = PDDATA->ObtenerVariable(b);
+		if(vb.ObtenerReal() == 0)
 		{
 			vr = PDDATA->ERROR;
 			throw PDvar::ErrorDeSemantica(
 				"Error en Dec.Dividir: 'Dec.Dividir a b c': division entre cero"
 			);
 		}
-		PDDecimal v3 = v1 / v2;
-		vr = dac(v3);
+		vr = va.ObtenerReal() / vb.ObtenerReal();
 	}
 	else if(o == PDS("Dec.Comparar"))
 	{
-		PDCadena c = "", a = "", b = "", r = "", va = "", vb = "";
-		PDDecimal v1 = 0, v2 = 0;
+		PDCadena c = "", a = "", b = "", r = "";
 		i >> a >> c >> b >> r;
-		PDCadena& vr = PDDATA->ObtenerVariable(r);
-		va = PDDATA->ObtenerVariable(a);
-		vb = PDDATA->ObtenerVariable(b);
-		v1 = caf(va);
-		v2 = caf(vb);
+		PDvar::Variante& vr = PDDATA->ObtenerVariable(r);
+		PDvar::Variante& va = PDDATA->ObtenerVariable(a);
+		PDvar::Variante& vb = PDDATA->ObtenerVariable(b);
 		if(c == "=")
-			vr = ((v1 == v2)? PDDATA->VERDADERO : PDDATA->FALSO);
+			vr = ((va.ObtenerReal() == vb.ObtenerReal())? PDDATA->VERDADERO : PDDATA->FALSO);
 		else if(c == "<")
-			vr = ((v1 < v2)? PDDATA->VERDADERO : PDDATA->FALSO);
+			vr = ((va.ObtenerReal() < vb.ObtenerReal())? PDDATA->VERDADERO : PDDATA->FALSO);
 		else if(c == "<=")
-			vr = ((v1 <= v2)? PDDATA->VERDADERO : PDDATA->FALSO);
+			vr = ((va.ObtenerReal() <= vb.ObtenerReal())? PDDATA->VERDADERO : PDDATA->FALSO);
 		else if(c == ">")
-			vr = ((v1 > v2)? PDDATA->VERDADERO : PDDATA->FALSO);
+			vr = ((va.ObtenerReal() > vb.ObtenerReal())? PDDATA->VERDADERO : PDDATA->FALSO);
 		else if(c == ">=")
-			vr = ((v1 >= v2)? PDDATA->VERDADERO : PDDATA->FALSO);
+			vr = ((va.ObtenerReal() >= vb.ObtenerReal())? PDDATA->VERDADERO : PDDATA->FALSO);
 		else if(c == "!=")
-			vr = ((v1 != v2)? PDDATA->VERDADERO : PDDATA->FALSO);
+			vr = ((va.ObtenerReal() != vb.ObtenerReal())? PDDATA->VERDADERO : PDDATA->FALSO);
 		else if(c == "<?")
-			vr = dac(((v1 <= v2)? v1 : v2));
+			vr = ((va.ObtenerReal() <= vb.ObtenerReal())? va : vb);
 		else if(c == "?>")
-			vr = dac(((v1 >= v2)? v1 : v2));
+			vr = ((va.ObtenerReal() >= vb.ObtenerReal())? va : vb);
 		else
 		{
 			vr = PDDATA->ERROR;
 			throw PDvar::ErrorDeSintaxis(
-				"Error en Dec.Comparar: 'Comparar a OP b r': no se reconoce 'OP'"
+				"Error en Ent.Comparar, 'Ent.Comparar a OP b r': no se reconoce 'OP'"
 			);
 		}
 	}

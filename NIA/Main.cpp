@@ -21,6 +21,8 @@
 #include <cctype>
 #include <sstream>
 #include <exception>
+#include <cstdio>
+#include <cstdlib>
 #include <dlfcn.h>
 
 //#include "pseudod.hh"
@@ -88,9 +90,10 @@ int main (int argc, char* argv[])
 		cout << ">>> ";
 		mn = "nulo";
 	}
-	err = pseudod::iniciar(nea,bepd,mn);
+	err = pseudod::iniciar(nea, bepd, mn);
 	if(err != "Ok")
 	{
+		perror("ERRNO");
 		cerr << "La creacion del interprete dio un error:" << endl;
 		cerr << err << endl;
 		cerr << "Abortando..." << endl;
@@ -124,7 +127,7 @@ int main (int argc, char* argv[])
 				{
 					cerr << "PseudoD lanzo un error:" << endl;
 					cerr << e.Mensaje() << endl;
-					cerr << "En " << pseudod::DATOS_INT.ObtenerVariable("__ARCH__") << endl;
+					cerr << "En " << pseudod::DATOS_INT.ObtenerVariable("__ARCH__").ObtenerCadena() << endl;
 				}
 				catch(const std::exception& e)
 				{
@@ -136,17 +139,17 @@ int main (int argc, char* argv[])
 					{
 						cerr << "Error " << e.what() << endl;
 					}
-					cerr << "En " << pseudod::DATOS_INT.ObtenerVariable("__ARCH__") << endl;
+					cerr << "En " << pseudod::DATOS_INT.ObtenerVariable("__ARCH__").ObtenerCadena() << endl;
 				}
 				catch(string e)
 				{
 					cerr << "PseudoD lanzo un error fatal:" << endl;
 					cerr << e << endl;
-					cerr << "En " << pseudod::DATOS_INT.ObtenerVariable("__ARCH__") << endl;
+					cerr << "En " << pseudod::DATOS_INT.ObtenerVariable("__ARCH__").ObtenerCadena() << endl;
 				}
 				catch(...)
 				{
-					cerr << "En " << pseudod::DATOS_INT.ObtenerVariable("__ARCH__") << endl;
+					cerr << "En " << pseudod::DATOS_INT.ObtenerVariable("__ARCH__").ObtenerCadena() << endl;
 					cerr << "Error no identificado!" << endl;
 				}
 				cout << endl << ">>> " << flush;
@@ -163,7 +166,7 @@ int main (int argc, char* argv[])
 	{
 		cerr << "PseudoD lanzo un error:" << endl;
 		cerr << e.Mensaje() << endl;
-		cerr << "En " << pseudod::DATOS_INT.ObtenerVariable("__ARCH__") << endl;
+		cerr << "En " << pseudod::DATOS_INT.ObtenerVariable("__ARCH__").ObtenerCadena() << endl;
 	}
 	catch(const std::exception& e)
 	{
@@ -175,17 +178,17 @@ int main (int argc, char* argv[])
 		{
 			cerr << "Error " << e.what() << endl;
 		}
-		cerr << "En " << pseudod::DATOS_INT.ObtenerVariable("__ARCH__") << endl;
+		cerr << "En " << pseudod::DATOS_INT.ObtenerVariable("__ARCH__").ObtenerCadena() << endl;
 	}
 	catch(string e)
 	{
 		cerr << "PseudoD lanzo un error fatal:" << endl;
 		cerr << e << endl;
-		cerr << "En " << pseudod::DATOS_INT.ObtenerVariable("__ARCH__") << endl;
+		cerr << "En " << pseudod::DATOS_INT.ObtenerVariable("__ARCH__").ObtenerCadena() << endl;
 	}
 	catch(...)
 	{
-		cerr << "En " << pseudod::DATOS_INT.ObtenerVariable("__ARCH__") << endl;
+		cerr << "En " << pseudod::DATOS_INT.ObtenerVariable("__ARCH__").ObtenerCadena() << endl;
 		cerr << "Error no identificado!" << endl;
 	}
 	return pseudod::terminar();

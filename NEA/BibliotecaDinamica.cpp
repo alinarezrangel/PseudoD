@@ -16,7 +16,7 @@ namespace BibliotecaDinamica
 	{
 		this->var = var;
 		this->param = args;
-		this->FijarClave("Llamar","BibliotecasDinamicas");
+		this->FijarClave("Llamar", "BibliotecasDinamicas");
 	}
 
 	PseudoLlamar::~PseudoLlamar()
@@ -46,7 +46,7 @@ namespace BibliotecaDinamica
 
 	void PseudoLlamar::InscribirInstancia(PDDatos* data)
 	{
-		void* con = dlopen(data->ObtenerVariable(this->var + string("#lib")).c_str(),RTLD_LAZY);
+		void* con = dlopen(data->ObtenerVariable(this->var + string("#lib")).ObtenerCadena().c_str(),RTLD_LAZY);
 		if(!con)
 		{
 			throw PDvar::ErrorDelNucleo(
@@ -60,7 +60,7 @@ namespace BibliotecaDinamica
 			);
 		}
 		typedef void(*pdfun_t)(PDDatos**,vector<string>);
-		pdfun_t fun = (pdfun_t) dlsym(con,data->ObtenerVariable(this->var + string("#sim")).c_str());
+		pdfun_t fun = (pdfun_t) dlsym(con,data->ObtenerVariable(this->var + string("#sim")).ObtenerCadena().c_str());
 		if(!fun)
 		{
 			dlclose(con);
@@ -120,7 +120,7 @@ namespace BibliotecaDinamica
 
 	void PseudoLlamarOO::InscribirInstancia(PDDatos* data)
 	{
-		void* con = dlopen(data->ObtenerVariable(this->var + string("#lib")).c_str(),RTLD_LAZY);
+		void* con = dlopen(data->ObtenerVariable(this->var + string("#lib")).ObtenerCadena().c_str(),RTLD_LAZY);
 		if(!con)
 		{
 			throw PDvar::ErrorDelNucleo(
@@ -153,7 +153,7 @@ namespace BibliotecaDinamica
 		}
 		PDvar::Din::Argumentos args;
 		args.Instancia = this->var;
-		args.FuncionLlamada = data->ObtenerVariable(this->var + string("#sim"));
+		args.FuncionLlamada = data->ObtenerVariable(this->var + string("#sim")).ObtenerCadena();
 		args.Argumentos = &this->param;
 		args.Manejador = &data;
 		bool liberar_antes = false;

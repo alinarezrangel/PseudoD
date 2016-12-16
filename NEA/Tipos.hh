@@ -12,6 +12,7 @@
 
 #ifndef __CPPPDTIPOS_H__
 #define __CPPPDTIPOS_H__
+
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
@@ -20,7 +21,6 @@
 #include <string>
 #include <cstring>
 #include <cstdio>
-
 
 #include "PDData.hh"
 
@@ -33,13 +33,11 @@
 */
 namespace PDTipos
 {
-	using namespace PDvar;
-	using namespace std;
 
 	/**
 	* @brief Representa la clase base para las extenciones de PseudoD.
 	*/
-	class PDOrden : virtual public PDObjeto
+	class PDOrden : virtual public PDvar::PDObjeto
 	{
 		public:
 			/**
@@ -54,21 +52,21 @@ namespace PDTipos
 			* @brief Obtiene la clave de la orden.
 			* @return La clave
 			*/
-			string ObtenerClave();
+			PDCadena ObtenerClave();
 			/**
 			* @brief Lee los parametros del flujo in como instancias.
 			* @param in Flujo del cual se leeran los datos
 			*/
-			virtual void LeerParametros(istream& in);
+			virtual void LeerParametros(std::istream& in);
 		protected:
 			/**
 			* @brief Fija la clave de la orden y el paquete
 			* @param cl Clave nueva.
 			* @param pack Nombre del paquete.
 			*/
-			void FijarClave(string cl,string pack);
+			void FijarClave(PDCadena cl, PDCadena pack);
 		private:
-			string clave;
+			PDCadena clave;
 	};
 
 	/**
@@ -88,7 +86,7 @@ namespace PDTipos
 			/**
 			* @brief Guarda la instancia en la memoria del interprete de PseudoD, VIRTUAL PURA.
 			*/
-			virtual void InscribirInstancia(PDDatos* data) = 0;
+			virtual void InscribirInstancia(PDvar::PDDatos* data) = 0;
 	};
 
 	/**
@@ -105,7 +103,7 @@ namespace PDTipos
 			* @param a nombre del nuevo array
 			* @param b cantidad de elementos
 			*/
-			PseudoArray(string a = "____",int b = 0);
+			PseudoArray(PDCadena a = "____", PDEntero b = 0);
 			/**
 			* @brief destruye este objeto.
 			*/
@@ -114,15 +112,15 @@ namespace PDTipos
 			* @brief Guarda el nuevo Array en la memoria del interprete.
 			* @param data Puntero a la memoria del interprete
 			*/
-			void InscribirInstancia(PDDatos* data);
+			void InscribirInstancia(PDvar::PDDatos* data);
 			/**
 			* @biref Lee los parametros necesarios para crear el nuevo Array.
 			* @param in Flujo del que se leen los parametros
 			*/
-			void LeerParametros(istream& in);
+			void LeerParametros(std::istream& in);
 		private:
-			int cant;
-			string nm;
+			PDEntero cant;
+			PDCadena nm;
 	};
 
 	/**
@@ -140,7 +138,7 @@ namespace PDTipos
 			* @param a nombre de la clase
 			* @param b campos de la dicha clase
 			*/
-			PseudoClase(string a = "____",vector<string> b = vector<string>());
+			PseudoClase(PDCadena a = "____", std::vector<PDCadena> b = std::vector<PDCadena>());
 			/**
 			* @brief Destruye la dicha instancia
 			*/
@@ -149,15 +147,15 @@ namespace PDTipos
 			* @brief Guarda la instancia en memoria del interprete.
 			* @param data Puntero a la memoria del interprete.
 			*/
-			void InscribirInstancia(PDDatos* data);
+			void InscribirInstancia(PDvar::PDDatos* data);
 			/**
 			* @brief Lee los parametros necesarios.
 			* @param in Flujo donde estan los parametros.
 			*/
-			void LeerParametros(istream& in);
+			void LeerParametros(std::istream& in);
 		private:
-			string nm;
-			vector<string> methods;
+			PDCadena nm;
+			std::vector<PDCadena> methods;
 	};
 
 	/**
@@ -175,7 +173,7 @@ namespace PDTipos
 			* @param a nombre de la clase a instanciar
 			* @param b nombre de la instancia
 			*/
-			PseudoReferenciaClase(string a = "____",string b = "____");
+			PseudoReferenciaClase(PDCadena a = "____", PDCadena b = "____");
 			/**
 			* @brief Destructor
 			*/
@@ -184,15 +182,15 @@ namespace PDTipos
 			* @brief Guarda la instancia actual en la memoria tipo interprete
 			* @param data Memoria tipo interprete
 			*/
-			void InscribirInstancia(PDDatos* data);
+			void InscribirInstancia(PDvar::PDDatos* data);
 			/**
 			* @brief Lee los parametros necesarios para crear la instancia
 			*/
-			void LeerParametros(istream& in);
+			void LeerParametros(std::istream& in);
 		private:
-			string nm;
-			string ni;
-			vector<string> methods;
+			PDCadena nm;
+			PDCadena ni;
+			std::vector<PDCadena> methods;
 	};
 
 	/**
@@ -208,11 +206,11 @@ namespace PDTipos
 			*
 			* Crea una instancia que sirve para visualizar los datos de memoria
 			*/
-			PseudoDebug() : PDInstancia(){this->FijarClave(string("debug"),string("PseudoD"));}
+			PseudoDebug() : PDInstancia(){this->FijarClave("debug", "PseudoD");}
 			/**
 			* @brief Destructor
 			*/
-			virtual ~PseudoDebug(){}
+			virtual ~PseudoDebug() {}
 			/**
 			* @brief Lee y visualiza la memoria del interprete.
 			*
@@ -226,7 +224,7 @@ namespace PDTipos
 			*
 			* @param data memoria del interprete
 			*/
-			void InscribirInstancia(PDDatos* data);
+			void InscribirInstancia(PDvar::PDDatos* data);
 	};
 
 	/**
@@ -241,7 +239,7 @@ namespace PDTipos
 			* @param b nombre de la estructura
 			* @param c cantidad de elementos
 			*/
-			PseudoArrayEstructura(string a = "____",string b = "____",int c = 0);
+			PseudoArrayEstructura(PDCadena a = "____", PDCadena b = "____", PDEntero c = 0);
 			/**
 			* @brief Destructor
 			*/
@@ -250,16 +248,16 @@ namespace PDTipos
 			* @brief Lee los parametros para ejecutar la orden
 			* @param in Flujo donde estan los parametros
 			*/
-			void LeerParametros(istream& in);
+			void LeerParametros(std::istream& in);
 			/**
 			* @brief Actua sobre la memoria creando el array dentro de la estructura
 			* @param data memoria del interprete
 			*/
-			void InscribirInstancia(PDDatos* data);
+			void InscribirInstancia(PDvar::PDDatos* data);
 		private:
-			string nma;
-			string nme;
-			int tma;
+			PDCadena nma;
+			PDCadena nme;
+			PDEntero tma;
 	};
 
 	/**
@@ -272,7 +270,7 @@ namespace PDTipos
 			* @brief Inicializador
 			* @param a variable o puntero a borrar
 			*/
-			PseudoBorrarVariable(string a = "____");
+			PseudoBorrarVariable(PDCadena a = "____");
 			/**
 			* @brief Destructor
 			*/
@@ -281,14 +279,14 @@ namespace PDTipos
 			* @brief Lee los parametros necesarios para ejecutar la orden
 			* @param in Flujo donde estan los parametros
 			*/
-			void LeerParametros(istream& in);
+			void LeerParametros(std::istream& in);
 			/**
 			* @brief actua sobre la memoria incapacitando el uso de la variable
 			* @param data Memoria del interprete
 			*/
-			void InscribirInstancia(PDDatos* data);
+			void InscribirInstancia(PDvar::PDDatos* data);
 		private:
-			string nm;
+			PDCadena nm;
 	};
 
 	/**
@@ -302,7 +300,7 @@ namespace PDTipos
 			* @param a clase base
 			* @param b clase hija
 			*/
-			PseudoHerencia(string a = "____",string b = "____");
+			PseudoHerencia(PDCadena a = "____", PDCadena b = "____");
 			/**
 			* @brief Destructor
 			*/
@@ -311,14 +309,15 @@ namespace PDTipos
 			* @brief Lee los parametros necesarios
 			* @param in Flujo con los parametros
 			*/
-			void LeerParametros(istream& in);
+			void LeerParametros(std::istream& in);
 			/**
 			* @brief Hereda las clases actuando sobre memoria del interprete
 			* @param data Memoria del interprete
 			*/
-			void InscribirInstancia(PDDatos* data);
+			void InscribirInstancia(PDvar::PDDatos* data);
 		private:
-			string nmb,nmh;
+			PDCadena nmb;
+			PDCadena nmh;
 	};
 
 	/**
@@ -333,7 +332,7 @@ namespace PDTipos
 			* @param a nombre del puntero
 			* @param b nombre de la nueva variable
 			*/
-			PseudoDireccionarPuntero(string a = "____",string b = "____");
+			PseudoDireccionarPuntero(PDCadena a = "____", PDCadena b = "____");
 			/**
 			* @brief destructor
 			*/
@@ -342,15 +341,15 @@ namespace PDTipos
 			* @brief Lee los parametros necesarios
 			* @param in Flujo con los parametros
 			*/
-			void LeerParametros(istream& in);
+			void LeerParametros(std::istream& in);
 			/**
 			* @brief Hereda las clases actuando sobre memoria del interprete
 			* @param data Memoria del interprete
 			*/
-			void InscribirInstancia(PDDatos* data);
+			void InscribirInstancia(PDvar::PDDatos* data);
 		private:
-			string nmp;
-			string nmv;
+			PDCadena nmp;
+			PDCadena nmv;
 	};
 
 	/**
@@ -366,7 +365,7 @@ namespace PDTipos
 			* @param o resto de la expresion.
 			* @param b cuerpo a ejecutar.
 			*/
-			PseudoMientras(string b = "____",string o = "____",string f = "____");
+			PseudoMientras(PDCadena b = "____", PDCadena o = "____", PDCadena f = "____");
 			/**
 			* @brief destructor
 			*/
@@ -375,16 +374,16 @@ namespace PDTipos
 			* @brief Lee los parametros necesarios
 			* @param in Flujo con los parametros
 			*/
-			void LeerParametros(istream& in);
+			void LeerParametros(std::istream& in);
 			/**
 			* @brief Hereda las clases actuando sobre memoria del interprete
 			* @param data Memoria del interprete
 			*/
-			void InscribirInstancia(PDDatos* data);
+			void InscribirInstancia(PDvar::PDDatos* data);
 		private:
-			string nmv;
-			string func;
-			string orden;
+			PDCadena nmv;
+			PDCadena func;
+			PDCadena orden;
 	};
 
 	/**
@@ -401,7 +400,7 @@ namespace PDTipos
 			* @param c nombre del campo
 			* @param d 1 para un puntero y 0 para un campo estatico
 			*/
-			PseudoClaseContenida(string a = "____",string b = "____",string c = "____",bool d = false);
+			PseudoClaseContenida(PDCadena a = "____", PDCadena b = "____", PDCadena c = "____", bool d = false);
 			/**
 			* @brief destructor
 			*/
@@ -410,16 +409,16 @@ namespace PDTipos
 			* @brief Lee los parametros necesarios
 			* @param in Flujo con los parametros
 			*/
-			void LeerParametros(istream& in);
+			void LeerParametros(std::istream& in);
 			/**
 			* @brief Hereda las clases actuando sobre memoria del interprete
 			* @param data Memoria del interprete
 			*/
-			void InscribirInstancia(PDDatos* data);
+			void InscribirInstancia(PDvar::PDDatos* data);
 		private:
-			string nme;
-			string tpe;
-			string nmv;
+			PDCadena nme;
+			PDCadena tpe;
+			PDCadena nmv;
 			bool ptr;
 	};
 
@@ -434,7 +433,7 @@ namespace PDTipos
 			* @brief Inicializador
 			* @param a nombre de la variable con tipo completo
 			*/
-			PseudoBorrarInteligente(string a = "____");
+			PseudoBorrarInteligente(PDCadena a = "____");
 			/**
 			* @brief destructor
 			*/
@@ -443,14 +442,14 @@ namespace PDTipos
 			* @brief Lee los parametros necesarios
 			* @param in Flujo con los parametros
 			*/
-			void LeerParametros(istream& in);
+			void LeerParametros(std::istream& in);
 			/**
 			* @brief Hereda las clases actuando sobre memoria del interprete
 			* @param data Memoria del interprete
 			*/
-			void InscribirInstancia(PDDatos* data);
+			void InscribirInstancia(PDvar::PDDatos* data);
 		private:
-			string var;
+			PDCadena var;
 	};
 }
 

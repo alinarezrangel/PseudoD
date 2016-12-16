@@ -34,8 +34,8 @@ libpseudodsrc.a: Data.o pdbase.o nmemoic.o niadata.o variante.o
 pdbase.o: $(NIAPATH)/interprete.cpp $(NIAPATH)/interprete.hh
 	$(CXX) $(DEBUG) $(OPT) $(CFLAGS) -c -std=c++11 $(NIAPATH)/interprete.cpp $(LIBS) -o pdbase.o
 
-libpseudod.so: $(NIAPATH)/pseudod.cpp $(NIAPATH)/pseudod.hh
-	$(CXX) $(DEBUG) $(OPT) $(CFLAGS) $(SHARED) -std=c++11 $(NIAPATH)/pseudod.cpp $(LIBS) -o libpseudod.so
+libpseudod.so: $(NIAPATH)/pseudod.cpp $(NIAPATH)/pseudod.hh libpseudodsrc.a
+	$(CXX) $(DEBUG) $(OPT) $(CFLAGS) $(SHARED) -std=c++11 $(NIAPATH)/pseudod.cpp $(LIBS) libpseudodsrc.a -o libpseudod.so
 
 Data.o: $(MEM) $(NEAPATH)/PDData.hh $(NEAPATH)/PDData.cpp
 	$(CXX) $(DEBUG) $(OPT) $(CFLAGS) -c -std=c++11 $(NEAPATH)/PDData.cpp $(LIBS) $(COMP) -o Data.o

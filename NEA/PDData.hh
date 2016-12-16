@@ -23,8 +23,10 @@
 #include <cstring>
 #include <cstdio>
 #include <exception>
+#include <memory>
 
 #include "interno/data.hh"
+#include "interno/variante.hh"
 
 /**
 * @brief Espacio de nombres principal de PseudoD.
@@ -33,8 +35,6 @@
 */
 namespace PDvar
 {
-	using namespace std;
-
 	/**
 	* @brief Es la clase base para todas las clases de NEA.
 	*/
@@ -179,24 +179,15 @@ namespace PDvar
 		public:
 			/**
 			* @brief Crea una nueva instancia de la clase donde:
-			* @param nvar Vector con los nombres de las variables.
-			* @param vvar Vector con los valores de las variables.
-			* @param npun Vector con los nombres de los punteros.
-			* @param vpun Vector con los indices de los ounteros.
-			* @param pil Vector de Pilas,(stacks) del lenguaje.
+			* @param dt Datos a referenciar
 			*/
-			explicit PDDatos(
-				std::vector<PDCadena>& nvar,
-				std::vector<PDCadena>& vvar,
-				std::vector<PDCadena>& npun,
-				std::vector<int>& vpun,
-				std::vector<std::stack<PDCadena>>& pil
-			);
+			explicit PDDatos(PDDatos& dt);
 			/**
 			* @brief inicia la instancia como Manejador principal de la memoria.
 			* este tiene acceso a la memoria y la maneja de forma independiente.
 			*/
 			explicit PDDatos(void);
+			PDDatos(PDDatos&&) = delete;
 			/**
 			* @brief Destruye la clase
 			*/
@@ -204,25 +195,25 @@ namespace PDvar
 		  /**
 		  * @brief Es la constante que devuelven las funciones en caso de error.
 		  */
-			PDCadena ERROR;
+			Variante ERROR;
 			/**
 			* @brief El valor de De Boole 1 o true en PseudoD
 			*/
-			PDCadena VERDADERO;
+			Variante VERDADERO;
 			/**
 			* @brief El valor de De Boole 0 o false en PSeudoD
 			*/
-			PDCadena FALSO;
+			Variante FALSO;
 			/**
 			* @brief Devuelve el valor de la variable o puntero.
 			* @param n Nombre de la variable  puntero.
 			*/
-			PDCadena& ObtenerVariable(PDCadena n);
+			Variante& ObtenerVariable(PDCadena n);
 			/**
 			* @brief Devuelve el valor del puntero.
 			* @param n Nombre del puntero.
 			*/
-			PDCadena& ObtenerPuntero(PDCadena n);
+			Variante& ObtenerPuntero(PDCadena n);
 			/**
 			* @brief devuelve el indice al que apunte el puntero.
 			* @param n nombre del puntero
@@ -234,7 +225,7 @@ namespace PDvar
 			* @param p Numero de la pila
 			* @return Tope de la pila
 			*/
-			PDCadena Tope(int p);
+			Variante Tope(int p);
 			/**
 			* @brief Borra el tope de una pila
 			* @param p Numero de la pila
@@ -245,13 +236,13 @@ namespace PDvar
 			* @param n numero de pila
 			* @return El tope.
 			*/
-			PDCadena Sacar(int n);
+			Variante Sacar(int n);
 			/**
 			* @brief Empuja un valor en una pila
 			* @param n Valor que se empujara
 			* @param p Numero de la pila
 			*/
-			void Empujar(PDCadena n, int p);
+			void Empujar(const Variante& n, int p);
 			/**
 			* @brief Crea una nueva pila
 			*/
@@ -263,7 +254,7 @@ namespace PDvar
 			* @param va Si es un puntero, direccion a la que apunta.
 			* @param vl Se es una variable, se fija su valor a el valor de vl.
 			*/
-			void CrearVariable(PDCadena n, bool t = true, int va = 0, string vl = "nulo");
+			void CrearVariable(PDCadena n, bool t = true, int va = 0, const Variante& vl = "nulo");
 			/**
 			* @brief Obtiene el indice de la variable o puntero
 			* @param t tipo, true para una variable y false para un puntero
@@ -289,27 +280,32 @@ namespace PDvar
 			* @param in Flujo de tokens
 			*/
 			void Ejecutar(PDCadena ord, std::istream& in);
+
+			/**
+			* @brief Asigna un PDDatos.
+			*/
+			PDDatos& operator=(PDDatos& dt);
 		public:
 			/**
 			* @brief puntero a los nombres de variable
 			*/
-			std::vector<PDCadena>* nombrev;
+			std::shared_ptr<std::vector<PDCadena>> nombrev;
 			/**
 			* @brief Puntero a los valores de las variables
 			*/
-			std::vector<PDCadena>* valorv;
+			std::shared_ptr<std::vector<Variante>> valorv;
 			/**
 			* @brief Puntero a los nombres de los punteros
 			*/
-			std::vector<PDCadena>* nombrep;
+			std::shared_ptr<std::vector<PDCadena>> nombrep;
 			/**
 			* @brief Puntero a los valores-indice de los punteros.
 			*/
-			std::vector<int>*    nvapunt;
+			std::shared_ptr<std::vector<int>> nvapunt;
 			/**
 			* @brief Puntero a vector que contiene las pilas.
 			*/
-			std::vector<std::stack<PDCadena>>* pilas;
+			std::shared_ptr<std::vector<std::stack<Variante>>> pilas;
 			/**
 			* @brief nivel de las advertencias.
 			*/
@@ -379,7 +375,7 @@ namespace PDvar
 			PDCadena token; // token actual
 			PDDatos* data; // datos del interprete
 
-			explicit PDEntradaBasica(vector<PDVOID_INIC_VACIO> args) : PDVoid(args) {}
+			explicit PDEntradaBasica(std::vector<PDVOID_INIC_VACIO> args) : PDVoid(args) {}
 			explicit PDEntradaBasica(PDVOID_INIC_VACIO args) : PDVoid(args) {}
 			explicit PDEntradaBasica(void) : PDVoid() {}
 			virtual PDVOID_INIC_VACIO Obtener(int i = 0) {return PDVOID_INIC_VACIO_NULL;}
@@ -393,7 +389,7 @@ namespace PDvar
 	* @param data Puntero a la memoria del interprete.
 	* @return el valor de los tokens
 	*/
-	PDCadena ValorDelToken(PDCadena tok, std::istream& in, PDDatos* data);
+	PDvar::Variante ValorDelToken(PDCadena tok, std::istream& in, PDDatos* data);
 
 	/**
 	* @brief Posee lo necesario para crear modulos dinamicos

@@ -36,11 +36,7 @@ https://sourceforge.net/projects/pseudod/
 namespace pseudod
 {
 	typedef void (*inic_nea)(
-		std::vector<PDCadena>&,
-		std::vector<PDCadena>&,
-		std::vector<PDCadena>&,
-		std::vector<int>&,
-		std::vector<std::stack<PDCadena>>&,
+		PDvar::PDDatos*,
 		PDFuncionNIA
 	);
 	typedef void (*ejec_nea)(PDCadena, std::istream&);

@@ -34,11 +34,7 @@ extern PDvar::PDDatos* PDDATA;
 PDCadena PDS(PDCadena o);
 
 extern "C" void PDInicializar(
-	std::vector<PDCadena>&,
-	std::vector<PDCadena>&,
-	std::vector<PDCadena>&,
-	std::vector<int>&,
-	std::vector<std::stack<PDCadena>>&,
+	PDvar::PDDatos*,
 	PDFuncionNIA
 );
 extern "C" void PDEjecutar(PDCadena, std::istream&);

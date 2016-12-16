@@ -13,40 +13,73 @@
 
 namespace PDvar
 {
-	Variante::Variante(void) : tipo(Variante::SinTipo), valor(nullptr)
+	Variante::Variante(void) : tipo(Variante::SinTipo), destruido(true)
 	{
+		this->valor.cadena = nullptr;
+		this->valor.entero = nullptr;
+		this->valor.real = nullptr;
+		// std::cout << "Creado VARIANTE por defecto en " << (long long int)this << std::endl;
 	}
-	Variante::Variante(const tipo_cadena& cad) : tipo(Variante::TipoCadena)
+	Variante::Variante(const tipo_cadena& cad) : tipo(Variante::TipoCadena), destruido(false)
 	{
-		this->valor = new Variante::tipo_cadena(cad);
+		this->valor.entero = nullptr;
+		this->valor.real = nullptr;
+		// std::cout << "Creado variante desde cadena " << cad << " en " << (long long int)this << std::endl;
+		this->valor.cadena = new Variante::tipo_cadena(cad);
 	}
-	Variante::Variante(const tipo_entero& ent) : tipo(Variante::TipoEntero)
+	Variante::Variante(const tipo_entero& ent) : tipo(Variante::TipoEntero), destruido(false)
 	{
-		this->valor = new Variante::tipo_entero(ent);
+		this->valor.cadena = nullptr;
+		this->valor.real = nullptr;
+		// std::cout << "Creado variante desde entero " << ent << " en " << (long long int)this << std::endl;
+		this->valor.entero = new Variante::tipo_entero(ent);
 	}
-	Variante::Variante(const tipo_real& rea) : tipo(Variante::TipoReal)
+	Variante::Variante(const tipo_real& rea) : tipo(Variante::TipoReal), destruido(false)
 	{
-		this->valor = new Variante::tipo_real(rea);
+		this->valor.cadena = nullptr;
+		this->valor.entero = nullptr;
+		// std::cout << "Creado variante desde real " << rea << " en " << (long long int)this << std::endl;
+		this->valor.real = new Variante::tipo_real(rea);
 	}
-	Variante::Variante(const Variante& var) : tipo(var.tipo)
+	Variante::Variante(const Variante& var) : tipo(Variante::SinTipo), destruido(true)
 	{
+		this->valor.cadena = nullptr;
+		this->valor.entero = nullptr;
+		this->valor.real = nullptr;
+		// std::cout << "Creado variante desde variante en " << (long long int)this << std::endl;
+		// std::cout << "# " << var.tipo << std::endl;
 		this->Fijar(var);
 	}
-	Variante::Variante(const Variante::Discriminante& dc) : tipo(dc)
+	Variante::Variante(const Variante::Discriminante& dc) : tipo(Variante::SinTipo), destruido(true)
 	{
+		this->valor.cadena = nullptr;
+		this->valor.entero = nullptr;
+		this->valor.real = nullptr;
+		// std::cout << "Creado variante desde descriminante " << dc << " en " << (long long int)this << std::endl;
 		this->FijarTipo(dc);
 	}
-	Variante::Variante(Variante&& var) : tipo(var.tipo), valor(var.valor)
+	Variante::Variante(Variante&& var) : tipo(Variante::SinTipo), destruido(true)
 	{
-		var.valor = nullptr;
-		var.tipo = Variante::SinTipo;
+		this->valor.cadena = nullptr;
+		this->valor.entero = nullptr;
+		this->valor.real = nullptr;
+		this->Fijar(var);
+		var.DestruirMemoria();
+		// std::cout << "Creado variante desde rvalueReferenceVariante en " << (long long int)this << std::endl;
+		// std::cout << "!1Con tipo y valor: " << this->tipo << " " << this->ObtenerCadena() << std::endl;
+		// std::cout << "!2Con tipo y valor: " << var.tipo << " " << var.ObtenerCadena() << std::endl;
+	}
+	Variante::Variante(const char* cad) : tipo(Variante::TipoCadena), destruido(false)
+	{
+		this->valor.entero = nullptr;
+		this->valor.real = nullptr;
+		// std::cout << "Creado variante desde cstrcadena " << cad << " en " << (long long int)this << std::endl;
+		this->valor.cadena = new Variante::tipo_cadena(cad);
 	}
 	Variante::~Variante(void)
 	{
-		if(this->valor != nullptr)
-		{
-			this->DestruirMemoria();
-		}
+		// std::cout << "Destruido variante en " << (long long int)this << std::endl;
+		this->DestruirMemoria();
 	}
 
 	Variante::operator Variante::tipo_cadena(void) const
@@ -67,7 +100,24 @@ namespace PDvar
 	}
 	Variante::operator bool(void) const
 	{
-		return this->valor != nullptr;
+		return this->PoseeTipo();
+	}
+
+	Variante::operator Variante::tipo_cadena&(void)
+	{
+		return this->ObtenerCadena();
+	}
+	Variante::operator Variante::tipo_entero&(void)
+	{
+		return this->ObtenerEntero();
+	}
+	Variante::operator Variante::tipo_real&(void)
+	{
+		return this->ObtenerReal();
+	}
+	Variante::operator Variante::Discriminante&(void)
+	{
+		return this->ObtenerTipo();
 	}
 
 	Variante& Variante::operator=(const Variante& var)
@@ -75,6 +125,12 @@ namespace PDvar
 		if(&var == this)
 			return *this;
 		this->Fijar(var);
+		return *this;
+	}
+	Variante& Variante::operator=(Variante&& var)
+	{
+		this->Fijar(var);
+		var.DestruirMemoria();
 		return *this;
 	}
 	Variante& Variante::operator=(const Variante::tipo_cadena& cad)
@@ -191,20 +247,115 @@ namespace PDvar
 	const Variante::tipo_cadena& Variante::ObtenerCadena(void) const
 	{
 		if(this->tipo != Variante::TipoCadena)
-			throw ErrorDeSemantica("Error en Variante::Obtener*: tipo invalido");
-		return *static_cast<const Variante::tipo_cadena*>(this->valor);
+			throw PDvar::ErrorDeSemantica("Error en Variante::ObtenerC*: Tipo no convertible");
+		return *this->valor.cadena;
 	}
 	const Variante::tipo_entero& Variante::ObtenerEntero(void) const
 	{
 		if(this->tipo != Variante::TipoEntero)
-			throw ErrorDeSemantica("Error en Variante::Obtener*: tipo invalido");
-		return *static_cast<const Variante::tipo_entero*>(this->valor);
+			throw PDvar::ErrorDeSemantica("Error en Variante::ObtenerE*: Tipo no convertible");
+		return *this->valor.entero;
 	}
 	const Variante::tipo_real& Variante::ObtenerReal(void) const
 	{
 		if(this->tipo != Variante::TipoReal)
-			throw ErrorDeSemantica("Error en Variante::Obtener*: tipo invalido");
-		return *static_cast<const Variante::tipo_real*>(this->valor);
+			throw PDvar::ErrorDeSemantica("Error en Variante::ObtenerR*: Tipo no convertible");
+		return *this->valor.real;
+	}
+
+	Variante::Discriminante& Variante::ObtenerTipo(void)
+	{
+		return this->tipo;
+	}
+	Variante::tipo_cadena& Variante::ObtenerCadena(void)
+	{
+		if(this->tipo != Variante::TipoCadena)
+			this->Fijar(this->ConvertirA(Variante::TipoCadena));
+		return *this->valor.cadena;
+	}
+	Variante::tipo_entero& Variante::ObtenerEntero(void)
+	{
+		if(this->tipo != Variante::TipoEntero)
+			this->Fijar(this->ConvertirA(Variante::TipoEntero));
+		return *this->valor.entero;
+	}
+	Variante::tipo_real& Variante::ObtenerReal(void)
+	{
+		if(this->tipo != Variante::TipoReal)
+			this->Fijar(this->ConvertirA(Variante::TipoReal));
+		return *this->valor.real;
+	}
+
+	Variante Variante::ConvertirA(const Variante::Discriminante& dc) const
+	{
+		Variante rt;
+		rt.FijarTipo(dc);
+
+		if(dc == Variante::SinTipo)
+			return rt;
+
+		if(this->tipo == Variante::SinTipo)
+		{
+			rt.FijarTipo(Variante::SinTipo);
+			return rt;
+		}
+
+		if(dc == this->tipo)
+		{
+			rt = *this;
+			return rt;
+		}
+
+		switch(this->tipo)
+		{
+			case Variante::TipoCadena:
+				switch(dc)
+				{
+					case Variante::TipoEntero:
+						rt = cae(this->ObtenerCadena());
+						break;
+					case Variante::TipoReal:
+						rt = caf(this->ObtenerCadena());
+						break;
+					default:
+						throw ErrorDeSemantica("Error en Variante::ConvertirA: Conversión inválida");
+				}
+				break;
+			case Variante::TipoEntero:
+				switch(dc)
+				{
+					case Variante::TipoCadena:
+						rt = eas(this->ObtenerEntero());
+						break;
+					case Variante::TipoReal:
+						// Como tipo_real generalmente es un <long double>, podemos
+						// realizar una conversion explicita y listo!
+						rt = static_cast<Variante::tipo_real>(this->ObtenerEntero());
+						break;
+					default:
+						throw ErrorDeSemantica("Error en Variante::ConvertirA: Conversión inválida");
+				}
+				break;
+			case Variante::TipoReal:
+				switch(dc)
+				{
+					case Variante::TipoCadena:
+						rt = dac(this->ObtenerReal());
+						break;
+					case Variante::TipoEntero:
+						// Como tipo_entero generalmente es un <long long int>, podemos
+						// realizar una conversion explicita y listo!
+						rt = static_cast<Variante::tipo_entero>(this->ObtenerReal());
+						break;
+					default:
+						throw ErrorDeSemantica("Error en Variante::ConvertirA: Conversión inválida");
+				}
+				break;
+			default:
+				throw ErrorDeSemantica("Error en Variante::ConvertirA: Conversión inválida");
+		}
+
+		return rt;
 	}
 
 	bool Variante::PoseeTipo(void) const
@@ -216,69 +367,78 @@ namespace PDvar
 	{
 		if(this->tipo == dc)
 			return;
-		if(this->valor != nullptr)
-			this->DestruirMemoria();
+		this->DestruirMemoria();
 		this->tipo = dc;
 		switch(dc)
 		{
 			case Variante::TipoCadena:
-				this->valor = new Variante::tipo_cadena;
+				this->valor.cadena = new Variante::tipo_cadena;
+				this->destruido = false;
 				break;
 			case Variante::TipoEntero:
-				this->valor = new Variante::tipo_entero;
+				this->valor.entero = new Variante::tipo_entero;
+				this->destruido = false;
 				break;
 			case Variante::TipoReal:
-				this->valor = new Variante::tipo_real;
+				this->valor.real = new Variante::tipo_real;
+				this->destruido = false;
 				break;
 			case Variante::SinTipo:
-				this->valor = nullptr;
 				break;
 			default:
-				throw ErrorDeSemantica("Error en Variante::FijarTipo: tipo no reconocido");
+				throw ErrorDeSemantica("Error en Variante::FijarTipo: tipo " + eas(this->tipo) + " no reconocido");
 		}
+		// std::cout << "Recreado variante con tipo: " << ((long long int)this) << ":" << dc << std::endl;
 	}
 	void Variante::FijarCadena(const Variante::tipo_cadena& cad)
 	{
-		if(this->valor != nullptr)
-			this->DestruirMemoria();
+		this->DestruirMemoria();
 		this->tipo = Variante::TipoCadena;
-		this->valor = new Variante::tipo_cadena(cad);
+		this->valor.cadena = new Variante::tipo_cadena(cad);
+		this->destruido = false;
+		// std::cout << "Recreado variante con cadena: " << ((long long int)this) << ":" << cad << std::endl;
 	}
 	void Variante::FijarEntero(const Variante::tipo_entero& ent)
 	{
-		if(this->valor != nullptr)
-			this->DestruirMemoria();
+		this->DestruirMemoria();
 		this->tipo = Variante::TipoEntero;
-		this->valor = new Variante::tipo_entero(ent);
+		this->valor.entero = new Variante::tipo_entero(ent);
+		this->destruido = false;
+		// std::cout << "Recreado variante con entero: " << ((long long int)this) << ":" << ent << std::endl;
 	}
 	void Variante::FijarReal(const Variante::tipo_real& rea)
 	{
-		if(this->valor != nullptr)
-			this->DestruirMemoria();
+		this->DestruirMemoria();
 		this->tipo = Variante::TipoReal;
-		this->valor = new Variante::tipo_real(rea);
+		this->valor.real = new Variante::tipo_real(rea);
+		this->destruido = false;
+		// std::cout << "Recreado variante con real: " << ((long long int)this) << ":" << rea << std::endl;
 	}
 	void Variante::Fijar(const Variante& var)
 	{
-		if(this->valor != nullptr)
-			this->DestruirMemoria();
-		this->tipo = var.tipo;
-		switch(var.tipo)
+		if(this == &var)
+			return;
+		// std::cout << "@@FijarA: " << var.tipo << ":" << ((long long int) &var) << ";" << ((long long int)this) << std::endl;
+		switch((Variante::Discriminante) var)
 		{
 			case Variante::TipoCadena:
-				this->valor = new Variante::tipo_cadena(var.ObtenerCadena());
+				this->FijarCadena(var.ObtenerCadena());
 				break;
 			case Variante::TipoEntero:
-				this->valor = new Variante::tipo_entero(var.ObtenerEntero());
+				this->FijarEntero(var.ObtenerEntero());
 				break;
 			case Variante::TipoReal:
-				this->valor = new Variante::tipo_real(var.ObtenerReal());
+				this->FijarReal(var.ObtenerReal());
 				break;
 			case Variante::SinTipo:
-				this->valor = nullptr;
 				break;
 			default:
-				throw ErrorDeSemantica("Error en Variante::Fijar: tipo no reconocido");
+				this->tipo = Variante::SinTipo;
+			// FIXME:
+			/* default:
+				throw ErrorDeSemantica(
+					"Error en Variante::Fijar: tipo " + eas(this->tipo) + " no reconocido"
+				); */
 		}
 	}
 
@@ -287,20 +447,8 @@ namespace PDvar
 	{
 		return this == &var;
 	}
-	bool Variante::EsMismo(const Variante::tipo_cadena& cad) const
-	{
-		return static_cast<Variante::tipo_cadena*>(this->valor) == &cad;
-	}
-	bool Variante::EsMismo(const Variante::tipo_entero& ent) const
-	{
-		return static_cast<Variante::tipo_entero*>(this->valor) == &ent;
-	}
-	bool Variante::EsMismo(const Variante::tipo_real& rea) const
-	{
-		return static_cast<Variante::tipo_real*>(this->valor) == &rea;
-	}
 
-	void*& Variante::ObtenerPuntero(void)
+	Variante::tipo_interno& Variante::ObtenerPuntero(void)
 	{
 		return this->valor;
 	}
@@ -310,22 +458,118 @@ namespace PDvar
 	}
 	void Variante::DestruirMemoria(void)
 	{
-		switch(this->tipo)
+		if(this->destruido)
 		{
-			case Variante::TipoCadena:
-				delete static_cast<Variante::tipo_cadena*>(this->valor);
-				break;
-			case Variante::TipoEntero:
-				delete static_cast<Variante::tipo_entero*>(this->valor);
-				break;
-			case Variante::TipoReal:
-				delete static_cast<Variante::tipo_real*>(this->valor);
-				break;
+			return;
+		}
+		//std::cout << "RDestruido variante en " << (long long int)this << std::endl
+		//	<< "De tipo " << this->tipo << std::endl;
+		if(this->tipo == Variante::TipoCadena)
+		{
+			//std::cout << "delcad" << std::endl;
+			delete this->valor.cadena;
+		}
+		else if(this->tipo == Variante::TipoEntero)
+		{
+			//std::cout << "delent" << std::endl;
+			delete this->valor.entero;
+		}
+		else if(this->tipo == Variante::TipoReal)
+		{
+			//std::cout << "delreal" << std::endl;
+			delete this->valor.real;
+		}
+		//std::cout << "Fin 1" << std::endl;
+		this->tipo = Variante::SinTipo;
+		this->valor.cadena = nullptr;
+		this->valor.entero = nullptr;
+		this->valor.real = nullptr;
+		this->destruido = true;
+		//std::cout << "Fin 2" << std::endl;
+	}
+
+	Variante operator+(Variante a, Variante b)
+	{
+		if(a.ObtenerTipo() != b.ObtenerTipo())
+		{
+			throw ErrorDeSemantica("Error en Variante::operator+: Operacion inválida en tipos");
+		}
+
+		switch(a.ObtenerTipo())
+		{
 			case Variante::SinTipo:
-				// SinTipo no requiere destrucción
-				break;
+				return Variante(Variante::SinTipo);
+			case Variante::TipoCadena:
+				return a.ObtenerCadena() + b.ObtenerCadena();
+			case Variante::TipoEntero:
+				return a.ObtenerEntero() + b.ObtenerEntero();
+			case Variante::TipoReal:
+				return a.ObtenerReal() + b.ObtenerReal();
 			default:
-				throw ErrorDeSemantica("Error en Variante::DestruirMemoria: tipo no reconocido");
+				throw ErrorDeSemantica("Error en Variante::operator+: tipo no reconocido");
+		}
+	}
+	Variante operator-(Variante a, Variante b)
+	{
+		if(a.ObtenerTipo() != b.ObtenerTipo())
+		{
+			throw ErrorDeSemantica("Error en Variante::operator-: Operacion inválida en tipos");
+		}
+
+		switch(a.ObtenerTipo())
+		{
+			case Variante::SinTipo:
+				return Variante(Variante::SinTipo);
+			case Variante::TipoCadena:
+				throw ErrorDeSemantica("Error en Variante::operator-: Operacion inválida en cadenas");
+			case Variante::TipoEntero:
+				return a.ObtenerEntero() - b.ObtenerEntero();
+			case Variante::TipoReal:
+				return a.ObtenerReal() - b.ObtenerReal();
+			default:
+				throw ErrorDeSemantica("Error en Variante::operator-: tipo no reconocido");
+		}
+	}
+	Variante operator*(Variante a, Variante b)
+	{
+		if(a.ObtenerTipo() != b.ObtenerTipo())
+		{
+			throw ErrorDeSemantica("Error en Variante::operator*: Operacion inválida en tipos");
+		}
+
+		switch(a.ObtenerTipo())
+		{
+			case Variante::SinTipo:
+				return Variante(Variante::SinTipo);
+			case Variante::TipoCadena:
+				throw ErrorDeSemantica("Error en Variante::operator*: Operacion inválida en cadenas");
+			case Variante::TipoEntero:
+				return a.ObtenerEntero() * b.ObtenerEntero();
+			case Variante::TipoReal:
+				return a.ObtenerReal() * b.ObtenerReal();
+			default:
+				throw ErrorDeSemantica("Error en Variante::operator*: tipo no reconocido");
+		}
+	}
+	Variante operator/(Variante a, Variante b)
+	{
+		if(a.ObtenerTipo() != b.ObtenerTipo())
+		{
+			throw ErrorDeSemantica("Error en Variante::operator/: Operacion inválida en tipos");
+		}
+
+		switch(a.ObtenerTipo())
+		{
+			case Variante::SinTipo:
+				return Variante(Variante::SinTipo);
+			case Variante::TipoCadena:
+				throw ErrorDeSemantica("Error en Variante::operator/: Operacion inválida en cadenas");
+			case Variante::TipoEntero:
+				return a.ObtenerEntero() / b.ObtenerEntero();
+			case Variante::TipoReal:
+				return a.ObtenerReal() / b.ObtenerReal();
+			default:
+				throw ErrorDeSemantica("Error en Variante::operator/: tipo no reconocido");
 		}
 	}
 }

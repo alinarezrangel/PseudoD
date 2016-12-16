@@ -15,6 +15,7 @@
 #include <iostream>
 #include <cstddef>
 #include <memory>
+#include <utility>
 
 #include "data.hh"
 
@@ -45,6 +46,14 @@ namespace PDvar
 			typedef PDCadena tipo_cadena;
 			typedef PDEntero tipo_entero;
 			typedef PDDecimal tipo_real;
+			// typedef void* tipo_interno;
+
+			union tipo_interno
+			{
+				tipo_entero* entero;
+				tipo_real* real;
+				tipo_cadena* cadena;
+			};
 
 			enum Discriminante
 			{
@@ -60,6 +69,7 @@ namespace PDvar
 			Variante(const tipo_real&);
 			Variante(const Variante&);
 			Variante(const Discriminante&);
+			Variante(const char*);
 			Variante(Variante&&);
 			virtual ~Variante(void);
 
@@ -69,7 +79,13 @@ namespace PDvar
 			operator Discriminante(void) const;
 			operator bool(void) const;
 
+			operator tipo_cadena&(void);
+			operator tipo_entero&(void);
+			operator tipo_real&(void);
+			operator Discriminante&(void);
+
 			Variante& operator=(const Variante&);
+			Variante& operator=(Variante&&);
 			Variante& operator=(const tipo_cadena&);
 			Variante& operator=(const tipo_entero&);
 			Variante& operator=(const tipo_real&);
@@ -101,6 +117,13 @@ namespace PDvar
 			const tipo_entero& ObtenerEntero(void) const;
 			const tipo_real& ObtenerReal(void) const;
 
+			Discriminante& ObtenerTipo(void);
+			tipo_cadena& ObtenerCadena(void);
+			tipo_entero& ObtenerEntero(void);
+			tipo_real& ObtenerReal(void);
+
+			Variante ConvertirA(const Discriminante&) const;
+
 			bool PoseeTipo(void) const;
 
 			void FijarTipo(const Discriminante&);
@@ -111,17 +134,21 @@ namespace PDvar
 
 			// NOTA: Estas funciones comparar identidad, NO VALOR
 			bool EsMismo(const Variante&) const;
-			bool EsMismo(const tipo_cadena&) const;
-			bool EsMismo(const tipo_entero&) const;
-			bool EsMismo(const tipo_real&) const;
 		protected:
-			void*& ObtenerPuntero(void);
+			tipo_interno& ObtenerPuntero(void);
 			Discriminante& ObtenerDiscriminante(void);
 			void DestruirMemoria(void);
 		private:
 			Discriminante tipo;
-			void* valor;
+			tipo_interno valor;
+			bool destruido;
+			// tipo_cadena valor;
 	};
+
+	Variante operator+(Variante, Variante);
+	Variante operator-(Variante, Variante);
+	Variante operator*(Variante, Variante);
+	Variante operator/(Variante, Variante);
 }
 
 #endif /* ~__PDVARIANTE_PSEUDOD_PDDATA_H__ */
