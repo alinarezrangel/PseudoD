@@ -2,16 +2,10 @@
 ****************************************************************************
 ****************************   PseudoD    **********************************
 ***** Creado por Alejandro Linarez Rangel El 14 de septiembre de 2014. *****
-*** Este es PseudoD version 2.0.0                                      *****
-*** Log de este archivo:                                               *****
-*** Formato: DD/MM/YYYY: txt                                           *****
-*** **** 14/09/2014: Se creo el archivo.                               *****
-*** **** 03/03/2015: Se agrego soporte para metodos.                   *****
-*** **** 06/03/2015: Se agrego soporte para errores fatales.           *****
-*** **** 09/03/2015: Mejoras al bucle mientras.                        *****
-*** **** 20/03/2015: Solucionados Bugs 008 y 009.                      *****
-*** **** 15/12/2015: Mejoras a la instanciacion y al depurador.        *****
-*** **** 16/01/2016: Agregado soporte de metodos virtuales.            *****
+*****                                                                  *****
+***** Página oficial de PseudoD en:                                    *****
+*****     http://pseudod.sourceforge.net/                              *****
+*****                                                                  *****
 ****************************************************************************
 **************************************************************************/
 
