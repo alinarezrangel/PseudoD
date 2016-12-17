@@ -33,9 +33,12 @@ La estructura del directorio de PseudoD es:
      |    |    +- Bit.h
      |    |    +- INBit.h
      |    |    +- PDBit.cpp
+     |    +- interno/
+     |     |    +- data.hh
+     |     |    +- data.cpp
      |    +- BibliotecaDinamica.cpp
-     |    +- BibliotecaDinamica.h
-     |    +- INBibliotecaDinamica.h
+     |    +- BibliotecaDinamica.hh
+     |    +- INBibliotecaDinamica.hh
      |    +- PDBibliotecaDinamica.cpp
      |    +- PDData.cpp
      |    +- PDData.hh

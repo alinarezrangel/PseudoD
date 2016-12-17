@@ -10,6 +10,11 @@ sintaxis en español.
 
 * <proyectopseudod@gmail.com>
 
+## Documentacion
+
+PseudoD posee un repositorio especializado en la documentación en Markdown que
+utiliza GitHubPages (véa [alinarezrangel/pseudod-docs](https://github.com/alinarezrangel/pseudod-docs)).
+
 ## Como construir
 
 ### Dependencias
