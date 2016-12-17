@@ -84,13 +84,6 @@ adquirir CINCO [ Para x/5 ]
 fijar CINCO a {5}
 
 [DOCUMENTA
-@brief Version de PseudoD actualmente estandar.
-Es la version de PseudoD actualmente estandar.
-DOCUMENTA]
-adquirir PSEUDOD [ version de PseudoD ]
-fijar PSEUDOD a {2.2.0}
-
-[DOCUMENTA
 @brief Ruta donde PseudoD busca los archivos de BEPD.
 Es mutable, si se cambia PseudoD buscara las bibliotecas en el lugar
 especificado.

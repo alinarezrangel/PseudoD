@@ -25,6 +25,7 @@
 
 //#include "pseudod.hh"
 //#include "NEA/PDData.hh"
+#include "NEA/interno/data.hh"
 #include "interprete.hh"
 
 using namespace std;
@@ -44,7 +45,7 @@ int main (int argc, char* argv[])
 	if((op == "-h") || (op == "--help"))
 	{
 		cout << prgNom << "  -  El interprete de PseudoD" << endl;
-		cout << "Version 2.2.0" << endl;
+		cout << "Version " << PSEUDOD_VERSION << endl;
 		cout << "Opciones:" << endl;
 		cout << "   " << prgNom << " (-h|--help): Muestra esta ayuda y termina." << endl;
 		cout << "   " << prgNom << " archivo bepd nea: ejecuta archivo con la ruta a BEPD bepd y el NEA nea." << endl;
@@ -59,7 +60,7 @@ int main (int argc, char* argv[])
 	}
 	if((op == "-v") || (op == "--version"))
 	{
-		cout << "PseudoD 2.2.0" << endl;
+		cout << "PseudoD " << PSEUDOD_VERSION << endl;
 		return 0;
 	}
 	if(argc < 4)
@@ -83,7 +84,7 @@ int main (int argc, char* argv[])
 	{
 		interactivo = true;
 		cout << "Interprete en linea de comandos de PseudoD" << endl;
-		cout << "PseudoD version 2.2.0 en C++11" << endl;
+		cout << "PseudoD version " << PSEUDOD_VERSION << " en C++11" << endl;
 		cout << "Creado por Alejandro Linarez Rangel" << endl;
 		cout << ">>> ";
 		mn = "nulo";
@@ -190,4 +191,3 @@ int main (int argc, char* argv[])
 	}
 	return pseudod::terminar();
 }
-

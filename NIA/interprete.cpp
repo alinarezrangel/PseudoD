@@ -465,6 +465,7 @@ namespace pseudod
 		DATOS_INT.CrearVariable("__ARCH__", true, 0, main);
 		DATOS_INT.CrearVariable("VG_PILA_ACTUAL", true, 0, "0");
 		DATOS_INT.CrearVariable("VG_NUMERO_PILAS", true, 0, "0");
+		DATOS_INT.CrearVariable("PSEUDOD", true, 0, PSEUDOD_VERSION);
 		DATOS_INT.PROCESAR = procesar;
 		DATOS_INT.PROCESO = ejecutar_nea;
 		try

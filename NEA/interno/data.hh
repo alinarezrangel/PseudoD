@@ -27,6 +27,10 @@
 # define MINGW
 #endif
 
+#ifndef PSEUDOD_VERSION
+# define PSEUDOD_VERSION "2.2.0"
+#endif
+
 typedef long long int PDEntero;
 typedef long double PDDecimal;
 typedef std::string PDCadena;
