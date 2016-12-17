@@ -348,6 +348,7 @@ finfun
 [DOCUMENTA
 @brief Representa un iterador.
 Es abstracta, nunca se debe instanciar.
+@abstract
 DOCUMENTA]
 clase Iterador
 	;actual
@@ -359,6 +360,7 @@ heredar Objeto Iterador
 [DOCUMENTA
 @brief Representa un iterador que solo avanza.
 Es abstracta, nunca se debe instanciar.
+@abstract
 DOCUMENTA]
 clase IteradorDel
 	:¿valido?
@@ -370,6 +372,7 @@ heredar Iterador IteradorDel
 [DOCUMENTA
 @brief Representa un iterador que solo retrocede.
 Es abstracta, nunca se debe instanciar.
+@abstract
 DOCUMENTA]
 clase IteradorTra
 	:¿valido?
@@ -381,6 +384,7 @@ heredar Iterador IteradorTra
 [DOCUMENTA
 @brief Representa un iterador bidireccional.
 Es abstracta, nunca se debe instanciar.
+@abstract
 DOCUMENTA]
 clase IteradorBi
 	:¿valido?

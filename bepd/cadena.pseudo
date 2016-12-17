@@ -11,7 +11,7 @@
 ****************************************************************************** ]
 
 [DOCUMENTA
-@brief Envolturas de cadenas utiles.
+@file Envolturas de cadenas utiles.
 
 Este archivo declara envolturas utiles para la manipulacion de cadenas.
 
