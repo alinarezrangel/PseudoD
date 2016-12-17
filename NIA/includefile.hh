@@ -17,6 +17,6 @@
 
 */
 #include "NEA/Tipos.hh"
-#include "NEA/BibliotecaDinamica.h"
+#include "NEA/BibliotecaDinamica.hh"
 #include "NEA/Bit/Bit.hh"
 #include "NEA/PDData.hh"

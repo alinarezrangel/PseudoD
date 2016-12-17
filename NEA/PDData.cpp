@@ -210,7 +210,7 @@ namespace PDvar
 		PDCadena res = "";
 		PDCadena buff = "";
 		bool inEval = false;
-		for(int i = 0; i < nombre.size(); i++)
+		for(decltype(nombre)::size_type i = 0; i < nombre.size(); i++)
 		{
 			if(nombre[i] == '<')
 			{

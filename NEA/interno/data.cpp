@@ -11,19 +11,6 @@
 
 #include "data.hh"
 
-template<class T>
-int buscar(std::vector<T> a,T b)
-{
-	for(int i = (a.size() - 1);i >= 0;i--)
-	{
-		if(a[i] == b)
-		{
-			return i;
-		}
-	}
-	return -1;
-}
-
 PDCadena eas(PDEntero i)
 {
 #ifndef MINGW

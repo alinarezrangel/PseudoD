@@ -11,18 +11,18 @@
 
 namespace Bit
 {
-	PseudoBitAnd::PseudoBitAnd(std::string a, std::string b, std::string r) : PDTipos::PDInstancia()
+	PseudoBitAnd::PseudoBitAnd(PDCadena a, PDCadena b, PDCadena r) : PDTipos::PDInstancia()
 	{
 		this->res = r;
 		this->pa = a;
 		this->pb = b;
-		this->FijarClave(string("Conjuncion"),string("Bit"));
+		this->FijarClave("Conjuncion", "Bit");
 	}
 	PseudoBitAnd::~PseudoBitAnd(void)
 	{}
 	void PseudoBitAnd::InscribirInstancia(PDvar::PDDatos* data)
 	{
-		long long int a = 0, b = 0;
+		PDEntero a = 0, b = 0;
 		a = cae(data->ObtenerVariable(this->pa));
 		b = cae(data->ObtenerVariable(this->pb));
 		data->ObtenerVariable(this->res) = eas(a & b);
@@ -40,18 +40,19 @@ namespace Bit
 			);
 		}
 	}
-	PseudoBitOr::PseudoBitOr(std::string a, std::string b, std::string r) : PDTipos::PDInstancia()
+
+	PseudoBitOr::PseudoBitOr(PDCadena a, PDCadena b, PDCadena r) : PDTipos::PDInstancia()
 	{
 		this->res = r;
 		this->pa = a;
 		this->pb = b;
-		this->FijarClave(string("DisyuncionInclusiva"),string("Bit"));
+		this->FijarClave("DisyuncionInclusiva", "Bit");
 	}
 	PseudoBitOr::~PseudoBitOr(void)
 	{}
 	void PseudoBitOr::InscribirInstancia(PDvar::PDDatos* data)
 	{
-		long long int a = 0, b = 0;
+		PDEntero a = 0, b = 0;
 		a = cae(data->ObtenerVariable(this->pa));
 		b = cae(data->ObtenerVariable(this->pb));
 		data->ObtenerVariable(this->res) = eas(a | b);
@@ -69,18 +70,19 @@ namespace Bit
 			);
 		}
 	}
-	PseudoBitXor::PseudoBitXor(std::string a, std::string b, std::string r) : PDTipos::PDInstancia()
+
+	PseudoBitXor::PseudoBitXor(PDCadena a, PDCadena b, PDCadena r) : PDTipos::PDInstancia()
 	{
 		this->res = r;
 		this->pa = a;
 		this->pb = b;
-		this->FijarClave(string("DisyuncionExclusiva"),string("Bit"));
+		this->FijarClave("DisyuncionExclusiva", "Bit");
 	}
 	PseudoBitXor::~PseudoBitXor(void)
 	{}
 	void PseudoBitXor::InscribirInstancia(PDvar::PDDatos* data)
 	{
-		long long int a = 0, b = 0;
+		PDEntero a = 0, b = 0;
 		a = cae(data->ObtenerVariable(this->pa));
 		b = cae(data->ObtenerVariable(this->pb));
 		data->ObtenerVariable(this->res) = eas(a ^ b);
@@ -98,17 +100,18 @@ namespace Bit
 			);
 		}
 	}
-	PseudoBitNot::PseudoBitNot(std::string a, std::string r) : PDTipos::PDInstancia()
+
+	PseudoBitNot::PseudoBitNot(PDCadena a, PDCadena r) : PDTipos::PDInstancia()
 	{
 		this->res = r;
 		this->pa = a;
-		this->FijarClave(string("Negacion"),string("Bit"));
+		this->FijarClave("Negacion", "Bit");
 	}
 	PseudoBitNot::~PseudoBitNot(void)
 	{}
 	void PseudoBitNot::InscribirInstancia(PDvar::PDDatos* data)
 	{
-		long long int a = 0;
+		PDEntero a = 0;
 		a = cae(data->ObtenerVariable(this->pa));
 		data->ObtenerVariable(this->res) = eas(~a);
 	}

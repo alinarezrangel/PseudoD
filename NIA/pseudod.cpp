@@ -240,21 +240,37 @@ extern "C" void PDEjecutar(PDCadena o, std::istream& i)
 		v1 = cae(va);
 		v2 = cae(vb);
 		if(c == "=")
+		{
 			vr = ((v1 == v2)? PDDATA->VERDADERO : PDDATA->FALSO);
+		}
 		else if(c == "<")
+		{
 			vr = ((v1 < v2)? PDDATA->VERDADERO : PDDATA->FALSO);
+		}
 		else if(c == "<=")
+		{
 			vr = ((v1 <= v2)? PDDATA->VERDADERO : PDDATA->FALSO);
+		}
 		else if(c == ">")
+		{
 			vr = ((v1 > v2)? PDDATA->VERDADERO : PDDATA->FALSO);
+		}
 		else if(c == ">=")
+		{
 			vr = ((v1 >= v2)? PDDATA->VERDADERO : PDDATA->FALSO);
+		}
 		else if(c == "!=")
+		{
 			vr = ((v1 != v2)? PDDATA->VERDADERO : PDDATA->FALSO);
+		}
 		else if(c == "<?")
+		{
 			vr = eas(((v1 <= v2)? v1 : v2));
+		}
 		else if(c == "?>")
+		{
 			vr = eas(((v1 >= v2)? v1 : v2));
+		}
 		else
 		{
 			vr = PDDATA->ERROR;
@@ -333,21 +349,37 @@ extern "C" void PDEjecutar(PDCadena o, std::istream& i)
 		v1 = caf(va);
 		v2 = caf(vb);
 		if(c == "=")
+		{
 			vr = ((v1 == v2)? PDDATA->VERDADERO : PDDATA->FALSO);
+		}
 		else if(c == "<")
+		{
 			vr = ((v1 < v2)? PDDATA->VERDADERO : PDDATA->FALSO);
+		}
 		else if(c == "<=")
+		{
 			vr = ((v1 <= v2)? PDDATA->VERDADERO : PDDATA->FALSO);
+		}
 		else if(c == ">")
+		{
 			vr = ((v1 > v2)? PDDATA->VERDADERO : PDDATA->FALSO);
+		}
 		else if(c == ">=")
+		{
 			vr = ((v1 >= v2)? PDDATA->VERDADERO : PDDATA->FALSO);
+		}
 		else if(c == "!=")
+		{
 			vr = ((v1 != v2)? PDDATA->VERDADERO : PDDATA->FALSO);
+		}
 		else if(c == "<?")
+		{
 			vr = dac(((v1 <= v2)? v1 : v2));
+		}
 		else if(c == "?>")
+		{
 			vr = dac(((v1 >= v2)? v1 : v2));
+		}
 		else
 		{
 			vr = PDDATA->ERROR;

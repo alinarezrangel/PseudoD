@@ -9,22 +9,18 @@
 ****************************************************************************
 **************************************************************************/
 
-
 #ifndef __PSEUDOD_NEA_BIBLIOTECADINAMICA_HH__
 #define __PSEUDOD_NEA_BIBLIOTECADINAMICA_HH__ 1
+
 /**
 * @brief Aqui se encuentran todos lo referente a bibliotecas de carga dinamica.
 */
 namespace BibliotecaDinamica
 {
-	using namespace PDvar;
-	using namespace PDTipos;
-	using namespace std;
-
 	/**
 	* @brief Llama un modulo dinamico
 	*/
-	class PseudoLlamar : public PDInstancia
+	class PseudoLlamar : public PDTipos::PDInstancia
 	{
 		public:
 			/**
@@ -32,7 +28,7 @@ namespace BibliotecaDinamica
 			* @arg var Nombre de la instancia de BibliotecaDinamica
 			* @arg args Argumentos a pasar a la biblioteca
 			*/
-			PseudoLlamar(string var = "____", vector<string> args = vector<string>());
+			PseudoLlamar(PDCadena var = "____", std::vector<PDCadena> args = std::vector<PDCadena>());
 			/**
 			* @brief Destruye la instancia.
 			*/
@@ -41,21 +37,21 @@ namespace BibliotecaDinamica
 			* @brief Lee los parametros del flujo.
 			* @arg in Flujo del cual leer.
 			*/
-			void LeerParametros(istream& in);
+			void LeerParametros(std::istream& in);
 			/**
 			* @brief Ejecuta el llamado a la biblioteca dinamica.
 			* @arg data Memoria del interprete.
 			*/
-			void InscribirInstancia(PDDatos* data);
+			void InscribirInstancia(PDvar::PDDatos* data);
 		private:
-			string var;
-			vector<string> param;
+			PDCadena var;
+			std::vector<PDCadena> param;
 	};
 
 	/**
 	* @brief Llama a un modulo dinamico orientado a objetos.
 	*/
-	class PseudoLlamarOO : public PDInstancia
+	class PseudoLlamarOO : public PDTipos::PDInstancia
 	{
 		public:
 			/**
@@ -63,7 +59,7 @@ namespace BibliotecaDinamica
 			* @arg var Nombre de la instancia de BibliotecaDinamica
 			* @arg args Argumentos a pasar a la biblioteca
 			*/
-			PseudoLlamarOO(string var = "____", vector<string> args = vector<string>());
+			PseudoLlamarOO(PDCadena var = "____", std::vector<PDCadena> args = std::vector<PDCadena>());
 			/**
 			* @brief Destruye la instancia.
 			*/
@@ -72,15 +68,15 @@ namespace BibliotecaDinamica
 			* @brief Lee los parametros del flujo.
 			* @arg in Flujo del cual leer.
 			*/
-			void LeerParametros(istream& in);
+			void LeerParametros(std::istream& in);
 			/**
 			* @brief Ejecuta el llamado a la biblioteca dinamica.
 			* @arg data Memoria del interprete.
 			*/
-			void InscribirInstancia(PDDatos* data);
+			void InscribirInstancia(PDvar::PDDatos* data);
 		private:
-			string var;
-			vector<string> param;
+			PDCadena var;
+			std::vector<PDCadena> param;
 	};
 }
 

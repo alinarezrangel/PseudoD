@@ -14,54 +14,52 @@
 
 namespace Bit
 {
-	using namespace std;
-
 	class PseudoBitAnd : public PDTipos::PDInstancia
 	{
 		public:
-			PseudoBitAnd(std::string a = "", std::string b = "", std::string r = "");
+			PseudoBitAnd(PDCadena a = "", PDCadena b = "", PDCadena r = "");
 			virtual ~PseudoBitAnd(void);
 			virtual void InscribirInstancia(PDvar::PDDatos* data);
 			virtual void LeerParametros(std::istream& in);
 		private:
-			std::string res;
-			std::string pa;
-			std::string pb;
+			PDCadena res;
+			PDCadena pa;
+			PDCadena pb;
 	};
 	class PseudoBitOr : public PDTipos::PDInstancia
 	{
 		public:
-			PseudoBitOr(std::string a = "", std::string b = "", std::string r = "");
+			PseudoBitOr(PDCadena a = "", PDCadena b = "", PDCadena r = "");
 			virtual ~PseudoBitOr(void);
 			virtual void InscribirInstancia(PDvar::PDDatos* data);
 			virtual void LeerParametros(std::istream& in);
 		private:
-			std::string res;
-			std::string pa;
-			std::string pb;
+			PDCadena res;
+			PDCadena pa;
+			PDCadena pb;
 	};
 	class PseudoBitXor : public PDTipos::PDInstancia
 	{
 		public:
-			PseudoBitXor(std::string a = "", std::string b = "", std::string r = "");
+			PseudoBitXor(PDCadena a = "", PDCadena b = "", PDCadena r = "");
 			virtual ~PseudoBitXor(void);
 			virtual void InscribirInstancia(PDvar::PDDatos* data);
 			virtual void LeerParametros(std::istream& in);
 		private:
-			std::string res;
-			std::string pa;
-			std::string pb;
+			PDCadena res;
+			PDCadena pa;
+			PDCadena pb;
 	};
 	class PseudoBitNot : public PDTipos::PDInstancia
 	{
 		public:
-			PseudoBitNot(std::string a = "", std::string r = "");
+			PseudoBitNot(PDCadena a = "", PDCadena r = "");
 			virtual ~PseudoBitNot(void);
 			virtual void InscribirInstancia(PDvar::PDDatos* data);
 			virtual void LeerParametros(std::istream& in);
 		private:
-			std::string res;
-			std::string pa;
+			PDCadena res;
+			PDCadena pa;
 	};
 }
 

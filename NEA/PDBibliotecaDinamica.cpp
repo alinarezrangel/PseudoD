@@ -16,6 +16,7 @@
 	{
 		l.LeerParametros(i);
 		l.InscribirInstancia(PDDATA);
+		PSEUDOD_NEA_SALIR_PC;
 	}
 }
 {
@@ -24,5 +25,6 @@
 	{
 		l.LeerParametros(i);
 		l.InscribirInstancia(PDDATA);
+		PSEUDOD_NEA_SALIR_PC;
 	}
 }

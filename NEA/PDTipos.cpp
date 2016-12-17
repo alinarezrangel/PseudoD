@@ -16,6 +16,7 @@
 	{
 		arr.LeerParametros(i);
 		arr.InscribirInstancia(PDDATA);
+		PSEUDOD_NEA_SALIR_PC;
 	}
 }
 {
@@ -24,6 +25,7 @@
 	{
 		cls.LeerParametros(i);
 		cls.InscribirInstancia(PDDATA);
+		PSEUDOD_NEA_SALIR_PC;
 	}
 }
 {
@@ -32,6 +34,7 @@
 	{
 		rc.LeerParametros(i);
 		rc.InscribirInstancia(PDDATA);
+		PSEUDOD_NEA_SALIR_PC;
 	}
 }
 {
@@ -40,6 +43,7 @@
 	{
 		ae.LeerParametros(i);
 		ae.InscribirInstancia(PDDATA);
+		PSEUDOD_NEA_SALIR_PC;
 	}
 }
 {
@@ -48,6 +52,7 @@
 	{
 		db.LeerParametros(i);
 		db.InscribirInstancia(PDDATA);
+		PSEUDOD_NEA_SALIR_PC;
 	}
 }
 {
@@ -56,6 +61,7 @@
 	{
 		bv.LeerParametros(i);
 		bv.InscribirInstancia(PDDATA);
+		PSEUDOD_NEA_SALIR_PC;
 	}
 }
 {
@@ -64,6 +70,7 @@
 	{
 		h.LeerParametros(i);
 		h.InscribirInstancia(PDDATA);
+		PSEUDOD_NEA_SALIR_PC;
 	}
 }
 {
@@ -72,6 +79,7 @@
 	{
 		dp.LeerParametros(i);
 		dp.InscribirInstancia(PDDATA);
+		PSEUDOD_NEA_SALIR_PC;
 	}
 }
 {
@@ -80,6 +88,7 @@
 	{
 		pm.LeerParametros(i);
 		pm.InscribirInstancia(PDDATA);
+		PSEUDOD_NEA_SALIR_PC;
 	}
 }
 {
@@ -88,6 +97,7 @@
 	{
 		cc.LeerParametros(i);
 		cc.InscribirInstancia(PDDATA);
+		PSEUDOD_NEA_SALIR_PC;
 	}
 }
 {
@@ -96,5 +106,6 @@
 	{
 		cc.LeerParametros(i);
 		cc.InscribirInstancia(PDDATA);
+		PSEUDOD_NEA_SALIR_PC;
 	}
 }

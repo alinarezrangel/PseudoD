@@ -30,6 +30,8 @@
 #include "includefilelib.hh"
 #include "includefile.hh"
 
+#define PSEUDOD_NEA_SALIR_PC return
+
 extern PDvar::PDDatos* PDDATA;
 
 PDCadena PDS(PDCadena o);

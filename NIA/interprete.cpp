@@ -202,7 +202,7 @@ namespace pseudod
 		{
 			PDCadena var = "", bpalab = "", nombre_var = "", tipo_var = "", h = "";
 			std::vector<PDCadena> param;
-			int numeral = 0;
+			std::string::size_type numeral = 0;
 
 			e >> var >> bpalab;
 			PDCadena a = DATOS_INT.ObtenerVariable(var);
@@ -306,7 +306,7 @@ namespace pseudod
 		{
 			PDCadena variable1 = "", val = "";
 			bool cond = false;
-			int i = 0;
+			decltype(AMBITO)::size_type i = 0;
 			NMemonicoProxy ord;
 
 			e >> variable1;
@@ -517,4 +517,3 @@ namespace pseudod
 			procesar(p, entrada, ejecutar_nea);
 	}
 }
-

@@ -34,7 +34,19 @@ typedef void(*PDFuncionNEA)(PDCadena, std::istream&);
 typedef void (*PDFuncionNIA)(PDCadena, std::istream&, PDFuncionNEA);
 
 template<class T>
-int buscar(std::vector<T> a,T b);
+int buscar(std::vector<T> a, T b)
+{
+	int cc = a.size() - 1;
+	for(auto it = a.rbegin(); it != a.rend(); cc--, it++)
+	{
+		if(*it == b)
+		{
+			return cc;
+		}
+	}
+	return -1;
+}
+
 PDCadena eas(PDEntero i);
 PDCadena dac(PDDecimal i);
 PDEntero cae(PDCadena i);
