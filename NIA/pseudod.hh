@@ -24,6 +24,7 @@
 #include <cctype>
 #include <sstream>
 
+#include "NEA/interno/data.hh"
 #include "NEA/PDData.hh"
 
 #include "includefilelib.hh"

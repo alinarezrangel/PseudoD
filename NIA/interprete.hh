@@ -30,8 +30,9 @@ https://sourceforge.net/projects/pseudod/
 #include <exception>
 #include <dlfcn.h>
 
-#include "nmemoic.hh"
+#include "NEA/interno/data.hh"
 #include "NEA/PDData.hh"
+#include "nmemoic.hh"
 
 namespace pseudod
 {

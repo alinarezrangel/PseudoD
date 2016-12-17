@@ -23,6 +23,7 @@
 #include <algorithm>
 #include <dlfcn.h>
 
+#include "NEA/interno/data.hh"
 #include "NEA/PDData.hh"
 
 /**

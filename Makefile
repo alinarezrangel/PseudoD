@@ -6,47 +6,41 @@ endif
 ifndef CXX
 CXX = g++
 endif
-CFLAGS = -fPIC -O3 -I./ -I./NIA/
-SHARED = -shared
-LIBS = -Wl,--no-as-needed -ldl
-MEM = NEA/PDData.cpp
+NIAPATH=NIA
+NEAPATH=NEA
+CFLAGS=-fPIC -O3 -I./ -I./$(NIAPATH)/ -Wl,--no-as-needed
+SHARED=-shared
+LIBS=-ldl
 DEBUG=-g -Wall
 OPT=-O3
-# Fijar COMP a -DMINGW=1 o a -DNUMEROS_EN_C=1 para compilar en sistemas Microsoft
+COPT=-c
+CPPLANG=-std=c++11
 ifndef COMP
 COMP =
 endif
-# Fijar INTE a -DINTERACTIVO=1 para compilar un interactivo
-# y agrege -DMACOSX=1 para que PseudoD busque las bibliotecas en sistemas
-#  Mac OS X
-# TODO: Se modifico: ahora PseudoD genera el interactivo y el interprete de archivos de una vez,
-# no es necesaria la modificacion descrita en el README/LEEME/ESTRUCTURA para el interactivo
-# pero si es necesaria para compilar en Windows.
-#INTE = -DINTERACTIVO=1
 
-PseudoD: libpseudod.so libpseudodsrc.a NIA/Main.cpp libpseudodsrc.a
-	$(CXX) -std=c++11 $(DEBUG) $(OPT) $(CFLAGS) NIA/Main.cpp $(LIBS) libpseudodsrc.a -o PseudoD
+all: PseudoD libpseudod.so
 
-libpseudodsrc.a: Data.o pdbase.o nmemoic.o
-	ar -cvq libpseudodsrc.a Data.o pdbase.o nmemoic.o
+#nea_interno_data.o: $(NEAPATH)/interno/data.cpp $(NEAPATH)/interno/data.hh
+#	$(CXX) $(COPT) $(DEBUG) $(CPPLANG) $(OPT) $(CFLAGS) $< $(LIBS) -o $@
 
-pdbase.o: NIA/interprete.cpp
-	$(CXX) $(DEBUG) $(OPT) $(CFLAGS) -c -std=c++11 NIA/interprete.cpp $(LIBS) Data.o -o pdbase.o
+nea_pddata.o: $(NEAPATH)/PDData.cpp $(NEAPATH)/PDData.hh
+	$(CXX) $(COPT) $(DEBUG) $(CPPLANG) $(OPT) $(CFLAGS) $< $(LIBS) -o $@
 
-libpseudod.so: NIA/pseudod.cpp NIA/pseudod.hh Data.o
-	$(CXX) $(DEBUG) $(OPT) $(CFLAGS) $(SHARED) -std=c++11 NIA/pseudod.cpp $(LIBS) Data.o -o libpseudod.so
+nia_nmemonic.o: $(NIAPATH)/nmemoic.cpp $(NIAPATH)/nmemoic.hh
+	$(CXX) $(COPT) $(DEBUG) $(CPPLANG) $(OPT) $(CFLAGS) $< $(LIBS) -o $@
 
-Data.o: $(MEM) NEA/PDData.hh
-	$(CXX) $(DEBUG) $(OPT) $(CFLAGS) -c -std=c++11 $(MEM) $(LIBS) $(COMP) -o Data.o
+nia_interprete.o: $(NIAPATH)/interprete.cpp $(NIAPATH)/interprete.hh
+	$(CXX) $(COPT) $(DEBUG) $(CPPLANG) $(OPT) $(CFLAGS) $< $(LIBS) -o $@
 
-nmemoic.o: Data.o
-	$(CXX) $(DEBUG) $(OPT) $(CFLAGS) -c -std=c++11 NIA/nmemoic.cpp $(LIBS) $(COMP) -o nmemoic.o
+libpseudodsrc.a: nea_pddata.o nia_nmemonic.o nia_interprete.o #nia_interno_data.o
+	ar -cvr $@ $^
+
+libpseudod.so: $(NIAPATH)/pseudod.cpp $(NIAPATH)/pseudod.hh $(NIAPATH)/codefile.cpp $(NIAPATH)/definitionfile.cpp $(NIAPATH)/includefile.hh $(NIAPATH)/includefilelib.hh libpseudodsrc.a
+	$(CXX) $(DEBUG) $(CPPLANG) $(OPT) $(SHARED) $(CFLAGS) $< libpseudodsrc.a $(LIBS) -o $@
+
+PseudoD: $(NIAPATH)/Main.cpp libpseudodsrc.a
+	$(CXX) $(DEBUG) $(CPPLANG) $(OPT) $(CFLAGS) $< libpseudodsrc.a $(LIBS) -o $@
 
 clean:
-	rm Data.o
-	rm pdbase.o
-	rm libpseudodsrc.a
-	rm nmemoic.o
-	rm PseudoD
-	rm libpseudod.so
-
+	rm nea_interno_data.o nea_pddata.o nia_nmemonic.o nia_interprete.o libpseudodsrc.a libpseudod.so PseudoD
