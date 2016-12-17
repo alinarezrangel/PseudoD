@@ -71,7 +71,7 @@ fijar DOS a {2}
 
 [DOCUMENTA
 @brief Es el numero 3.
-Tal como el DOS, el TRES es utilizado para tercios y triples.
+Tal como el <DOS>, el TRES es utilizado para tercios y triples.
 DOCUMENTA]
 adquirir TRES [ Para tercios ]
 fijar TRES a {3}
@@ -94,6 +94,10 @@ puntero RUTA_BEPD __LIB__
 @brief Es la clase base de PseudoD.
 Define atributos basicos, que PseudoD utiliza. Dado esto,
 se recomienda que todas las clases hereden a esta para evitar errores.
+
+NOMBRE es el nombre de la variable en un atributo.
+
+Tipo es el nombre de su clase.
 DOCUMENTA]
 clase Objeto
 	NOMBRE
