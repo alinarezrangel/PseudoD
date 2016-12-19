@@ -12,55 +12,55 @@
 
 namespace PDTipos
 {
-	PDOrden::PDOrden() : PDObjeto()
+	PDOrden::PDOrden(void) : PDvar::PDObjeto()
 	{
 		this->clave = "NO FIJADA";
 	}
 
-	PDOrden::~PDOrden()
+	PDOrden::~PDOrden(void)
 	{
 		// nada
 	}
 
-	string PDOrden::ObtenerClave()
+	PDCadena PDOrden::ObtenerClave(void)
 	{
 		return this->clave;
 	}
 
-	void PDOrden::LeerParametros(istream& in)
+	void PDOrden::LeerParametros(std::istream& in)
 	{
 		return;
 	}
 
-	void PDOrden::FijarClave(string cl,string pack)
+	void PDOrden::FijarClave(PDCadena cl, PDCadena pack)
 	{
-		this->clave = pack + string(".") + cl;
+		this->clave = pack + "." + cl;
 	}
 
-	PseudoArray::PseudoArray(string nom, int can) : PDInstancia()
+	PseudoArray::PseudoArray(PDCadena nom, int can) : PDInstancia()
 	{
 		this->cant = can;
 		this->nm = nom;
-		this->FijarClave(string("Array"),string("Tipos"));
+		this->FijarClave("Array", "Tipos");
 	}
 
-	PseudoArray::~PseudoArray()
+	PseudoArray::~PseudoArray(void)
 	{
 		//~~~~~~nada
 	}
 
-	void PseudoArray::InscribirInstancia(PDDatos* data)
+	void PseudoArray::InscribirInstancia(PDvar::PDDatos* data)
 	{
-		data->CrearVariable(this->nm + string("#longitud."));
-		string& r = data->ObtenerVariable(this->nm + string("#longitud."));
+		data->CrearVariable(this->nm + "#longitud.");
+		PDCadena& r = data->ObtenerVariable(this->nm + "#longitud.");
 		r = eas(this->cant);
-		for(int  i = 0; i < this->cant;i++)
+		for(int i = 0; i < this->cant; i++)
 		{
-			data->CrearVariable(this->nm + string("#(") + eas(i) + string(")"));
+			data->CrearVariable(this->nm + "#(" + eas(i) + ")");
 		}
 	}
 
-	void PseudoArray::LeerParametros(istream& in)
+	void PseudoArray::LeerParametros(std::istream& in)
 	{
 		if(!(in >> this->nm >> this->cant))
 		{
@@ -74,31 +74,32 @@ namespace PDTipos
 		}
 	}
 
-	PseudoClase::PseudoClase(string nm,vector<string> mt) : PDInstancia()
+	PseudoClase::PseudoClase(PDCadena nm, std::vector<PDCadena> mt)
+		: PDInstancia()
 	{
 		this->nm = nm;
 		this->methods = mt;
-		this->FijarClave(string("Estructura"),string("Tipos"));
+		this->FijarClave("Estructura", "Tipos");
 	}
 
-	PseudoClase::~PseudoClase()
+	PseudoClase::~PseudoClase(void)
 	{
 		//NADA
 	}
 
-	void PseudoClase::InscribirInstancia(PDDatos* data)
+	void PseudoClase::InscribirInstancia(PDvar::PDDatos* data)
 	{
 		data->CrearVariable(this->nm);
 		data->ObtenerVariable(this->nm) = "";
-		for(int i = 0;i < this->methods.size();i++)
+		for(decltype(this->methods)::size_type i = 0; i < this->methods.size(); i++)
 		{
 			data->ObtenerVariable(this->nm) += this->methods[i] + " ";
 		}
-		data->CrearVariable(this->nm + string("#Tipo"));
-		data->ObtenerVariable(this->nm + string("#Tipo")) = this->nm;
+		data->CrearVariable(this->nm + "#Tipo");
+		data->ObtenerVariable(this->nm + "#Tipo") = this->nm;
 	}
 
-	void PseudoClase::LeerParametros(istream& in)
+	void PseudoClase::LeerParametros(std::istream& in)
 	{
 		if(!(in >> this->nm))
 		{
@@ -110,7 +111,7 @@ namespace PDTipos
 				+ " nm ... FIN' alias 'clase nm ... FIN': EOF inesperado"
 			);
 		}
-		string b;
+		PDCadena b = "";
 		if(!(in >> b))
 		{
 			throw PDvar::ErrorDeSintaxis(
@@ -121,7 +122,7 @@ namespace PDTipos
 				+ " nm ... FIN' alias 'clase nm ... FIN': EOF inesperado"
 			);
 		}
-		while((b != "#(Final).")&&(b != "finclase"))
+		while((b != "#(Final).") && (b != "finclase"))
 		{
 			this->methods.push_back(b);
 			if(!(in >> b))
@@ -137,25 +138,27 @@ namespace PDTipos
 		}
 	}
 
-	PseudoReferenciaClase::PseudoReferenciaClase(string n,string i) : PDInstancia()
+	PseudoReferenciaClase::PseudoReferenciaClase(PDCadena n, PDCadena i)
+		: PDInstancia()
 	{
 		this->nm = n;
 		this->ni = i;
-		this->FijarClave(string("Instancia"),string("Tipos"));
+		this->FijarClave("Instancia", "Tipos");
 	}
 
-	PseudoReferenciaClase::~PseudoReferenciaClase()
+	PseudoReferenciaClase::~PseudoReferenciaClase(void)
 	{
 		//NADA
 	}
 
-	void PseudoReferenciaClase::InscribirInstancia(PDDatos* data)
+	void PseudoReferenciaClase::InscribirInstancia(PDvar::PDDatos* data)
 	{
 		data->CrearVariable(this->ni);
 		data->ObtenerVariable(this->ni) = this->ni;
 
-		string buff = "";
-		for(int i = 0;i < data->ObtenerVariable(this->nm).size();i++)
+		PDCadena buff = "";
+		PDCadena& nms = data->ObtenerVariable(this->nm);
+		for(PDCadena::size_type i = 0; i < nms.size(); i++)
 		{
 			if(data->ObtenerVariable(this->nm)[i] == ' ')
 			{
@@ -170,38 +173,42 @@ namespace PDTipos
 			this->methods.push_back(buff);
 		buff = "";
 
-		for(int i = 0;i < this->methods.size();i++)
+		for(decltype(this->methods)::size_type i = 0; i < this->methods.size(); i++)
 		{
 			if(this->methods[i][0] == ';')
 			{
-				this->methods[i].replace(0,1,"");
-				data->CrearVariable(this->ni + string("#") + this->methods[i], false,0);
+				this->methods[i].replace(0, 1, "");
+				data->CrearVariable(this->ni + "#" + this->methods[i], false, 0);
 			}
 			else if(this->methods[i][0] == ':')
 			{
-				this->methods[i].replace(0,1,"");
-				data->CrearVariable(this->ni + string("#") + this->methods[i], false,0);
-				data->CrearVariable(this->ni + string("#") + this->methods[i] + string("#cod"), false,0);
+				this->methods[i].replace(0, 1, "");
+				data->CrearVariable(this->ni + "#" + this->methods[i], false, 0);
+				data->CrearVariable(
+					this->ni + "#" + this->methods[i] + "#cod",
+					false,
+					0
+				);
 				// No tiene sentido tener una copia de cada metodo de la instancia,
 				// En cambio, puedes tener un puntero al metodo, que ocupa menos
 				// espacio.
-				data->ObtenerIndicePuntero(this->ni + string("#") + this->methods[i])
-					= data->BuscarIndice(true, this->nm + string("#")
+				data->ObtenerIndicePuntero(this->ni + "#" + this->methods[i])
+					= data->BuscarIndice(true, this->nm + "#"
 							+ this->methods[i]);
-				data->ObtenerIndicePuntero(this->ni + string("#") + this->methods[i] + string("#cod"))
-					= data->BuscarIndice(true, this->nm + string("#")
+				data->ObtenerIndicePuntero(this->ni + "#" + this->methods[i] + "#cod")
+					= data->BuscarIndice(true, this->nm + "#"
 							+ this->methods[i]);
 			}
 			else
 			{
-				data->CrearVariable(this->ni+string("#")+this->methods[i]);
+				data->CrearVariable(this->ni + "#" + this->methods[i]);
 			}
 		}
-		data->ObtenerVariable(this->ni+"#NOMBRE") = this->ni;
-		data->ObtenerVariable(this->ni+"#Tipo") = this->nm;
+		data->ObtenerVariable(this->ni + "#NOMBRE") = this->ni;
+		data->ObtenerVariable(this->ni + "#Tipo") = this->nm;
 	}
 
-	void PseudoReferenciaClase::LeerParametros(istream& in)
+	void PseudoReferenciaClase::LeerParametros(std::istream& in)
 	{
 		if(!(in >> this->nm >> this->ni))
 		{
@@ -216,184 +223,216 @@ namespace PDTipos
 		}
 	}
 
-	void PseudoDebug::InscribirInstancia(PDDatos* data)
+	void PseudoDebug::InscribirInstancia(PDvar::PDDatos* data)
 	{
-		cout << endl << "@ Debugger(depurador) de PseudoD" << endl;
-		cout << "@ Al salir con la orden salir se seguira ejecutando el programa" << endl;
-		cout << "@ Puedes ver la ayuda con \'ayuda\'" << endl;
-		string i;
+		std::cout << std::endl << "@ Debugger(depurador) de PseudoD" << std::endl;
+		std::cout
+			<< "@ Al salir con la orden salir se seguira ejecutando el programa"
+			<< std::endl;
+		std::cout << "@ Puedes ver la ayuda con \'ayuda\'" << std::endl;
+		PDCadena i = "";
 		// Reconstuccion total del depurador
 		while(i != "salir")
 		{
 			try
 			{
-				cout << "@ DEBUG>> ";
-				cin >> i;
+				std::cout << "@ DEBUG>> ";
+				std::cin >> i;
 				if(i == "variable")
 				{
-					string var;
-					cin >> var;
-					string val = data->ObtenerVariable(var);
-					cout << "La variable,(o puntero) " << var << " posee el valor \"" << val << "\"" << endl;
+					PDCadena var;
+					std::cin >> var;
+					PDCadena val = data->ObtenerVariable(var);
+					std::cout << "La variable (o puntero) " << var
+						<< " posee el valor \"" << val << "\"" << std::endl;
 				}
 				else if(i == "puntero")
 				{
-					string ptr,vptr,nvar;
+					PDCadena ptr = "", vptr = "", nvar = "";
 					int iptr;
-					cin >> ptr;
+					std::cin >> ptr;
 					vptr = data->ObtenerVariable(ptr);
 					iptr = data->ObtenerIndicePuntero(ptr);
 					if(iptr != -1)
 						nvar = (*data->nombrev)[iptr];
-					cout << "El puntero " << ptr << " posee el valor,(apuntado) \"" << vptr << "\"" << endl
-					 << " y apunta a la direccion [" << iptr << "] del campo de variables." << endl
-					 << "La variable apuntada es {" << nvar << "}" << endl;
+					std::cout << "El puntero " << ptr << " posee el valor (apuntado) \""
+						<< vptr << "\"" << std::endl
+						<< " y apunta a la direccion [" << iptr
+						<< "] del campo de variables." << std::endl
+						<< "La variable apuntada es {" << nvar << "}" << std::endl;
 				}
 				else if(i == "pila")
 				{
 					int pil;
-					cin >> pil;
-					if((pil < 0)||(pil > (*data->pilas).size()))
+					std::cin >> pil;
+					if((pil < 0) || (pil > (*data->pilas).size()))
 					{
-						cout << "NO EXISTE" << endl;
+						std::cout << "NO EXISTE" << std::endl;
 					}
 					auto buffer = (*data->pilas)[pil];
-					cout << "+----------PILA " << pil << "--------+" << endl;
+					std::cout << "+----------PILA " << pil << "--------+" << std::endl;
 					while(!buffer.empty())
 					{
-						cout << "|" << std::setw(24) << std::setfill(' ') << std::right << buffer.top() << "|" << endl;
+						std::cout
+							<< "|"
+							<< std::setw(24)
+							<< std::setfill(' ')
+							<< std::right
+							<< buffer.top()
+							<< "|"
+							<< std::endl;
 						buffer.pop();
 					}
 				}
 				else if(i == "numero-de")
 				{
-					string que;
-					cin >> que;
+					PDCadena que = "";
+					std::cin >> que;
 					if(que == "variables")
 					{
-						cout << "Hay " << (*data->nombrev).size() << " variables" << endl;
+						std::cout << "Hay " << (*data->nombrev).size() << " variables"
+							<< std::endl;
 					}
 					if(que == "punteros")
 					{
-						cout << "Hay " << (*data->nombrep).size() << " punteros" << endl;
+						std::cout << "Hay " << (*data->nombrep).size() << " punteros"
+							<< std::endl;
 					}
 					if(que == "pilas")
 					{
-						cout << "Hay " << (*data->pilas).size() << " pilas" << endl;
+						std::cout << "Hay " << (*data->pilas).size() << " pilas"
+							<< std::endl;
 					}
 				}
 				else if(i == "ejecutar")
 				{
-					string ord;
-					getline(cin,ord,'\n');
+					PDCadena ord = "";
+					std::getline(std::cin, ord, '\n');
 					data->Ejecutar(ord);
 				}
 				else if(i == "instancia")
 				{
-					cout << "Advertencia: la instancia debe poseer los atributos fundamentales..." << endl;
-					string var = "", est = "";
-					cin >> var;
-					est = data->ObtenerVariable(var + string("#Tipo"));
-					cout << "La instancia del tipo " << est << " nombrada " << var << " tiene los campos:" << endl;
-					cout << "    [VALOR BRUTO]  =  " << data->ObtenerVariable(var) << endl;
+					std::cout
+						<< "Advertencia: la instancia debe poseer los atributos"
+						<< "fundamentales..." << std::endl;
+					PDCadena var = "", est = "";
+					std::cin >> var;
+					est = data->ObtenerVariable(var + "#Tipo");
+					std::cout << "La instancia del tipo " << est << " nombrada "
+						<< var << " tiene los campos:" << std::endl;
+					std::cout << "    [VALOR BRUTO]  =  "
+						<< data->ObtenerVariable(var) << std::endl;
 					std::istringstream iss(data->ObtenerVariable(est));
 					while(iss >> est)
 					{
 						bool igcnt = false;
-						cout << "    ";
+						std::cout << "    ";
 						if(est.front() == ':')
 						{
-							cout << " [METODO] ";
+							std::cout << " [METODO] ";
 							igcnt = true;
 						}
 						if(est.front() == ';')
-							cout << " [PUNTERO] ";
+							std::cout << " [PUNTERO] ";
 						if((est.front() == ':') || (est.front() == ';'))
 						{
 							est = est.substr(1, est.size());
 						}
-						string cnt = data->ObtenerVariable(var + "#" + est);
+						PDCadena cnt = data->ObtenerVariable(var + "#" + est);
 						if(cnt.size() > 80)
 						{
 							igcnt = true; // Contenido muy largo, ver con <variable a#b>
 						}
-						cout << est;
+						std::cout << est;
 						if(!igcnt)
 						{
-							cout << " = " << cnt;
+							std::cout << " = " << cnt;
 						}
-						cout << endl;
+						std::cout << std::endl;
 					}
 				}
 				else if(i == "clase")
 				{
-					string est = "";
-					cin >> est;
-					cout << "La clase " << est << " tiene los siguientes campos:" << endl;
+					PDCadena est = "";
+					std::cin >> est;
+					std::cout << "La clase " << est << " tiene los siguientes campos:"
+						<< std::endl;
 					std::istringstream iss(data->ObtenerVariable(est));
 					while(iss >> est)
 					{
-						cout << " " << est << endl;
+						std::cout << " " << est << std::endl;
 					}
 				}
 				else if(i == "ayuda")
 				{
-					cout << "Ayuda del depurador de PseudoD" << endl;
-					cout << " Importar.PseudoD.debug" << endl;
-					cout << "Comandos:" << endl;
-					cout << " variable [n]: ver la variable [n]" << endl;
-					cout << " puntero [p]: ver el puntero [p]" << endl;
-					cout << " pila [l]: ver la pila [l]" << endl;
-					cout << " numero-de [q]: ver la cantidad de [q], donde [q] puede" << endl;
-					cout << "                ser (variables|punteros|pilas)" << endl;
-					cout << " instancia [i]: ver la instancia [i](tipo auto-detectado)" << endl;
-					cout << " clase [c]: ver la clase [c]" << endl;
-					cout << " salir: sale del depurador" << endl;
-					cout << " ayuda: muestra esta ayuda" << endl;
-					cout << " volcar [q]: volcar todas los [q] de memoria, donde [q] puede ser" << endl;
-					cout << "             (variables|punteros|pilas)" << endl;
-					cout << " ejecutar [orden]: ejecuta el resto de la línea como código en PseudoD" << endl;
-					cout << "Ejecución automatica:" << endl;
-					cout << " Si el depurador no comprende alguna de las ordenes, por" << endl;
-					cout << " defecto, ejecutará la linea con PseudoD." << endl;
-					cout << endl;
-					cout << " Si, por ejemplo: deseas llamar a una función," << endl;
-					cout << " solo escribes: \'llamar [fnc]... #(Final).\'" << endl;
+					std::cout << "Ayuda del depurador de PseudoD" << std::endl;
+					std::cout << " Importar.PseudoD.debug" << std::endl;
+					std::cout << "Comandos:" << std::endl;
+					std::cout << " variable [n]: ver la variable [n]" << std::endl;
+					std::cout << " puntero [p]: ver el puntero [p]" << std::endl;
+					std::cout << " pila [l]: ver la pila [l]" << std::endl;
+					std::cout << " numero-de [q]: ver la cantidad de [q], donde [q] puede"
+						<< std::endl;
+					std::cout << "                ser (variables|punteros|pilas)"
+						<< std::endl;
+					std::cout
+						<< " instancia [i]: ver la instancia [i](tipo auto-detectado)"
+						<< std::endl;
+					std::cout << " clase [c]: ver la clase [c]" << std::endl;
+					std::cout << " salir: sale del depurador" << std::endl;
+					std::cout << " ayuda: muestra esta ayuda" << std::endl;
+					std::cout
+						<< " volcar [q]: volcar todas los [q] de memoria,"
+						<< "donde [q] puede ser" << std::endl;
+					std::cout << "             (variables|punteros|pilas)" << std::endl;
+					std::cout << " ejecutar [orden]: ejecuta el resto de la"
+						<< "línea como código en PseudoD" << std::endl;
+					std::cout << "Ejecución automatica:" << std::endl;
+					std::cout
+						<< " Si el depurador no comprende alguna de las ordenes, por"
+						<< std::endl;
+					std::cout << " defecto, ejecutará la linea con PseudoD." << std::endl;
+					std::cout << std::endl;
+					std::cout << " Si, por ejemplo: deseas llamar a una función,"
+						<< std::endl;
+					std::cout << " solo escribes: \'llamar [fnc]... finargs\'"
+						<< std::endl;
 				}
 				else if(i != "salir")
 				{
-					data->Ejecutar(i, cin);
+					data->Ejecutar(i, std::cin);
 				}
 			}
 			catch(const PDvar::Error& e)
 			{
-				cerr << "PseudoD lanzo un error fatal: " << e.Mensaje() << endl;
-				cerr << "EN " << data->ObtenerVariable("__ARCH__") << endl;
-				cerr << "Captado por el debugger" << endl;
+				std::cerr << "PseudoD lanzo un error fatal: " << e.Mensaje() << std::endl;
+				std::cerr << "EN " << data->ObtenerVariable("__ARCH__") << std::endl;
+				std::cerr << "Captado por el debugger" << std::endl;
 			}
 			catch(const std::exception& e)
 			{
-				cerr << "PseudoD lanzo un error fatal: " << e.what() << endl;
-				cerr << "EN " << data->ObtenerVariable("__ARCH__") << endl;
-				cerr << "Captado por el debugger" << endl;
+				std::cerr << "PseudoD lanzo un error fatal: " << e.what() << std::endl;
+				std::cerr << "EN " << data->ObtenerVariable("__ARCH__") << std::endl;
+				std::cerr << "Captado por el debugger" << std::endl;
 			}
 		}
 	}
 
-	PseudoArrayEstructura::PseudoArrayEstructura(string na,string ne,int ta) : PDInstancia()
+	PseudoArrayEstructura::PseudoArrayEstructura(PDCadena na, PDCadena ne, int ta)
+		: PDInstancia()
 	{
-		this->nme=ne;
-		this->nma=na;
-		this->tma=ta;
-		this->FijarClave(string("EstrucArray"),string("Tipos"));
+		this->nme = ne;
+		this->nma = na;
+		this->tma = ta;
+		this->FijarClave("EstrucArray", "Tipos");
 	}
 
-	PseudoArrayEstructura::~PseudoArrayEstructura()
+	PseudoArrayEstructura::~PseudoArrayEstructura(void)
 	{
 		//NADA
 	}
 
-	void PseudoArrayEstructura::LeerParametros(istream& in)
+	void PseudoArrayEstructura::LeerParametros(std::istream& in)
 	{
 		if(!(in >> this->nme >> this->nma >> this->tma))
 		{
@@ -407,34 +446,36 @@ namespace PDTipos
 		}
 	}
 
-	void PseudoArrayEstructura::InscribirInstancia(PDDatos* data)
+	void PseudoArrayEstructura::InscribirInstancia(PDvar::PDDatos* data)
 	{
 		int tme = cae(data->ObtenerVariable(this->nme));
 		int tmt = tme + this->tma + 1;// El 1 es de estruc#array#longitud
-		data->ObtenerVariable(this->nme) = eas(tmt+1);
+		data->ObtenerVariable(this->nme) = eas(tmt + 1);
 		int ind = 0;
 		for(int i = tme; i < tmt; i++)
 		{
-			data->CrearVariable(this->nme+string("#(")+eas(i)+string(")."));
-			data->ObtenerVariable(this->nme+string("#(")+eas(i)+string(").")) = this->nma+string("#(")+eas(ind)+string(")");
+			data->CrearVariable(this->nme + "#(" + eas(i) + ").");
+			data->ObtenerVariable(this->nme + "#(" + eas(i) + ").")
+				= this->nma + "#(" + eas(ind) + ")";
 			ind++;
 		}
-		data->CrearVariable(this->nme+string("#(")+eas(tmt)+string(")."));
-		data->ObtenerVariable(this->nme+string("#(")+eas(tmt)+string(")."))=this->nma+string("#longitud");
+		data->CrearVariable(this->nme + "#(" + eas(tmt) + ").");
+		data->ObtenerVariable(this->nme + "#(" + eas(tmt) + ").")
+			= this->nma + "#longitud";
 	}
 
-	PseudoBorrarVariable::PseudoBorrarVariable(string n) : PDInstancia()
+	PseudoBorrarVariable::PseudoBorrarVariable(PDCadena n) : PDInstancia()
 	{
 		this->nm = n;
-		this->FijarClave(string("BorrarSimple"),string("Tipos"));
+		this->FijarClave("BorrarSimple", "Tipos");
 	}
 
-	PseudoBorrarVariable::~PseudoBorrarVariable()
+	PseudoBorrarVariable::~PseudoBorrarVariable(void)
 	{
 		//NADA
 	}
 
-	void PseudoBorrarVariable::LeerParametros(istream& in)
+	void PseudoBorrarVariable::LeerParametros(std::istream& in)
 	{
 		if(!(in >> this->nm))
 		{
@@ -449,7 +490,7 @@ namespace PDTipos
 		}
 	}
 
-	void PseudoBorrarVariable::InscribirInstancia(PDDatos* data)
+	void PseudoBorrarVariable::InscribirInstancia(PDvar::PDDatos* data)
 	{
 		int i = data->BuscarIndice(true, this->nm);
 		if(i == -1)
@@ -477,19 +518,19 @@ namespace PDTipos
 		}
 	}
 
-	PseudoHerencia::PseudoHerencia(string b,string h)
+	PseudoHerencia::PseudoHerencia(PDCadena b, PDCadena h)
 	{
 		this->nmb = b;
 		this->nmh = h;
-		this->FijarClave(string("Heredar"),string("Tipos"));
+		this->FijarClave("Heredar", "Tipos");
 	}
 
-	PseudoHerencia::~PseudoHerencia()
+	PseudoHerencia::~PseudoHerencia(void)
 	{
 		//NADA
 	}
 
-	void PseudoHerencia::LeerParametros(istream& in)
+	void PseudoHerencia::LeerParametros(std::istream& in)
 	{
 		if(!(in >> this->nmb >> this->nmh))
 		{
@@ -503,30 +544,31 @@ namespace PDTipos
 		}
 	}
 
-	void PseudoHerencia::InscribirInstancia(PDDatos* data)
+	void PseudoHerencia::InscribirInstancia(PDvar::PDDatos* data)
 	{
-		string& base = data->ObtenerVariable(this->nmb);
-		string& hija = data->ObtenerVariable(this->nmh);
-		string curr_mtd = "";
-		for(int i = 0;i < base.size();i++)
+		PDCadena& base = data->ObtenerVariable(this->nmb);
+		PDCadena& hija = data->ObtenerVariable(this->nmh);
+		PDCadena curr_mtd = "";
+		for(PDCadena::size_type i = 0; i < base.size(); i++)
 		{
 			if(base[i] == ' ')
 			{
-				if((curr_mtd.front() == ':')&&(hija.find(curr_mtd.c_str()) == string::npos))
+				if((curr_mtd.front() == ':')
+					&& (hija.find(curr_mtd.c_str()) == PDCadena::npos))
 				{
 					// Crear una funcion llamada Hija#Metodo que sea igual a Base#Metodo
-					curr_mtd.replace(0,1,"");
-					string hija_mtd = this->nmh + string("#") + curr_mtd;
-					string base_mtd = this->nmb + string("#") + curr_mtd;
-					data->CrearVariable(hija_mtd, true,0);
-					data->CrearVariable(hija_mtd + "#NOMBRE", true,0);
-					data->CrearVariable(hija_mtd + "#Tipo", true,0);
-					data->CrearVariable(hija_mtd + string("#cod"), true,0);
+					curr_mtd.replace(0, 1, "");
+					PDCadena hija_mtd = this->nmh + "#" + curr_mtd;
+					PDCadena base_mtd = this->nmb + "#" + curr_mtd;
+					data->CrearVariable(hija_mtd, true, 0);
+					data->CrearVariable(hija_mtd + "#NOMBRE", true, 0);
+					data->CrearVariable(hija_mtd + "#Tipo", true, 0);
+					data->CrearVariable(hija_mtd + "#cod", true, 0);
 					data->ObtenerVariable(hija_mtd)
 						= data->ObtenerVariable(base_mtd);
 					data->ObtenerVariable(hija_mtd + "#NOMBRE") = hija_mtd;
 					data->ObtenerVariable(hija_mtd + "#Tipo") = "PseudoFuncion";
-					data->ObtenerIndicePuntero(hija_mtd + string("#cod"))
+					data->ObtenerIndicePuntero(hija_mtd + "#cod")
 						= data->BuscarIndice(true, hija_mtd);
 				}
 				curr_mtd = "";
@@ -537,19 +579,20 @@ namespace PDTipos
 		hija += base;
 	}
 
-	PseudoDireccionarPuntero::PseudoDireccionarPuntero(string p,string v) : PDInstancia()
+	PseudoDireccionarPuntero::PseudoDireccionarPuntero(PDCadena p, PDCadena v)
+		: PDInstancia()
 	{
 		this->nmp = p;
 		this->nmv = v;
-		this->FijarClave(string("Redireccionar"),string("Tipos"));
+		this->FijarClave("Redireccionar", "Tipos");
 	}
 
-	PseudoDireccionarPuntero::~PseudoDireccionarPuntero()
+	PseudoDireccionarPuntero::~PseudoDireccionarPuntero(void)
 	{
 		// NADA
 	}
 
-	void PseudoDireccionarPuntero::LeerParametros(istream& in)
+	void PseudoDireccionarPuntero::LeerParametros(std::istream& in)
 	{
 		if(!(in >> this->nmp >> this->nmv))
 		{
@@ -563,9 +606,9 @@ namespace PDTipos
 		}
 	}
 
-	void PseudoDireccionarPuntero::InscribirInstancia(PDDatos* data)
+	void PseudoDireccionarPuntero::InscribirInstancia(PDvar::PDDatos* data)
 	{
-		int oi;
+		int oi = 0;
 		if(data->BuscarIndice(false, this->nmp) == -1)
 		{
 			throw PDvar::ErrorDelNucleo(
@@ -590,34 +633,37 @@ namespace PDTipos
 		data->ObtenerIndicePuntero(this->nmp) = oi;
 	}
 
-	PseudoMientras::PseudoMientras(string v,string o,string f) : PDInstancia()
+	PseudoMientras::PseudoMientras(PDCadena v, PDCadena o, PDCadena f)
+		: PDInstancia()
 	{
 		this->nmv = v;
 		this->func = f;
 		this->orden = o;
-		this->FijarClave(string("Mientras"),string("PseudoD"));
+		this->FijarClave("Mientras", "PseudoD");
 	}
-	PseudoMientras::~PseudoMientras()
+	PseudoMientras::~PseudoMientras(void)
 	{
 		// NADA
 	}
 
-	void PseudoMientras::LeerParametros(istream& in)
+	void PseudoMientras::LeerParametros(std::istream& in)
 	{
 		in >> this->nmv;
-		getline(in,this->orden,'\n');
-		vector<string> lineas;
-		string lin = "";
+		std::getline(in,this->orden,'\n');
+		std::vector<PDCadena> lineas;
+		PDCadena lin = "";
 		int mientras = 1;
 		while(mientras > 0)
 		{
-			getline(in,lin,'\n');
+			std::getline(in, lin, '\n');
 			lineas.push_back(lin);
 			lin.erase(std::remove_if(lin.begin(),
 				lin.end(),
 				[](char x){return std::isspace(x);}),
 				lin.end());
-			if((string(lin.substr(0,string("mientras").size())) == "mientras") || (string(lin.substr(0,string("Importar.PseudoD.mientras").size())) == "Importar.PseudoD.mientras"))
+			if((PDCadena(lin.substr(0, PDCadena("mientras").size())) == "mientras")
+				|| (PDCadena(lin.substr(0, PDCadena("Importar.PseudoD.mientras").size()))
+					== "Importar.PseudoD.mientras"))
 			{
 				mientras++;
 			}
@@ -627,44 +673,49 @@ namespace PDTipos
 			}
 		}
 		this->func = "";
-		for(int i = 0;i < lineas.size();i++)
+		for(decltype(lineas)::size_type i = 0; i < lineas.size(); i++)
 		{
 			this->func += lineas[i] + "\n";
 		}
 	}
 
-	void PseudoMientras::InscribirInstancia(PDDatos* data)
+	void PseudoMientras::InscribirInstancia(PDvar::PDDatos* data)
 	{
-		istringstream sin(this->orden);
-		string res = ValorDelToken(this->nmv,sin,data);
+		std::istringstream sin(this->orden);
+		PDCadena res = PDvar::ValorDelToken(this->nmv, sin, data);
 		while(res == "verdadero")
 		{
-			string pal;
-			istringstream sin2(this->func);
+			PDCadena pal = "";
+			std::istringstream sin2(this->func);
 			while(sin2 >> pal)
 			{
-				data->Ejecutar(pal,sin2);
+				data->Ejecutar(pal, sin2);
 			}
-			istringstream sin3(this->orden);
-			res = ValorDelToken(this->nmv,sin3,data);
+			std::istringstream sin3(this->orden);
+			res = PDvar::ValorDelToken(this->nmv, sin3, data);
 		}
 	}
 
-	PseudoClaseContenida::PseudoClaseContenida(string es,string tp,string cm,bool pn) : PDInstancia()
+	PseudoClaseContenida::PseudoClaseContenida(
+		PDCadena es,
+		PDCadena tp,
+		PDCadena cm,
+		bool pn)
+		: PDInstancia()
 	{
 		this->nme = es; // estructura
 		this->tpe = tp; // estructura del campo
 		this->nmv = cm; // campo
 		this->ptr = pn; // puntero?
-		this->FijarClave(string("EstrucEstruc"),string("Tipos"));
+		this->FijarClave("EstrucEstruc", "Tipos");
 	}
 
-	PseudoClaseContenida::~PseudoClaseContenida()
+	PseudoClaseContenida::~PseudoClaseContenida(void)
 	{
 		// NADA
 	}
 
-	void PseudoClaseContenida::LeerParametros(istream& in)
+	void PseudoClaseContenida::LeerParametros(std::istream& in)
 	{
 		if(!(in >> this->ptr >> this->nme >> this->tpe >> this->nmv))
 		{
@@ -678,9 +729,9 @@ namespace PDTipos
 		}
 	}
 
-	void PseudoClaseContenida::InscribirInstancia(PDDatos* data)
+	void PseudoClaseContenida::InscribirInstancia(PDvar::PDDatos* data)
 	{
-		int tme,ttpe,ate;
+		int tme = 0, ttpe = 0, ate = 0;
 		tme = cae(data->ObtenerVariable(this->nme));
 		ttpe = cae(data->ObtenerVariable(this->tpe));
 		ate = tme;
@@ -688,26 +739,32 @@ namespace PDTipos
 		data->ObtenerVariable(this->nme) = eas(tme);
 		for (int i = ate; i < tme; i += 1)
 		{
-			data->CrearVariable(this->nme+string("#(")+eas(i)+string(")."));
+			data->CrearVariable(this->nme + "#(" + eas(i) + ").");
 			if(this->ptr)
-				data->ObtenerVariable(this->nme+string("#(")+eas(i)+string(").")) = string(";")+this->nmv+string("#")+data->ObtenerVariable(this->tpe+string("#(")+eas(i-ate)+string(")."));
+				data->ObtenerVariable(this->nme + "#(" + eas(i) + ").")
+					= ";" + this->nmv + "#" + data->ObtenerVariable(
+						this->tpe + "#(" + eas(i - ate) + ")."
+					);
 			else
-				data->ObtenerVariable(this->nme+string("#(")+eas(i)+string(").")) = this->nmv+string("#")+data->ObtenerVariable(this->tpe+string("#(")+eas(i-ate)+string(")."));
+				data->ObtenerVariable(this->nme + "#(" + eas(i) + ").")
+					= this->nmv + "#" + data->ObtenerVariable(
+						this->tpe + "#(" + eas(i - ate) + ")."
+					);
 		}
 	}
 
-	PseudoBorrarInteligente::PseudoBorrarInteligente(string var)
+	PseudoBorrarInteligente::PseudoBorrarInteligente(PDCadena var)
 	{
 		this->var = var;
-		this->FijarClave(string("Borrar"),string("Tipos"));
+		this->FijarClave("Borrar", "Tipos");
 	}
 
-	PseudoBorrarInteligente::~PseudoBorrarInteligente()
+	PseudoBorrarInteligente::~PseudoBorrarInteligente(void)
 	{
 		// nada
 	}
 
-	void PseudoBorrarInteligente::LeerParametros(istream& i)
+	void PseudoBorrarInteligente::LeerParametros(std::istream& i)
 	{
 		if(!(i >> this->var))
 		{
@@ -721,13 +778,13 @@ namespace PDTipos
 		}
 	}
 
-	void PseudoBorrarInteligente::InscribirInstancia(PDDatos* data)
+	void PseudoBorrarInteligente::InscribirInstancia(PDvar::PDDatos* data)
 	{
 		// Primero se determina el tipo de variable y se busca, siempre se borra la
 		// variable #NOMBRE. y #Tipo. sin importar su tipo, si no se encuentra
 		// ignora, se usa PseudoBorrarVariable
-		string tipo;
-		tipo = data->ObtenerVariable(this->var+string("#Tipo"));
+		PDCadena tipo = "";
+		tipo = data->ObtenerVariable(this->var + "#Tipo");
 		int index = data->BuscarIndice(
 			true,
 			this->var
@@ -736,8 +793,8 @@ namespace PDTipos
 		PseudoBorrarVariable bv(this->var);
 		bv.InscribirInstancia(data);
 
-		string buff = "";
-		istringstream iss(data->ObtenerVariable(tipo));
+		PDCadena buff = "";
+		std::istringstream iss(data->ObtenerVariable(tipo));
 		while(iss >> buff)
 		{
 			bool ptr = false;
@@ -747,14 +804,16 @@ namespace PDTipos
 				ptr = true;
 				buff.replace(0, 1, "");
 			}
-			std::string varname = this->var + string("#") + buff;
+			PDCadena varname = this->var + "#" + buff;
 			PseudoBorrarVariable a(varname);
 			a.InscribirInstancia(data);
 			if(!ptr)
 				todelete++;
 		}
 		int size = data->nvapunt->size();
-		for(int i = 0; i < size; i++)
+		for(std::remove_pointer<decltype(data->nvapunt)>::type::size_type i = 0;
+			i < size;
+			i++)
 		{
 			int& pval = (*data->nvapunt)[i];
 			if(pval >= index)
@@ -764,4 +823,3 @@ namespace PDTipos
 		}
 	}
 }
-

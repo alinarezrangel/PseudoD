@@ -35,8 +35,6 @@
 */
 namespace PDvar
 {
-	using namespace std;
-
 	/**
 	* @brief El tipo de dato nativo del interprete, es usado internamente.
 	*/
@@ -64,9 +62,13 @@ namespace PDvar
 			*/
 			explicit PDDatos(void);
 			/**
+			* @brief Contruye la clase como con los vectores, pero desde otra instancia
+			*/
+			explicit PDDatos(PDDatos& otro);
+			/**
 			* @brief Destruye la clase
 			*/
-			virtual ~PDDatos();
+			virtual ~PDDatos(void);
 		  /**
 		  * @brief Es la constante que devuelven las funciones en caso de error.
 		  */
@@ -121,7 +123,7 @@ namespace PDvar
 			/**
 			* @brief Crea una nueva pila
 			*/
-			void CrearPila();
+			void CrearPila(void);
 			/**
 			* @brief Crea una nueva variable o puntero
 			* @param n Nombre de la nueva variable o puntero
@@ -129,7 +131,7 @@ namespace PDvar
 			* @param va Si es un puntero, direccion a la que apunta.
 			* @param vl Se es una variable, se fija su valor a el valor de vl.
 			*/
-			void CrearVariable(PDCadena n, bool t = true, int va = 0, string vl = "nulo");
+			void CrearVariable(PDCadena n, bool t = true, int va = 0, PDCadena vl = "nulo");
 			/**
 			* @brief Obtiene el indice de la variable o puntero
 			* @param t tipo, true para una variable y false para un puntero
@@ -245,7 +247,7 @@ namespace PDvar
 			PDCadena token; // token actual
 			PDDatos* data; // datos del interprete
 
-			explicit PDEntradaBasica(vector<PDVOID_INIC_VACIO> args) : PDVoid(args) {}
+			explicit PDEntradaBasica(std::vector<PDVOID_INIC_VACIO> args) : PDVoid(args) {}
 			explicit PDEntradaBasica(PDVOID_INIC_VACIO args) : PDVoid(args) {}
 			explicit PDEntradaBasica(void) : PDVoid() {}
 			virtual PDVOID_INIC_VACIO Obtener(int i = 0) {return PDVOID_INIC_VACIO_NULL;}

@@ -49,7 +49,21 @@ namespace PDvar
 		this->adver = 1;
 	}
 
-	PDDatos::~PDDatos()
+	PDDatos::PDDatos(PDDatos& otro)
+	{
+		this->nombrev = otro.nombrev;
+		this->valorv = otro.valorv;
+		this->nombrep = otro.nombrep;
+		this->nvapunt = otro.nvapunt;
+		this->pilas = otro.pilas;
+		this->ERROR = otro.ERROR;
+		this->VERDADERO = otro.VERDADERO;
+		this->FALSO = otro.FALSO;
+		this->manager = false;
+		this->adver = otro.adver;
+	}
+
+	PDDatos::~PDDatos(void)
 	{
 		if(this->manager)
 		{
@@ -72,7 +86,7 @@ namespace PDvar
 	PDCadena& PDDatos::ObtenerVariable(PDCadena n)
 	{
 		n = this->ResolverNombre(n);
-		int i = buscar((*this->nombrev),n);
+		int i = buscar((*this->nombrev), n);
 		if(i == -1)
 		{
 			return this->ObtenerPuntero(n);
@@ -86,7 +100,7 @@ namespace PDvar
 	PDCadena& PDDatos::ObtenerPuntero(PDCadena n)
 	{
 		n = this->ResolverNombre(n);
-		int i = buscar((*this->nombrep),n);
+		int i = buscar((*this->nombrep), n);
 		if(i == -1)
 		{
 			throw PDvar::ErrorDelNucleo(
@@ -132,7 +146,7 @@ namespace PDvar
 		(*this->pilas)[p].push(n);
 	}
 
-	void PDDatos::CrearPila()
+	void PDDatos::CrearPila(void)
 	{
 		(*this->pilas).push_back(std::stack<PDCadena>());
 	}
@@ -190,7 +204,7 @@ namespace PDvar
 
 	void PDDatos::Ejecutar(PDCadena ord)
 	{
-		istringstream in(ord);
+		std::istringstream in(ord);
 		PDCadena orden = "escribir CMMERROR";
 		in >> orden;
 		(*this->PROCESAR)(orden, in, this->PROCESO);
@@ -205,7 +219,7 @@ namespace PDvar
 	{
 		// Se debe seleccionar todos los texto entre "<" y ">" para
 		// evaluarlos hacia un nombre.
-		if(nombre.find('<') == std::string::npos)
+		if(nombre.find('<') == PDCadena::npos)
 			return nombre;
 		PDCadena res = "";
 		PDCadena buff = "";
@@ -267,7 +281,7 @@ namespace PDvar
 		if(tok == "llamar")
 		{
 			data->Ejecutar("llamar", in);
-			string top = data->Sacar(cae(data->ObtenerVariable("VG_PILA_ACTUAL")));
+			PDCadena top = data->Sacar(cae(data->ObtenerVariable("VG_PILA_ACTUAL")));
 			return top;
 		}
 		if(tok == "comparar")
@@ -284,7 +298,7 @@ namespace PDvar
 			PDCadena orden = "", arg1 = "", op = "", arg2 = "", arg3 = "";
 			in >> orden >> arg1 >> op >> arg2 >> arg3;
 			if(arg2 != "es")
-				throw string("Token invalido: se esperaba \"es\" no " + arg2);
+				throw ErrorDeSintaxis("Token invalido: se esperaba \"es\" no " + arg2);
 			orden += " " + arg1 + " " + op + " ___codigo_pseudod_buffer_interno___";
 			data->Ejecutar(orden);
 			return (
@@ -327,7 +341,7 @@ namespace PDvar
 		}
 		if(tok == "no") // verificado
 		{
-			string pd;
+			PDCadena pd;
 			in >> pd;
 			return (ValorDelToken(pd, in, data) == "verdadero")?
 				"falso" : "verdadero";
@@ -338,8 +352,8 @@ namespace PDvar
 			{
 				return tok.substr(1, tok.size() - 2);
 			}
-			string str = "";
-			getline(in, str, '}');
+			PDCadena str = "";
+			std::getline(in, str, '}');
 			return tok.substr(1, tok.size()) + str;
 		}
 		if((tok.size() >= 2)

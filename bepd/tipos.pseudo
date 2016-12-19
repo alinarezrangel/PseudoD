@@ -257,7 +257,7 @@ adquirir __pseudod_ReservarDatos_i__
 fijar __pseudod_ReservarDatos_i__ a {-9223372036854775807}
 adquirir __pseudod_pilaReseva_i__
 crear_pila
-fijar __pseudod_pilaReseva_i__ a VG_NUMERO_DE_PILAS
+fijar __pseudod_pilaReseva_i__ a VG_NUMERO_PILAS
 fijar VG_PILA_ACTUAL a __pseudod_pilaReseva_i__
 empujar NULO
 usar_pila 0
