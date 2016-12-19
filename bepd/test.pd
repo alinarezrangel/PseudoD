@@ -1,50 +1,33 @@
+utilizar algor.pseudo
+utilizar mate.pseudo
 utilizar entsal.pseudo
 
-clase A
-	:hola
-finclase
-heredar Objeto A
+instancia Arreglo arr
+adquirir ob
 
-funcion A#hola
-	adquirir yo
-	recibir_parametro yo
-	llamar ImprimirFormato {Hola desde %\k} yo finargs
-	liberar yo
-finfun
+llamar arr#agregar {PseudoVariable} finargs
+llamar arr#agregar {PseudoVariable} finargs
+llamar arr#agregar {PseudoVariable} finargs
+llamar arr#agregar {PseudoVariable} finargs
 
-clase B
-	:crear
-	:destruir
-	:hola
-finclase
-heredar A B
+fijar ob a llamar arr#obtener {0} finargs
+fijar <ob> a {2}
+fijar ob a llamar arr#obtener {1} finargs
+fijar <ob> a {7}
+fijar ob a llamar arr#obtener {2} finargs
+fijar <ob> a {1}
+fijar ob a llamar arr#obtener {3} finargs
+fijar <ob> a {4}
 
-funcion B#crear
-	adquirir yo
-	recibir_parametro yo
-	llamar ImprimirFormato {Creando B en %\k} yo finargs
-	liberar yo
-finfun
+fijar ob a CERO
 
-funcion B#destruir
-	adquirir yo
-	recibir_parametro yo
-	llamar ImprimirFormato {Destruyendo B en %\k} yo finargs
-	liberar yo
-finfun
+mientras comparar Importar.Ent.Comparar ob < arr#tamaño [ > ]
+	llamar ImprimirFormato
+		{arr[%] = %\k}
+		ob
+		arr#en<ob>
+	finargs
+	fijar ob a llamar Sumar ob UNO finargs
+finbucle
 
-funcion B#hola
-	adquirir yo
-	recibir_parametro yo
-	llamar ImprimirFormato {Hola B desde %\k} yo finargs
-	liberar yo
-finfun
-
-instancia A _a
-instancia B _b
-
-llamar _a#hola finargs
-llamar _b#hola finargs
-
-liberar _a
-liberar _b
+liberar arr

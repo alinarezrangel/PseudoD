@@ -162,6 +162,10 @@ finfun
 @brief Es un arreglo dinámico de elementos.
 A diferencia de un arreglo común, aqui los elementos no están en
 posiciones sucesivas de memoria.
+
+Puede obtener referencias a los elementos utiliando el método
+<Arregle\#obtener>, o acceder a los elementos utilizando los atributos
+dinámicos `#en<i>`
 DOCUMENTA]
 clase Arreglo
 	tamaño
@@ -198,9 +202,8 @@ funcion Arreglo#destruir [ ref yo ]
 	recibir_parametro yo
 	fijar i a {0}
 	mientras comparar Importar.Ent.Comparar i < <yo>#tamaño
-		llamar DestruirAtributoDinamico yo
-			llamar Cadena#Concatenar {en} i finargs
-		finargs
+		liberar <yo>#en<i>
+		fijar i a llamar Sumar i UNO finargs
 	finbucle
 	liberar yo
 	liberar i
@@ -239,13 +242,13 @@ DOCUMENTA]
 funcion Arreglo#agregar [ ref yo, tipo tipo -> indice ]
 	adquirir yo
 	adquirir tipo
+	adquirir tm
 	recibir_parametro yo
 	recibir_parametro tipo
-	llamar CrearAtributoDinamico yo
-		llamar Cadena#Concatenar {en} <yo>#tamaño finargs
-		tipo
-	finargs
+	fijar tm a <yo>#tamaño
+	instancia <tipo> <yo>#en<tm>
 	fijar <yo>#tamaño a llamar Sumar <yo>#tamaño {1} finargs
 	liberar yo
 	liberar tipo
+	liberar tm
 finfun

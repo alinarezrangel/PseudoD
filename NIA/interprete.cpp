@@ -38,6 +38,7 @@ namespace pseudod
 		{
 			PDCadena a;
 			e >> a;
+			a = DATOS_INT.ResolverNombre(a);
 			DATOS_INT.CrearVariable(a, true, 0, a);
 			DATOS_INT.CrearVariable(a + "#Tipo", true, 0, "PseudoVariable");
 			DATOS_INT.CrearVariable(a + "#NOMBRE", true, 0, a);
@@ -74,6 +75,7 @@ namespace pseudod
 		{
 			PDCadena var = "", val = "";
 			e >> var >> val;
+			var = DATOS_INT.ResolverNombre(var);
 			DATOS_INT.CrearVariable(
 				var,
 				false,

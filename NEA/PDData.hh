@@ -157,6 +157,14 @@ namespace PDvar
 			* @param in Flujo de tokens
 			*/
 			void Ejecutar(PDCadena ord, std::istream& in);
+			/**
+			* @brief Aplica la reducción de nombres sobre el nombre <v>.
+			* Esta reducción resuelve punteros y referencias dentro del nombre.
+			*
+			* @param nombre Nombre a resolver
+			* @return Nombre resuelto
+			*/
+			PDCadena ResolverNombre(PDCadena nombre);
 		public:
 			/**
 			* @brief puntero a los nombres de variable
@@ -187,15 +195,6 @@ namespace PDvar
 			* @brief Si esta como manejador principal.
 			*/
 			bool manager;
-		protected:
-			/**
-			* @brief Aplica la reducción de nombres sobre el nombre <v>.
-			* Esta reducción resuelve punteros y referencias dentro del nombre.
-			*
-			* @param nombre Nombre a resolver
-			* @return Nombre resuelto
-			*/
-			PDCadena ResolverNombre(PDCadena nombre);
 		public:
 			/**
 			* @brief Funcion madre, permite ser recursivo en el lenguaje

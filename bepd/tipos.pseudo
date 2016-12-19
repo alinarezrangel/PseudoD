@@ -271,25 +271,10 @@ funcion CrearAtributoDinamico [ yo, nattr, tattr ]
 	recibir_parametro yo
 	recibir_parametro nombre_atributo
 	recibir_parametro tipo_atributo
-	fijar codigo a llamar Cadena#Concatenar
-		{instancia }
-		tipo_atributo
-	finargs
-	fijar codigo a llamar Cadena#Concatenar
-		{ }
-		llamar Cadena#Concatenar
-			yo
-			llamar Cadena#Concatenar
-				{#}
-				nombre_atributo
-			finargs
-		finargs
-	finargs
-	ejecutar codigo
+	instancia <tipo_atributo> <yo>#<nombre_atributo>
 	liberar yo
 	liberar nombre_atributo
 	liberar tipo_atributo
-	liberar codigo
 finfun
 
 [DOCUMENTA
@@ -304,21 +289,9 @@ funcion DestruirAtributoDinamico [ yo, nattr ]
 	[ instancia tattr yo#nattr ]
 	adquirir yo
 	adquirir nombre_atributo
-	adquirir codigo
 	recibir_parametro yo
 	recibir_parametro nombre_atributo
-	fijar codigo a llamar Cadena#Concatenar
-		{liberar }
-		llamar Cadena#Concatenar
-			yo
-			llamar Cadena#Concatenar
-				{#}
-				nombre_atributo
-			finargs
-		finargs
-	finargs
-	ejecutar codigo
+	liberar <yo>#<nombre_atributo>
 	liberar yo
 	liberar nombre_atributo
-	liberar codigo
 finfun

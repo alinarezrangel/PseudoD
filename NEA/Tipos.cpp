@@ -153,6 +153,9 @@ namespace PDTipos
 
 	void PseudoReferenciaClase::InscribirInstancia(PDvar::PDDatos* data)
 	{
+		this->ni = data->ResolverNombre(this->ni);
+		this->nm = data->ResolverNombre(this->nm);
+
 		data->CrearVariable(this->ni);
 		data->ObtenerVariable(this->ni) = this->ni;
 
