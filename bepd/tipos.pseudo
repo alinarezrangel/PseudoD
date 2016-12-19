@@ -253,147 +253,6 @@ funcion Referencia#llamarMet [ ref instancia, met, args... ]
 	liberar __REFERENCIA_LMR_ATTR_BUFF2__
 finfun
 
-adquirir __pseudod_ReservarDatos_i__
-fijar __pseudod_ReservarDatos_i__ a {-9223372036854775807}
-adquirir __pseudod_pilaReseva_i__
-crear_pila
-fijar __pseudod_pilaReseva_i__ a VG_NUMERO_PILAS
-fijar VG_PILA_ACTUAL a __pseudod_pilaReseva_i__
-empujar NULO
-usar_pila 0
-
-[DOCUMENTA
-@brief Reserva datos de forma dinamica.
-Cuando el nombre de un dato no importa (por ejemplo, en arreglos dinamicos)
-se puede solicitar un dato, que se puede manipular por punteros. Es similar
-a new tipoData en C++ y malloc(sizeof(tipoData)) en C.
-
-Modifica VG_BUFFER.
-@arg tipoData Tipo del dato.
-@dev data Referencia al bloque dinamico.
-@races None
-DOCUMENTA]
-funcion ReservarDato [ tipoData -> ref data ]
-	adquirir __RESEVAR_DATO_TIPO__
-	adquirir __RESEVAR_DATO_BUFFER__
-	adquirir __RESEVAR_DATO_RET__
-	recibir_parametro __RESEVAR_DATO_TIPO__
-	fijar VG_BUFFER =¿? VG_PILA_ACTUAL
-	fijar VG_PILA_ACTUAL =¿? __pseudod_pilaReseva_i__
-	fijar __RESEVAR_DATO_RET__ =¿? FALSO
-	sacar __RESEVAR_DATO_BUFFER__
-	si ¿son_iguales? __RESEVAR_DATO_BUFFER__ NULO
-		empujar NULO
-	sino
-		empujar __pseudod_ReservarDatos_i__
-		fijar __pseudod_ReservarDatos_i__ =¿? __RESEVAR_DATO_BUFFER__
-		fijar __RESEVAR_DATO_RET__ =¿? VERDADERO
-	fin
-	fijar __RESEVAR_DATO_BUFFER__ =* instancia
-	Importar.Cad.Concatenar __RESEVAR_DATO_BUFFER__ __RESEVAR_DATO_TIPO__ __RESEVAR_DATO_BUFFER__
-	Importar.Cad.Concatenar __RESEVAR_DATO_BUFFER__ ESP __RESEVAR_DATO_BUFFER__
-	Importar.Cad.Concatenar __RESEVAR_DATO_BUFFER__ __pseudod_ReservarDatos_i__ __RESEVAR_DATO_BUFFER__
-	ejecutar __RESEVAR_DATO_BUFFER__
-	fijar __RESEVAR_DATO_BUFFER__ =¿? __pseudod_ReservarDatos_i__
-	si no __RESEVAR_DATO_RET__
-		Importar.Ent.Sumar __pseudod_ReservarDatos_i__ UNO __pseudod_ReservarDatos_i__
-	sino
-		sacar __pseudod_ReservarDatos_i__
-	fin
-	fijar VG_PILA_ACTUAL =¿? VG_BUFFER
-	devolver __RESEVAR_DATO_BUFFER__
-	liberar __RESEVAR_DATO_BUFFER__
-	liberar __RESEVAR_DATO_TIPO__
-	liberar __RESEVAR_DATO_RET__
-finfun
-
-[DOCUMENTA
-@brief Libera un dato reservado con ReservarDato.
-No cuenta para datos multiples. Tal como free de C
-o delete de C++.
-
-Además, fija el PunteroInteligente a nulo, de forma que el metodo esNulo
-siempre devuelva verdadero.
-
-Modifica VG_BUFFER.
-@arg ptr Puntero al nombre del dato reservado(referencia a instancia de PunteroInteligente).
-@races Undefined.NullPointer
-Cuando ptr apunta a nulo (ptr#esNulo devuelve verdadero) el comportamiento de
-la función es indefinido.
-DOCUMENTA]
-funcion LiberarDato [ ptr ]
-	instancia Referencia __LIBERAR_DATO_REF__
-	adquirir __LIBERAR_DATO_BUFFA__
-	adquirir __LIBERAR_DATO_BUFFB__
-	adquirir __LIBERAR_DATO_BUFFC__
-	recibir_parametro __LIBERAR_DATO_REF__#ref
-	fijar __LIBERAR_DATO_BUFFA__ =* direccion
-	llamar __LIBERAR_DATO_REF__#obtenerAttr __LIBERAR_DATO_BUFFA__ #(Final).
-	recibir_resultado __LIBERAR_DATO_BUFFB__
-	fijar __LIBERAR_DATO_BUFFA__ =* liberar
-	Importar.Cad.Concatenar __LIBERAR_DATO_BUFFA__ __LIBERAR_DATO_BUFFB__ __LIBERAR_DATO_BUFFA__
-	ejecutar __LIBERAR_DATO_BUFFA__
-	fijar VG_BUFFER =¿? VG_PILA_ACTUAL
-	fijar VG_PILA_ACTUAL =¿? __pseudod_pilaReseva_i__
-	empujar __LIBERAR_DATO_BUFFB__
-	fijar VG_PILA_ACTUAL =¿? VG_BUFFER
-	fijar __LIBERAR_DATO_BUFFA__ =* direccion
-	llamar __LIBERAR_DATO_REF__#redireccionarAttr __LIBERAR_DATO_BUFFA__ NULO#NOMBRE #(Final).
-	liberar __LIBERAR_DATO_REF__
-	liberar __LIBERAR_DATO_BUFFA__
-	liberar __LIBERAR_DATO_BUFFB__
-	liberar __LIBERAR_DATO_BUFFC__
-finfun
-
-[DOCUMENTA
-@brief Representa un iterador.
-Es abstracta, nunca se debe instanciar.
-@abstract
-DOCUMENTA]
-clase Iterador
-	;actual
-	:¿valido?
-	:reiniciar
-finclase
-heredar Objeto Iterador
-
-[DOCUMENTA
-@brief Representa un iterador que solo avanza.
-Es abstracta, nunca se debe instanciar.
-@abstract
-DOCUMENTA]
-clase IteradorDel
-	:¿valido?
-	:reiniciar
-	:siguiente
-finclase
-heredar Iterador IteradorDel
-
-[DOCUMENTA
-@brief Representa un iterador que solo retrocede.
-Es abstracta, nunca se debe instanciar.
-@abstract
-DOCUMENTA]
-clase IteradorTra
-	:¿valido?
-	:reiniciar
-	:anterior
-finclase
-heredar Iterador IteradorTra
-
-[DOCUMENTA
-@brief Representa un iterador bidireccional.
-Es abstracta, nunca se debe instanciar.
-@abstract
-DOCUMENTA]
-clase IteradorBi
-	:¿valido?
-	:reiniciar
-	:siguiente
-	:anterior
-finclase
-heredar Iterador IteradorBi
-
 [DOCUMENTA
 @brief Crea un atributo dinamico.
 Equivalente a escribir `instancia tattr yo#nattr`.
@@ -405,27 +264,32 @@ Si el atributo ya existe, lanzara un error fatal.
 DOCUMENTA]
 funcion CrearAtributoDinamico [ yo, nattr, tattr ]
 	[ instancia tattr yo#nattr ]
-	adquirir _CrearAtributoDinamico_yo
-	adquirir _CrearAtributoDinamico_nattr
-	adquirir _CrearAtributoDinamico_tattr
-	adquirir _CrearAtributoDinamico_buf
-	adquirir _CrearAtributoDinamico_buff
-	recibir_resultado _CrearAtributoDinamico_yo
-	recibir_resultado _CrearAtributoDinamico_nattr
-	recibir_resultado _CrearAtributoDinamico_tattr
-	fijar _CrearAtributoDinamico_buf =* instancia
-	Importar.Cad.Concatenar _CrearAtributoDinamico_buf _CrearAtributoDinamico_tattr _CrearAtributoDinamico_buff
-	fijar _CrearAtributoDinamico_buf =* #
-	Importar.Cad.Concatenar _CrearAtributoDinamico_buff ESP _CrearAtributoDinamico_buff
-	Importar.Cad.Concatenar _CrearAtributoDinamico_buff _CrearAtributoDinamico_yo _CrearAtributoDinamico_buff
-	Importar.Cad.Concatenar _CrearAtributoDinamico_buff _CrearAtributoDinamico_buf _CrearAtributoDinamico_buff
-	Importar.Cad.Concatenar _CrearAtributoDinamico_buff _CrearAtributoDinamico_nattr _CrearAtributoDinamico_buff
-	ejecutar _CrearAtributoDinamico_buff
-	liberar _CrearAtributoDinamico_yo
-	liberar _CrearAtributoDinamico_nattr
-	liberar _CrearAtributoDinamico_tattr
-	liberar _CrearAtributoDinamico_buf
-	liberar _CrearAtributoDinamico_buff
+	adquirir yo
+	adquirir nombre_atributo
+	adquirir tipo_atributo
+	adquirir codigo
+	recibir_parametro yo
+	recibir_parametro nombre_atributo
+	recibir_parametro tipo_atributo
+	fijar codigo a llamar Cadena#Concatenar
+		{instancia }
+		tipo_atributo
+	finargs
+	fijar codigo a llamar Cadena#Concatenar
+		{ }
+		llamar Cadena#Concatenar
+			yo
+			llamar Cadena#Concatenar
+				{#}
+				nombre_atributo
+			finargs
+		finargs
+	finargs
+	ejecutar codigo
+	liberar yo
+	liberar nombre_atributo
+	liberar tipo_atributo
+	liberar codigo
 finfun
 
 [DOCUMENTA
@@ -438,23 +302,23 @@ De ya estar destruido el atributo, lanzara un error fatal.
 DOCUMENTA]
 funcion DestruirAtributoDinamico [ yo, nattr ]
 	[ instancia tattr yo#nattr ]
-	adquirir _DestruirAtributoDinamico_yo
-	adquirir _DestruirAtributoDinamico_nattr
-	adquirir _DestruirAtributoDinamico_tattr
-	adquirir _DestruirAtributoDinamico_buf
-	adquirir _DestruirAtributoDinamico_buff
-	recibir_resultado _DestruirAtributoDinamico_yo
-	recibir_resultado _DestruirAtributoDinamico_nattr
-	fijar _DestruirAtributoDinamico_buf =* liberar
-	Importar.Cad.Concatenar _DestruirAtributoDinamico_buf ESP _DestruirAtributoDinamico_buff
-	fijar _DestruirAtributoDinamico_buf =* #
-	Importar.Cad.Concatenar _DestruirAtributoDinamico_buff _DestruirAtributoDinamico_yo _DestruirAtributoDinamico_buff
-	Importar.Cad.Concatenar _DestruirAtributoDinamico_buff _DestruirAtributoDinamico_buf _DestruirAtributoDinamico_buff
-	Importar.Cad.Concatenar _DestruirAtributoDinamico_buff _DestruirAtributoDinamico_nattr _DestruirAtributoDinamico_buff
-	ejecutar _DestruirAtributoDinamico_buff
-	liberar _DestruirAtributoDinamico_yo
-	liberar _DestruirAtributoDinamico_nattr
-	liberar _DestruirAtributoDinamico_tattr
-	liberar _DestruirAtributoDinamico_buf
-	liberar _DestruirAtributoDinamico_buff
+	adquirir yo
+	adquirir nombre_atributo
+	adquirir codigo
+	recibir_parametro yo
+	recibir_parametro nombre_atributo
+	fijar codigo a llamar Cadena#Concatenar
+		{liberar }
+		llamar Cadena#Concatenar
+			yo
+			llamar Cadena#Concatenar
+				{#}
+				nombre_atributo
+			finargs
+		finargs
+	finargs
+	ejecutar codigo
+	liberar yo
+	liberar nombre_atributo
+	liberar codigo
 finfun

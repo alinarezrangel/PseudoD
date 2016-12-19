@@ -20,6 +20,145 @@ listas, arrays, funciones tipo foreach, arboles binarios, etc.
 DOCUMENTA]
 
 [DOCUMENTA
+@brief Representa un iterador.
+Este puede iterar sobre todos (o algunos) elementos de un determinado
+contenedor. Actualmente, esta clase no realiza acción alguna dado que
+la lógica de esta debe ser implementada especificamente para la clase
+contenedora en la que se vaya a utilizar.
+
+@abstract
+DOCUMENTA]
+clase Iterador
+	:obtenerActual
+	:siguiente
+finclase
+heredar Objeto Iterador
+
+[DOCUMENTA
+@brief Obtiene el elemento actual.
+@argyo
+@dev Referencia común al elemento actual
+@races None
+DOCUMENTA]
+funcion Iterador#obtenerActual
+finfun
+
+[DOCUMENTA
+@brief Avanza un elemento.
+Luego de avanzar, el iterador puede quedar fuera del contenedor, para asegurarse
+que esto no pase, compare el iterador con el final del contenedor.
+
+@argyo
+@races None
+DOCUMENTA]
+funcion Iterador#siguiente
+finfun
+
+[DOCUMENTA
+@brief Iterador bidireccional.
+Dado que no todas las estructuras de datos soportan recorridos bidireccionales,
+la clase <Iterador> no provee forma de retroceder un elemento.
+
+@abstract
+DOCUMENTA]
+clase IteradorBidireccional
+	:anterior
+finclase
+heredar Objeto IteradorBidireccional
+
+[DOCUMENTA
+@brief Retrocede un elemento.
+Luego de retroceder, el iterador puede quedar fuera del contenedor, para
+asegurarse que esto no pase, compare el iterador con el inicio del contenedor.
+
+@argyo
+@races None
+DOCUMENTA]
+funcion IteradorBidireccional#anterior
+finfun
+
+[DOCUMENTA
+@brief Iterador en reversa
+Cuando se invoca a <Iterador\#siguiente> en este iterador, en vez de
+avanzar un elemento, retrocede uno. El orden de este iterador **siempre**
+es contrario a <Iterador>, más **no garantiza** que si <Iterador> pasa
+por un determinado elemento, este también pase por dicho.
+
+@abstract
+DOCUMENTA]
+clase IteradorReversa
+finclase
+heredar Iterador IteradorReversa
+
+[DOCUMENTA
+@brief Iterador bidireccional en reversa
+Como IteradorBidireccional, pero implementando IteradorReversa.
+
+Aunque no hereda a IteradorBidireccional, lo implementa.
+
+@abstract
+DOCUMENTA]
+clase IteradorBidireccionalReversa
+	:anterior
+finclase
+heredar IteradorReversa IteradorBidireccionalReversa
+
+funcion IteradorBidireccionalReversa#anterior
+finfun
+
+[DOCUMENTA
+@brief Representa un contenedor
+Todos los contenedores proveen los iteradores mediante métodos especializados.
+
+@abstract
+DOCUMENTA]
+clase Contenedor
+	:inicio
+	:final
+	:inicioReversa
+	:finalReversa
+finclase
+heredar Objeto Contenedor
+
+[DOCUMENTA
+@brief Obtiene un iterador apuntando al inicio de la secuencia.
+Para determinar si este iterador esta al final, utilice <Contenedor\#final>
+@argyo
+@races None
+DOCUMENTA]
+funcion Contenedor#inicio
+finfun
+
+[DOCUMENTA
+@brief Obtiene un iterador apuntando al final de la secuencia.
+Para determinar si este iterador esta al inicio, utilice <Contenedor\#inicio>
+@argyo
+@races None
+DOCUMENTA]
+funcion Contenedor#final
+finfun
+
+[DOCUMENTA
+@brief Obtiene un iterador en reversa apuntando al inicio de la secuencia.
+Para determinar si este iterador esta al final, utilice
+<Contenedor\#finalReversa>
+@argyo
+@races None
+DOCUMENTA]
+funcion Contenedor#inicioReversa
+finfun
+
+[DOCUMENTA
+@brief Obtiene un iterador en reversa apuntando al final de la secuencia.
+Para determinar si este iterador esta al inicio, utilice
+<Contenedor\#inicioReversa>
+@argyo
+@races None
+DOCUMENTA]
+funcion Contenedor#finalReversa
+finfun
+
+[DOCUMENTA
 @brief Es un arreglo dinámico de elementos.
 A diferencia de un arreglo común, aqui los elementos no están en
 posiciones sucesivas de memoria.
@@ -31,7 +170,7 @@ clase Arreglo
 	:obtener
 	:agregar
 finclase
-heredar Objeto Arreglo
+heredar Contenedor Arreglo
 
 [DOCUMENTA
 @brief Crea el arreglo.
@@ -109,14 +248,4 @@ funcion Arreglo#agregar [ ref yo, tipo tipo -> indice ]
 	fijar <yo>#tamaño a llamar Sumar <yo>#tamaño {1} finargs
 	liberar yo
 	liberar tipo
-finfun
-
-[DOCUMENTA
-@brief Ordena un arreglo utilizando el bubblesort.
-Nota: el ordenamiento ocurre *in situ*
-@arg arr Arreglo a ordenar.
-@races None
-DOCUMENTA]
-funcion OrdenamientoDeBurbuja [ arr ]
-	devolver NULO
 finfun

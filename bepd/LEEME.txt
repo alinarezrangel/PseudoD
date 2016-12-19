@@ -59,3 +59,16 @@ hay condiciones de carrera.
 - `@abstract`: La clase o método es abstracto.
 - `@file ...`: Como `@brief` pero da la descripción del archivo.
 - `@throws ...`: Lista de excepciones que puede lanzar.
+
+Los archivos (por utilidad) son:
+
+- builtins.pseudo (automatico), inic.pseudo (automatico): Inicializan PseudoD
+- errores.pseudo (automatico): Clases de error
+- cadena.pseudo: Operaciones sobre cadenas de caracteres
+- clases.pseudo: Clase `Par` y `ElementoMatematico` (`Fraccion`, `Decimal`,
+`Entero`, `Boole`)
+- entsal.pseudo: Funciones de entrada y salida como en C
+- mate.pseudo: Utilidades matemáticas
+- plugins.pseudo: Sistema de carga de módulos dinámicos
+- algor.pseudo: Estructuras de datos y algoritmos
+- tipos.pseudo: Utilidades (`CrearAtributoDinamico`, `DestruirAtributoDinamico`)

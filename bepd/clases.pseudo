@@ -18,6 +18,56 @@ Aqui se declaran clases comúnes, como <Fraccion> y <Decimal>.
 DOCUMENTA]
 
 [DOCUMENTA
+@brief Representa un objeto al cual se le pueden aplicar operaciones aritméticas.
+
+@abstract
+DOCUMENTA]
+clase ElementoMatematico
+	:sumar
+	:restar
+	:multiplicar
+	:dividir
+finclase
+heredar Objeto ElementoMatematico
+
+[DOCUMENTA
+@brief Suma dos elementos (res = yo + tu)
+@argyo
+@arg tu Segundo elemento a aplicar (referencia común).
+@arg res Elemento donde se almacenará el resultado (referencia común).
+@races None
+DOCUMENTA]
+funcion ElementoMatematico#sumar
+finfun
+[DOCUMENTA
+@brief Resta dos elementos (res = yo - tu)
+@argyo
+@arg tu Segundo elemento a aplicar (referencia común).
+@arg res Elemento donde se almacenará el resultado (referencia común).
+@races None
+DOCUMENTA]
+funcion ElementoMatematico#restar
+finfun
+[DOCUMENTA
+@brief Multiplica dos elementos (res = yo * tu)
+@argyo
+@arg tu Segundo elemento a aplicar (referencia común).
+@arg res Elemento donde se almacenará el resultado (referencia común).
+@races None
+DOCUMENTA]
+funcion ElementoMatematico#multiplicar
+finfun
+[DOCUMENTA
+@brief Divide dos elementos (res = yo / tu)
+@argyo
+@arg tu Segundo elemento a aplicar (referencia común).
+@arg res Elemento donde se almacenará el resultado (referencia común).
+@races None
+DOCUMENTA]
+funcion ElementoMatematico#dividir
+finfun
+
+[DOCUMENTA
 @brief Representa un numero en el conjunto `Q`, en forma de fracción.
 A diferencia de <Decimal>, este utiliza una representacion en forma de fracción
 y no una representacion decimal.
@@ -30,7 +80,7 @@ clase Fraccion
 	:multiplicar
 	:dividir
 finclase
-heredar Objeto Fraccion
+heredar ElementoMatematico Fraccion
 
 [ Fraccion#a. Yo#NOMBRE. Tu#NOMBRE. ]
 
@@ -266,7 +316,7 @@ clase Numero
 	:multiplicar
 	:dividir
 finclase
-heredar Objeto Numero
+heredar ElementoMatematico Numero
 
 [DOCUMENTA
 @brief Suma dos Numeros.
@@ -370,7 +420,7 @@ clase Decimal
 	:multiplicar
 	:dividir
 finclase
-heredar Objeto Decimal
+heredar ElementoMatematico Decimal
 
 [DOCUMENTA
 @brief Suma dos Numeros Decimales.

@@ -5,6 +5,8 @@
 *.so
 *.out
 
+PseudoD
+
 # 2) Ignoramos archivos de las IDEs
 .vscode/
 

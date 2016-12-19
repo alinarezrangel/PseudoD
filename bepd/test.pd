@@ -1,16 +1,50 @@
-adquirir relleno [ no importa su tipo o valor ]
+utilizar entsal.pseudo
 
-adquirir valorImportante
-fijar valorImportante a {IMPORTANTE}
+clase A
+	:hola
+finclase
+heredar Objeto A
 
-puntero ptr valorImportante
+funcion A#hola
+	adquirir yo
+	recibir_parametro yo
+	llamar ImprimirFormato {Hola desde %\k} yo finargs
+	liberar yo
+finfun
 
-escribir ptr
-nl
+clase B
+	:crear
+	:destruir
+	:hola
+finclase
+heredar A B
 
-liberar relleno [ ERROR ]
+funcion B#crear
+	adquirir yo
+	recibir_parametro yo
+	llamar ImprimirFormato {Creando B en %\k} yo finargs
+	liberar yo
+finfun
 
-escribir ptr
-nl
+funcion B#destruir
+	adquirir yo
+	recibir_parametro yo
+	llamar ImprimirFormato {Destruyendo B en %\k} yo finargs
+	liberar yo
+finfun
 
+funcion B#hola
+	adquirir yo
+	recibir_parametro yo
+	llamar ImprimirFormato {Hola B desde %\k} yo finargs
+	liberar yo
+finfun
 
+instancia A _a
+instancia B _b
+
+llamar _a#hola finargs
+llamar _b#hola finargs
+
+liberar _a
+liberar _b

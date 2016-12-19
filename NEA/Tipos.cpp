@@ -206,6 +206,12 @@ namespace PDTipos
 		}
 		data->ObtenerVariable(this->ni + "#NOMBRE") = this->ni;
 		data->ObtenerVariable(this->ni + "#Tipo") = this->nm;
+
+		if((data->ExisteVariable(true, this->ni + "#crear"))
+			|| (data->ExisteVariable(false, this->ni + "#crear")))
+		{
+			data->Ejecutar("llamar " + this->ni + "#crear finargs");
+		}
 	}
 
 	void PseudoReferenciaClase::LeerParametros(std::istream& in)
@@ -563,7 +569,7 @@ namespace PDTipos
 					data->CrearVariable(hija_mtd, true, 0);
 					data->CrearVariable(hija_mtd + "#NOMBRE", true, 0);
 					data->CrearVariable(hija_mtd + "#Tipo", true, 0);
-					data->CrearVariable(hija_mtd + "#cod", true, 0);
+					data->CrearVariable(hija_mtd + "#cod", false, 0);
 					data->ObtenerVariable(hija_mtd)
 						= data->ObtenerVariable(base_mtd);
 					data->ObtenerVariable(hija_mtd + "#NOMBRE") = hija_mtd;
@@ -780,6 +786,14 @@ namespace PDTipos
 
 	void PseudoBorrarInteligente::InscribirInstancia(PDvar::PDDatos* data)
 	{
+		// Llamamos al destructor (si existe)
+
+		if((data->ExisteVariable(true, this->var + "#destruir"))
+			|| (data->ExisteVariable(false, this->var + "#destruir")))
+		{
+			data->Ejecutar("llamar " + this->var + "#destruir finargs");
+		}
+
 		// Primero se determina el tipo de variable y se busca, siempre se borra la
 		// variable #NOMBRE. y #Tipo. sin importar su tipo, si no se encuentra
 		// ignora, se usa PseudoBorrarVariable
