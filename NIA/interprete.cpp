@@ -446,9 +446,9 @@ namespace pseudod
 		{
 			return "Error al conectar con el NEA";
 		}
-		iniciar_nea = (inic_nea) dlsym(coneccion_nea, "PDInicializar");
-		ejecutar_nea = (ejec_nea) dlsym(coneccion_nea, "PDEjecutar");
-		liberar_nea = (liber_nea) dlsym(coneccion_nea, "PDFinal");
+		*(void**) (&iniciar_nea) = dlsym(coneccion_nea, "PDInicializar");
+		*(void**) (&ejecutar_nea) = dlsym(coneccion_nea, "PDEjecutar");
+		*(void**) (&liberar_nea) = dlsym(coneccion_nea, "PDFinal");
 		if((iniciar_nea == NULL) || (ejecutar_nea == NULL) || (liberar_nea == NULL))
 		{
 			dlclose(coneccion_nea);

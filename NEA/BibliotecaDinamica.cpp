@@ -19,7 +19,7 @@ namespace BibliotecaDinamica
 		this->FijarClave("Llamar", "BibliotecasDinamicas");
 	}
 
-	PseudoLlamar::~PseudoLlamar()
+	PseudoLlamar::~PseudoLlamar(void)
 	{
 		//~~~~
 	}
@@ -60,7 +60,8 @@ namespace BibliotecaDinamica
 		}
 
 		typedef void (*pdfun_t)(PDvar::PDDatos**, std::vector<PDCadena>);
-		pdfun_t fun = (pdfun_t) dlsym(con, data->ObtenerVariable(this->var + "#sim").c_str());
+		pdfun_t fun = NULL;
+		*(void**) (&fun) = dlsym(con, data->ObtenerVariable(this->var + "#sim").c_str());
 
 		if(!fun)
 		{
@@ -94,7 +95,7 @@ namespace BibliotecaDinamica
 		this->FijarClave("LlamarOO", "BibliotecasDinamicas");
 	}
 
-	PseudoLlamarOO::~PseudoLlamarOO()
+	PseudoLlamarOO::~PseudoLlamarOO(void)
 	{
 		//~~~~
 	}
@@ -113,7 +114,7 @@ namespace BibliotecaDinamica
 			return;
 		}
 		PDCadena p = "";
-		while((in >> p)&&(p != "#(Final)."))
+		while((in >> p) && (p != "#(Final)."))
 		{
 			param.push_back(p);
 		}
@@ -138,10 +139,12 @@ namespace BibliotecaDinamica
 		typedef void (*pdend_t)(PDvar::Din::ModuloDinamico*);
 		PDvar::Din::ModuloDinamico* mod;
 
-		pdini_t obtener = (pdini_t) dlsym(con,"ObtenerModulo");
-		pdend_t liberar = (pdend_t) dlsym(con,"LiberarModulo");
+		pdini_t obtener = NULL;
+		pdend_t liberar = NULL;
+		*(void**) (&obtener) = dlsym(con, "ObtenerModulo");
+		*(void**) (&liberar) = dlsym(con, "LiberarModulo");
 
-		if((obtener == NULL)||(liberar == NULL))
+		if((obtener == NULL) || (liberar == NULL))
 		{
 			dlclose(con);
 			throw PDvar::ErrorDelNucleo(

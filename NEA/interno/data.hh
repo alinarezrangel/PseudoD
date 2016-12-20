@@ -72,17 +72,17 @@ namespace PDvar
 			/**
 			* @brief Constructor por defecto
 			*/
-			PDObjeto(){}
+			PDObjeto(void) {}
 			/**
 			* @brief Destructor
 			*/
-			virtual ~PDObjeto(){}
+			virtual ~PDObjeto(void) {}
 			/**
 			* @brief Determina si el objeto actual y su parametro son la misma instancia
 			* @param o La instancia que se va a comparar.
 			* @return true si son la misma instancia y false de lo contrario.
 			*/
-			virtual bool MismoObjeto(PDObjeto& o){ return this == &o; }
+			virtual bool MismoObjeto(PDObjeto& o) { return this == &o; }
 	};
 
 	/**
@@ -108,13 +108,13 @@ namespace PDvar
 			/**
 			* @brief Destructor, no hace nada.
 			*/
-			virtual ~PDVoid(){}
+			virtual ~PDVoid(void) {}
 			/**
 			* @brief Devuelve el argumento
 			* @param i numero de argumento
 			* @return objeto
 			*/
-			virtual T Obtener(int i = 0){return args[i];}
+			virtual T Obtener(int i = 0) { return args[i]; }
 		private:
 			std::vector<T> args;
 	};
@@ -132,11 +132,11 @@ namespace PDvar
 			* @brief Crea un nuevo call-back
 			* @param F Puntero a funcion que se retro-llamara.
 			*/
-			PDCallBack (RV (*F)(AT));
+			PDCallBack(RV (*F)(AT));
 			/**
 			* @brief Destructor de PDCall-Back.
 			*/
-			virtual ~PDCallBack ();
+			virtual ~PDCallBack(void);
 			/**
 			* @brief Llama a la funcion de retro-llamada.
 			* @param p parametro que se le pasara a la funcion.
@@ -147,7 +147,7 @@ namespace PDvar
 			* @brief Llama a la funcion de retro-llamada con los parametros pre-establecidos
 			* @return Resultado de la llamada
 			*/
-			RV Call();
+			RV Call(void);
 			/**
 			* @brief Fija los parametros preestablesidos.
 			* @param v Nuevo parametro pre-establesido.
@@ -157,7 +157,7 @@ namespace PDvar
 			* @brief Obtiene los parametros por defecto.
 			* @return parametros por defecto
 			*/
-			AT Get();
+			AT Get(void);
 		private:
 			RV (** Fcn)(AT);
 			AT param;
@@ -170,7 +170,7 @@ namespace PDvar
 	}
 
 	template<typename RV,typename AT>
-	PDCallBack<RV,AT>::~PDCallBack ()
+	PDCallBack<RV,AT>::~PDCallBack (void)
 	{
 		// ~~~~~~~~~Nada
 	}
@@ -182,7 +182,7 @@ namespace PDvar
 	}
 
 	template<typename RV,typename AT>
-	RV PDCallBack<RV,AT>::Call()
+	RV PDCallBack<RV,AT>::Call(void)
 	{
 		return (**this->Fcn)(this->param);
 	}
@@ -194,7 +194,7 @@ namespace PDvar
 	}
 
 	template<typename RV,typename AT>
-	AT PDCallBack<RV,AT>::Get()
+	AT PDCallBack<RV,AT>::Get(void)
 	{
 		return this->param;
 	}

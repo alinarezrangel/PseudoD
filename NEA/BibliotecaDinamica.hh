@@ -32,7 +32,7 @@ namespace BibliotecaDinamica
 			/**
 			* @brief Destruye la instancia.
 			*/
-			virtual ~PseudoLlamar();
+			virtual ~PseudoLlamar(void);
 			/**
 			* @brief Lee los parametros del flujo.
 			* @arg in Flujo del cual leer.
@@ -63,7 +63,7 @@ namespace BibliotecaDinamica
 			/**
 			* @brief Destruye la instancia.
 			*/
-			virtual ~PseudoLlamarOO();
+			virtual ~PseudoLlamarOO(void);
 			/**
 			* @brief Lee los parametros del flujo.
 			* @arg in Flujo del cual leer.

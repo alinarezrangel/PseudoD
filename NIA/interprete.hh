@@ -61,9 +61,9 @@ namespace pseudod
 		PDFuncionNEA
 	);
 	PDCadena iniciar(
-		PDCadena,
-		PDCadena,
-		PDCadena
+		PDCadena nea,
+		PDCadena bepd,
+		PDCadena main
 	);
 	int terminar(void);
 	void ejecutar(PDCadena);
