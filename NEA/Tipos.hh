@@ -138,7 +138,7 @@ namespace PDTipos
 			* @param a nombre de la clase
 			* @param b campos de la dicha clase
 			*/
-			PseudoClase(PDCadena a = "____", std::vector<PDCadena> b = std::vector<PDCadena>());
+			PseudoClase(PDCadena a = "____", PDCadena base = "", std::vector<PDCadena> b = std::vector<PDCadena>());
 			/**
 			* @brief Destruye la dicha instancia
 			*/
@@ -155,6 +155,7 @@ namespace PDTipos
 			void LeerParametros(std::istream& in);
 		private:
 			PDCadena nm;
+			PDCadena base;
 			std::vector<PDCadena> methods;
 	};
 

@@ -1,33 +1,27 @@
-utilizar algor.pseudo
-utilizar mate.pseudo
 utilizar entsal.pseudo
+utilizar algor.pseudo
 
-instancia Arreglo arr
-adquirir ob
+clase MiIterador implementa IteradorBidireccional
+	:obtenerActual
+	:siguiente
+finclase
 
-llamar arr#agregar {PseudoVariable} finargs
-llamar arr#agregar {PseudoVariable} finargs
-llamar arr#agregar {PseudoVariable} finargs
-llamar arr#agregar {PseudoVariable} finargs
+funcion MiIterador#obtenerActual
+	adquirir yo
+	recibir_parametro yo
+	llamar ImprimirFormato {MiIterador#obtenerActual desde %\k} yo finargs
+	liberar yo
+finfun
 
-fijar ob a llamar arr#obtener {0} finargs
-fijar <ob> a {2}
-fijar ob a llamar arr#obtener {1} finargs
-fijar <ob> a {7}
-fijar ob a llamar arr#obtener {2} finargs
-fijar <ob> a {1}
-fijar ob a llamar arr#obtener {3} finargs
-fijar <ob> a {4}
+funcion MiIterador#siguiente
+	adquirir yo
+	recibir_parametro yo
+	llamar ImprimirFormato {MiIterador#siguiente desde %\k} yo finargs
+	liberar yo
+finfun
 
-fijar ob a CERO
+instancia MiIterador iter
 
-mientras comparar Importar.Ent.Comparar ob < arr#tamaño [ > ]
-	llamar ImprimirFormato
-		{arr[%] = %\k}
-		ob
-		arr#en<ob>
-	finargs
-	fijar ob a llamar Sumar ob UNO finargs
-finbucle
-
-liberar arr
+llamar iter#obtenerActual finargs
+llamar iter#siguiente finargs
+llamar iter#anterior finargs
