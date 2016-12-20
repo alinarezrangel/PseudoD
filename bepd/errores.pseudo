@@ -19,39 +19,34 @@ DOCUMENTA]
 @brief Es un error común
 Es la clase base de todos los errores en PseudoD.
 DOCUMENTA]
-clase Error
+clase Error hereda Objeto
 	mensaje
 finclase
-heredar Objeto Error
 
 [DOCUMENTA
 @brief Es un error de sintaxis.
 Todos los errores de sintaxis los maneja esta clase.
 DOCUMENTA]
-clase ErrorDeSintaxis
+clase ErrorDeSintaxis hereda Error
 finclase
-heredar Error ErrorDeSintaxis
 
 [DOCUMENTA
 @brief Es un error de semantica.
 Los errores de semantica son manejados por esta clase.
 DOCUMENTA]
-clase ErrorDeSemantica
+clase ErrorDeSemantica hereda Error
 finclase
-heredar Error ErrorDeSemantica
 
 [DOCUMENTA
 @brief Es un error del nucleo.
 Puede ser un acceso no permitido, entre otros.
 DOCUMENTA]
-clase ErrorDelNucleo
+clase ErrorDelNucleo hereda Error
 finclase
-heredar Error ErrorDelNucleo
 
 [DOCUMENTA
 @brief Es un error matematico
 Puede ser desde una division por cero, hasta errores de dominio.
 DOCUMENTA]
-clase ErrorMatematico
+clase ErrorMatematico hereda Error
 finclase
-heredar Error ErrorMatematico

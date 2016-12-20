@@ -1,27 +1,10 @@
 utilizar entsal.pseudo
 utilizar algor.pseudo
+utilizar clases.pseudo
+utilizar plugins.pseudo
+utilizar tipos.pseudo
+utilizar mate.pseudo
+utilizar cadena.pseudo
 
-clase MiIterador implementa IteradorBidireccional
-	:obtenerActual
-	:siguiente
-finclase
 
-funcion MiIterador#obtenerActual
-	adquirir yo
-	recibir_parametro yo
-	llamar ImprimirFormato {MiIterador#obtenerActual desde %\k} yo finargs
-	liberar yo
-finfun
 
-funcion MiIterador#siguiente
-	adquirir yo
-	recibir_parametro yo
-	llamar ImprimirFormato {MiIterador#siguiente desde %\k} yo finargs
-	liberar yo
-finfun
-
-instancia MiIterador iter
-
-llamar iter#obtenerActual finargs
-llamar iter#siguiente finargs
-llamar iter#anterior finargs

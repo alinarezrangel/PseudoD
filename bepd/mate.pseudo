@@ -604,12 +604,11 @@ finfun
 Posee todos los datos de una division.
 Con este se puede calcular el resto y cociente de una division.
 DOCUMENTA]
-clase Division
+clase Division hereda Objeto
 	resto
 	cociente
 	:divide
 finclase
-heredar Objeto Division
 
 [DOCUMENTA
 @brief Divide dos numeros.

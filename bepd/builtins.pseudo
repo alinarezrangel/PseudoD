@@ -109,30 +109,27 @@ finclase
 @brief Es la clase principal de instancias.
 Cada instancia creada con adquirir es una instancia de esta.
 DOCUMENTA]
-clase PseudoVariable
+clase PseudoVariable hereda Objeto
 finclase
-heredar Objeto PseudoVariable
 
 [DOCUMENTA
 @brief Es la clase donde se almacenan las funciones.
 Cada funcion declarada, se almacena en un objeto de esta clase.
 DOCUMENTA]
-clase PseudoFuncion
+clase PseudoFuncion hereda Objeto
 	;cod
 finclase
-heredar Objeto PseudoFuncion
 
 [DOCUMENTA
 @brief Es un puntero, mejor que los declarados con `puntero`.
 Es además orientado a objetos y permite acceder de forma más eficiente
 a la memoria apuntada.
 DOCUMENTA]
-clase PunteroInteligente
+clase PunteroInteligente hereda Objeto
 	;direccion
 	:apuntar
 	:esNulo
 finclase
-heredar Objeto PunteroInteligente
 
 [DOCUMENTA
 @brief Redirecciona el puntero a otro objeto.

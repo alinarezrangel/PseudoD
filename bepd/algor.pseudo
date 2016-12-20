@@ -28,11 +28,10 @@ contenedora en la que se vaya a utilizar.
 
 @abstract
 DOCUMENTA]
-clase Iterador
+clase Iterador hereda Objeto
 	:obtenerActual
 	:siguiente
 finclase
-heredar Objeto Iterador
 
 [DOCUMENTA
 @brief Obtiene el elemento actual.
@@ -61,10 +60,9 @@ la clase <Iterador> no provee forma de retroceder un elemento.
 
 @abstract
 DOCUMENTA]
-clase IteradorBidireccional
+clase IteradorBidireccional extiende Iterador
 	:anterior
 finclase
-heredar Objeto IteradorBidireccional
 
 [DOCUMENTA
 @brief Retrocede un elemento.
@@ -86,9 +84,8 @@ por un determinado elemento, este también pase por dicho.
 
 @abstract
 DOCUMENTA]
-clase IteradorReversa
+clase IteradorReversa extiende Iterador
 finclase
-heredar Iterador IteradorReversa
 
 [DOCUMENTA
 @brief Iterador bidireccional en reversa
@@ -98,10 +95,9 @@ Aunque no hereda a IteradorBidireccional, lo implementa.
 
 @abstract
 DOCUMENTA]
-clase IteradorBidireccionalReversa
+clase IteradorBidireccionalReversa extiende IteradorReversa implementa IteradorBidireccional
 	:anterior
 finclase
-heredar IteradorReversa IteradorBidireccionalReversa
 
 funcion IteradorBidireccionalReversa#anterior
 finfun
@@ -112,13 +108,12 @@ Todos los contenedores proveen los iteradores mediante métodos especializados.
 
 @abstract
 DOCUMENTA]
-clase Contenedor
+clase Contenedor hereda Objeto
 	:inicio
 	:final
 	:inicioReversa
 	:finalReversa
 finclase
-heredar Objeto Contenedor
 
 [DOCUMENTA
 @brief Obtiene un iterador apuntando al inicio de la secuencia.
@@ -167,14 +162,13 @@ Puede obtener referencias a los elementos utiliando el método
 <Arregle\#obtener>, o acceder a los elementos utilizando los atributos
 dinámicos `#en<i>`
 DOCUMENTA]
-clase Arreglo
+clase Arreglo hereda Contenedor
 	tamaño
 	:crear
 	:destruir
 	:obtener
 	:agregar
 finclase
-heredar Contenedor Arreglo
 
 [DOCUMENTA
 @brief Crea el arreglo.
@@ -252,3 +246,4 @@ funcion Arreglo#agregar [ ref yo, tipo tipo -> indice ]
 	liberar tipo
 	liberar tm
 finfun
+

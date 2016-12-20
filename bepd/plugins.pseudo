@@ -20,8 +20,7 @@ DOCUMENTA]
 @brief Representa un plug in dinamico.
 Se puede utilizar este plugin con `Importar.BibliotecasDinamicas.Llamar`
 DOCUMENTA]
-clase BibliotecaDinamica
+clase BibliotecaDinamica hereda Objeto
 	lib
 	sim
 finclase
-heredar Objeto BibliotecaDinamica

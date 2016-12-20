@@ -23,12 +23,11 @@ DOCUMENTA]
 [DOCUMENTA
 @brief Un objeto que sirve de buffer para operaciones E/S.
 DOCUMENTA]
-clase BufferTexto
+clase BufferTexto hereda Objeto
 	valor
 	:escribir
 	:escribirLinea
 finclase
-heredar Objeto BufferTexto
 
 [DOCUMENTA
 @brief Escribe un texto en la salida estándar.
@@ -114,7 +113,7 @@ Donde:
  * `NLINER` Es el comodin para el retorno de carro,(junto con `SPEC`).
  * `NLINE` Es el comodin para el nueva linea del sistema,(junto con `SPEC`).
 DOCUMENTA]
-clase DatosDeSalida
+clase DatosDeSalida hereda Objeto
 	MARCA
 	SPEC
 	NLINE
@@ -124,7 +123,6 @@ clase DatosDeSalida
 	NL
 	RC
 finclase
-heredar Objeto DatosDeSalida
 
 [DOCUMENTA
 @brief Es la configuracion predeterminada del sistema de E/S.

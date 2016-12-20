@@ -22,13 +22,12 @@ DOCUMENTA]
 
 @abstract
 DOCUMENTA]
-clase ElementoMatematico
+clase ElementoMatematico hereda Objeto
 	:sumar
 	:restar
 	:multiplicar
 	:dividir
 finclase
-heredar Objeto ElementoMatematico
 
 [DOCUMENTA
 @brief Suma dos elementos (res = yo + tu)
@@ -72,7 +71,7 @@ finfun
 A diferencia de <Decimal>, este utiliza una representacion en forma de fracción
 y no una representacion decimal.
 DOCUMENTA]
-clase Fraccion
+clase Fraccion hereda ElementoMatematico
 	numerador
 	denominador
 	:sumar
@@ -80,7 +79,6 @@ clase Fraccion
 	:multiplicar
 	:dividir
 finclase
-heredar ElementoMatematico Fraccion
 
 [ Fraccion#a. Yo#NOMBRE. Tu#NOMBRE. ]
 
@@ -202,13 +200,12 @@ fueran PseudoVariables.
 
 @obsolete
 DOCUMENTA]
-clase Boole
+clase Boole hereda Objeto
 	:Y
 	:O
 	:NO
 	:O-EXCLUSIVO
 #(Final).
-heredar Objeto Boole
 
 [DOCUMENTA
 @brief Operacion Y entre dos valores de Boole.
@@ -309,14 +306,13 @@ y <Decimal>.
 
 El valor se almacena en el campo valor, como en Decimal.
 DOCUMENTA]
-clase Numero
+clase Numero hereda ElementoMatematico
 	valor
 	:sumar
 	:restar
 	:multiplicar
 	:dividir
 finclase
-heredar ElementoMatematico Numero
 
 [DOCUMENTA
 @brief Suma dos Numeros.
@@ -413,14 +409,13 @@ Para numeros en `Z`, u otra representacion de numeros en `Q`, se pueden ver:
  * <Numero> para representaciones en `Z`.
  * <Fraccion> para representaciones en `Q`.
 DOCUMENTA]
-clase Decimal
+clase Decimal hereda ElementoMatematico
 	valor
 	:sumar
 	:restar
 	:multiplicar
 	:dividir
 finclase
-heredar ElementoMatematico Decimal
 
 [DOCUMENTA
 @brief Suma dos Numeros Decimales.
@@ -514,8 +509,7 @@ finfun
 @brief Representa un par de valores.
 Posee un primero (primer valor o clave) y un segundo (segundo valor o valor).
 DOCUMENTA]
-clase Par
+clase Par hereda Objeto
 	primero
 	segundo
 finclase
-heredar Objeto Par

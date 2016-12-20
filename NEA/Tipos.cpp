@@ -128,32 +128,34 @@ namespace PDTipos
 				+ " nm ... FIN' alias 'clase nm ... FIN': EOF inesperado"
 			);
 		}
-		if((b == "hereda") || (b == "heredar") || (b == "extiende") || (b == "implementa"))
-		{
-			if(!(in >> b))
-			{
-				throw PDvar::ErrorDeSintaxis(
-					"Error en "
-					+ this->ObtenerClave()
-					+ ": '"
-					+ this->ObtenerClave()
-					+ " nm ... FIN' alias 'clase HEREDA base nm ... FIN': EOF inesperado"
-				);
-			}
-			this->base = b;
-			if(!(in >> b))
-			{
-				throw PDvar::ErrorDeSintaxis(
-					"Error en "
-					+ this->ObtenerClave()
-					+ ": '"
-					+ this->ObtenerClave()
-					+ " nm ... FIN' alias 'clase nm ... FIN': EOF inesperado"
-				);
-			}
-		}
 		while((b != "#(Final).") && (b != "finclase"))
 		{
+			if((b == "hereda") || (b == "heredar") || (b == "extiende") || (b == "implementa"))
+			{
+				if(!(in >> b))
+				{
+					throw PDvar::ErrorDeSintaxis(
+						"Error en "
+						+ this->ObtenerClave()
+						+ ": '"
+						+ this->ObtenerClave()
+						+ " nm ... FIN' alias 'clase HEREDA base nm ... FIN': EOF inesperado"
+					);
+				}
+				if(b != "implementa") // PseudoD aún no soporta implementaciones sin herencia
+					this->base = b;
+				if(!(in >> b))
+				{
+					throw PDvar::ErrorDeSintaxis(
+						"Error en "
+						+ this->ObtenerClave()
+						+ ": '"
+						+ this->ObtenerClave()
+						+ " nm ... FIN' alias 'clase nm ... FIN': EOF inesperado"
+					);
+				}
+				continue;
+			}
 			this->methods.push_back(b);
 			if(!(in >> b))
 			{

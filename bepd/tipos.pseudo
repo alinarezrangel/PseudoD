@@ -23,7 +23,7 @@ variable a fijar. Esta variable puede ser una instancia de cualquier clase.
 
 @obsolete
 DOCUMENTA]
-clase Referencia
+clase Referencia hereda Objeto
 	ref
 	:obtenerAttrStr
 	:obtenerAttr
@@ -32,7 +32,6 @@ clase Referencia
 	:llamarMet
 	:obtenerValor
 finclase
-heredar Objeto Referencia
 
 [DOCUMENTA
 @brief Devuelve en forma de cadena, el atributo de la referencia.
