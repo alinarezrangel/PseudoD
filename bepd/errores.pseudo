@@ -20,7 +20,7 @@ DOCUMENTA]
 Es la clase base de todos los errores en PseudoD.
 DOCUMENTA]
 clase Error hereda Objeto
-	mensaje
+	atributo mensaje
 finclase
 
 [DOCUMENTA

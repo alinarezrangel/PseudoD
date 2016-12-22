@@ -24,13 +24,13 @@ variable a fijar. Esta variable puede ser una instancia de cualquier clase.
 @obsolete
 DOCUMENTA]
 clase Referencia hereda Objeto
-	ref
-	:obtenerAttrStr
-	:obtenerAttr
-	:fijarAttr
-	:redireccionarAttr
-	:llamarMet
-	:obtenerValor
+	atributo ref
+	metodo obtenerAttrStr
+	metodo obtenerAttr
+	metodo fijarAttr
+	metodo redireccionarAttr
+	metodo llamarMet
+	metodo obtenerValor
 finclase
 
 [DOCUMENTA

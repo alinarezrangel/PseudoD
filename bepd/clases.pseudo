@@ -23,10 +23,10 @@ DOCUMENTA]
 @abstract
 DOCUMENTA]
 clase ElementoMatematico hereda Objeto
-	:sumar
-	:restar
-	:multiplicar
-	:dividir
+	metodo sumar
+	metodo restar
+	metodo multiplicar
+	metodo dividir
 finclase
 
 [DOCUMENTA
@@ -72,12 +72,12 @@ A diferencia de <Decimal>, este utiliza una representacion en forma de fracción
 y no una representacion decimal.
 DOCUMENTA]
 clase Fraccion hereda ElementoMatematico
-	numerador
-	denominador
-	:sumar
-	:restar
-	:multiplicar
-	:dividir
+	atributo numerador
+	atributo denominador
+	metodo sumar
+	metodo restar
+	metodo multiplicar
+	metodo dividir
 finclase
 
 [ Fraccion#a. Yo#NOMBRE. Tu#NOMBRE. ]
@@ -201,11 +201,11 @@ fueran PseudoVariables.
 @obsolete
 DOCUMENTA]
 clase Boole hereda Objeto
-	:Y
-	:O
-	:NO
-	:O-EXCLUSIVO
-#(Final).
+	metodo Y
+	metodo O
+	metodo NO
+	metodo O-EXCLUSIVO
+finclase
 
 [DOCUMENTA
 @brief Operacion Y entre dos valores de Boole.
@@ -307,11 +307,11 @@ y <Decimal>.
 El valor se almacena en el campo valor, como en Decimal.
 DOCUMENTA]
 clase Numero hereda ElementoMatematico
-	valor
-	:sumar
-	:restar
-	:multiplicar
-	:dividir
+	atributo valor
+	metodo sumar
+	metodo restar
+	metodo multiplicar
+	metodo dividir
 finclase
 
 [DOCUMENTA
@@ -410,11 +410,11 @@ Para numeros en `Z`, u otra representacion de numeros en `Q`, se pueden ver:
  * <Fraccion> para representaciones en `Q`.
 DOCUMENTA]
 clase Decimal hereda ElementoMatematico
-	valor
-	:sumar
-	:restar
-	:multiplicar
-	:dividir
+	atributo valor
+	metodo sumar
+	metodo restar
+	metodo multiplicar
+	metodo dividir
 finclase
 
 [DOCUMENTA
@@ -510,6 +510,6 @@ finfun
 Posee un primero (primer valor o clave) y un segundo (segundo valor o valor).
 DOCUMENTA]
 clase Par hereda Objeto
-	primero
-	segundo
+	atributo primero
+	atributo segundo
 finclase

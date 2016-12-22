@@ -22,6 +22,7 @@
 #include <cstring>
 #include <cstdio>
 #include <type_traits>
+#include <functional>
 
 #include "PDData.hh"
 

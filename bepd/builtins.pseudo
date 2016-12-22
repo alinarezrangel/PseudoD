@@ -100,10 +100,9 @@ NOMBRE es el nombre de la variable en un atributo.
 Tipo es el nombre de su clase.
 DOCUMENTA]
 clase Objeto
-	NOMBRE
-	Tipo
+	atributo NOMBRE
+	atributo Tipo
 finclase
-[ No hereda ]
 
 [DOCUMENTA
 @brief Es la clase principal de instancias.
@@ -117,7 +116,7 @@ finclase
 Cada funcion declarada, se almacena en un objeto de esta clase.
 DOCUMENTA]
 clase PseudoFuncion hereda Objeto
-	;cod
+	puntero cod
 finclase
 
 [DOCUMENTA
@@ -126,9 +125,9 @@ Es además orientado a objetos y permite acceder de forma más eficiente
 a la memoria apuntada.
 DOCUMENTA]
 clase PunteroInteligente hereda Objeto
-	;direccion
-	:apuntar
-	:esNulo
+	puntero direccion
+	metodo apuntar
+	metodo esNulo
 finclase
 
 [DOCUMENTA

@@ -24,9 +24,9 @@ DOCUMENTA]
 @brief Un objeto que sirve de buffer para operaciones E/S.
 DOCUMENTA]
 clase BufferTexto hereda Objeto
-	valor
-	:escribir
-	:escribirLinea
+	atributo valor
+	metodo escribir
+	metodo escribirLinea
 finclase
 
 [DOCUMENTA
@@ -114,14 +114,14 @@ Donde:
  * `NLINE` Es el comodin para el nueva linea del sistema,(junto con `SPEC`).
 DOCUMENTA]
 clase DatosDeSalida hereda Objeto
-	MARCA
-	SPEC
-	NLINE
-	NLINER
-	NLINERR
-	CV
-	NL
-	RC
+	atributo MARCA
+	atributo SPEC
+	atributo NLINE
+	atributo NLINER
+	atributo NLINERR
+	atributo CV
+	atributo NL
+	atributo RC
 finclase
 
 [DOCUMENTA

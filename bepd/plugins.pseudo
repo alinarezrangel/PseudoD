@@ -21,6 +21,6 @@ DOCUMENTA]
 Se puede utilizar este plugin con `Importar.BibliotecasDinamicas.Llamar`
 DOCUMENTA]
 clase BibliotecaDinamica hereda Objeto
-	lib
-	sim
+	atributo lib
+	atributo sim
 finclase

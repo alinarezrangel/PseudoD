@@ -107,57 +107,11 @@ namespace PDTipos
 
 	void PseudoClase::LeerParametros(std::istream& in)
 	{
-		if(!(in >> this->nm))
-		{
-			throw PDvar::ErrorDeSintaxis(
-				"Error en "
-				+ this->ObtenerClave()
-				+ ": '"
-				+ this->ObtenerClave()
-				+ " nm ... FIN' alias 'clase nm ... FIN': EOF inesperado"
-			);
-		}
 		PDCadena b = "";
-		if(!(in >> b))
+		std::function<PDCadena (std::istream&)> readStr = [&](std::istream& input) -> PDCadena
 		{
-			throw PDvar::ErrorDeSintaxis(
-				"Error en "
-				+ this->ObtenerClave()
-				+ ": '"
-				+ this->ObtenerClave()
-				+ " nm ... FIN' alias 'clase nm ... FIN': EOF inesperado"
-			);
-		}
-		while((b != "#(Final).") && (b != "finclase"))
-		{
-			if((b == "hereda") || (b == "heredar") || (b == "extiende") || (b == "implementa"))
-			{
-				if(!(in >> b))
-				{
-					throw PDvar::ErrorDeSintaxis(
-						"Error en "
-						+ this->ObtenerClave()
-						+ ": '"
-						+ this->ObtenerClave()
-						+ " nm ... FIN' alias 'clase HEREDA base nm ... FIN': EOF inesperado"
-					);
-				}
-				if(b != "implementa") // PseudoD aún no soporta implementaciones sin herencia
-					this->base = b;
-				if(!(in >> b))
-				{
-					throw PDvar::ErrorDeSintaxis(
-						"Error en "
-						+ this->ObtenerClave()
-						+ ": '"
-						+ this->ObtenerClave()
-						+ " nm ... FIN' alias 'clase nm ... FIN': EOF inesperado"
-					);
-				}
-				continue;
-			}
-			this->methods.push_back(b);
-			if(!(in >> b))
+			PDCadena w = "";
+			if(!(input >> w))
 			{
 				throw PDvar::ErrorDeSintaxis(
 					"Error en "
@@ -167,6 +121,41 @@ namespace PDTipos
 					+ " nm ... FIN' alias 'clase nm ... FIN': EOF inesperado"
 				);
 			}
+			return w;
+		};
+		this->nm = readStr(in);
+		b = readStr(in);
+		while((b != "#(Final).") && (b != "finclase"))
+		{
+			if(b.front() == '[')
+			{
+				if(b.back() != ']')
+					std::getline(in, b, ']');
+				b = readStr(in);
+				continue;
+			}
+			if((b == "hereda") || (b == "heredar") || (b == "extiende") || (b == "implementa"))
+			{
+				b = readStr(in);
+				if(b != "implementa") // PseudoD aún no soporta implementaciones sin herencia
+					this->base = b;
+				b = readStr(in);
+				continue;
+			}
+			if(b == "atributo")
+			{
+				b = readStr(in);
+			}
+			else if(b == "puntero")
+			{
+				b = ";" + readStr(in);
+			}
+			else if(b == "metodo")
+			{
+				b = ":" + readStr(in);
+			}
+			this->methods.push_back(b);
+			b = readStr(in);
 		}
 	}
 

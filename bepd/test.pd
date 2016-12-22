@@ -6,5 +6,69 @@ utilizar tipos.pseudo
 utilizar mate.pseudo
 utilizar cadena.pseudo
 
+clase Anfitrion hereda Objeto
+	atributo nombreFiesta [:error]
+	atributo despedir [ Comentario ]
+	metodo saludarA [dentro de clases]
+	metodo despedirA
 
+	metodo crear
+	metodo destruir
+	[y al final]
+finclase
 
+funcion Anfitrion#crear
+	adquirir yo
+	recibir_parametro yo
+	fijar <yo>#nombreFiesta a {Nuevas clases de PseudoD}
+	fijar <yo>#despedir a VERDADERO
+	liberar yo
+finfun
+
+funcion Anfitrion#destruir
+	adquirir yo
+	recibir_parametro yo
+	llamar EscribirLinea {Destruido Anfitrion} finargs
+	liberar yo
+finfun
+
+funcion Anfitrion#saludarA
+	adquirir yo
+	adquirir nombre
+	recibir_parametro yo
+	recibir_parametro nombre
+	llamar ImprimirFormato
+		{Hola %, bienvenido a %\k}
+		nombre
+		<yo>#nombreFiesta
+	finargs
+	liberar yo
+	liberar nombre
+finfun
+
+funcion Anfitrion#despedirA
+	adquirir yo
+	adquirir nombre
+	recibir_parametro yo
+	recibir_parametro nombre
+	si <yo>#despedir
+		llamar ImprimirFormato
+			{Hasta luego %!\k}
+			nombre
+		finargs
+	fin
+	liberar yo
+	liberar nombre
+finfun
+
+instancia Anfitrion anf
+
+llamar anf#saludarA {Mundo} finargs
+llamar anf#saludarA {PseudoD} finargs
+llamar anf#saludarA {Clases} finargs
+
+llamar anf#despedirA {Mundo} finargs
+llamar anf#despedirA {PseudoD} finargs
+llamar anf#despedirA {Clases} finargs
+
+liberar anf

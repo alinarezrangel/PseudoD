@@ -29,8 +29,8 @@ contenedora en la que se vaya a utilizar.
 @abstract
 DOCUMENTA]
 clase Iterador hereda Objeto
-	:obtenerActual
-	:siguiente
+	metodo obtenerActual
+	metodo siguiente
 finclase
 
 [DOCUMENTA
@@ -61,7 +61,7 @@ la clase <Iterador> no provee forma de retroceder un elemento.
 @abstract
 DOCUMENTA]
 clase IteradorBidireccional extiende Iterador
-	:anterior
+	metodo anterior
 finclase
 
 [DOCUMENTA
@@ -96,7 +96,7 @@ Aunque no hereda a IteradorBidireccional, lo implementa.
 @abstract
 DOCUMENTA]
 clase IteradorBidireccionalReversa extiende IteradorReversa implementa IteradorBidireccional
-	:anterior
+	metodo anterior
 finclase
 
 funcion IteradorBidireccionalReversa#anterior
@@ -109,10 +109,10 @@ Todos los contenedores proveen los iteradores mediante métodos especializados.
 @abstract
 DOCUMENTA]
 clase Contenedor hereda Objeto
-	:inicio
-	:final
-	:inicioReversa
-	:finalReversa
+	metodo inicio
+	metodo final
+	metodo inicioReversa
+	metodo finalReversa
 finclase
 
 [DOCUMENTA
@@ -163,11 +163,11 @@ Puede obtener referencias a los elementos utiliando el método
 dinámicos `#en<i>`
 DOCUMENTA]
 clase Arreglo hereda Contenedor
-	tamaño
-	:crear
-	:destruir
-	:obtener
-	:agregar
+	atributo tamaño
+	metodo crear
+	metodo destruir
+	metodo obtener
+	metodo agregar
 finclase
 
 [DOCUMENTA
@@ -246,4 +246,3 @@ funcion Arreglo#agregar [ ref yo, tipo tipo -> indice ]
 	liberar tipo
 	liberar tm
 finfun
-
