@@ -6,69 +6,31 @@ utilizar tipos.pseudo
 utilizar mate.pseudo
 utilizar cadena.pseudo
 
-clase Anfitrion hereda Objeto
-	atributo nombreFiesta [:error]
-	atributo despedir [ Comentario ]
-	metodo saludarA [dentro de clases]
-	metodo despedirA
+instancia Arreglo arr
+adquirir ref
 
-	metodo crear
-	metodo destruir
-	[y al final]
-finclase
+llamar arr#agregar {PseudoVariable} finargs
+llamar arr#agregar {PseudoVariable} finargs
+llamar arr#agregar {PseudoVariable} finargs
+llamar arr#agregar {PseudoVariable} finargs
 
-funcion Anfitrion#crear
-	adquirir yo
-	recibir_parametro yo
-	fijar <yo>#nombreFiesta a {Nuevas clases de PseudoD}
-	fijar <yo>#despedir a VERDADERO
-	liberar yo
-finfun
+fijar ref a llamar arr#obtener {0} finargs
+fijar <ref> a {Hola en 0}
+fijar ref a llamar arr#obtener {1} finargs
+fijar <ref> a {Hola en 1}
+fijar ref a llamar arr#obtener {2} finargs
+fijar <ref> a {Hola en 2}
+fijar ref a llamar arr#obtener {3} finargs
+fijar <ref> a {Hola en 3}
 
-funcion Anfitrion#destruir
-	adquirir yo
-	recibir_parametro yo
-	llamar EscribirLinea {Destruido Anfitrion} finargs
-	liberar yo
-finfun
+instancia IteradorArregloReversa iterBeg
 
-funcion Anfitrion#saludarA
-	adquirir yo
-	adquirir nombre
-	recibir_parametro yo
-	recibir_parametro nombre
+llamar arr#crearIteradorReversa iterBeg#NOMBRE finargs
+
+mientras no llamar iterBeg#igualA llamar arr#inicioReversa finargs finargs
 	llamar ImprimirFormato
-		{Hola %, bienvenido a %\k}
-		nombre
-		<yo>#nombreFiesta
+		{%\k}
+		llamar iterBeg#obtenerActual finargs
 	finargs
-	liberar yo
-	liberar nombre
-finfun
-
-funcion Anfitrion#despedirA
-	adquirir yo
-	adquirir nombre
-	recibir_parametro yo
-	recibir_parametro nombre
-	si <yo>#despedir
-		llamar ImprimirFormato
-			{Hasta luego %!\k}
-			nombre
-		finargs
-	fin
-	liberar yo
-	liberar nombre
-finfun
-
-instancia Anfitrion anf
-
-llamar anf#saludarA {Mundo} finargs
-llamar anf#saludarA {PseudoD} finargs
-llamar anf#saludarA {Clases} finargs
-
-llamar anf#despedirA {Mundo} finargs
-llamar anf#despedirA {PseudoD} finargs
-llamar anf#despedirA {Clases} finargs
-
-liberar anf
+	llamar iterBeg#siguiente finargs
+finbucle
