@@ -124,6 +124,10 @@ namespace PDTipos
 			return w;
 		};
 		this->nm = readStr(in);
+		if(this->nm == "abstracta")
+		{
+			this->nm = readStr(in);
+		}
 		b = readStr(in);
 		while((b != "#(Final).") && (b != "finclase"))
 		{

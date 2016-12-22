@@ -28,7 +28,7 @@ contenedora en la que se vaya a utilizar.
 
 @abstract
 DOCUMENTA]
-clase Iterador hereda Objeto
+clase abstracta Iterador hereda Objeto
 	metodo obtenerActual
 	metodo siguiente
 finclase
@@ -60,7 +60,7 @@ la clase <Iterador> no provee forma de retroceder un elemento.
 
 @abstract
 DOCUMENTA]
-clase IteradorBidireccional extiende Iterador
+clase abstracta IteradorBidireccional extiende Iterador
 	metodo anterior
 finclase
 
@@ -84,7 +84,7 @@ por un determinado elemento, este también pase por dicho.
 
 @abstract
 DOCUMENTA]
-clase IteradorReversa extiende Iterador
+clase abstracta IteradorReversa extiende Iterador
 finclase
 
 [DOCUMENTA
@@ -95,7 +95,7 @@ Aunque no hereda a IteradorBidireccional, lo implementa.
 
 @abstract
 DOCUMENTA]
-clase IteradorBidireccionalReversa extiende IteradorReversa implementa IteradorBidireccional
+clase abstracta IteradorBidireccionalReversa extiende IteradorReversa implementa IteradorBidireccional
 	metodo anterior
 finclase
 
@@ -108,7 +108,7 @@ Todos los contenedores proveen los iteradores mediante métodos especializados.
 
 @abstract
 DOCUMENTA]
-clase Contenedor hereda Objeto
+clase abstracta Contenedor hereda Objeto
 	metodo inicio
 	metodo final
 	metodo inicioReversa
