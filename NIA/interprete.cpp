@@ -231,10 +231,79 @@ namespace pseudod
 			{
 				DATOS_INT.Empujar(nombre_var, cae(DATOS_INT.ObtenerVariable("VG_PILA_ACTUAL")));
 			}
+			param.clear();
 			std::istringstream st(a);
-			while(st >> h)
+			if(st >> h)
 			{
-				procesar(h, st, FUNCION);
+				NMemonicoProxy px = ConvertirCadenaANMemonico(h);
+				if(px == NMemonico::PD_CON)
+				{
+					// La funcion utiliza argumentos del nuevo estilo:
+					// funcion <fname> (de <argname>( y <argname>)*)?
+					if(!(st >> h))
+					{
+						throw PDvar::ErrorDeSintaxis(
+							"Error en llamar: llamar FN args.. FIN -> funcion X de Y... ... finfun: EOF inesperado en la funcion"
+						);
+					}
+					param.push_back(h);
+					DATOS_INT.Ejecutar("adquirir " + h);
+					DATOS_INT.Ejecutar("sacar " + h);
+					bool depY = true; // Si la orden deberia ser un "y"
+					NMemonicoProxy px2;
+					while(true)
+					{
+						if(!(st >> h))
+						{
+							throw PDvar::ErrorDeSintaxis(
+								"Error en llamar: llamar FN args.. FIN -> funcion X de Y... ... finfun: EOF inesperado en la funcion"
+							);
+						}
+						px2 = ConvertirCadenaANMemonico(h);
+						if((depY) && (px2 != NMemonico::PD_OPERADOR_Y))
+						{
+							break;
+						}
+						if(!depY)
+						{
+							DATOS_INT.Ejecutar("adquirir " + h);
+							DATOS_INT.Ejecutar("sacar " + h);
+							param.push_back(h);
+						}
+						depY = !depY;
+					}
+				}
+				st.seekg(0);
+				while(st >> h)
+				{
+					procesar(h, st, FUNCION);
+				}
+				for(auto iter = param.begin(); iter != param.end(); iter++)
+				{
+					DATOS_INT.Ejecutar("liberar " + (*iter));
+				}
+			}
+		}
+		else if(proxy == NMemonico::PD_CON)
+		{
+			PDCadena args = "";
+			e >> args;
+			std::istream::pos_type p = e.tellg();
+			NMemonicoProxy px = ConvertirCadenaANMemonico(args);
+			if((e >> args) && (px == NMemonico::PD_OPERADOR_Y))
+			{
+				do
+				{
+					e >> args;
+					p = e.tellg();
+					e >> args;
+					px = ConvertirCadenaANMemonico(args);
+				} while(px == NMemonico::PD_OPERADOR_Y);
+				e.seekg(p);
+			}
+			else
+			{
+				e.seekg(p);
 			}
 		}
 		else if(proxy == NMemonico::PD_FUNCION)
@@ -276,8 +345,11 @@ namespace pseudod
 		{
 			PDCadena variable1;
 			e >> variable1;
-			PDCadena& a = DATOS_INT.ObtenerVariable(variable1);
-			DATOS_INT.Empujar(a, cae(DATOS_INT.ObtenerVariable("VG_PILA_ACTUAL")));
+			// PDCadena& a = DATOS_INT.ObtenerVariable(variable1);
+			DATOS_INT.Empujar(
+				PDvar::ValorDelToken(variable1, e, &DATOS_INT),
+				cae(DATOS_INT.ObtenerVariable("VG_PILA_ACTUAL"))
+			);
 		}
 		else if(proxy == NMemonico::PD_SACAR)
 		{

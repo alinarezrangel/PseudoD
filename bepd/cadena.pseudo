@@ -30,16 +30,10 @@ redireccionar Cadena#cod Cadena
 @dev c1 concatenado con c2
 @races None
 DOCUMENTA]
-funcion Cadena#Concatenar [ c1, c2 -> c1 ++ c2 ]
-	adquirir c1
-	adquirir c2
+funcion Cadena#Concatenar de c1 y c2
 	adquirir resultado
-	recibir_parametro c1
-	recibir_parametro c2
 	Importar.Cad.Concatenar c1 c2 resultado
 	devolver resultado
-	liberar c1
-	liberar c2
 	liberar resultado
 finfun
 
@@ -51,19 +45,10 @@ finfun
 @dev La subcadena
 @races None
 DOCUMENTA]
-funcion Cadena#SubCadena [ en, desde, longitud -> en(desde:longitud) ]
-	adquirir cadena
-	adquirir desde
-	adquirir longitud
+funcion Cadena#SubCadena de en y desde y longitud
 	adquirir subcadena
-	recibir_parametro cadena
-	recibir_parametro desde
-	recibir_parametro longitud
-	Importar.Cad.Sub_Cadena desde longitud cadena subcadena
+	Importar.Cad.Sub_Cadena desde longitud en subcadena
 	devolver subcadena
-	liberar cadena
-	liberar desde
-	liberar longitud
 	liberar subcadena
 finfun
 
@@ -75,22 +60,13 @@ finfun
 @dev El índice de la primera aparición.
 @races None
 DOCUMENTA]
-funcion Cadena#Buscar [ en, que, desde? -> indice ]
-	adquirir cadena
-	adquirir queBuscar
+funcion Cadena#Buscar de en y que y desde [ en, que, desde? -> indice ]
 	adquirir indice
-	adquirir desde
-	recibir_parametro cadena
-	recibir_parametro queBuscar
-	recibir_parametro desde
 	si son iguales desde y NULO
 		fijar desde a {1}
 		empujar NULO
 	fin
-	Importar.Cad.Buscar queBuscar desde cadena indice
+	Importar.Cad.Buscar que desde en indice
 	devolver indice
-	liberar cadena
-	liberar queBuscar
 	liberar indice
-	liberar desde
 finfun

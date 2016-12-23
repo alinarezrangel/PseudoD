@@ -6,8 +6,12 @@ utilizar tipos.pseudo
 utilizar mate.pseudo
 utilizar cadena.pseudo
 
+instancia PunteroInteligente xw
+
 instancia Arreglo arr
 adquirir ref
+
+llamar xw#apuntar arr#NOMBRE finargs
 
 llamar arr#agregar {PseudoVariable} finargs
 llamar arr#agregar {PseudoVariable} finargs
@@ -23,14 +27,36 @@ fijar <ref> a {Hola en 2}
 fijar ref a llamar arr#obtener {3} finargs
 fijar <ref> a {Hola en 3}
 
-instancia IteradorArregloReversa iterBeg
+instancia IteradorArreglo iterBeg
 
-llamar arr#crearIteradorReversa iterBeg#NOMBRE finargs
+llamar arr#crearIterador iterBeg#NOMBRE finargs
 
-mientras no llamar iterBeg#igualA llamar arr#inicioReversa finargs finargs
+mientras no llamar iterBeg#igualA llamar arr#final finargs finargs
 	llamar ImprimirFormato
-		{%\k}
+		{\<\k}
 		llamar iterBeg#obtenerActual finargs
 	finargs
 	llamar iterBeg#siguiente finargs
 finbucle
+
+clase X hereda Objeto
+	atributo Y
+
+	metodo ds
+	metodo dy
+finclase
+
+funcion X#ds con yo y msg
+	llamar EscribirLinea <yo>#Y finargs
+	llamar EscribirLinea msg finargs
+finfun
+
+funcion X#dy con yo
+	llamar ImprimirFormato {Hola %\k} <yo>#Y finargs
+finfun
+
+instancia X x
+fijar x#Y a {Desde X}
+
+llamar x#ds {hola} finargs
+llamar x#dy finargs

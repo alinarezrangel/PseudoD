@@ -278,6 +278,22 @@ namespace PDvar
 
 	PDCadena ValorDelToken(PDCadena tok, std::istream& in, PDDatos* data)
 	{
+		if(tok.front() == '[')
+		{
+			if(tok.back() == ']')
+			{
+				in >> tok;
+				return ValorDelToken(tok, in, data);
+			}
+			std::getline(in, tok, ']');
+			in >> tok;
+			return ValorDelToken(tok, in, data);
+		}
+		if(tok == "si")
+		{
+			in >> tok;
+			return ValorDelToken(tok, in, data);
+		}
 		if(tok == "llamar")
 		{
 			data->Ejecutar("llamar", in);

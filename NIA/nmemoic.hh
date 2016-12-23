@@ -70,7 +70,7 @@ namespace pseudod
 				PD_OPERADOR_SON, // son/sean
 				PD_OPERADOR_IGUALES, // iguales
 				PD_OPERADOR_DIFERENTES, // diferentes
-				PD_OPERADOR_Y, // y
+				PD_OPERADOR_Y, // y/e
 				PD_OPERADOR_COMPARAR, // comparar
 				PD_OPERADOR_NO, // no
 				PD_OPERADOR_EJECUTAR, // ejecutar
@@ -78,6 +78,7 @@ namespace pseudod
 				PD_LEER, // leer
 				PD_UTILIZAR, // utilizar
 				PD_LLAMAR, // llamar
+				PD_CON, // con|de
 				PD_FUNCION, // funcion
 				PD_FIN_FUNCION, // finfun
 				PD_FIN_SI, // fin

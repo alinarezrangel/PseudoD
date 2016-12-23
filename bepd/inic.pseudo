@@ -146,3 +146,4 @@ DOCUMENTA]
 funcion ObtenerPila [ i ]
 	devolver VG_PILA_ACTUAL
 finfun
+

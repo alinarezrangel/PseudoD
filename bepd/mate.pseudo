@@ -90,12 +90,8 @@ Utiliza DELTA
 @dev Si son aproximadamente iguales.
 @races None
 DOCUMENTA]
-funcion SonIguales [ dec1, dec2 ]
-	adquirir dec1
-	adquirir dec2
+funcion SonIguales de dec1 y dec2
 	adquirir resta
-	recibir_parametro dec1
-	recibir_parametro dec2
 	Importar.Dec.Restar dec1 dec2 resta
 	si comparar Importar.Dec.Comparar resta < CERO
 		Importar.Dec.Restar CERO resta resta
@@ -105,8 +101,6 @@ funcion SonIguales [ dec1, dec2 ]
 	sino
 		devolver FALSO
 	fin
-	liberar dec1
-	liberar dec2
 	liberar resta
 finfun
 
@@ -122,13 +116,9 @@ los numeros.
 @dev Decimal resultado de la suma.
 @races None
 DOCUMENTA]
-funcion Sumar [ lvalue, rvalue -> res ]
-	adquirir lv
-	adquirir rv
+funcion Sumar de lv y rl
 	adquirir sr
 	adquirir decimal
-	recibir_parametro lv
-	recibir_parametro rv
 	fijar decimal a FALSO
 	si son diferentes llamar Cadena#Buscar lv {.} finargs y CMMERROR
 		fijar decimal a VERDADERO
@@ -143,8 +133,6 @@ funcion Sumar [ lvalue, rvalue -> res ]
 		Importar.Ent.Sumar lv rv sr
 	fin
 	devolver sr
-	liberar lv
-	liberar rv
 	liberar sr
 	liberar decimal
 finfun
@@ -161,13 +149,9 @@ los numeros.
 @dev Decimal resultado de la resta.
 @races None
 DOCUMENTA]
-funcion Restar [ lvalue, rvalue -> res ]
-	adquirir lv
-	adquirir rv
+funcion Restar de lv y rl
 	adquirir sr
 	adquirir decimal
-	recibir_parametro lv
-	recibir_parametro rv
 	fijar decimal a FALSO
 	si son diferentes llamar Cadena#Buscar lv {.} finargs y CMMERROR
 		fijar decimal a VERDADERO
@@ -182,8 +166,6 @@ funcion Restar [ lvalue, rvalue -> res ]
 		Importar.Ent.Restar lv rv sr
 	fin
 	devolver sr
-	liberar lv
-	liberar rv
 	liberar sr
 	liberar decimal
 finfun
@@ -200,13 +182,9 @@ los numeros.
 @dev Decimal resultado de la multiplicación.
 @races None
 DOCUMENTA]
-funcion Multiplicar [ lvalue, rvalue -> res ]
-	adquirir lv
-	adquirir rv
+funcion Multiplicar de lv y rl
 	adquirir sr
 	adquirir decimal
-	recibir_parametro lv
-	recibir_parametro rv
 	fijar decimal a FALSO
 	si son diferentes llamar Cadena#Buscar lv {.} finargs y CMMERROR
 		fijar decimal a VERDADERO
@@ -221,8 +199,6 @@ funcion Multiplicar [ lvalue, rvalue -> res ]
 		Importar.Ent.Multiplicar lv rv sr
 	fin
 	devolver sr
-	liberar lv
-	liberar rv
 	liberar sr
 	liberar decimal
 finfun
@@ -239,13 +215,9 @@ los numeros.
 @dev Decimal resultado de la división.
 @races None
 DOCUMENTA]
-funcion Dividir [ lvalue, rvalue -> res ]
-	adquirir lv
-	adquirir rv
+funcion Dividir de lv y rl
 	adquirir sr
 	adquirir decimal
-	recibir_parametro lv
-	recibir_parametro rv
 	fijar decimal a FALSO
 	si son diferentes llamar Cadena#Buscar lv {.} finargs y CMMERROR
 		fijar decimal a VERDADERO
@@ -260,8 +232,6 @@ funcion Dividir [ lvalue, rvalue -> res ]
 		Importar.Ent.Dividir lv rv sr
 	fin
 	devolver sr
-	liberar lv
-	liberar rv
 	liberar sr
 	liberar decimal
 finfun
@@ -273,14 +243,10 @@ finfun
 @dev El resultado de `base^exponente`.
 @races None
 DOCUMENTA]
-funcion ElevarValor [ base,expo ]
-	adquirir base
-	adquirir exponente
+funcion ElevarValor de base y exponente
 	adquirir resultado
 	adquirir acumulador
 	adquirir cuenta
-	recibir_parametro base
-	recibir_parametro exponente
 	fijar cuenta a UNO
 	fijar acumulador a base
 	mientras comparar Importar.Ent.Comparar cuenta < exponente
@@ -291,8 +257,6 @@ funcion ElevarValor [ base,expo ]
 	liberar cuenta
 	liberar acumulador
 	liberar resultado
-	liberar exponente
-	liberar base
 finfun
 
 [DOCUMENTA
@@ -302,10 +266,8 @@ Si `n < 0`,  devuelve 1 al igual que si `n == 0` o 1.
 @dev El factorial de dicho numero, o 1.
 @races None
 DOCUMENTA]
-funcion Factorial
-	adquirir numero
+funcion Factorial de numero
 	adquirir factorial
-	recibir_parametro numero
 	fijar factorial a numero
 	si comparar Importar.Dec.Comparar numero <= CERO
 		fijar factorial a UNO
@@ -315,7 +277,6 @@ funcion Factorial
 		Importar.Dec.Multiplicar factorial numero factorial
 	finbucle
 	devolver factorial
-	liberar numero
 	liberar factorial
 finfun
 
@@ -325,17 +286,14 @@ finfun
 @dev El valor en Radianes
 @races None
 DOCUMENTA]
-funcion GradosARadianes
-	adquirir grados
+funcion GradosARadianes de grados
 	adquirir radianes
 	adquirir divisor
-	recibir_parametro grados
 	Importar.Dec.Multiplicar grados PI grados
 	fijar divisor a {180}
 	Importar.Dec.Dividir grados divisor radianes
 	devolver radianes
 	liberar grados
-	liberar radianes
 	liberar divisor
 finfun
 
@@ -345,16 +303,13 @@ finfun
 @dev El valor en Grados sexadecimales
 @races None
 DOCUMENTA]
-funcion RadianesAGrados
+funcion RadianesAGrados de radianes
 	adquirir grados
-	adquirir radianes
 	adquirir divisor
-	recibir_parametro radianes
 	fijar divisor a {180}
 	Importar.Dec.Multiplicar radianes divisor radianes
 	Importar.Dec.Dividir radianes PI grados
 	devolver grados
-	liberar radianes
 	liberar grados
 	liberar divisor
 finfun
@@ -368,14 +323,11 @@ positivo.
 @dev El valor absoluto de val.
 @races None
 DOCUMENTA]
-funcion ValorAbsoluto [ val ]
-	adquirir valor
-	recibir_parametro valor
+funcion ValorAbsoluto de valor
 	si comparar Importar.Dec.Comparar valor < CERO
 		Importar.Dec.Restar CERO valor valor
 	fin
 	devolver valor
-	liberar valor
 finfun
 
 [DOCUMENTA
@@ -489,16 +441,13 @@ Realmente llama a `Seno((PI/2) - ang)`, lo cual es equivalente.
 @dev El coseno del angulo.
 @races <Seno>
 DOCUMENTA]
-funcion Coseno [ ang ]
-	adquirir angulo
+funcion Coseno de angulo
 	adquirir defase
-	recibir_parametro angulo
 	fijar defase =¿? PI
 	Importar.Dec.Dividir defase DOS defase
 	Importar.Dec.Restar defase angulo angulo
 	llamar Seno angulo #(Final).
 	liberar defase
-	liberar angulo
 finfun
 
 [DOCUMENTA
@@ -508,11 +457,9 @@ utiliza el metodo babilonico para calcular la raiz cuadrada de un numero.
 @dev Decimal resultado de la radicacion.
 @races None
 DOCUMENTA]
-funcion RaizCuadrada [ nm -> sqrt(nm) ]
-	adquirir area
+funcion RaizCuadrada de area
 	adquirir base
 	adquirir altura
-	recibir_parametro area
 	fijar base a {0.5}
 	fijar altura a RAIZ_CUADRADA_MIN
 	mientras no llamar SonIguales base altura finargs
@@ -531,34 +478,7 @@ funcion RaizCuadrada [ nm -> sqrt(nm) ]
 	devolver base
 	liberar altura
 	liberar base
-	liberar area
 finfun
-
-[ FIXME: Poco legible
-funcion RaizCuadrada
-	adquirir __raizcuadrada_a__
-	adquirir __raizcuadrada_an__
-	adquirir __raizcuadrada_anu__
-	adquirir __raizcuadrada_cpc__
-	adquirir __raizcuadrada_buf__
-	recibir_parametro __raizcuadrada_a__
-	fijar __raizcuadrada_cpc__ =* 0.5
-	fijar __raizcuadrada_anu__ =¿? RAIZ_CUADRADA_MIN
-	fijar __raizcuadrada_an__ =* 0
-	mientras sean diferentes __raizcuadrada_an__ y __raizcuadrada_anu__
-		fijar __raizcuadrada_an__ =¿? __raizcuadrada_anu__
-		Importar.Dec.Dividir __raizcuadrada_a__ __raizcuadrada_an__ __raizcuadrada_buf__
-		Importar.Dec.Sumar __raizcuadrada_buf__ __raizcuadrada_an__ __raizcuadrada_buf__
-		Importar.Dec.Multiplicar __raizcuadrada_buf__ __raizcuadrada_cpc__ __raizcuadrada_anu__
-	finbucle
-	devolver __raizcuadrada_an__
-	liberar __raizcuadrada_a__
-	liberar __raizcuadrada_an__
-	liberar __raizcuadrada_anu__
-	liberar __raizcuadrada_cpc__
-	liberar __raizcuadrada_buf__
-finfun
-[ $END$ ]
 
 [DOCUMENTA
 @brief Calcula el piso de un numero.
@@ -568,12 +488,9 @@ Por ejemplo: `piso(3.232) = 3`, `piso(3.99999) = 3`, `piso(8) = 8`.
 @dev El piso de nm.
 @races None
 DOCUMENTA]
-funcion Piso [ nm -> floor(nm) ]
-	adquirir valor
-	recibir_parametro valor
+funcion Piso de valor
 	Importar.Ent.Sumar valor CERO valor [ La suma de enteros redondea a cero ]
 	devolver valor
-	liberar valor
 finfun
 
 [DOCUMENTA
@@ -584,10 +501,8 @@ Por ejemplo: `techo(3.232) = 4`, `techo(3.99999) = 4`, `techo(8) = 8`.
 @dev El techo de nm.
 @races None
 DOCUMENTA]
-funcion Techo [ nm -> ceil(nm) ]
-	adquirir valor
+funcion Techo de valor
 	adquirir techo
-	recibir_parametro valor
 	Importar.Ent.Sumar valor CERO __techo_bff__
 	si comparar Importar.Dec.Comparar valor = techo [ "son iguales" podria fallar por precisión ]
 		devolver techo
@@ -595,7 +510,6 @@ funcion Techo [ nm -> ceil(nm) ]
 		Importar.Ent.Sumar valor UNO valor
 		devolver valor
 	fin
-	liberar valor
 	liberar techo
 finfun
 

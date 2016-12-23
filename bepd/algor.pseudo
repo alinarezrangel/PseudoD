@@ -240,15 +240,12 @@ finclase
 @races Undefined.NoBoundsCheck
 Si el iterador es inválido, el comportamiento es indefinido.
 DOCUMENTA]
-funcion IteradorArreglo#obtenerActual [ Yo -> ref T ]
-	adquirir yo
+funcion IteradorArreglo#obtenerActual con yo
 	adquirir arreglo
 	adquirir actual
-	recibir_parametro yo
 	fijar arreglo a <yo>#nombreArreglo
 	fijar actual a <yo>#indice
 	devolver <arreglo>#en<actual>#NOMBRE
-	liberar yo
 	liberar arreglo
 	liberar actual
 finfun
@@ -261,11 +258,8 @@ Avanza incrementando el índice en uno (1): si el elemento actual es el índice
 @argyo
 @races None
 DOCUMENTA]
-funcion IteradorArreglo#siguiente [ Yo ]
-	adquirir yo
-	recibir_parametro yo
+funcion IteradorArreglo#siguiente con yo
 	Importar.Ent.Sumar <yo>#indice UNO <yo>#indice
-	liberar yo
 finfun
 
 [DOCUMENTA
@@ -276,11 +270,8 @@ Retrocede decrementando el índice en uno (1): si el elemento actual es el índi
 @argyo
 @races None
 DOCUMENTA]
-funcion IteradorArreglo#anterior [ Yo ]
-	adquirir yo
-	recibir_parametro yo
+funcion IteradorArreglo#anterior con yo
 	Importar.Ent.Restar <yo>#indice UNO <yo>#indice
-	liberar yo
 finfun
 
 [DOCUMENTA
@@ -292,11 +283,7 @@ Compara el índice interno y si ambos estan en el mismo arreglo.
 @dev VERDADERO si apuntan al mismo elemento y FALSO de lo contrario.
 @races None
 DOCUMENTA]
-funcion IteradorArreglo#igualA [ Yo, iter -> boolean ]
-	adquirir yo
-	adquirir iter
-	recibir_parametro yo
-	recibir_parametro iter
+funcion IteradorArreglo#igualA con yo e iter
 	si son iguales <yo>#indice y <iter>#indice
 		si son iguales <yo>#nombreArreglo y <iter>#nombreArreglo
 			devolver VERDADERO
@@ -306,8 +293,6 @@ funcion IteradorArreglo#igualA [ Yo, iter -> boolean ]
 	sino
 		devolver FALSO
 	fin
-	liberar yo
-	liberar iter
 finfun
 
 
@@ -333,15 +318,12 @@ finclase
 @races Undefined.NoBoundsCheck
 Si el iterador es inválido, el comportamiento es indefinido.
 DOCUMENTA]
-funcion IteradorArregloReversa#obtenerActual [ Yo -> ref T ]
-	adquirir yo
+funcion IteradorArregloReversa#obtenerActual con yo
 	adquirir arreglo
 	adquirir actual
-	recibir_parametro yo
 	fijar arreglo a <yo>#nombreArreglo
 	fijar actual a <yo>#indice
 	devolver <arreglo>#en<actual>#NOMBRE
-	liberar yo
 	liberar arreglo
 	liberar actual
 finfun
@@ -354,11 +336,8 @@ Avanza decrementando el índice en uno (1): si el elemento actual es el índice
 @argyo
 @races None
 DOCUMENTA]
-funcion IteradorArregloReversa#siguiente [ Yo ]
-	adquirir yo
-	recibir_parametro yo
+funcion IteradorArregloReversa#siguiente con yo
 	Importar.Ent.Restar <yo>#indice UNO <yo>#indice
-	liberar yo
 finfun
 
 [DOCUMENTA
@@ -369,11 +348,8 @@ Retrocede incrementando el índice en uno (1): si el elemento actual es el índi
 @argyo
 @races None
 DOCUMENTA]
-funcion IteradorArregloReversa#anterior [ Yo ]
-	adquirir yo
-	recibir_parametro yo
+funcion IteradorArregloReversa#anterior con yo
 	Importar.Ent.Sumar <yo>#indice UNO <yo>#indice
-	liberar yo
 finfun
 
 [DOCUMENTA
@@ -385,11 +361,7 @@ Compara el índice interno y si ambos estan en el mismo arreglo.
 @dev VERDADERO si apuntan al mismo elemento y FALSO de lo contrario.
 @races None
 DOCUMENTA]
-funcion IteradorArregloReversa#igualA [ Yo, iter -> boolean ]
-	adquirir yo
-	adquirir iter
-	recibir_parametro yo
-	recibir_parametro iter
+funcion IteradorArregloReversa#igualA con yo e iter
 	si son iguales <yo>#indice y <iter>#indice
 		si son iguales <yo>#nombreArreglo y <iter>#nombreArreglo
 			devolver VERDADERO
@@ -399,8 +371,6 @@ funcion IteradorArregloReversa#igualA [ Yo, iter -> boolean ]
 	sino
 		devolver FALSO
 	fin
-	liberar yo
-	liberar iter
 finfun
 
 [DOCUMENTA
@@ -434,9 +404,7 @@ El arreglo inicial tiene un tamaño 0 y esta vacio.
 @argyo
 @races None
 DOCUMENTA]
-funcion Arreglo#crear [ ref yo ]
-	adquirir yo
-	recibir_parametro yo
+funcion Arreglo#crear con yo
 	fijar <yo>#tamaño a CERO
 	instancia IteradorArreglo <yo>#iterInicio
 	fijar <yo>#iterInicio#indice a CERO
@@ -450,7 +418,6 @@ funcion Arreglo#crear [ ref yo ]
 	instancia IteradorArregloReversa <yo>#iterFinalReversa
 	fijar <yo>#iterFinalReversa#indice a CERO
 	redireccionar <yo>#iterFinalReversa#nombreArreglo <yo>#NOMBRE
-	liberar yo
 finfun
 
 [DOCUMENTA
@@ -460,10 +427,8 @@ debes invocar a liberar.
 @argyo
 @races None
 DOCUMENTA]
-funcion Arreglo#destruir [ ref yo ]
-	adquirir yo
+funcion Arreglo#destruir con yo
 	adquirir i
-	recibir_parametro yo
 	fijar i a {0}
 	liberar <yo>#iterInicio
 	liberar <yo>#iterFinal
@@ -473,7 +438,6 @@ funcion Arreglo#destruir [ ref yo ]
 		liberar <yo>#en<i>
 		fijar i a llamar Sumar i UNO finargs
 	finbucle
-	liberar yo
 	liberar i
 finfun
 
@@ -485,18 +449,12 @@ Si la posición es invalida, devuelve <builtins.pseudo#NULO>.
 @dev Referencia al elemento.
 @races None
 DOCUMENTA]
-funcion Arreglo#obtener [ ref yo, i -> ref at ]
-	adquirir yo
-	adquirir i
-	recibir_parametro yo
-	recibir_parametro i
+funcion Arreglo#obtener con yo e i
 	si comparar Importar.Ent.Comparar i >= <yo>#tamaño
 		devolver NULO
 	sino
 		devolver <yo>#en<i>#NOMBRE
 	fin
-	liberar i
-	liberar yo
 finfun
 
 [DOCUMENTA
@@ -507,19 +465,13 @@ También incrementa el tamaño del arreglo.
 @dev Índice del nuevo elemento.
 @races None
 DOCUMENTA]
-funcion Arreglo#agregar [ ref yo, tipo tipo -> indice ]
-	adquirir yo
-	adquirir tipo
+funcion Arreglo#agregar con yo y tipo
 	adquirir tm
-	recibir_parametro yo
-	recibir_parametro tipo
 	fijar tm a <yo>#tamaño
 	instancia <tipo> <yo>#en<tm>
 	fijar <yo>#iterFinalReversa#indice a <yo>#tamaño
 	Importar.Ent.Sumar <yo>#tamaño UNO <yo>#tamaño
 	fijar <yo>#iterFinal#indice a <yo>#tamaño
-	liberar yo
-	liberar tipo
 	liberar tm
 finfun
 
@@ -531,11 +483,8 @@ Véase también <Contenedor\#inicio>
 @dev IteradorArreglo al primer elemento
 @races None
 DOCUMENTA]
-funcion Arreglo#inicio [ ref yo ]
-	adquirir yo
-	recibir_parametro yo
+funcion Arreglo#inicio con yo
 	devolver <yo>#iterInicio#NOMBRE
-	liberar yo
 finfun
 
 [DOCUMENTA
@@ -546,11 +495,8 @@ Véase también <Contenedor\#final>
 @dev IteradorArreglo a un elemento después del ultimo elemento
 @races None
 DOCUMENTA]
-funcion Arreglo#final [ ref yo ]
-	adquirir yo
-	recibir_parametro yo
+funcion Arreglo#final con yo
 	devolver <yo>#iterFinal#NOMBRE
-	liberar yo
 finfun
 
 [DOCUMENTA
@@ -561,15 +507,9 @@ Véase también <Contenedor\#crearIterador>
 @arg iter Referencia común al IteradorArreglo a inicializar.
 @races None
 DOCUMENTA]
-funcion Arreglo#crearIterador [ ref yo ]
-	adquirir yo
-	adquirir iter
-	recibir_parametro yo
-	recibir_parametro iter
+funcion Arreglo#crearIterador con yo e iter
 	fijar <iter>#indice a CERO
 	redireccionar <iter>#nombreArreglo <yo>#NOMBRE
-	liberar yo
-	liberar iter
 finfun
 
 [DOCUMENTA
@@ -580,11 +520,8 @@ Véase también <Contenedor\#inicioReversa>
 @dev IteradorArregloReversa al primer elemento
 @races None
 DOCUMENTA]
-funcion Arreglo#inicioReversa [ ref yo ]
-	adquirir yo
-	recibir_parametro yo
+funcion Arreglo#inicioReversa con yo
 	devolver <yo>#iterInicioReversa#NOMBRE
-	liberar yo
 finfun
 
 [DOCUMENTA
@@ -595,11 +532,8 @@ Véase también <Contenedor\#finalReversa>
 @dev IteradorArregloReversa a un elemento después del ultimo elemento
 @races None
 DOCUMENTA]
-funcion Arreglo#finalReversa [ ref yo ]
-	adquirir yo
-	recibir_parametro yo
+funcion Arreglo#finalReversa con yo
 	devolver <yo>#iterFinalReversa#NOMBRE
-	liberar yo
 finfun
 
 [DOCUMENTA
@@ -610,13 +544,7 @@ Véase también <Contenedor\#crearIteradorReversa>
 @arg iter Referencia común al IteradorArregloReversa a inicializar.
 @races None
 DOCUMENTA]
-funcion Arreglo#crearIteradorReversa [ ref yo ]
-	adquirir yo
-	adquirir iter
-	recibir_parametro yo
-	recibir_parametro iter
+funcion Arreglo#crearIteradorReversa con yo e iter
 	fijar <iter>#indice a <yo>#iterFinalReversa#indice
 	redireccionar <iter>#nombreArreglo <yo>#NOMBRE
-	liberar yo
-	liberar iter
 finfun

@@ -91,13 +91,7 @@ Almacena el resultado en el argumento res.
 @arg res tercer argumento, una referencia común a donde se guardara el resultado.
 @races None
 DOCUMENTA]
-funcion Fraccion#sumar [ Yo, Tu ]
-	adquirir yo
-	adquirir tu
-	adquirir res
-	recibir_parametro yo
-	recibir_parametro tu
-	recibir_parametro res
+funcion Fraccion#sumar con yo y tu y res
 	fijar <res>#numerador a llamar Sumar
 		llamar Multiplicar <yo>#numerador <tu>#denominador finargs
 		llamar Multiplicar <yo>#denominador <tu>#numerador finargs
@@ -105,9 +99,6 @@ funcion Fraccion#sumar [ Yo, Tu ]
 	fijar <res>#denominador a llamar Multiplicar
 		<yo>#denominador <tu>#denominador
 	finargs
-	liberar yo
-	liberar tu
-	liberar res
 finfun
 
 [DOCUMENTA
@@ -119,13 +110,7 @@ Almacena el resultado en el argumento res.
 @arg res tercer argumento, una referencia a donde se guardara el resultado.
 @races None
 DOCUMENTA]
-funcion Fraccion#restar [ Yo, Tu ]
-	adquirir yo
-	adquirir tu
-	adquirir res
-	recibir_parametro yo
-	recibir_parametro tu
-	recibir_parametro res
+funcion Fraccion#restar con yo y tu y res
 	fijar <res>#numerador a llamar Restar
 		llamar Multiplicar <yo>#numerador <tu>#denominador finargs
 		llamar Multiplicar <yo>#denominador <tu>#numerador finargs
@@ -133,9 +118,6 @@ funcion Fraccion#restar [ Yo, Tu ]
 	fijar <res>#denominador a llamar Multiplicar
 		<yo>#denominador <tu>#denominador
 	finargs
-	liberar yo
-	liberar tu
-	liberar res
 finfun
 
 [DOCUMENTA
@@ -147,22 +129,13 @@ Almacena el resultado en el argumento res.
 @arg res tercer argumento, una referencia a donde se guardara el resultado.
 @races None
 DOCUMENTA]
-funcion Fraccion#multiplicar [ Yo, Tu ]
-	adquirir yo
-	adquirir tu
-	adquirir res
-	recibir_parametro yo
-	recibir_parametro tu
-	recibir_parametro res
+funcion Fraccion#multiplicar con yo y tu y res
 	fijar <res>#numerador a llamar Multiplicar
 		<yo>#numerador <tu>#numerador
 	finargs
 	fijar <res>#denominador a llamar Multiplicar
 		<yo>#denominador <tu>#denominador
 	finargs
-	liberar yo
-	liberar tu
-	liberar res
 finfun
 
 [DOCUMENTA
@@ -174,22 +147,13 @@ Almacena el resultado en el argumento res.
 @arg res tercer argumento, una referencia a donde se guardara el resultado.
 @races None
 DOCUMENTA]
-funcion Fraccion#dividir [ Yo, Tu ]
-	adquirir yo
-	adquirir tu
-	adquirir res
-	recibir_parametro yo
-	recibir_parametro tu
-	recibir_parametro res
+funcion Fraccion#dividir con yo y tu y res
 	fijar <res>#numerador a llamar Multiplicar
 		<yo>#numerador <tu>#denominador
 	finargs
 	fijar <res>#denominador a llamar Multiplicar
 		<yo>#denominador <tu>#numerador
 	finargs
-	liberar yo
-	liberar tu
-	liberar res
 finfun
 
 [DOCUMENTA
@@ -321,19 +285,10 @@ finclase
 @arg res Referencia a donde se almacenara el resultado.
 @races None
 DOCUMENTA]
-funcion Numero#sumar
-	adquirir yo
-	adquirir tu
-	adquirir res
-	recibir_parametro yo
-	recibir_parametro tu
-	recibir_parametro res
+funcion Numero#sumar con yo y tu y res
 	fijar <res>#valor a llamar Sumar
 		<yo>#valor <tu>#valor
 	finargs
-	liberar yo
-	liberar tu
-	liberar res
 finfun
 
 [DOCUMENTA
@@ -343,19 +298,10 @@ finfun
 @arg res Referencia a donde se almacenara el resultado.
 @races None
 DOCUMENTA]
-funcion Numero#restar
-	adquirir yo
-	adquirir tu
-	adquirir res
-	recibir_parametro yo
-	recibir_parametro tu
-	recibir_parametro res
+funcion Numero#restar con yo y tu y res
 	fijar <res>#valor a llamar Restar
 		<yo>#valor <tu>#valor
 	finargs
-	liberar yo
-	liberar tu
-	liberar res
 finfun
 
 [DOCUMENTA
@@ -365,19 +311,10 @@ finfun
 @arg res Referencia a donde se almacenara el resultado.
 @races None
 DOCUMENTA]
-funcion Numero#multiplicar
-	adquirir yo
-	adquirir tu
-	adquirir res
-	recibir_parametro yo
-	recibir_parametro tu
-	recibir_parametro res
+funcion Numero#multiplicar con yo y tu y res
 	fijar <res>#valor a llamar Multiplicar
 		<yo>#valor <tu>#valor
 	finargs
-	liberar yo
-	liberar tu
-	liberar res
 finfun
 
 [DOCUMENTA
@@ -387,19 +324,10 @@ finfun
 @arg res Referencia a donde se almacenara el resultado.
 @races None
 DOCUMENTA]
-funcion Numero#dividir
-	adquirir yo
-	adquirir tu
-	adquirir res
-	recibir_parametro yo
-	recibir_parametro tu
-	recibir_parametro res
+funcion Numero#dividir con yo y tu y res
 	fijar <res>#valor a llamar Dividir
 		<yo>#valor <tu>#valor
 	finargs
-	liberar yo
-	liberar tu
-	liberar res
 finfun
 
 [DOCUMENTA
@@ -424,19 +352,10 @@ finclase
 @arg res Referencia a donde se almacenara el resultado.
 @races None
 DOCUMENTA]
-funcion Decimal#sumar
-	adquirir yo
-	adquirir tu
-	adquirir res
-	recibir_parametro yo
-	recibir_parametro tu
-	recibir_parametro res
+funcion Decimal#sumar con yo y tu y res
 	fijar <res>#valor a llamar Sumar
 		<yo>#valor <tu>#valor
 	finargs
-	liberar yo
-	liberar tu
-	liberar res
 finfun
 
 [DOCUMENTA
@@ -446,19 +365,10 @@ finfun
 @arg res Referencia a donde se almacenara el resultado.
 @races None
 DOCUMENTA]
-funcion Decimal#restar
-	adquirir yo
-	adquirir tu
-	adquirir res
-	recibir_parametro yo
-	recibir_parametro tu
-	recibir_parametro res
+funcion Decimal#restar con yo y tu y res
 	fijar <res>#valor a llamar Restar
 		<yo>#valor <tu>#valor
 	finargs
-	liberar yo
-	liberar tu
-	liberar res
 finfun
 
 [DOCUMENTA
@@ -468,19 +378,10 @@ finfun
 @arg res Referencia a donde se almacenara el resultado.
 @races None
 DOCUMENTA]
-funcion Decimal#multiplicar
-	adquirir yo
-	adquirir tu
-	adquirir res
-	recibir_parametro yo
-	recibir_parametro tu
-	recibir_parametro res
+funcion Decimal#multiplicar con yo y tu y res
 	fijar <res>#valor a llamar Multiplicar
 		<yo>#valor <tu>#valor
 	finargs
-	liberar yo
-	liberar tu
-	liberar res
 finfun
 
 [DOCUMENTA
@@ -490,19 +391,10 @@ finfun
 @arg res Referencia a donde se almacenara el resultado.
 @races None
 DOCUMENTA]
-funcion Decimal#dividir
-	adquirir yo
-	adquirir tu
-	adquirir res
-	recibir_parametro yo
-	recibir_parametro tu
-	recibir_parametro res
+funcion Decimal#dividir con yo y tu y res
 	fijar <res>#valor a llamar Dividir
 		<yo>#valor <tu>#valor
 	finargs
-	liberar yo
-	liberar tu
-	liberar res
 finfun
 
 [DOCUMENTA

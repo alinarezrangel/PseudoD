@@ -9,7 +9,7 @@
 *****************************************
 ****************************************************************************** ]
 
-utilizar clases.pseudo
+utilizar cadena.pseudo
 
 [DOCUMENTA
 @file Documentación de entsal.pseudo
@@ -97,8 +97,8 @@ funcion BufferTexto#escribirLinea [ Objeto buffer, Objeto texto ]
 	adquirir texto
 	recibir_parametro yo
 	recibir_parametro texto
-	Importar.Cad.concatenar <yo>#valor texto <yo>#valor
-	Importar.Cad.concatenar <yo>#valor NUEVALINEA <yo>#valor
+	Importar.Cad.Concatenar <yo>#valor texto <yo>#valor
+	Importar.Cad.Concatenar <yo>#valor NUEVALINEA <yo>#valor
 	liberar texto
 	liberar yo
 finfun
@@ -107,11 +107,12 @@ finfun
 @brief Representa una configuracion de salida.
 Donde:
 
- * `MARCA` Es el comodin para el reemplazo.
- * `SPEC` Es el comodin para el caracter especial.
- * `NLINE` Es el comodin para el nueva linea,(junto con `SPEC`).
- * `NLINER` Es el comodin para el retorno de carro,(junto con `SPEC`).
- * `NLINE` Es el comodin para el nueva linea del sistema,(junto con `SPEC`).
+ * `MARCA`: Es el comodin para el reemplazo.
+ * `SPEC`: Es el comodin para el caracter especial.
+ * `NLINE`: Es el comodin para el nueva linea (junto con `SPEC`).
+ * `NLINER`: Es el comodin para el retorno de carro (junto con `SPEC`).
+ * `NLINE`: Es el comodin para el nueva linea del sistema (junto con `SPEC`).
+ * `NRESOLV`: Es el comodin para resolver un argumento (junto con `SPEC`)
 DOCUMENTA]
 clase DatosDeSalida hereda Objeto
 	atributo MARCA
@@ -119,6 +120,7 @@ clase DatosDeSalida hereda Objeto
 	atributo NLINE
 	atributo NLINER
 	atributo NLINERR
+	atributo NRESOLV
 	atributo CV
 	atributo NL
 	atributo RC
@@ -128,11 +130,12 @@ finclase
 @brief Es la configuracion predeterminada del sistema de E/S.
 Donde:
 
- * <b>MARCA</b> es %.
- * <b>SPEC</b> es \.
- *  <b>NLINE</b> es n.
- *  <b>NLINER</b> es r.
- * <b>NLINERR</b> es k.
+ * **MARCA** es `%`.
+ * **SPEC** es `\`.
+ * **NLINE** es `n`.
+ * **NLINER** es `r`.
+ * **NLINERR** es `k`.
+ * **NRESOLV** es `<`.
 DOCUMENTA]
 instancia DatosDeSalida DATOS_DE_IMPRIMIR
 fijar DATOS_DE_IMPRIMIR#MARCA =* %
@@ -140,6 +143,7 @@ fijar DATOS_DE_IMPRIMIR#SPEC =* \
 fijar DATOS_DE_IMPRIMIR#NLINE =* n
 fijar DATOS_DE_IMPRIMIR#NLINER =* r
 fijar DATOS_DE_IMPRIMIR#NLINERR =* k
+fijar DATOS_DE_IMPRIMIR#NRESOLV =* <
 empujar VG_BUFFER
 fijar VG_BUFFER =* CV
 Importar.Cad.Caracter_Especial VG_BUFFER DATOS_DE_IMPRIMIR#CV
@@ -206,7 +210,7 @@ finfun
 @brief Equivalente en PseudoD a printf.
 El formateo se realiza de la siguiente forma:
 
-Si se encuentra un comodin de reemplazo,(por defecto `%`) se saca un argumento
+Si se encuentra un comodin de reemplazo (por defecto `%`) se saca un argumento
 y se imprime, si encambio, se encuentra un comodin de caracter especial,
 se formatea el siguiente caracter y se imprime.
 
@@ -217,8 +221,9 @@ En caso de que se requiera el nuevalinea del sistema, utilize
 
 A diferencia de C printf, este no requiere especificación del tipo, solo el
 comodin. En total, lo formatos aceptados son: `\r` = Retorno de carro, `\n` =
-Nueva linea, `\k` = Nueva linea del sistema, `%` = Argumento. Para escapar `\` use
-`\\`.
+Nueva linea, `\k` = Nueva linea del sistema, `%` = Argumento, `\<` = Argumento
+resuelto. Para escapar `\` use `\\`.
+
 @arg str Cadena a formatear
 @arg args... Lista de argumentos, no se verifica su tamaño.
 @races Stack.Underflow
@@ -239,23 +244,28 @@ funcion ImprimirFormato [ str args... ]
 		Importar.Cad.Caracter ind cadena caracter
 		si son iguales caracter y DATOS_DE_IMPRIMIR#MARCA
 			recibir_parametro caracter
-		fin
-		si son iguales caracter y DATOS_DE_IMPRIMIR#SPEC
-			Importar.Ent.Sumar ind UNO ind
-			fijar caracter a DATOS_DE_IMPRIMIR#CV
-			Importar.Cad.Caracter ind cadena caracter
-			si son iguales caracter y DATOS_DE_IMPRIMIR#NLINE
-				fijar caracter a DATOS_DE_IMPRIMIR#NL
-			fin
-			si son iguales caracter y DATOS_DE_IMPRIMIR#NLINER
-				fijar caracter a DATOS_DE_IMPRIMIR#RC
-			fin
-			si son iguales caracter y DATOS_DE_IMPRIMIR#NLINERR
+		sino
+			si son iguales caracter y DATOS_DE_IMPRIMIR#SPEC
+				Importar.Ent.Sumar ind UNO ind
 				fijar caracter a DATOS_DE_IMPRIMIR#CV
-				nl
+				Importar.Cad.Caracter ind cadena caracter
+				si son iguales caracter y DATOS_DE_IMPRIMIR#NLINE
+					fijar caracter a DATOS_DE_IMPRIMIR#NL
+				fin
+				si son iguales caracter y DATOS_DE_IMPRIMIR#NLINER
+					fijar caracter a DATOS_DE_IMPRIMIR#RC
+				fin
+				si son iguales caracter y DATOS_DE_IMPRIMIR#NLINERR
+					fijar caracter a DATOS_DE_IMPRIMIR#CV
+					nl
+				fin
+				si son iguales caracter y DATOS_DE_IMPRIMIR#NRESOLV
+					recibir_parametro caracter
+					fijar caracter a <caracter>
+				fin
+				escribir caracter
+				fijar caracter a DATOS_DE_IMPRIMIR#CV
 			fin
-			escribir caracter
-			fijar caracter a DATOS_DE_IMPRIMIR#CV
 		fin
 		escribir caracter
 		Importar.Ent.Sumar ind UNO ind

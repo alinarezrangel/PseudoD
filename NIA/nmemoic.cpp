@@ -41,6 +41,7 @@ static std::multimap<PDCadena, pseudod::NMemonico::Palabra> ConversorS2P =
 	{"iguales", pseudod::NMemonico::PD_OPERADOR_IGUALES},
 	{"diferentes", pseudod::NMemonico::PD_OPERADOR_DIFERENTES},
 	{"y", pseudod::NMemonico::PD_OPERADOR_Y},
+	{"e", pseudod::NMemonico::PD_OPERADOR_Y},
 	{"comparar", pseudod::NMemonico::PD_OPERADOR_COMPARAR},
 	{"no", pseudod::NMemonico::PD_OPERADOR_NO},
 	{"ejecutar", pseudod::NMemonico::PD_OPERADOR_EJECUTAR},
@@ -48,6 +49,8 @@ static std::multimap<PDCadena, pseudod::NMemonico::Palabra> ConversorS2P =
 	{"leer", pseudod::NMemonico::PD_LEER},
 	{"utilizar", pseudod::NMemonico::PD_UTILIZAR},
 	{"llamar", pseudod::NMemonico::PD_LLAMAR},
+	{"de", pseudod::NMemonico::PD_CON},
+	{"con", pseudod::NMemonico::PD_CON},
 	{"funcion", pseudod::NMemonico::PD_FUNCION},
 	{"finfun", pseudod::NMemonico::PD_FIN_FUNCION},
 	{"fin", pseudod::NMemonico::PD_FIN_SI},
@@ -270,4 +273,3 @@ namespace pseudod
 		return out;
 	}
 }
-
