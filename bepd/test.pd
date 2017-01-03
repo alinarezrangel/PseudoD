@@ -6,57 +6,68 @@ utilizar tipos.pseudo
 utilizar mate.pseudo
 utilizar cadena.pseudo
 
-instancia PunteroInteligente xw
+funcion MiSeno de angulo
+	adquirir n
+	adquirir res
+	adquirir _2nm1
+	adquirir signo
 
-instancia Arreglo arr
-adquirir ref
+	llamar EscribirLinea {En 1} finargs
 
-llamar xw#apuntar arr#NOMBRE finargs
+	fijar angulo a llamar AjustarParaSeno angulo finargs
+	fijar n a CERO
+	fijar res a CERO
+	fijar _2nm1 a CERO
+	fijar signo a {1}
 
-llamar arr#agregar {PseudoVariable} finargs
-llamar arr#agregar {PseudoVariable} finargs
-llamar arr#agregar {PseudoVariable} finargs
-llamar arr#agregar {PseudoVariable} finargs
+	llamar EscribirLinea {En 2} finargs
 
-fijar ref a llamar arr#obtener {0} finargs
-fijar <ref> a {Hola en 0}
-fijar ref a llamar arr#obtener {1} finargs
-fijar <ref> a {Hola en 1}
-fijar ref a llamar arr#obtener {2} finargs
-fijar <ref> a {Hola en 2}
-fijar ref a llamar arr#obtener {3} finargs
-fijar <ref> a {Hola en 3}
+	mientras comparar Importar.Ent.Comparar n < ITERACIONES_DE_SENO
+		llamar EscribirLinea {En 3} finargs
 
-instancia IteradorArreglo iterBeg
+		fijar _2nm1 a llamar Multiplicar
+			DOS
+			llamar Sumar n UNO finargs
+		finargs
 
-llamar arr#crearIterador iterBeg#NOMBRE finargs
+		llamar EscribirLinea {En 4} finargs
 
-mientras no llamar iterBeg#igualA llamar arr#final finargs finargs
-	llamar ImprimirFormato
-		{\<\k}
-		llamar iterBeg#obtenerActual finargs
-	finargs
-	llamar iterBeg#siguiente finargs
-finbucle
+		fijar res a llamar Sumar
+			res
+			llamar Multiplicar
+				signo
+				llamar Dividir
+					llamar ElevarValor
+						angulo
+						_2nm1
+					finargs
+					llamar Factorial _2nm1 finargs
+				finargs
+			finargs
+		finargs
 
-clase X hereda Objeto
-	atributo Y
+		llamar EscribirLinea {En 5} finargs
 
-	metodo ds
-	metodo dy
-finclase
+		si son iguales signo y UNO
+			fijar signo a UNON
+		sino
+			fijar signo a UNO
+		fin
 
-funcion X#ds con yo y msg
-	llamar EscribirLinea <yo>#Y finargs
-	llamar EscribirLinea msg finargs
+		Importar.Ent.sumar n UNO n
+	finbucle
+
+	llamar EscribirLinea {En 6} finargs
+
+	devolver res
+
+	llamar EscribirLinea {En 7} finargs
+
+	liberar n
+	liberar res
+	liberar _2nm1
+	liberar signo
 finfun
 
-funcion X#dy con yo
-	llamar ImprimirFormato {Hola %\k} <yo>#Y finargs
-finfun
-
-instancia X x
-fijar x#Y a {Desde X}
-
-llamar x#ds {hola} finargs
-llamar x#dy finargs
+llamar EscribirLinea {Ingrese un valor para MiSeno:} finargs
+llamar MiSeno llamar LeerPalabra finargs finargs

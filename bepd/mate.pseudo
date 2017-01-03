@@ -116,7 +116,7 @@ los numeros.
 @dev Decimal resultado de la suma.
 @races None
 DOCUMENTA]
-funcion Sumar de lv y rl
+funcion Sumar de lv y rv
 	adquirir sr
 	adquirir decimal
 	fijar decimal a FALSO
@@ -149,7 +149,7 @@ los numeros.
 @dev Decimal resultado de la resta.
 @races None
 DOCUMENTA]
-funcion Restar de lv y rl
+funcion Restar de lv y rv
 	adquirir sr
 	adquirir decimal
 	fijar decimal a FALSO
@@ -182,7 +182,7 @@ los numeros.
 @dev Decimal resultado de la multiplicación.
 @races None
 DOCUMENTA]
-funcion Multiplicar de lv y rl
+funcion Multiplicar de lv y rv
 	adquirir sr
 	adquirir decimal
 	fijar decimal a FALSO
@@ -215,7 +215,7 @@ los numeros.
 @dev Decimal resultado de la división.
 @races None
 DOCUMENTA]
-funcion Dividir de lv y rl
+funcion Dividir de lv y rv
 	adquirir sr
 	adquirir decimal
 	fijar decimal a FALSO
@@ -337,21 +337,17 @@ Simplemente lo reduce al rango `[0-PI)`.
 @dev Angulo ajustado.
 @races None
 DOCUMENTA]
-funcion AjustarParaSeno [ ang ]
-	adquirir ang
+funcion AjustarParaSeno de ang
 	adquirir per
-	recibir_parametro ang
 	fijar per a PI
 	Importar.Dec.Multiplicar per DOS per
 	si comparar Importar.Dec.Comparar ang < CERO
-		llamar Valor_absoluto ang finargs
-		recibir_resultado ang
+		fijar ang a llamar Valor_absoluto ang finargs
 	fin
 	mientras comparar Importar.Dec.Comparar ang >= per
 		Importar.Dec.Restar ang per ang
 	finbucle
 	devolver ang
-	liberar ang
 	liberar per
 finfun
 
@@ -446,7 +442,7 @@ funcion Coseno de angulo
 	fijar defase =¿? PI
 	Importar.Dec.Dividir defase DOS defase
 	Importar.Dec.Restar defase angulo angulo
-	llamar Seno angulo #(Final).
+	devolver llamar Seno angulo finargs
 	liberar defase
 finfun
 
