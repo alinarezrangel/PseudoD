@@ -136,3 +136,9 @@ nl
 ## Ayuda
 
 * [pseudod.sourceforge.net](http://pseudod.sourceforge.net)
+
+## Licencia
+
+PseudoD esta licenciado bajo la Licencia de Apache 2.0.
+
+[LICENSE](LICENSE)
