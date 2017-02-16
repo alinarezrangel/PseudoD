@@ -27,68 +27,23 @@ utilizar tipos.pseudo
 utilizar mate.pseudo
 utilizar cadena.pseudo
 
-funcion MiSeno de angulo
-	adquirir n
-	adquirir res
-	adquirir _2nm1
-	adquirir signo
-
-	llamar EscribirLinea {En 1} finargs
-
-	fijar angulo a llamar AjustarParaSeno angulo finargs
-	fijar n a CERO
-	fijar res a CERO
-	fijar _2nm1 a CERO
-	fijar signo a {1}
-
-	llamar EscribirLinea {En 2} finargs
-
-	mientras comparar Importar.Ent.Comparar n < ITERACIONES_DE_SENO
-		llamar EscribirLinea {En 3} finargs
-
-		fijar _2nm1 a llamar Multiplicar
-			DOS
-			llamar Sumar n UNO finargs
-		finargs
-
-		llamar EscribirLinea {En 4} finargs
-
-		fijar res a llamar Sumar
-			res
-			llamar Multiplicar
-				signo
-				llamar Dividir
-					llamar ElevarValor
-						angulo
-						_2nm1
-					finargs
-					llamar Factorial _2nm1 finargs
-				finargs
-			finargs
-		finargs
-
-		llamar EscribirLinea {En 5} finargs
-
-		si son iguales signo y UNO
-			fijar signo a UNON
-		sino
-			fijar signo a UNO
-		fin
-
-		Importar.Ent.sumar n UNO n
-	finbucle
-
-	llamar EscribirLinea {En 6} finargs
-
-	devolver res
-
-	llamar EscribirLinea {En 7} finargs
-
-	liberar n
-	liberar res
-	liberar _2nm1
-	liberar signo
-finfun
-
-llamar EscribirLinea {Ingrese un valor para MiSeno:} finargs
-llamar MiSeno llamar LeerPalabra finargs finargs
+llamar Asertar
+	{PoseeMetodo (PseudoVariable) llamado [crear]}
+	no llamar PoseeMetodo PseudoVariable {crear} finargs
+finargs
+llamar Asertar
+	{PoseeMetodo (Fraccion) llamado [sumar]}
+	llamar PoseeMetodo Fraccion {sumar} finargs
+finargs
+llamar Asertar
+	{PoseeMetodo (Objeto) llamado [Tipo]}
+	no llamar PoseeMetodo Objeto {Tipo} finargs
+finargs
+llamar Asertar
+	{PoseeMetodo (Referencia) llamado [llamarMet]}
+	llamar PoseeMetodo Referencia {llamarMet} finargs
+finargs
+llamar Asertar
+	{PoseeMetodo (PunteroInteligente) llamado [apuntar]}
+	llamar PoseeMetodo PunteroInteligente {apuntar} finargs
+finargs

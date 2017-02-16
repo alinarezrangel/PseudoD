@@ -21,11 +21,18 @@ limitations under the License.
 ********************************************************************************
 ****************************************************************************** ]
 
+utilizar cadena.pseudo
+utilizar entsal.pseudo
+
 [DOCUMENTA
 @file Documentación de tipos.pseudo.
 Aqui se encuentran funciones comunes de PseudoD, la clase <Referencia>, es
 la clase principal de este archivo, permitiendo referenciar variables de
 forma eficiente y simple.
+
+Este archivo contiene además la biblioteca de rasgos de tipo, la cual
+detecta caracteristicas de objetos y tipos (clases) para su uso en
+ducktyping y metaprogramación.
 DOCUMENTA]
 
 [DOCUMENTA
@@ -289,4 +296,170 @@ DOCUMENTA]
 funcion DestruirAtributoDinamico de yo y nombre_atributo
 	[ instancia tattr yo#nattr ]
 	liberar <yo>#<nombre_atributo>
+finfun
+
+[DOCUMENTA
+@brief Determina si el tipo posee en su **declaración** el método.
+Aunque posea en su declaración el método dado, no hay garantías de que
+se pueda llamar de forma segura dicho método en un objeto.
+@arg tipo Tipo (no referencia a tipo) o clase en el cual se buscará el método
+@arg nombre_metodo Nombre del método a buscar.
+@dev VERDADERO si el tipo posee el método o FALSO de lo contrario.
+@races Fatal.NotAType
+Si el tipo no es una clase su comportamiento está indefinido.
+
+Por ejemplo: nunca se debe llamar a esta función como:
+
+```
+llamar PoseeMetodo PseudoVariable#Tipo {...} finargs
+```
+
+Sino directamente como:
+
+```
+llamar PoseeMetodo PseudoVariable {...} finargs
+```
+DOCUMENTA]
+funcion PoseeMetodo de tipo y nombre_metodo
+	fijar nombre_metodo a
+		llamar Cadena#Concatenar
+			{:}
+			llamar Cadena#Concatenar
+				nombre_metodo
+				{ }
+			finargs
+		finargs
+
+	si son iguales llamar Cadena#Buscar tipo nombre_metodo finargs y CMMERROR
+		devolver FALSO
+	sino
+		devolver VERDADERO
+	fin
+finfun
+
+[DOCUMENTA
+@brief Determina si el tipo posee en su **declaración** el atributo.
+No puede detectar atributos creados dinámicamente.
+@arg tipo Tipo (no referencia a tipo) o clase en el cual se buscará el atributo
+@arg nombre_atributo Nombre del atributo a buscar.
+@dev VERDADERO si el tipo posee el atributo o FALSO de lo contrario.
+@races Fatal.NotAType
+Si el tipo no es una clase su comportamiento está indefinido.
+
+Por ejemplo: nunca se debe llamar a esta función como:
+
+```
+llamar PoseeAtributo PseudoVariable#Tipo {...} finargs
+```
+
+Sino directamente como:
+
+```
+llamar PoseeAtributo PseudoVariable {...} finargs
+```
+DOCUMENTA]
+funcion PoseeAtributo de tipo y nombre_atributo
+	fijar nombre_metodo a
+		llamar Cadena#Concatenar
+			nombre_atributo
+			{ }
+		finargs
+
+	si son iguales llamar Cadena#Buscar tipo nombre_atributo finargs y CMMERROR
+		devolver FALSO
+	sino
+		devolver VERDADERO
+	fin
+finfun
+
+[DOCUMENTA
+@brief Determina si el tipo posee en su **declaración** el puntero.
+No puede detectar punteros creados dinámicamente.
+@arg tipo Tipo (no referencia a tipo) o clase en el cual se buscará el puntero
+@arg nombre_puntero Nombre del puntero a buscar.
+@dev VERDADERO si el tipo posee el puntero o FALSO de lo contrario.
+@races Fatal.NotAType
+Si el tipo no es una clase su comportamiento está indefinido.
+
+Por ejemplo: nunca se debe llamar a esta función como:
+
+```
+llamar PoseePuntero PseudoVariable#Tipo {...} finargs
+```
+
+Sino directamente como:
+
+```
+llamar PoseePuntero PseudoVariable {...} finargs
+```
+DOCUMENTA]
+funcion PoseePuntero de tipo y nombre_puntero
+	fijar nombre_metodo a
+		llamar Cadena#Concatenar
+			{;}
+			llamar Cadena#Concatenar
+				nombre_puntero
+				{ }
+			finargs
+		finargs
+
+	si son iguales llamar Cadena#Buscar tipo nombre_puntero finargs y CMMERROR
+		devolver FALSO
+	sino
+		devolver VERDADERO
+	fin
+finfun
+
+[DOCUMENTA
+@brief Bandera global que indica si <Asertar> deberia terminar el programa.
+De ser VERDADERO, cuando se llame a `Asertar ... FALSO` o equivalente
+se terminará con el programa ejecutando `necesitas FALSO`. En caso contrario,
+solo se imrpimirá una advertencia de acuerdo a
+<VG_ASERTAR_NO_IMPRIME_ADVERTENCIAS>.
+DOCUMENTA]
+adquirir VG_ASERTAR_FALSO_ES_FATAL
+
+[DOCUMENTA
+@brief Bandera global que indica si <Asertar> debe imprimir una advertencia.
+Cuando <VG_ASERTAR_FALSO_ES_FATAL> es FALSO y se llega a una llamada equivalente
+a `Asertar ... FALSO`, de ser esta bandera FALSO entonces se imprimirá una
+advertencia indicando que se continuará con el flujo del programa. De ser
+VERDADERO, <Asertar> no hará náda más que imprimir el mensaje especificado
+cuando la condición sea falsa.
+DOCUMENTA]
+adquirir VG_ASERTAR_NO_IMPRIME_ADVERTENCIAS
+
+fijar VG_ASERTAR_FALSO_ES_FATAL a VERDADERO
+fijar VG_ASERTAR_NO_IMPRIME_ADVERTENCIAS a FALSO
+
+[DOCUMENTA
+@brief Termina con el programa si la condición es falsa.
+Similar al `static_assert` de C++, esta función termina con el programa
+cuando la condición es falsa (`condicion` es igual a FALSO). Al terminar
+con el programa, muestra al usuario el mensaje de error que se pasó como
+argumento. Véase <VG_ASERTAR_FALSO_ES_FATAL> y
+<VG_ASERTAR_NO_IMPRIME_ADVERTENCIAS>.
+@arg mensaje Mensaje a imprimir si la condición se evalua falsa
+@arg condicion Variable Booleana que indica el estado de la condición
+@throws ErrorDeSemantica
+Ejecuta `necesitas FALSO` cuando la condición es falsa, `necesitas` lanza
+un error de semantica y por ende, esta función también.
+DOCUMENTA]
+funcion Asertar de mensaje y condicion
+	si no condicion
+		llamar ImprimirLinea
+			{Error fatal en Asertar (tipos.pseudo):}
+			mensaje
+			NULO
+		finargs
+		si VG_ASERTAR_FALSO_ES_FATAL
+			necesitas FALSO
+		sino
+			si no VG_ASERTAR_NO_IMPRIME_ADVERTENCIAS
+				llamar EscribirLinea
+					{Advertencia en Asertar (tipos.pseudo): VG_ASERTAR_NO_IMPRIME_ADVERTENCIAS es VERDADERO}
+				finargs
+			fin
+		fin
+	fin
 finfun

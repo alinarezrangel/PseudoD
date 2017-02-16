@@ -74,7 +74,7 @@ DOCUMENTA]
 funcion Cadena#Buscar de en y que y desde [ en, que, desde? -> indice ]
 	adquirir indice
 	si son iguales desde y NULO
-		fijar desde a {1}
+		fijar desde a {0}
 		empujar NULO
 	fin
 	Importar.Cad.Buscar que desde en indice

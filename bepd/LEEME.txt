@@ -58,6 +58,9 @@ llamada `texto`, entonces es un enlace a dicha sección. Si en cambio, `texto`
 es el nombre de un archivo entonces `texto` es un enlace a dicho archivo y
 de estar presente, `enlace` es la sección referida
 - ``texto``: `texto` es un fragmento de código fuente
+- ````
+...
+````: Bloque de código.
 
 Las etiquetas son:
 
@@ -68,7 +71,8 @@ descripción de dicho.
 - `@races ...`: Indica que condiciones de carrera posee el procedimiento, el
 resto de la línea son los nombres formales de las condiciones y el siguiente
 parrafo describe dichas condiciones de carrera. `@races None` indica que no
-hay condiciones de carrera.
+hay condiciones de carrera. También se utiliza para indicar las condiciones
+de error de una función o método.
 - ` * ...`: Una lista como en Markdown o AsciiDoc[tor].
 - `@obsolete`: Se encuentra obsoleto.
 - `@abstract`: La clase o método es abstracto.
