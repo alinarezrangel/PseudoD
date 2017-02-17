@@ -47,11 +47,8 @@ Equivalente a `escribir`
 @arg texto Valor a escribir.
 @races None
 DOCUMENTA]
-funcion Escribir [ Objeto texto ]
-	adquirir texto
-	recibir_parametro texto
+funcion Escribir de texto
 	escribir texto
-	liberar texto
 finfun
 
 [DOCUMENTA
@@ -61,12 +58,9 @@ en `escribir` seguido de `nl`
 @arg texto Valor a escribir.
 @races None
 DOCUMENTA]
-funcion EscribirLinea [ Objeto texto ]
-	adquirir texto
-	recibir_parametro texto
+funcion EscribirLinea de texto
 	escribir texto
 	nl
-	liberar texto
 finfun
 
 [DOCUMENTA
@@ -74,7 +68,7 @@ finfun
 @dev El valor leido.
 @races None
 DOCUMENTA]
-funcion LeerPalabra [ -> Objeto resultado ]
+funcion LeerPalabra
 	adquirir valor
 	leer valor
 	devolver valor
@@ -87,14 +81,8 @@ finfun
 @arg texto Texto a escribir en el.
 @races None
 DOCUMENTA]
-funcion BufferTexto#escribir [ BufferTexto buffer, Objeto texto ]
-	adquirir yo
-	adquirir texto
-	recibir_parametro yo
-	recibir_parametro texto
+funcion BufferTexto#escribir con yo y texto
 	Importar.Cad.Concatenar <yo>#valor texto <yo>#valor
-	liberar texto
-	liberar yo
 finfun
 
 [DOCUMENTA
@@ -104,15 +92,9 @@ Este además, agrega un nueva linea despues de texto.
 @arg texto Texto a escribir en el.
 @races None
 DOCUMENTA]
-funcion BufferTexto#escribirLinea [ Objeto buffer, Objeto texto ]
-	adquirir yo
-	adquirir texto
-	recibir_parametro yo
-	recibir_parametro texto
+funcion BufferTexto#escribirLinea con yo y texto
 	Importar.Cad.Concatenar <yo>#valor texto <yo>#valor
 	Importar.Cad.Concatenar <yo>#valor NUEVALINEA <yo>#valor
-	liberar texto
-	liberar yo
 finfun
 
 [DOCUMENTA
@@ -176,10 +158,8 @@ Los separa por espacios.
 Si la lista de argumentos no termina en <builtins.pseudo#NULO>, se bloqueara y
 terminara con un *stack underflow*.
 DOCUMENTA]
-funcion Imprimir [ str args... NULO ]
-	adquirir inicio
+funcion Imprimir de inicio [ ... NULO ]
 	adquirir argumento
-	recibir_parametro inicio
 	sacar argumento
 	escribir inicio
 	mientras sean diferentes argumento y NULO
@@ -188,7 +168,6 @@ funcion Imprimir [ str args... NULO ]
 		sacar argumento
 	finbucle
 	empujar NULO
-	liberar inicio
 	liberar argumento
 finfun
 
@@ -201,10 +180,8 @@ Solo que agrega un nl al final.
 Si la lista de argumentos no termina en <builtins.pseudo#NULO>, se bloqueara y
 terminara con un *stack underflow*.
 DOCUMENTA]
-funcion ImprimirLinea [ str args... NULO ]
-	adquirir inicio
+funcion ImprimirLinea de inicio [ ... NULO ]
 	adquirir argumento
-	recibir_parametro inicio
 	sacar argumento
 	escribir inicio
 	mientras sean diferentes argumento y NULO
@@ -214,7 +191,6 @@ funcion ImprimirLinea [ str args... NULO ]
 	finbucle
 	nl
 	empujar NULO
-	liberar inicio
 	liberar argumento
 finfun
 
