@@ -27,23 +27,21 @@ utilizar tipos.pseudo
 utilizar mate.pseudo
 utilizar cadena.pseudo
 
-llamar Asertar
-	{PoseeMetodo (PseudoVariable) llamado [crear]}
-	no llamar PoseeMetodo PseudoVariable {crear} finargs
-finargs
-llamar Asertar
-	{PoseeMetodo (Fraccion) llamado [sumar]}
-	llamar PoseeMetodo Fraccion {sumar} finargs
-finargs
-llamar Asertar
-	{PoseeMetodo (Objeto) llamado [Tipo]}
-	no llamar PoseeMetodo Objeto {Tipo} finargs
-finargs
-llamar Asertar
-	{PoseeMetodo (Referencia) llamado [llamarMet]}
-	llamar PoseeMetodo Referencia {llamarMet} finargs
-finargs
-llamar Asertar
-	{PoseeMetodo (PunteroInteligente) llamado [apuntar]}
-	llamar PoseeMetodo PunteroInteligente {apuntar} finargs
-finargs
+si algun FALSO o FALSO o FALSO o FALSO
+	llamar EscribirLinea {Esto no deberia aparecer} finargs
+fin
+si algun FALSO o FALSO o FALSO o VERDADERO
+	llamar EscribirLinea {Esto deberia aparecer} finargs
+fin
+si algun VERDADERO o FALSO o FALSO o FALSO
+	llamar EscribirLinea {Esto deberia aparecer} finargs
+fin
+si tanto VERDADERO como VERDADERO como VERDADERO como VERDADERO
+	llamar EscribirLinea {Esto deberia aparecer} finargs
+fin
+si tanto VERDADERO como VERDADERO como VERDADERO como FALSO
+	llamar EscribirLinea {Esto no deberia aparecer} finargs
+fin
+si tanto FALSO como VERDADERO como VERDADERO como VERDADERO
+	llamar EscribirLinea {Esto no deberia aparecer} finargs
+fin

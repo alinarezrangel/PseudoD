@@ -342,13 +342,6 @@ namespace pseudod
 		{
 			// Nada
 		}
-		else if(o == "sistema")
-		{
-			std::cerr << "Advertencia: sistema esta altamente desaprobado porque es malvado" << std::endl;
-			PDCadena h = "";
-			std::getline(e, h, '\n');
-			system(h.c_str());
-		}
 		else if(o.front() == '[')
 		{
 			std::string h = "";

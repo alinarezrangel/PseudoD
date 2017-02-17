@@ -302,6 +302,48 @@ namespace PDvar
 			in >> tok;
 			return ValorDelToken(tok, in, data);
 		}
+		if(tok == "tanto")
+		{
+			bool esVerdadero = true;
+			std::istream::pos_type pos = 0;
+			PDCadena buff = "";
+
+			do
+			{
+				in >> tok;
+				esVerdadero = (ValorDelToken(tok, in, data) == "verdadero") && esVerdadero;
+				pos = in.tellg();
+				in >> buff;
+				if((buff != "como") && (buff != "y") && (buff != "e"))
+				{
+					in.seekg(pos);
+					break;
+				}
+			} while(true);
+
+			return esVerdadero? "verdadero" : "falso";
+		}
+		if(tok == "algun")
+		{
+			bool esVerdadero = false;
+			std::istream::pos_type pos = 0;
+			PDCadena buff = "";
+
+			do
+			{
+				in >> tok;
+				esVerdadero = (ValorDelToken(tok, in, data) == "verdadero") || esVerdadero;
+				pos = in.tellg();
+				in >> buff;
+				if((buff != "u") && (buff != "o"))
+				{
+					in.seekg(pos);
+					break;
+				}
+			} while(true);
+
+			return esVerdadero? "verdadero" : "falso";
+		}
 		if(tok == "si")
 		{
 			in >> tok;
