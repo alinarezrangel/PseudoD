@@ -273,19 +273,23 @@ Se asume que la base es decimal más el exponente es entero.
 @races None
 DOCUMENTA]
 funcion ElevarValor de base y exponente
-	adquirir resultado
-	adquirir acumulador
-	adquirir cuenta
-	fijar cuenta a UNO
-	fijar acumulador a base
-	mientras comparar Importar.Ent.Comparar cuenta < exponente
-		Importar.Dec.Multiplicar acumulador base acumulador
-		Importar.Ent.Sumar cuenta UNO cuenta
-	finbucle
-	devolver acumulador
-	liberar cuenta
-	liberar acumulador
-	liberar resultado
+	si son iguales exponente y CERO
+		devolver UNO
+	sino
+		adquirir resultado
+		adquirir acumulador
+		adquirir cuenta
+		fijar cuenta a UNO
+		fijar acumulador a base
+		mientras comparar Importar.Ent.Comparar cuenta < exponente
+			Importar.Dec.Multiplicar acumulador base acumulador
+			Importar.Ent.Sumar cuenta UNO cuenta
+		finbucle
+		devolver acumulador
+		liberar cuenta
+		liberar acumulador
+		liberar resultado
+	fin
 finfun
 
 [DOCUMENTA
@@ -301,10 +305,10 @@ DOCUMENTA]
 funcion Factorial de numero
 	adquirir factorial
 	fijar factorial a numero
-	si comparar Importar.Dec.Comparar numero <= CERO
+	si comparar Importar.Dec.Comparar numero <= UNO
 		fijar factorial a UNO
 	fin
-	mientras comparar Importar.Dec.Comparar numero > CERO
+	mientras comparar Importar.Dec.Comparar numero > UNO
 		Importar.Dec.Restar numero UNO numero
 		Importar.Dec.Multiplicar factorial numero factorial
 	finbucle
@@ -371,110 +375,122 @@ funcion ValorAbsoluto de valor
 	devolver valor
 finfun
 
-[DOCUMENTA
-@brief Ajusta un numero decimal para el seno/coseno.
-Simplemente lo reduce al rango `[0-PI)`.
+funcion __Seno de angulo y num_iteraciones
+	[ *****************************************************************
+	* Calcula el seno de un angulo utilizando el polinomio de
+	* MacLaurin (Series de Taylor).
+	*
+	* Solo calcula el seno de un número entre 0 y PI/2.
+	***************************************************************** ]
+	adquirir n
+	adquirir 2n+1
+	adquirir seno
+	adquirir v
+	fijar n a {0}
+	fijar seno a {0.0}
+	fijar 2n+1 a {0.0}
+	fijar v a {0.0}
 
-@arg ang Angulo a ajustar.
+	mientras comparar Importar.Ent.Comparar n < num_iteraciones
+		fijar 2n+1 a
+			llamar Sumar
+				llamar Multiplicar {2.0} n finargs
+				{1.0}
+			finargs
+		fijar v a
+			llamar Dividir
+				llamar ElevarValor
+					{-1.0}
+					n
+				finargs
+				llamar Factorial 2n+1 finargs
+			finargs
 
-@dev Angulo ajustado.
+		fijar seno a
+			llamar Sumar
+				seno
+				llamar Multiplicar
+					llamar ElevarValor
+						angulo
+						2n+1
+					finargs
+					v
+				finargs
+			finargs
 
-@races None
-DOCUMENTA]
-funcion AjustarParaSeno de ang
-	adquirir per
-	fijar per a PI
-	Importar.Dec.Multiplicar per DOS per
-	si comparar Importar.Dec.Comparar ang < CERO
-		fijar ang a llamar Valor_absoluto ang finargs
-	fin
-	mientras comparar Importar.Dec.Comparar ang >= per
-		Importar.Dec.Restar ang per ang
+		Importar.Ent.Sumar n UNO n
 	finbucle
-	devolver ang
-	liberar per
+
+	devolver seno
+
+	liberar n
+	liberar seno
+	liberar 2n+1
+	liberar v
 finfun
 
 [DOCUMENTA
-@brief Calcula el seno de un angulo.
+@brief Calcula el seno trigonométrico de un angulo.
+El seno de un número siempre estará entre 0 y 1 (inclusive ambos)
+y es una onda periodica en 2PI con las propiedades:
 
-@arg ang Angulo en radianes.
+ * `sen(0) = 0`
+ * `sen(PI) = 0`
+ * `sen(k * PI) = 0`
+ * `sen(PI / 2) = 1`
+ * `sen(x) = -sen(-x)`
 
-@dev Decimal resultado del seno.
+@arg angulo Angulo cuyo seno va a ser calculado
+
+@dev El seno trigonométrico de dicho angulo
 
 @races None
 DOCUMENTA]
-funcion Seno [ ang ]
-	[ **********************************************
-		Breve explicación del algoritmo:
-		Podemos definir el seno de x como:
-			sin(x) = SUM(0 -> inf,n){((-1)^n)((x^(2n+1))/((2n+1)!))}
-		Por lo tanto, si x esta en el rango 0 <= x <= PI
-		entonces las iteraciones son minimas.
-		La funcion Seno primero llama a Ajustar_para_seno,
-		el cual ajusta un numero hasta el rango 0 <= x <= PI.
-		.
-		La implementación no es muy compleja debido a
-		que ya existen las funciones Elevar_valor y
-		Factorial.
-		.
-		Solo necesitamos la parte positiva dado que
-			sin(-x) = -sin(x)
-			sin(x) = -sin(-x)
-		Coseno utiliza esta función por la igualdad:
-			cos(x) = sin((PI/2) - x)
-	********************************************** ]
-	adquirir __Seno_ang__
-	adquirir __Seno_rang__
-	adquirir __Seno_cuenta__
-	adquirir __Seno_hasta__
-	adquirir __Seno_resultado__
-	adquirir __Seno_va__
-	adquirir __Seno_vb__
-	adquirir __Seno_vc__
-	adquirir __Seno_op__
-	recibir_parametro __Seno_ang__
-	fijar __Seno_rang__ =¿? __Seno_ang__
-	llamar AjustarParaSeno __Seno_ang__ #(Final).
-	recibir_resultado __Seno_ang__
-	fijar __Seno_cuenta__ =* 0
-	fijar __Seno_hasta__ =¿? ITERACIONES_DE_SENO
-	fijar __Seno_resultado__ =* 0.0
-	fijar __Seno_va__ =* 0
-	fijar __Seno_vb__ =* 1
-	fijar __Seno_vc__ =* 0
-	fijar __Seno_op__ =¿? VERDADERO
-	mientras comparar Importar.Ent.Comparar __Seno_cuenta__ < __Seno_hasta__
-		Importar.Dec.Multiplicar DOS __Seno_cuenta__ __Seno_va__
-		Importar.Dec.Sumar UNO __Seno_va__ __Seno_va__
-		fijar __Seno_vb__ =¿? __Seno_va__
-		llamar ElevarValor __Seno_ang__ __Seno_va__ #(Final).
-		recibir_resultado __Seno_va__
-		llamar Factorial __Seno_vb__ #(Final).
-		recibir_resultado __Seno_vb__
-		Importar.Dec.Dividir __Seno_va__ __Seno_vb__ __Seno_va__
-		si __Seno_op__
-			Importar.Dec.Sumar __Seno_resultado__ __Seno_va__ __Seno_resultado__
-			fijar __Seno_op__ =¿? FALSO
-		sino
-			Importar.Dec.Restar __Seno_resultado__ __Seno_va__ __Seno_resultado__
-			fijar __Seno_op__ =¿? VERDADERO
-		fin
-		Importar.Ent.Sumar __Seno_cuenta__ UNO __Seno_cuenta__
-	finbucle
-	si comparar Importar.Dec.Comparar __Seno_rang__ < CERO
-		Importar.Dec.Restar CERO __Seno_resultado__ __Seno_resultado__
+funcion Seno de angulo
+	[ *************************************************
+	* Similar a __Seno pero disminuye el angulo a
+	* un número entre 0 y PI/2 antes de ejecutarse.
+	************************************************* ]
+
+	adquirir PI/2
+	adquirir 2PI
+	adquirir mp
+	adquirir rs
+
+	fijar PI/2 a {0}
+	fijar 2PI a {0}
+	fijar mp a {1}
+	Importar.Dec.Dividir PI DOS PI/2
+	Importar.Dec.Multiplicar PI DOS 2PI
+
+	si comparar Importar.Dec.Comparar angulo < CERO
+		Importar.Dec.Restar CERO angulo angulo
+		fijar mp a {-1}
 	fin
-	devolver __Seno_resultado__
-	liberar __Seno_cuenta__
-	liberar __Seno_hasta__
-	liberar __Seno_ang__
-	liberar __Seno_rang__
-	liberar __Seno_resultado__
-	liberar __Seno_va__
-	liberar __Seno_vb__
-	liberar __Seno_vc__
-	liberar __Seno_op__
+
+	mientras comparar Importar.Dec.Comparar angulo > 2PI
+		Importar.Dec.Restar angulo 2PI angulo
+	finbucle
+
+	si comparar Importar.Dec.Comparar angulo > PI
+		Importar.Ent.Multiplicar mp UNON mp
+		Importar.Dec.Restar angulo PI angulo
+	fin
+
+	si comparar Importar.Dec.Comparar angulo > PI/2
+		Importar.Dec.Restar PI angulo angulo
+	fin
+
+	fijar rs a llamar __Seno angulo ITERACIONES_DE_SENO finargs
+
+	Importar.Dec.Multiplicar rs mp rs
+
+	devolver rs
+
+	liberar PI/2
+	liberar 2PI
+	liberar mp
+	liberar rs
 finfun
 
 [DOCUMENTA

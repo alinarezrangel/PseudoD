@@ -27,5 +27,8 @@ utilizar tipos.pseudo
 utilizar mate.pseudo
 utilizar cadena.pseudo
 
-funcion MiSeno
-	[ sin(x) = SUM(0 -> inf,n){((-1)^n)((x^(2n+1))/((2n+1)!))} ]
+llamar EscribirLinea {Ingrese un numero para Seno:} finargs
+llamar ImprimirFormato
+	{El seno del numero es %\k}
+	llamar Seno llamar LeerPalabra finargs finargs
+finargs
