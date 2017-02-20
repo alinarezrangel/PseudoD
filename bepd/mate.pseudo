@@ -566,9 +566,13 @@ finfun
 [DOCUMENTA
 @brief Calcula el techo de un numero.
 El techo de X, es el numero entero mayor o igual más cercano a X.
+
 Por ejemplo: `techo(3.232) = 4`, `techo(3.99999) = 4`, `techo(8) = 8`.
+
 @arg nm Numero a calcular el techo.
+
 @dev El techo de nm.
+
 @races None
 DOCUMENTA]
 funcion Techo de valor
@@ -584,10 +588,56 @@ funcion Techo de valor
 finfun
 
 [DOCUMENTA
+@brief Calcula el resto de una división entera.
+Si se desea utilizar junto a <Dividir> es necesario hacerlo de la forma:
+
+```
+llamar Piso llamar Dividir X Y finargs finargs
+```
+
+Debido a que <Dividir> puede ocasionar una división decimal y esta función
+asume que siempre se redondea a cero (tal como lo hace <Piso>).
+
+@arg dividendo Dividendo de la división cuyo resto va a ser calculado
+@arg divisor Divisor de la división cuyo resto va a ser calculado
+
+@dev Decimal que debe ser sumado a la división entera para obtener su \
+equivalente decimal.
+
+@throws ErrorMatematico, ErrorDeSemantica
+Si el divisor es cero, **puede** lanzar una de estas excepciones (depende
+de la versión del NEA utilizado).
+
+@races None
+DOCUMENTA]
+funcion Resto de dividendo y divisor
+	adquirir cociente
+	adquirir coc_redondeado
+	adquirir resto
+
+	fijar cociente a {0}
+	fijar coc_redondeado a {0}
+
+	Importar.Dec.Dividir dividendo divisor cociente
+	Importar.Ent.Dividir dividendo divisor coc_redondeado
+
+	Importar.Dec.Restar cociente coc_redondeado resto
+
+	devolver resto
+
+	liberar cociente
+	liberar coc_redondeado
+	liberar resto
+finfun
+
+[DOCUMENTA
 @brief Es una division
 Posee todos los datos de una division.
 
 Con este se puede calcular el resto y cociente de una division.
+
+Esta clase está obsoleta, utilize las funciones <Dividir> y <Resto> en su
+lugar.
 
 @obsolete
 DOCUMENTA]
