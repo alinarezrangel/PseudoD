@@ -33,7 +33,7 @@ DOCUMENTA]
 
 @abstract
 DOCUMENTA]
-clase ElementoMatematico hereda Objeto
+clase abstracta ElementoMatematico hereda Objeto
 	metodo sumar
 	metodo restar
 	metodo multiplicar
@@ -42,36 +42,47 @@ finclase
 
 [DOCUMENTA
 @brief Suma dos elementos (res = yo + tu)
+
 @argyo
 @arg tu Segundo elemento a aplicar (referencia común).
 @arg res Elemento donde se almacenará el resultado (referencia común).
+
 @races None
 DOCUMENTA]
 funcion ElementoMatematico#sumar
 finfun
+
 [DOCUMENTA
 @brief Resta dos elementos (res = yo - tu)
+
 @argyo
 @arg tu Segundo elemento a aplicar (referencia común).
 @arg res Elemento donde se almacenará el resultado (referencia común).
+
 @races None
 DOCUMENTA]
 funcion ElementoMatematico#restar
 finfun
+
 [DOCUMENTA
 @brief Multiplica dos elementos (res = yo * tu)
+
 @argyo
 @arg tu Segundo elemento a aplicar (referencia común).
 @arg res Elemento donde se almacenará el resultado (referencia común).
+
 @races None
 DOCUMENTA]
 funcion ElementoMatematico#multiplicar
 finfun
+
 [DOCUMENTA
 @brief Divide dos elementos (res = yo / tu)
+
 @argyo
 @arg tu Segundo elemento a aplicar (referencia común).
 @arg res Elemento donde se almacenará el resultado (referencia común).
+
 @races None
 DOCUMENTA]
 funcion ElementoMatematico#dividir
@@ -85,21 +96,23 @@ DOCUMENTA]
 clase Fraccion hereda ElementoMatematico
 	atributo numerador
 	atributo denominador
+
 	metodo sumar
 	metodo restar
 	metodo multiplicar
 	metodo dividir
 finclase
 
-[ Fraccion#a. Yo#NOMBRE. Tu#NOMBRE. ]
-
 [DOCUMENTA
 @brief Suma dos fracciones.
 Aplica la forma de `a/b + c/d = (ad + bc)/bd`.
+
 Almacena el resultado en el argumento res.
+
 @argyo
 @arg Tu Referencia al segundo elemento de la suma.
 @arg res tercer argumento, una referencia común a donde se guardara el resultado.
+
 @races None
 DOCUMENTA]
 funcion Fraccion#sumar con yo y tu y res
@@ -115,10 +128,13 @@ finfun
 [DOCUMENTA
 @brief Resta dos fracciones.
 Aplica la forma de `a/b - c/d = (ad - bc)/bd`.
+
 Almacena el resultado en el argumento res.
+
 @argyo
 @arg Tu Referencia al segundo elemento de la suma.
 @arg res tercer argumento, una referencia a donde se guardara el resultado.
+
 @races None
 DOCUMENTA]
 funcion Fraccion#restar con yo y tu y res
@@ -134,10 +150,13 @@ finfun
 [DOCUMENTA
 @brief Multiplica dos fracciones.
 Aplica la forma de `a/b * c/d = ac/bd`.
+
 Almacena el resultado en el argumento res.
+
 @argyo
 @arg Tu Referencia al segundo elemento de la suma.
 @arg res tercer argumento, una referencia a donde se guardara el resultado.
+
 @races None
 DOCUMENTA]
 funcion Fraccion#multiplicar con yo y tu y res
@@ -152,10 +171,13 @@ finfun
 [DOCUMENTA
 @brief Divide dos fracciones.
 Aplica la forma de `a/b * c/d = ad/bc`.
+
 Almacena el resultado en el argumento res.
+
 @argyo
 @arg Tu Referencia al segundo elemento de la suma.
 @arg res tercer argumento, una referencia a donde se guardara el resultado.
+
 @races None
 DOCUMENTA]
 funcion Fraccion#dividir con yo y tu y res
@@ -185,10 +207,14 @@ finclase
 [DOCUMENTA
 @brief Operacion Y entre dos valores de Boole.
 Devuelve verdadero si a y b son verdadero.
+
 @arg Yo Referencia comun al valor numero 1 a comparar.
 @arg b Referencia comun al valor numero 2 a comparar.
+
 @dev Verdadero o Falso.
-@errors Active
+
+@obsolete
+@races None
 DOCUMENTA]
 funcion Boole#Y
 	adquirir yo
@@ -211,10 +237,14 @@ finfun
 [DOCUMENTA
 @brief Operacion O entre dos valores de Boole.
 Devuelve verdadero si a es verdadero, b es verdadero, o ambos son verdadero.
+
 @arg Yo Referencia al valor numero 1 a comparar.
 @arg b Referencia al valor numero 2 a comparar.
+
 @dev Verdadero o Falso.
-@errors Active
+
+@obsolete
+@races None
 DOCUMENTA]
 funcion Boole#O
 	adquirir yo
@@ -237,10 +267,14 @@ finfun
 [DOCUMENTA
 @brief Operacion O-EXCLUSIVO entre dos valores de Boole.
 Devuelve verdadero si a y b son distintos.
+
 @arg Yo Referencia al valor numero 1 a comparar.
 @arg b Referencia al valor numero 2 a comparar.
+
 @dev Verdadero o Falso.
-@errors Active
+
+@obsolete
+@races None
 DOCUMENTA]
 funcion Boole#O-EXCLUSIVO
 	adquirir yo
@@ -259,9 +293,13 @@ finfun
 [DOCUMENTA
 @brief Operacion NO de un valor de Boole.
 Devuelve verdadero si a es falso, y falso si a es verdadero.
+
 @arg Yo Referencia al valor a negar.
+
 @dev Verdadero o Falso.
-@errors Active
+
+@obsolete
+@races None
 DOCUMENTA]
 funcion Boole#NO
 	adquirir yo
@@ -276,13 +314,13 @@ finfun
 
 [DOCUMENTA
 @brief Representa un numero en `Z`.
-Para un numero en `Q`, se pueden utilizar las clases <Fraccion>
-y <Decimal>.
+Para un numero en `Q`, se pueden utilizar las clases <Fraccion> y <Decimal>.
 
-El valor se almacena en el campo valor, como en Decimal.
+El valor se almacena en el campo `valor`, como en <Decimal>.
 DOCUMENTA]
 clase Numero hereda ElementoMatematico
 	atributo valor
+
 	metodo sumar
 	metodo restar
 	metodo multiplicar
@@ -291,9 +329,11 @@ finclase
 
 [DOCUMENTA
 @brief Suma dos Numeros.
+
 @argyo
 @arg b Referencia a el segundo numero a sumar.
 @arg res Referencia a donde se almacenara el resultado.
+
 @races None
 DOCUMENTA]
 funcion Numero#sumar con yo y tu y res
@@ -304,9 +344,11 @@ finfun
 
 [DOCUMENTA
 @brief Resta dos Numeros.
+
 @argyo
 @arg b Referencia a el segundo numero a restar.
 @arg res Referencia a donde se almacenara el resultado.
+
 @races None
 DOCUMENTA]
 funcion Numero#restar con yo y tu y res
@@ -317,9 +359,11 @@ finfun
 
 [DOCUMENTA
 @brief Multiplica dos Numeros.
+
 @argyo
 @arg b Referencia a el segundo numero a multiplicar.
 @arg res Referencia a donde se almacenara el resultado.
+
 @races None
 DOCUMENTA]
 funcion Numero#multiplicar con yo y tu y res
@@ -330,9 +374,11 @@ finfun
 
 [DOCUMENTA
 @brief Divide dos Numeros.
+
 @argyo
 @arg b Referencia a el segundo numero a dividir.
 @arg res Referencia a donde se almacenara el resultado.
+
 @races None
 DOCUMENTA]
 funcion Numero#dividir con yo y tu y res
@@ -350,6 +396,7 @@ Para numeros en `Z`, u otra representacion de numeros en `Q`, se pueden ver:
 DOCUMENTA]
 clase Decimal hereda ElementoMatematico
 	atributo valor
+
 	metodo sumar
 	metodo restar
 	metodo multiplicar
@@ -358,9 +405,11 @@ finclase
 
 [DOCUMENTA
 @brief Suma dos Numeros Decimales.
+
 @argyo
 @arg b Referencia a el segundo numero a sumar.
 @arg res Referencia a donde se almacenara el resultado.
+
 @races None
 DOCUMENTA]
 funcion Decimal#sumar con yo y tu y res
@@ -371,9 +420,11 @@ finfun
 
 [DOCUMENTA
 @brief Resta dos Numeros Decimales.
+
 @argyo
 @arg b Referencia a el segundo numero a restar.
 @arg res Referencia a donde se almacenara el resultado.
+
 @races None
 DOCUMENTA]
 funcion Decimal#restar con yo y tu y res
@@ -384,9 +435,11 @@ finfun
 
 [DOCUMENTA
 @brief Multiplica dos Numeros Decimales.
+
 @argyo
 @arg b Referencia a el segundo numero a multiplicar.
 @arg res Referencia a donde se almacenara el resultado.
+
 @races None
 DOCUMENTA]
 funcion Decimal#multiplicar con yo y tu y res
@@ -397,9 +450,11 @@ finfun
 
 [DOCUMENTA
 @brief Divide dos Numeros decimales.
+
 @argyo
 @arg b Referencia a el segundo numero a dividir.
 @arg res Referencia a donde se almacenara el resultado.
+
 @races None
 DOCUMENTA]
 funcion Decimal#dividir con yo y tu y res
@@ -410,7 +465,8 @@ finfun
 
 [DOCUMENTA
 @brief Representa un par de valores.
-Posee un primero (primer valor o clave) y un segundo (segundo valor o valor).
+Posee un `primero` (primer valor o clave) y un `segundo`(segundo valor o
+valor).
 DOCUMENTA]
 clase Par hereda Objeto
 	atributo primero

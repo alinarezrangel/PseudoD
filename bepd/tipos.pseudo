@@ -26,9 +26,7 @@ utilizar entsal.pseudo
 
 [DOCUMENTA
 @file Documentación de tipos.pseudo.
-Aqui se encuentran funciones comunes de PseudoD, la clase <Referencia>, es
-la clase principal de este archivo, permitiendo referenciar variables de
-forma eficiente y simple.
+Aqui se encuentran funciones comunes de PseudoD.
 
 Este archivo contiene además la biblioteca de rasgos de tipo, la cual
 detecta caracteristicas de objetos y tipos (clases) para su uso en
@@ -274,9 +272,11 @@ finfun
 [DOCUMENTA
 @brief Crea un atributo dinamico.
 Equivalente a escribir `instancia tattr yo#nattr`.
+
 @arg yo Nombre de la instancia sobre la que se creara el atributo.
 @arg nattr Nombre del atributo a crear.
 @arg tattr Tipo de latributo a crear.
+
 @races Fatal.HaveAttr
 Si el atributo ya existe, lanzara un error fatal.
 DOCUMENTA]
@@ -288,8 +288,10 @@ finfun
 [DOCUMENTA
 @brief Destruye un atributo dinamico.
 Este puede ser creado con <CrearAtributoDinamico>.
+
 @arg yo Instancia sobre la que existe el atributo.
 @arg nattr Nombre del atributo.
+
 @races Fatal.NonAttr
 De ya estar destruido el atributo, lanzara un error fatal.
 DOCUMENTA]
@@ -302,9 +304,12 @@ finfun
 @brief Determina si el tipo posee en su **declaración** el método.
 Aunque posea en su declaración el método dado, no hay garantías de que
 se pueda llamar de forma segura dicho método en un objeto.
+
 @arg tipo Tipo (no referencia a tipo) o clase en el cual se buscará el método
 @arg nombre_metodo Nombre del método a buscar.
+
 @dev VERDADERO si el tipo posee el método o FALSO de lo contrario.
+
 @races Fatal.NotAType
 Si el tipo no es una clase su comportamiento está indefinido.
 
@@ -340,9 +345,12 @@ finfun
 [DOCUMENTA
 @brief Determina si el tipo posee en su **declaración** el atributo.
 No puede detectar atributos creados dinámicamente.
+
 @arg tipo Tipo (no referencia a tipo) o clase en el cual se buscará el atributo
 @arg nombre_atributo Nombre del atributo a buscar.
+
 @dev VERDADERO si el tipo posee el atributo o FALSO de lo contrario.
+
 @races Fatal.NotAType
 Si el tipo no es una clase su comportamiento está indefinido.
 
@@ -375,9 +383,12 @@ finfun
 [DOCUMENTA
 @brief Determina si el tipo posee en su **declaración** el puntero.
 No puede detectar punteros creados dinámicamente.
+
 @arg tipo Tipo (no referencia a tipo) o clase en el cual se buscará el puntero
 @arg nombre_puntero Nombre del puntero a buscar.
+
 @dev VERDADERO si el tipo posee el puntero o FALSO de lo contrario.
+
 @races Fatal.NotAType
 Si el tipo no es una clase su comportamiento está indefinido.
 
@@ -439,8 +450,10 @@ cuando la condición es falsa (`condicion` es igual a FALSO). Al terminar
 con el programa, muestra al usuario el mensaje de error que se pasó como
 argumento. Véase <VG_ASERTAR_FALSO_ES_FATAL> y
 <VG_ASERTAR_NO_IMPRIME_ADVERTENCIAS>.
+
 @arg mensaje Mensaje a imprimir si la condición se evalua falsa
 @arg condicion Variable Booleana que indica el estado de la condición
+
 @throws ErrorDeSemantica
 Ejecuta `necesitas FALSO` cuando la condición es falsa, `necesitas` lanza
 un error de semantica y por ende, esta función también.
@@ -457,7 +470,7 @@ funcion Asertar de mensaje y condicion
 		sino
 			si no VG_ASERTAR_NO_IMPRIME_ADVERTENCIAS
 				llamar EscribirLinea
-					{Advertencia en Asertar (tipos.pseudo): VG_ASERTAR_NO_IMPRIME_ADVERTENCIAS es VERDADERO}
+					{Advertencia en Asertar (tipos.pseudo): VG_ASERTAR_FALSO_ES_FATAL es FALSO}
 				finargs
 			fin
 		fin

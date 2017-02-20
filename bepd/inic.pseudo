@@ -120,40 +120,41 @@ puntero VG_BUFFER_DATA VG_BUFFER_DATOS_DATA
 
 [DOCUMENTA
 @brief Determina si el valor es nulo.
+
 @arg valor Valor a determinar.
-@dev Si es <builtins.pseudo#NULO> o no.
+
+@dev VERDADERO si es igual a <builtins.pseudo#NULO> o FALSO de lo contrario.
+
 @races None
 DOCUMENTA]
-funcion EsNulo [ valor -> boole ]
-	adquirir valor
-	recibir_parametro valor
+funcion EsNulo de valor
 	si son iguales valor y NULO
 		devolver VERDADERO
 	sino
 		devolver FALSO
 	fin
-	liberar valor
 finfun
 
 [DOCUMENTA
 @brief Cambia dinámicamente la pila utilizada.
 Equivalente a `usar_pila <i>`.
+
 @arg i Número de la pila a utilizar
+
 @races None
 DOCUMENTA]
-funcion UsarPila [ i ]
-	adquirir i
-	recibir_parametro i
-	fijar VG_PILA_ACTUAL a i
-	liberar i
+funcion UsarPila de numero_de_pila
+	fijar VG_PILA_ACTUAL a numero_de_pila
 finfun
 
 [DOCUMENTA
 @brief Obtiene dinámicamente la pila actualmente utilizada.
-Equivalente a obtener el valor de <pseudod.pseudo#VG_PILA_ACTUAL>.
+Equivalente a obtener el valor de VG_PILA_ACTUAL.
+
 @dev Pila actual
+
 @races None
 DOCUMENTA]
-funcion ObtenerPila [ i ]
+funcion ObtenerPila
 	devolver VG_PILA_ACTUAL
 finfun

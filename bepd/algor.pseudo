@@ -34,9 +34,9 @@ DOCUMENTA]
 [DOCUMENTA
 @brief Representa un iterador.
 Este puede iterar sobre todos (o algunos) elementos de un determinado
-contenedor. Actualmente, esta clase no realiza acción alguna dado que
-la lógica de esta debe ser implementada especificamente para la clase
-contenedora en la que se vaya a utilizar.
+contenedor. Actualmente, esta clase no realiza acción alguna dado que la lógica
+de esta debe ser implementada especificamente para la clase contenedora en la
+que se vaya a utilizar.
 
 @abstract
 DOCUMENTA]
@@ -44,12 +44,16 @@ clase abstracta Iterador hereda Objeto
 	metodo obtenerActual
 	metodo siguiente
 	metodo igualA
+	metodo fijarA
 finclase
 
 [DOCUMENTA
 @brief Obtiene el elemento actual.
+
 @argyo
+
 @dev Referencia común al elemento actual
+
 @races None
 DOCUMENTA]
 funcion Iterador#obtenerActual
@@ -57,10 +61,11 @@ finfun
 
 [DOCUMENTA
 @brief Avanza un elemento.
-Luego de avanzar, el iterador puede quedar fuera del contenedor, para asegurarse
-que esto no pase, compare el iterador con el final del contenedor.
+Luego de avanzar, el iterador puede quedar fuera del contenedor, para
+asegurarse que esto no pase, compare el iterador con el final del contenedor.
 
 @argyo
+
 @races None
 DOCUMENTA]
 funcion Iterador#siguiente
@@ -68,14 +73,29 @@ finfun
 
 [DOCUMENTA
 @brief Determina si dos iteradores son iguales.
-Dos iteradores son iguales si ambos acceden al mismo elemento en el
-contenedor.
+Dos iteradores son iguales si ambos acceden al mismo elemento en el contenedor.
 
 @argyo
 @arg iter Referencia comun al Iterador a comparar con `yo`
+
+@dev VERDADERO si son iguales o FALSO de lo contrario.
+
 @races None
 DOCUMENTA]
 funcion Iterador#igualA
+finfun
+
+[DOCUMENTA
+@brief Fijar este iterador al especificado.
+Luego de esta función, el método <Iterador\#igualA> **siempre** devolverá
+VERDADERO.
+
+@argyo
+@arg iter Referencia comun al Iterador a fijar.
+
+@races None
+DOCUMENTA]
+funcion Iterador#fijarA
 finfun
 
 [DOCUMENTA
@@ -95,6 +115,7 @@ Luego de retroceder, el iterador puede quedar fuera del contenedor, para
 asegurarse que esto no pase, compare el iterador con el inicio del contenedor.
 
 @argyo
+
 @races None
 DOCUMENTA]
 funcion IteradorBidireccional#anterior
@@ -102,10 +123,10 @@ finfun
 
 [DOCUMENTA
 @brief Iterador en reversa
-Cuando se invoca a <Iterador\#siguiente> en este iterador, en vez de
-avanzar un elemento, retrocede uno. El orden de este iterador **siempre**
-es contrario a <Iterador>, más **no garantiza** que si <Iterador> pasa
-por un determinado elemento, este también pase por dicho.
+Cuando se invoca a <Iterador\#siguiente> en este iterador, en vez de avanzar
+un elemento, retrocede uno. El orden de este iterador **siempre** es contrario
+a <Iterador>, más **no garantiza** que si <Iterador> pasa por un determinado
+elemento, este también pase por dicho.
 
 @abstract
 DOCUMENTA]
@@ -150,32 +171,38 @@ Para determinar si este iterador esta al final, utilice <Contenedor\#final>
 Es el primer elemento.
 
 @argyo
+
 @dev Referencia común al iterador (instancia de <Iterador> o descendiente).
+
 @races ReturnValue.Shared
-Esta función **puede** devolver el mismo objeto indiferentemente de
-cuantas veces se llame mientras se ejecute en el mismo arreglo.
+Esta función **puede** devolver el mismo objeto indiferentemente de cuantas
+veces se llame mientras se ejecute en el mismo arreglo.
 DOCUMENTA]
 funcion Contenedor#inicio
 finfun
 
 [DOCUMENTA
-@brief Obtiene un iterador apuntando a un elemento pasado el final de la secuencia.
+@brief Obtiene un iterador apuntando a un elemento pasado el final de \
+la secuencia.
 Para determinar si este iterador esta al inicio, utilice <Contenedor\#inicio>
 
 Es equivalente a obtener un iterador al ultimo elemento y llamar
 <Iterador\#siguiente>.
 
 @argyo
+
 @dev Referencia común al iterador (instancia de <Iterador> o descendiente).
+
 @races ReturnValue.Shared
-Esta función **puede** devolver el mismo objeto indiferentemente de
-cuantas veces se llame mientras se ejecute en el mismo arreglo.
+Esta función **puede** devolver el mismo objeto indiferentemente de cuantas
+veces se llame mientras se ejecute en el mismo arreglo.
 DOCUMENTA]
 funcion Contenedor#final
 finfun
 
 [DOCUMENTA
-@brief Obtiene un iterador en reversa apuntando a un elemento antes del inicio de la secuencia.
+@brief Obtiene un iterador en reversa apuntando a un elemento antes del \
+inicio de la secuencia.
 Para determinar si este iterador esta al final, utilice
 <Contenedor\#finalReversa>
 
@@ -183,10 +210,13 @@ Es equivalente a obtener un iterador en reversa al primer elemento y llamar
 <IteradorReversa\#siguiente>
 
 @argyo
-@dev Referencia común al iterador (instancia de <IteradorReversa> o descendiente).
+
+@dev Referencia común al iterador (instancia de <IteradorReversa> o \
+descendiente).
+
 @races ReturnValue.Shared
-Esta función **puede** devolver el mismo objeto indiferentemente de
-cuantas veces se llame mientras se ejecute en el mismo arreglo.
+Esta función **puede** devolver el mismo objeto indiferentemente de cuantas
+veces se llame mientras se ejecute en el mismo arreglo.
 DOCUMENTA]
 funcion Contenedor#inicioReversa
 finfun
@@ -199,10 +229,12 @@ Para determinar si este iterador esta al inicio, utilice
 Es el ultimo elemento.
 
 @argyo
-@dev Referencia común al iterador (instancia de <IteradorReversa> o descendiente).
+@dev Referencia común al iterador (instancia de <IteradorReversa> o \
+descendiente).
+
 @races ReturnValue.Shared
-Esta función **puede** devolver el mismo objeto indiferentemente de
-cuantas veces se llame mientras se ejecute en el mismo arreglo.
+Esta función **puede** devolver el mismo objeto indiferentemente de cuantas
+veces se llame mientras se ejecute en el mismo arreglo.
 DOCUMENTA]
 funcion Contenedor#finalReversa
 finfun
@@ -213,6 +245,7 @@ Inicializa un iterador en este arreglo, el cual es igual a <Contenedor\#inicio>
 
 @argyo
 @arg iter Referencia común al iterador a inicializar.
+
 @races None
 DOCUMENTA]
 funcion Contenedor#crearIterador
@@ -225,6 +258,7 @@ Inicializa un iterador en reversa en este arreglo, el cual es igual a
 
 @argyo
 @arg iter Referencia común al iterador en reversa a inicializar.
+
 @races None
 DOCUMENTA]
 funcion Contenedor#crearIteradorReversa
@@ -242,13 +276,16 @@ clase IteradorArreglo hereda IteradorBidireccional
 	metodo siguiente
 	metodo anterior
 	metodo igualA
+	metodo fijarA
 finclase
 
 [DOCUMENTA
 @brief Obtiene el elemento actual.
 
 @argyo
+
 @dev Referencia común al elemento actual.
+
 @races Undefined.NoBoundsCheck
 Si el iterador es inválido, el comportamiento es indefinido.
 DOCUMENTA]
@@ -268,6 +305,7 @@ Avanza incrementando el índice en uno (1): si el elemento actual es el índice
 2, despues de llamar a esta función será el 3, luego 4, luego 5, etc.
 
 @argyo
+
 @races None
 DOCUMENTA]
 funcion IteradorArreglo#siguiente con yo
@@ -276,8 +314,8 @@ finfun
 
 [DOCUMENTA
 @brief Retrocede un elemento en el arreglo.
-Retrocede decrementando el índice en uno (1): si el elemento actual es el índice
-5, despues de llamar a esta función será el 4, luego 3, luego 2, etc.
+Retrocede decrementando el índice en uno (1): si el elemento actual es el
+índice 5, despues de llamar a esta función será el 4, luego 3, luego 2, etc.
 
 @argyo
 @races None
@@ -292,7 +330,9 @@ Compara el índice interno y si ambos estan en el mismo arreglo.
 
 @argyo
 @arg iter Referencia común al IteradorArreglo a comparar.
+
 @dev VERDADERO si apuntan al mismo elemento y FALSO de lo contrario.
+
 @races None
 DOCUMENTA]
 funcion IteradorArreglo#igualA con yo e iter
@@ -307,6 +347,19 @@ funcion IteradorArreglo#igualA con yo e iter
 	fin
 finfun
 
+[DOCUMENTA
+@brief Fija el iterador actual a el especificado.
+Luego de esto, <IteradorArreglo\#igualA> **siempre** devolverá VERDADERO.
+
+@argyo
+@arg iter Referencia común al iterador a fijar.
+
+@races None
+DOCUMENTA]
+funcion IteradorArreglo#fijarA con yo e iter
+	fijar <yo>#indice a <iter>#indice
+	fijar <yo>#nombreArreglo a <iter>#nombreArreglo
+finfun
 
 [DOCUMENTA
 @brief Es el iterador de la clase Arreglo.
@@ -320,13 +373,16 @@ clase IteradorArregloReversa hereda IteradorBidireccionalReversa
 	metodo siguiente
 	metodo anterior
 	metodo igualA
+	metodo fijarA
 finclase
 
 [DOCUMENTA
 @brief Obtiene el elemento actual.
 
 @argyo
+
 @dev Referencia común al elemento actual.
+
 @races Undefined.NoBoundsCheck
 Si el iterador es inválido, el comportamiento es indefinido.
 DOCUMENTA]
@@ -346,6 +402,7 @@ Avanza decrementando el índice en uno (1): si el elemento actual es el índice
 5, despues de llamar a esta función será el 4, luego 3, luego 2, etc.
 
 @argyo
+
 @races None
 DOCUMENTA]
 funcion IteradorArregloReversa#siguiente con yo
@@ -354,10 +411,11 @@ finfun
 
 [DOCUMENTA
 @brief Retrocede un elemento en el arreglo.
-Retrocede incrementando el índice en uno (1): si el elemento actual es el índice
-2, despues de llamar a esta función será el 3, luego 4, luego 5, etc.
+Retrocede incrementando el índice en uno (1): si el elemento actual es el
+índice 2, despues de llamar a esta función será el 3, luego 4, luego 5, etc.
 
 @argyo
+
 @races None
 DOCUMENTA]
 funcion IteradorArregloReversa#anterior con yo
@@ -370,7 +428,9 @@ Compara el índice interno y si ambos estan en el mismo arreglo.
 
 @argyo
 @arg iter Referencia común al IteradorArregloReversa a comparar.
+
 @dev VERDADERO si apuntan al mismo elemento y FALSO de lo contrario.
+
 @races None
 DOCUMENTA]
 funcion IteradorArregloReversa#igualA con yo e iter
@@ -386,9 +446,24 @@ funcion IteradorArregloReversa#igualA con yo e iter
 finfun
 
 [DOCUMENTA
+@brief Fija el iterador actual a el especificado.
+Luego de esto, <IteradorArregloReversa\#igualA> **siempre** devolverá
+VERDADERO.
+
+@argyo
+@arg iter Referencia común al iterador a fijar.
+
+@races None
+DOCUMENTA]
+funcion IteradorArregloReversa#fijarA con yo e iter
+	fijar <yo>#indice a <iter>#indice
+	fijar <yo>#nombreArreglo a <iter>#nombreArreglo
+finfun
+
+[DOCUMENTA
 @brief Es un arreglo dinámico de elementos.
-A diferencia de un arreglo común, aqui los elementos no están en
-posiciones sucesivas de memoria.
+A diferencia de un arreglo común, aqui los elementos no están en posiciones
+sucesivas de memoria.
 
 Puede obtener referencias a los elementos utiliando el método
 <Arregle\#obtener>, o acceder a los elementos utilizando los atributos
@@ -413,7 +488,9 @@ finclase
 [DOCUMENTA
 @brief Crea el arreglo.
 El arreglo inicial tiene un tamaño 0 y esta vacio.
+
 @argyo
+
 @races None
 DOCUMENTA]
 funcion Arreglo#crear con yo
@@ -434,9 +511,11 @@ finfun
 
 [DOCUMENTA
 @brief Libera la memoria ocupada por el arreglo.
-Adicionalmente, si se necesita destruir por completo el arreglo,
-debes invocar a liberar.
+Adicionalmente, si se necesita destruir por completo el arreglo, debes invocar
+a `liberar`.
+
 @argyo
+
 @races None
 DOCUMENTA]
 funcion Arreglo#destruir con yo
@@ -456,9 +535,12 @@ finfun
 [DOCUMENTA
 @brief Obtiene un elemento en una determinada posición.
 Si la posición es invalida, devuelve <builtins.pseudo#NULO>.
+
 @argyo
 @arg i Índice del elemento, entre `0` y `tamaño`.
+
 @dev Referencia al elemento.
+
 @races None
 DOCUMENTA]
 funcion Arreglo#obtener con yo e i
@@ -472,9 +554,12 @@ finfun
 [DOCUMENTA
 @brief Agrega un elemento al final.
 También incrementa el tamaño del arreglo.
+
 @argyo
 @arg tipo Tipo del dato a agregar.
+
 @dev Índice del nuevo elemento.
+
 @races None
 DOCUMENTA]
 funcion Arreglo#agregar con yo y tipo
@@ -492,7 +577,9 @@ finfun
 Véase también <Contenedor\#inicio>
 
 @argyo
+
 @dev IteradorArreglo al primer elemento
+
 @races None
 DOCUMENTA]
 funcion Arreglo#inicio con yo
@@ -504,7 +591,9 @@ finfun
 Véase también <Contenedor\#final>
 
 @argyo
+
 @dev IteradorArreglo a un elemento después del ultimo elemento
+
 @races None
 DOCUMENTA]
 funcion Arreglo#final con yo
@@ -517,6 +606,7 @@ Véase también <Contenedor\#crearIterador>
 
 @argyo
 @arg iter Referencia común al IteradorArreglo a inicializar.
+
 @races None
 DOCUMENTA]
 funcion Arreglo#crearIterador con yo e iter
@@ -529,7 +619,9 @@ finfun
 Véase también <Contenedor\#inicioReversa>
 
 @argyo
+
 @dev IteradorArregloReversa al primer elemento
+
 @races None
 DOCUMENTA]
 funcion Arreglo#inicioReversa con yo
@@ -541,7 +633,9 @@ finfun
 Véase también <Contenedor\#finalReversa>
 
 @argyo
+
 @dev IteradorArregloReversa a un elemento después del ultimo elemento
+
 @races None
 DOCUMENTA]
 funcion Arreglo#finalReversa con yo
@@ -553,7 +647,9 @@ finfun
 Véase también <Contenedor\#crearIteradorReversa>
 
 @argyo
+
 @arg iter Referencia común al IteradorArregloReversa a inicializar.
+
 @races None
 DOCUMENTA]
 funcion Arreglo#crearIteradorReversa con yo e iter

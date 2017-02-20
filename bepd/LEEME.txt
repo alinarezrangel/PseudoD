@@ -79,6 +79,27 @@ de error de una función o método.
 - `@file ...`: Como `@brief` pero da la descripción del archivo.
 - `@throws ...`: Lista de excepciones que puede lanzar.
 
+Para todas las etiquetas de una única línea, terminarla con `\` la continuará
+en la siguiente.
+
+Los valores para la etiqueta `@races ...` son:
+
+- `None`: No hay errores o condiciones de carrera.
+- `ReturnValue.Shared`: El valor de retorno puede (o es) compartido entre
+llamadas de la función o entre otras funciones (o ambos).
+- `Undefined.NoBoundsCheck`: Algún valor (argumento o interno o valor de
+retorno) no es verificado antes o despues (o ambos) de la función pudiendo
+albergar valores inválidos (y consecuentemente, errores al usarlos).
+- `Stack.Underflow`: Una o más condiciones pueden ocacionar que alguna
+pila de datos sufra un *underflow*. Durante el *underflow*, se sacan más
+datos de la pila de los que dicha contiene ocasionando un error.
+- `Fatal.HaveAttr`: Si un objeto determinado posee un atributo específico,
+la función puede fallar.
+- `Fatal.NonAttr`: Si un objeto determinado **no** posee un atributo
+específico, la función puede fallar.
+- `Fatal.NotAType`: Si un objeto específico **no es un tipo** (clase)
+la función puede fallar.
+
 Los archivos (por utilidad) son:
 
 - builtins.pseudo (automatico), inic.pseudo (automatico): Inicializan PseudoD

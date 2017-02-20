@@ -27,21 +27,5 @@ utilizar tipos.pseudo
 utilizar mate.pseudo
 utilizar cadena.pseudo
 
-si algun FALSO o FALSO o FALSO o FALSO
-	llamar EscribirLinea {Esto no deberia aparecer} finargs
-fin
-si algun FALSO o FALSO o FALSO o VERDADERO
-	llamar EscribirLinea {Esto deberia aparecer} finargs
-fin
-si algun VERDADERO o FALSO o FALSO o FALSO
-	llamar EscribirLinea {Esto deberia aparecer} finargs
-fin
-si tanto VERDADERO como VERDADERO como VERDADERO como VERDADERO
-	llamar EscribirLinea {Esto deberia aparecer} finargs
-fin
-si tanto VERDADERO como VERDADERO como VERDADERO como FALSO
-	llamar EscribirLinea {Esto no deberia aparecer} finargs
-fin
-si tanto FALSO como VERDADERO como VERDADERO como VERDADERO
-	llamar EscribirLinea {Esto no deberia aparecer} finargs
-fin
+funcion MiSeno
+	[ sin(x) = SUM(0 -> inf,n){((-1)^n)((x^(2n+1))/((2n+1)!))} ]

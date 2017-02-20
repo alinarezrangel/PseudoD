@@ -37,6 +37,7 @@ DOCUMENTA]
 DOCUMENTA]
 clase BufferTexto hereda Objeto
 	atributo valor
+
 	metodo escribir
 	metodo escribirLinea
 finclase
@@ -44,7 +45,9 @@ finclase
 [DOCUMENTA
 @brief Escribe un texto en la salida estándar.
 Equivalente a `escribir`
+
 @arg texto Valor a escribir.
+
 @races None
 DOCUMENTA]
 funcion Escribir de texto
@@ -55,7 +58,9 @@ finfun
 @brief Casi identico a <Escribir>.
 La diferencia esta en que ingresa un valor nueva linea al final, como
 en `escribir` seguido de `nl`
+
 @arg texto Valor a escribir.
+
 @races None
 DOCUMENTA]
 funcion EscribirLinea de texto
@@ -65,7 +70,9 @@ finfun
 
 [DOCUMENTA
 @brief Lee un valor desde la entrada estandar, y lo retorna.
+
 @dev El valor leido.
+
 @races None
 DOCUMENTA]
 funcion LeerPalabra
@@ -77,8 +84,10 @@ finfun
 
 [DOCUMENTA
 @brief Escribe en un objeto <BufferTexto>.
+
 @argyo
 @arg texto Texto a escribir en el.
+
 @races None
 DOCUMENTA]
 funcion BufferTexto#escribir con yo y texto
@@ -88,8 +97,10 @@ finfun
 [DOCUMENTA
 @brief Similar a <BufferTexto\#escribir>.
 Este además, agrega un nueva linea despues de texto.
+
 @argyo
 @arg texto Texto a escribir en el.
+
 @races None
 DOCUMENTA]
 funcion BufferTexto#escribirLinea con yo y texto
@@ -152,8 +163,10 @@ sacar VG_BUFFER
 [DOCUMENTA
 @brief Imprime una lista de argumentos.
 Los separa por espacios.
+
 @arg str Primer argumento a imprimir (obligatorio).
 @arg args... Lista de argumentos terminada en <builtins.pseudo#NULO>.
+
 @races Stack.Underflow
 Si la lista de argumentos no termina en <builtins.pseudo#NULO>, se bloqueara y
 terminara con un *stack underflow*.
@@ -172,10 +185,12 @@ funcion Imprimir de inicio [ ... NULO ]
 finfun
 
 [DOCUMENTA
-@brief Equivalente a imprimir.
-Solo que agrega un nl al final.
+@brief Equivalente a <Imprimir>.
+Solo que agrega un `nl` al final.
+
 @arg str Primer argumento a imprimir (obligatorio).
 @arg args... Lista de argumentos terminada en <builtins.pseudo#NULO>.
+
 @races Stack.Underflow
 Si la lista de argumentos no termina en <builtins.pseudo#NULO>, se bloqueara y
 terminara con un *stack underflow*.
@@ -203,8 +218,8 @@ y se imprime, si encambio, se encuentra un comodin de caracter especial,
 se formatea el siguiente caracter y se imprime.
 
 Es decir, lo que en C es `"Hola\r\nMundo %s"` aqui es `"Hola\r\n Mundo %"`.
-Si se desea imprimir un caracter `%`, basta con agregar un \ atras: `"\%"` = `"%"`.
-En caso de que se requiera el nuevalinea del sistema, utilize
+Si se desea imprimir un caracter `%`, basta con agregar un \ atras:
+`"\%"` = `"%"`. En caso de que se requiera el nuevalinea del sistema, utilize
 `\k`. `"\k"` = `std::endl`.
 
 A diferencia de C printf, este no requiere especificación del tipo, solo el
@@ -212,8 +227,15 @@ comodin. En total, lo formatos aceptados son: `\r` = Retorno de carro, `\n` =
 Nueva linea, `\k` = Nueva linea del sistema, `%` = Argumento, `\<` = Argumento
 resuelto. Para escapar `\` use `\\`.
 
+También puedes *resolver un argumento*. Esto se hace con `\<`. Es muy similar a
+`%` pero en vez de simplemente recibir un argumento, lo pasa por la resolución
+de nombres: `ImprimirFormato {\<} {hola}` imprime el contenido de la variable
+`hola`. Es igual a simplemente pasar `%` pasando el argumento entre `<>`:
+`ImprimirFormato {\<} VAR` es igual a `ImprimirFormato {%} <VAR>`.
+
 @arg str Cadena a formatear
 @arg args... Lista de argumentos, no se verifica su tamaño.
+
 @races Stack.Underflow
 Si se especifica un comodin de caracter especial en el final de la cadena,
 o se especifica un comodin de reemplazo y falta el argumento, causara un

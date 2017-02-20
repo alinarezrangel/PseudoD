@@ -25,8 +25,8 @@ utilizar cadena.pseudo
 
 [DOCUMENTA
 @file Documentación de mate.pseudo.
-Esta es la biblioteca matemática de PseudoD, aqui estan todas las
-funciones matemáticas de PseudoD implementadas en PseudoD.
+Esta es la biblioteca matemática de PseudoD, aqui estan todas las funciones
+matemáticas de PseudoD implementadas en PseudoD.
 DOCUMENTA]
 
 [DOCUMENTA
@@ -52,8 +52,8 @@ fijar DELTA a {0.000005}
 
 [DOCUMENTA
 @brief Mayor cantidad de decimales que puede almacenar un numero.
-Es el limite visualizable de `long double` (para numeros
-mayores, se visualizaran con notacion cientifica).
+Es el limite visualizable de `long double` (para numeros mayores, se
+visualizarán con notación científica).
 DOCUMENTA]
 adquirir PRECISION_DECIMAL
 fijar PRECISION_DECIMAL a {6}
@@ -92,13 +92,15 @@ fijar ITERACIONES_DE_SENO a {5}
 [DOCUMENTA
 @brief Determina si dos decimales son aproximadamente iguales.
 Nunca de debe comparar decimales con `son iguales` o
-`comparar Importar.Dec.Comparar`, esto puede ocasionar fallas
-poco esperadas.
+`comparar Importar.Dec.Comparar`, esto puede ocasionar fallas poco esperadas.
 
 Utiliza DELTA
+
 @arg dec1 Decimal número 1 a comparar
 @arg dec2 Decimal número 2 a comparar
+
 @dev Si son aproximadamente iguales.
+
 @races None
 DOCUMENTA]
 funcion SonIguales de dec1 y dec2
@@ -122,9 +124,12 @@ la suma decimal.
 
 Determina si son enteros o no buscando un separador decimal ("," o ".") en
 los numeros.
+
 @arg lvalue Valor izquierdo a sumar.
 @arg rvalue Valor derecho a sumar.
+
 @dev Decimal resultado de la suma.
+
 @races None
 DOCUMENTA]
 funcion Sumar de lv y rv
@@ -155,9 +160,12 @@ la resta decimal.
 
 Determina si son enteros o no buscando un separador decimal ("," o ".") en
 los numeros.
+
 @arg lvalue Valor izquierdo a restar.
 @arg rvalue Valor derecho a restar.
+
 @dev Decimal resultado de la resta.
+
 @races None
 DOCUMENTA]
 funcion Restar de lv y rv
@@ -188,9 +196,12 @@ la multiplicación decimal.
 
 Determina si son enteros o no buscando un separador decimal ("," o ".") en
 los numeros.
+
 @arg lvalue Valor izquierdo a multiplicar.
 @arg rvalue Valor derecho a multiplicar.
+
 @dev Decimal resultado de la multiplicación.
+
 @races None
 DOCUMENTA]
 funcion Multiplicar de lv y rv
@@ -221,9 +232,12 @@ la división decimal.
 
 Determina si son enteros o no buscando un separador decimal ("," o ".") en
 los numeros.
+
 @arg lvalue Valor izquierdo a dividir.
 @arg rvalue Valor derecho a dividir.
+
 @dev Decimal resultado de la división.
+
 @races None
 DOCUMENTA]
 funcion Dividir de lv y rv
@@ -249,9 +263,13 @@ finfun
 
 [DOCUMENTA
 @brief Calcula el valor de una base elevado a un exponente.
+Se asume que la base es decimal más el exponente es entero.
+
 @arg base Base de la potencia
 @arg exponente Exponente de la potencia
+
 @dev El resultado de `base^exponente`.
+
 @races None
 DOCUMENTA]
 funcion ElevarValor de base y exponente
@@ -273,8 +291,11 @@ finfun
 [DOCUMENTA
 @brief Calcula el factorial de un numero n.
 Si `n < 0`,  devuelve 1 al igual que si `n == 0` o 1.
+
 @arg n Numero a calcular el factorial.
+
 @dev El factorial de dicho numero, o 1.
+
 @races None
 DOCUMENTA]
 funcion Factorial de numero
@@ -293,8 +314,11 @@ finfun
 
 [DOCUMENTA
 @brief Convierte grados sexadecimales a radianes.
+
 @arg grados Grados a convertir
+
 @dev El valor en Radianes
+
 @races None
 DOCUMENTA]
 funcion GradosARadianes de grados
@@ -310,8 +334,11 @@ finfun
 
 [DOCUMENTA
 @brief Convierte radianes a grados sexadecimales.
+
 @arg radianes Valor en radianes a convertir
+
 @dev El valor en Grados sexadecimales
+
 @races None
 DOCUMENTA]
 funcion RadianesAGrados de radianes
@@ -330,8 +357,11 @@ finfun
 El valor absoluto de un numero x, es `|x|` y se define
 como `{x Si x >= 0} o {-x Si < 0}`, es decir, siempre es
 positivo.
+
 @arg val Valor a calcular el valor absoluto.
+
 @dev El valor absoluto de val.
+
 @races None
 DOCUMENTA]
 funcion ValorAbsoluto de valor
@@ -344,8 +374,11 @@ finfun
 [DOCUMENTA
 @brief Ajusta un numero decimal para el seno/coseno.
 Simplemente lo reduce al rango `[0-PI)`.
+
 @arg ang Angulo a ajustar.
+
 @dev Angulo ajustado.
+
 @races None
 DOCUMENTA]
 funcion AjustarParaSeno de ang
@@ -364,8 +397,11 @@ finfun
 
 [DOCUMENTA
 @brief Calcula el seno de un angulo.
+
 @arg ang Angulo en radianes.
+
 @dev Decimal resultado del seno.
+
 @races None
 DOCUMENTA]
 funcion Seno [ ang ]
@@ -443,9 +479,13 @@ finfun
 
 [DOCUMENTA
 @brief Calcula el coseno de un angulo.
+
 Realmente llama a `Seno((PI/2) - ang)`, lo cual es equivalente.
+
 @arg ang Angulo en radianes.
+
 @dev El coseno del angulo.
+
 @races <Seno>
 DOCUMENTA]
 funcion Coseno de angulo
@@ -459,9 +499,12 @@ finfun
 
 [DOCUMENTA
 @brief Calcula la raiz cuadrada de un numero.
-utiliza el metodo babilonico para calcular la raiz cuadrada de un numero.
-@arg nm Numero a radicar.
+Utiliza el metodo babilonico para calcular la raiz cuadrada de un numero.
+
+@arg area Numero a radicar.
+
 @dev Decimal resultado de la radicacion.
+
 @races None
 DOCUMENTA]
 funcion RaizCuadrada de area
@@ -490,9 +533,13 @@ finfun
 [DOCUMENTA
 @brief Calcula el piso de un numero.
 El piso de X, es el numero entero menor o igual más cercano a X.
+
 Por ejemplo: `piso(3.232) = 3`, `piso(3.99999) = 3`, `piso(8) = 8`.
-@arg nm Numero a calcular el piso.
-@dev El piso de nm.
+
+@arg valor Numero a calcular el piso.
+
+@dev El piso de `valor`.
+
 @races None
 DOCUMENTA]
 funcion Piso de valor
@@ -510,12 +557,12 @@ Por ejemplo: `techo(3.232) = 4`, `techo(3.99999) = 4`, `techo(8) = 8`.
 DOCUMENTA]
 funcion Techo de valor
 	adquirir techo
-	Importar.Ent.Sumar valor CERO __techo_bff__
+	Importar.Ent.Sumar valor CERO techo
 	si comparar Importar.Dec.Comparar valor = techo [ "son iguales" podria fallar por precisión ]
 		devolver techo
 	sino
-		Importar.Ent.Sumar valor UNO valor
-		devolver valor
+		Importar.Ent.Sumar techo UNO techo
+		devolver techo
 	fin
 	liberar techo
 finfun
@@ -523,21 +570,28 @@ finfun
 [DOCUMENTA
 @brief Es una division
 Posee todos los datos de una division.
+
 Con este se puede calcular el resto y cociente de una division.
+
+@obsolete
 DOCUMENTA]
 clase Division hereda Objeto
-	resto
-	cociente
-	:divide
+	atributo resto
+	atributo cociente
+
+	metodo divide
 finclase
 
 [DOCUMENTA
 @brief Divide dos numeros.
 Los datos de la division son almacenados en la instancia actual.
+
 De ser el divisor cero, no realizara accion.
+
 @argyo
 @arg dividendo Numero a dividir.
 @arg divisor Numero que dividira
+
 @races None
 DOCUMENTA]
 funcion Division#divide [ yo, a, b :: yo.cociente = a/b yo.resto = a % b ]
