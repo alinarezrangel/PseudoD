@@ -57,3 +57,6 @@ PseudoD: $(NIAPATH)/Main.cpp libpseudodsrc.a
 
 clean:
 	rm nea_interno_data.o nea_pddata.o nia_nmemonic.o nia_interprete.o libpseudodsrc.a libpseudod.so PseudoD
+
+install:
+	./instalar.sh
