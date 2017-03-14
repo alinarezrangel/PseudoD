@@ -220,6 +220,7 @@ namespace pseudod
 			std::string::size_type numeral = 0;
 
 			e >> var >> bpalab;
+			var = DATOS_INT.ResolverNombre(var);
 			PDCadena a = DATOS_INT.ObtenerVariable(var);
 			while((bpalab != "#(Final).") && (bpalab != "finargs"))
 			{

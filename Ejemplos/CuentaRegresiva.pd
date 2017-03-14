@@ -1,13 +1,8 @@
 [ ***************************************************
-**************
-** CuentaRegresiva.pd: Ejemplos de PseudoD.
-** Creador: Alejandro Linarez Rangel
-** Imprime una serie de numeros del 0-100.
-** Serie de ejemplos de PseudoD.
-** Contacto a <proyectopseudod@gmail.com> y a los
-** foros de discución en
-**    <https://sourceforge.net/p/pseudod/discussion/?source=navbar>
-**************
+*****************
+** CuentaRegresiva.pd: Escribe todos los números en un intervalo
+*****************
+*****************************************************
 Copyright 2016 Alejandro Linarez Rangel
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,25 +18,36 @@ See the License for the specific language governing permissions and
 limitations under the License.
 *************************************************** ]
 
-adquirir desde [ Creamos la variable que representa el tope inferior del
-                 intervalo ]
-adquirir hasta [ Creamos la variable que representa el tope superior del
-                 intervalo ]
-adquirir paso [ Representa el valor que se sumara en cada cuenta ]
-adquirir cuenta [ cuenta actual, es el valor cambiante ]
+[ Creamos la variable que representa el tope inferior del intervalo ]
+adquirir desde
+
+[ Creamos la variable que representa el tope superior del intervalo ]
+adquirir hasta
+
+[ Representa el valor que se sumara en cada cuenta ]
+adquirir paso
+
+[ cuenta actual, es el valor cambiante ]
+adquirir cuenta
+
 [ fijamos su valor al minimo, intente cambiar el valor y vea los resultados ]
-fijar desde =* 0
+fijar desde a {0}
+
 [ fijamos su valor al maximo, intente cambiar el valor y vea los resultados ]
-fijar hasta =* 100
+fijar hasta a {100}
+
 [ Valor que se sumara iteradas veces, cambie su valor y vea resultados ]
-fijar paso =* 1
+fijar paso a {1}
+
 [ El valor cambiante, debe ser fijado al minimo ]
-fijar cuenta =¿? desde
+fijar cuenta a desde
 
 mientras comparar Importar.Ent.Comparar cuenta <= hasta
 	escribir cuenta [ escribimos la iteración actual ]
 	escribir_esp [ Escribimos un espacio en blanco ]
-	Importar.Ent.Sumar cuenta paso cuenta [ Le suma a cuenta el valor de paso y lo
-almacena en cuenta, si fueran decimales podria cambiar Ent por Dec ]
+	[ Le suma a cuenta el valor de paso y lo
+	almacena en cuenta, si fueran decimales podria cambiar Ent por Dec ]
+	Importar.Ent.Sumar cuenta paso cuenta
 finbucle
+
 nl [ Imprimimos los caracteres nueva linea ]

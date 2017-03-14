@@ -1,13 +1,8 @@
 [ ***************************************************
-**************
-** BuclesAnidadosConBEPD.pd: Ejemplos de PseudoD.
-** Creador: Alejandro Linarez Rangel
-** Imprime las tablas de multiplicar del 1 al 9.
-** Serie de ejemplos de PseudoD.
-** Contacto a <proyectopseudod@gmail.com> y a los
-** foros de discución en
-**    <https://sourceforge.net/p/pseudod/discussion/?source=navbar>
-**************
+*****************
+** BuclesAnidadosConBEPD.pd: Escribe las tablas de multiplicar utilizando la BEPD
+*****************
+*****************************************************
 Copyright 2016 Alejandro Linarez Rangel
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,6 +17,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 *************************************************** ]
+
 utilizar entsal.pseudo
 utilizar mate.pseudo
 

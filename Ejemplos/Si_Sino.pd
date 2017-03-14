@@ -1,13 +1,8 @@
 [ ***************************************************
-**************
-** Si_Sino.pd: Ejemplos de PseudoD.
-** Creador: Alejandro Linarez Rangel
-** Ejemplo del condicional si-sino.
-** Serie de ejemplos de PseudoD.
-** Contacto a <proyectopseudod@gmail.com> y a los
-** foros de discución en
-**    <https://sourceforge.net/p/pseudod/discussion/?source=navbar>
-**************
+*****************
+** Si_Sino.pd: Condicionales si y sino
+*****************
+*****************************************************
 Copyright 2016 Alejandro Linarez Rangel
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,29 +18,17 @@ See the License for the specific language governing permissions and
 limitations under the License.
 *************************************************** ]
 
-[ TODO: solo funciona en PseudoD u1.9.5 o superior ]
+utilizar entsal.pseudo
 
-utilizar inic.pseudo
-utilizar clases.pseudo
-utilizar mate.pseudo
+[ ********************************************************************
+Una simple pregunta si/no, el programa realizará acciones distintas
+en cada caso
+******************************************************************** ]
 
-adquirir mensaje [ Pregunta al usuario ]
-adquirir respuesta [ Respuesta del usuario ]
+llamar EscribirLinea {Has hecho moo hoy? (s/n)} finargs
 
-fijar mensaje a {¿Has hecho moo hoy?(S/N):}
-
-escribir mensaje [ Escrie el mensaje ]
-escribir_esp [ Escribe un espacio en blanco ]
-leer respuesta [ Lee la respuesta ]
-
-[ Si son iguales la respuesta y SI,(puedes ver su valor en la referencia de PseudoD: http://pseudod.sourceforge.net/) ]
-si son iguales respuesta y SI
-	[ Felicitalo ]
-	fijar mensaje a {¡¡¡Genial!!!}
+si son iguales llamar LeerPalabra finargs y {s}
+	llamar EscribirLinea {Que bien!} finargs
 sino
-	[ En otro caso, sorprendete ]
-	fijar mensaje a {¡¿En serio?!}
+	llamar EscribirLinea {???} finargs
 fin
-[ Escribe el resultado ]
-escribir mensaje
-nl

@@ -1,13 +1,8 @@
 [ ***************************************************
-**************
-** UTF-8.pd: Ejemplos de PseudoD.
-** Creador: Alejandro Linarez Rangel
-** Demuestra el soporte de UTF-8 en PseudoD.
-** Serie de ejemplos de PseudoD.
-** Contacto a <proyectopseudod@gmail.com> y a los
-** foros de discución en
-**    <https://sourceforge.net/p/pseudod/discussion/?source=navbar>
-**************
+*****************
+** UTF-8.pd: Muestra algunos nombres válidos en PseudoD
+*****************
+*****************************************************
 Copyright 2016 Alejandro Linarez Rangel
 
 Licensed under the Apache License, Version 2.0 (the "License");

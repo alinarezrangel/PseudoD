@@ -1,13 +1,8 @@
 [ ***************************************************
-**************
-** BuclesAnidados.pd: Ejemplos de PseudoD.
-** Creador: Alejandro Linarez Rangel
-** Imprime las tablas de multiplicar del 1 al 9.
-** Serie de ejemplos de PseudoD.
-** Contacto a <proyectopseudod@gmail.com> y a los
-** foros de discución en
-**    <https://sourceforge.net/p/pseudod/discussion/?source=navbar>
-**************
+*****************
+** BuclesAnidados.pd: Imprime las tablas de multiplicar del 1 al 9.
+*****************
+*****************************************************
 Copyright 2016 Alejandro Linarez Rangel
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,8 +17,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 *************************************************** ]
-utilizar inic.pseudo
-utilizar clases.pseudo
 
 adquirir numero
 adquirir otro
@@ -35,13 +28,13 @@ adquirir mensaje
 adquirir por
 adquirir igual
 
-fijar numero =* 1
-fijar otro =* 1
-fijar resultado =* 1
-fijar hasta =* 9
-fijar mensaje =* El resultado de:
-fijar por =* *
-fijar igual =* =
+fijar numero a {1}
+fijar otro a {1}
+fijar resultado a {1}
+fijar hasta a {9}
+fijar mensaje a {El resultado de:}
+fijar por a {*}
+fijar igual a {=}
 
 mientras comparar Importar.Ent.Comparar numero <= hasta
 	mientras comparar Importar.Ent.Comparar otro <= hasta
@@ -60,6 +53,6 @@ mientras comparar Importar.Ent.Comparar numero <= hasta
 		nl
 		Importar.Ent.Sumar otro UNO otro
 	finbucle
-	fijar otro =* 1
+	fijar otro a {1}
 	Importar.Ent.Sumar numero UNO numero
 finbucle

@@ -1,13 +1,8 @@
 [ ***************************************************
-**************
-** AdiosMundo.pd: Ejemplos de PseudoD.
-** Creador: Alejandro Linarez Rangel
-** Imprime "¡Hola Mundo!" y despues "¡Adios Mundo!".
-** Serie de ejemplos de PseudoD.
-** Contacto a <proyectopseudod@gmail.com> y a los
-** foros de discución en
-**    <https://sourceforge.net/p/pseudod/discussion/?source=navbar>
-*********
+*****************
+** AdiosMundo.pd: Escribe dos mensajes en pantalla
+*****************
+*****************************************************
 Copyright 2016 Alejandro Linarez Rangel
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,10 +18,16 @@ See the License for the specific language governing permissions and
 limitations under the License.
 *************************************************** ]
 
-adquirir Mensaje [ Creamos la variable Mensaje ]
-fijar Mensaje a {¡Hola Mundo!} [ Fijamos su contenido a ¡Hola Mundo! ]
-escribir Mensaje [ Escribimos su contenido ]
-nl [ E imprimimos los caracteres nueva linea ]
-fijar Mensaje a {¡Adios Mundo!} [ Fijamos su contenido a ¡Adios Mundo!, borrando su contenido anterior ]
-escribir Mensaje [ Volvemos a escribir su contenido ]
-nl [ Y otros caracteres nueva linea ]
+[ Creamos una nueva variable ]
+adquirir mensaje
+[ Fijarmos su contenido a "Hola Mundo" ]
+fijar mensaje a {Hola Mundo}
+[ Y escribimos el contenido ]
+escribir mensaje
+[ No hay que olvidar el fin-de-línea ]
+nl
+
+[ Ahora escribirmos "Adios Mundo" ]
+fijar mensaje a {Adios mundo}
+escribir mensaje
+nl

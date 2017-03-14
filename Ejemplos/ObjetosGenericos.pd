@@ -1,14 +1,8 @@
 [ ***************************************************
-**************
-** ObjetosGenericos.pd: Prueba de los objetos genericos.
-** Creador: Alejandro Linarez Rangel
-** Prueba la versión en PseudoD del "Duck Typing".
-** Y tambien algo parecido a los templates<> de C++.
-** Serie de ejemplos de PseudoD.
-** Contacto a <proyectopseudod@gmail.com> y a los
-** foros de discución en
-**    <https://sourceforge.net/p/pseudod/discussion/?source=navbar>
-**************
+*****************
+** ObjetosGenericos.pd: Utiliza DuckTyping.
+*****************
+*****************************************************
 Copyright 2016 Alejandro Linarez Rangel
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,66 +18,50 @@ See the License for the specific language governing permissions and
 limitations under the License.
 *************************************************** ]
 
-utilizar tipos.pseudo
+[ Importamos la biblioteca de entrada y salida de PseudoD ]
+utilizar entsal.pseudo
 
-[ El duck typing puede realizarse de dos formas: ]
-[ 1. Utilizar interfaces: ]
+[ ****************************************************************
+En el duck typing, demostramos como ignorar el tipo de un objeto
+y simplemente utilizar las características que nos interesan de
+dicho objeto.
+**************************************************************** ]
 
-[ La intefaz Quackable representa cualquier cosa que pueda hacer "Quack" ]
-clase IQuackable
-	:quack
+[ La clase abstracta IQuackable representa todo lo que pueda hacer "quack" ]
+clase abstracta IQuackable hereda Objeto
+	metodo quack
 finclase
-heredar Objeto IQuackable
 
-clase Pato
-	:quack
+[ Aquí tenemos dos objetos que pueden hacer quack: una persona y un pato ]
+clase Pato hereda Objeto extiende IQuackable
+	metodo quack
 finclase
-heredar IQuackable Pato
 
-funcion Pato#quack
-	adquirir mensaje
-	fijar mensaje =* Quack!Quack!Quack!
-	escribir mensaje
-	nl
-	liberar mensaje
+[ Implementamos el método quack: ]
+funcion Pato#quack con yo
+	llamar EscribirLinea {Quack!Quack!Quack!} finargs
 finfun
 
-clase Persona
-	:quack
+[ Y una persona también puede hacer quack: ]
+clase Persona hereda Objeto extiende IQuackable
+	metodo quack
 finclase
-heredar IQuackable Persona
 
-funcion Persona#quack
-	adquirir mensaje
-	fijar mensaje =* Imito el sonido de un pato, quack!quack!quack!
-	escribir mensaje
-	nl
-	liberar mensaje
+[ Implementamos el método quack: ]
+funcion Persona#quack con yo
+	llamar EscribirLinea
+		{Soy una persona imitando un pato: quack quack quack}
+	finargs
 finfun
 
-funcion EnElBosque
-	adquirir objeto
-	recibir_parametro objeto
+[ Tenemos una funcion que no verifica el tipo, solo utiliza el método quack ]
+funcion Quackear con objeto
 	llamar <objeto>#quack finargs
-	liberar objeto
 finfun
 
+[ Lo probamos: ]
 instancia Pato pato
 instancia Persona persona
-llamar EnElBosque pato#NOMBRE finargs
-llamar EnElBosque persona#NOMBRE finargs
 
-[ 2. Utilizar punteros/referencias opacos ]
-
-instancia Referencia quackable
-adquirir metodo
-fijar metodo =* quack
-fijar quackable#ref =¿? pato#NOMBRE
-[ Si el objeto al que apunta quackable no posee el metodo ]
-[ :quack, lanzara un error ]
-llamar quackable#llamarMet metodo #(Final).
-fijar quackable#ref =¿? persona#NOMBRE
-llamar quackable#llamarMet metodo #(Final).
-
-[ El segundo método es el utilizado por las funciones ]
-[ para manejar objetos por referencia ]
+llamar Quackear pato#NOMBRE finargs
+llamar Quackear persona#NOMBRE finargs

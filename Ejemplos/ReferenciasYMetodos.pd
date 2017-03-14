@@ -1,15 +1,8 @@
 [ ***************************************************
-**************
-** ReferenciasYMetodos.pd: Ejemplos de PseudoD.
-** Creador: Alejandro Linarez Rangel
-** Demostración del uso de las referencias y métodos
-** mediante un sistema MVC simple.
-** PseudoD 2.2.0
-** Serie de ejemplos de PseudoD.
-** Contacto a <proyectopseudod@gmail.com> y a los
-** foros de discución en
-**    <https://sourceforge.net/p/pseudod/discussion/?source=navbar>
-**************
+*****************
+** ReferenciasYMetodos.pd: Crea un modelo MVC de prueba
+*****************
+*****************************************************
 Copyright 2016 Alejandro Linarez Rangel
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,117 +18,67 @@ See the License for the specific language governing permissions and
 limitations under the License.
 *************************************************** ]
 
-utilizar entsal.pseudo [ EscribirLinea, Imprimir, etc ]
-utilizar cadena.pseudo [ Cadena#Concatenar ]
+[ *********************************************************
+Un MVC (Modelo-Vista-Controlador) es un esquema donde:
 
-[ MVC: El modelo almacena y maneja los datos ]
-clase Modelo
-	:guardarMensaje
-	:obtenerMensaje
-	:apuntarMensaje
+* La vista muestra los datos del modelo
+* El modelo manipula los datos
+* El controlador modifica los datos en el modelo
+********************************************************* ]
+
+utilizar entsal.pseudo
+
+clase Modelo hereda Objeto
+	atributo dato
+
+	metodo guardarDato
+	metodo cargarDato
 finclase
-heredar Objeto Modelo
 
-puntero Modelo#mensaje NULO [ Variable estática ]
-
-funcion Modelo#guardarMensaje [ Guarda un nuevo mensaje ]
-	adquirir yo
-	adquirir nuevo_mensaje
-	recibir_parametro yo
-	recibir_parametro nuevo_mensaje
-	fijar Modelo#mensaje a nuevo_mensaje [ Fijamos el mensaje ]
-	liberar yo
-	liberar nuevo_mensaje
+funcion Modelo#guardarDato con yo y nuevoDato
+	fijar <yo>#dato a nuevoDato
 finfun
 
-funcion Modelo#obtenerMensaje [ Obtiene el mensaje guardado ]
-	adquirir yo
-	recibir_parametro yo
-	devolver Modelo#mensaje [ Devolvemos el mensaje ]
-	liberar yo
+funcion Modelo#cargarDato con yo
+	devolver <yo>#dato
 finfun
 
-funcion Modelo#apuntarMensaje [ Apunta el lugar donde se almacena el mensaje ]
-	adquirir yo
-	adquirir lugar
-	recibir_parametro yo
-	recibir_parametro lugar
-	redireccionar Modelo#mensaje <lugar> [ Redireccionamos el mensaje ]
-	liberar yo
-	liberar lugar
-finfun
-
-[ MVC: La vista visualiza los datos almacenados ]
-clase Vista
-	:obtenerTextoPlano
+clase Vista hereda Objeto
+	metodo verDato
 finclase
-heredar Objeto Vista
 
-funcion Vista#obtenerTextoPlano [ Obtiene el texto plano de la vista ]
-	adquirir yo
-	instancia Modelo modelo
-	recibir_parametro yo
-	nl [ nueva linea ]
-	[ Escribe el texto y el mensaje ]
-	llamar EscribirLinea {--------------------------------------------------} finargs
-	llamar EscribirLinea {¡Bienvenido!} finargs
-	llamar EscribirLinea {Mostrando nuevos mensajes:} finargs
-	llamar EscribirLinea {* Seleccionando mensajes del modelo} finargs
-	llamar ImprimirLinea
-		{#El mensaje es:}
-		llamar modelo#obtenerMensaje finargs
-		NULO
+funcion Vista#verDato con yo y modelo
+	llamar ImprimirFormato
+		{El dato almacenado es %\k}
+		llamar <modelo>#cargarDato finargs
 	finargs
-	llamar EscribirLinea {Ingrese un nuevo mensaje a grabar (termine con @fin)} finargs
-	liberar yo
-	liberar modelo
 finfun
 
-[ MVC: El controlador maneja los datos recibidos del usuario ]
-clase Controlador
-	:recibirDatos
+clase Controlador hereda Objeto
+	metodo cambiarDato
 finclase
-heredar Objeto Controlador
 
-funcion Controlador#recibirDatos [ Recibe los datos del usuario ]
-	adquirir yo
-	adquirir mensaje
-	adquirir palabra
-	instancia Modelo modelo
-	recibir_parametro yo
-	fijar mensaje a {}
-	fijar palabra a {}
-	[ Lee hasta encontrar @fin ]
-	mientras sean diferentes palabra y {@fin}
-		fijar palabra a llamar LeerPalabra finargs
-		si son diferentes palabra y {@fin}
-			fijar mensaje a llamar Cadena#Concatenar mensaje palabra finargs
-			fijar mensaje a llamar Cadena#Concatenar mensaje { } finargs
-		fin
-	finbucle
-	llamar modelo#guardarMensaje mensaje finargs
-	liberar yo
-	liberar mensaje
-	liberar modelo
-	liberar palabra
+funcion Controlador#cambiarDato con yo y modelo
+	adquirir nuevoDato
+
+	llamar EscribirLinea {Ingrese el nuevo dato:} finargs
+
+	fijar nuevoDato a llamar LeerPalabra finargs
+
+	si son iguales nuevoDato y {@fin}
+		devolver FALSO
+	sino
+		llamar <modelo>#guardarDato nuevoDato finargs
+		devolver VERDADERO
+	fin
+
+	liberar nuevoDato
 finfun
 
-[ Variables globales ]
+instancia Modelo modelo
 instancia Vista vista
 instancia Controlador controlador
 
-adquirir MiMensaje [ Almacenará el mensaje ]
-fijar MiMensaje a {Nada}
-
-[ Apuntamos el mensaje a MiVariable ]
-instancia Modelo modelo
-
-llamar modelo#apuntarMensaje MiMensaje#NOMBRE finargs
-
-liberar modelo [ Y Liberamos memoria ]
-
-[ Bucle: hasta que el mensaje sea @salir ]
-mientras sean diferentes MiMensaje y {@salir }
-	llamar vista#obtenerTextoPlano finargs
-	llamar controlador#recibirDatos finargs
+mientras llamar controlador#cambiarDato modelo#NOMBRE finargs
+	llamar vista#verDato modelo#NOMBRE finargs
 finbucle
