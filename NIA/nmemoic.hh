@@ -37,7 +37,8 @@ limitations under the License.
 #include <dlfcn.h>
 
 #include "NEA/interno/data.hh"
-#include "NEA/PDData.hh"
+
+// #include "NEA/PDData.hh"
 
 /**
 * @file nmemoic.hh
@@ -88,6 +89,10 @@ namespace pseudod
 				PD_OPERADOR_NO, // no
 				PD_OPERADOR_EJECUTAR, // ejecutar
 				PD_OPERADOR_SON_IGUALES, // ¿son_iguales?
+				PD_OPERADOR_TANTO, // tanto X [como] Y ...
+				PD_OPERADOR_COMO, // [tanto] X como/y/e Y ...
+				PD_OPERADOR_ALGUN, // algun X [o] Y ...
+				PD_OPERADOR_O, // [algun] X o/u Y
 				PD_LEER, // leer
 				PD_UTILIZAR, // utilizar
 				PD_LLAMAR, // llamar
@@ -108,6 +113,9 @@ namespace pseudod
 				PD_ESCRIBIR_ESPACIO, // escribir_esp
 				PD_SALIR, // sal(ir)?
 				PD_COMENTARIO, // [ ... ]
+				PD_INTENTA, // intenta
+				PD_ATRAPA_ERROR, // error
+				PD_FIN_INTENTA, // finintenta
 				PD_NEA, // Importar.X.Y
 				PD_ALIAS, // Aliases
 				PD_OTRO // ???

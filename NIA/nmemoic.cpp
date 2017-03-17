@@ -59,6 +59,13 @@ static std::multimap<PDCadena, pseudod::NMemonico::Palabra> ConversorS2P =
 	{"no", pseudod::NMemonico::PD_OPERADOR_NO},
 	{"ejecutar", pseudod::NMemonico::PD_OPERADOR_EJECUTAR},
 	{"¿son_iguales?", pseudod::NMemonico::PD_OPERADOR_SON_IGUALES},
+	{"tanto", pseudod::NMemonico::PD_OPERADOR_TANTO},
+	{"como", pseudod::NMemonico::PD_OPERADOR_COMO},
+	{"y", pseudod::NMemonico::PD_OPERADOR_COMO},
+	{"e", pseudod::NMemonico::PD_OPERADOR_COMO},
+	{"algun", pseudod::NMemonico::PD_OPERADOR_ALGUN},
+	{"o", pseudod::NMemonico::PD_OPERADOR_O},
+	{"u", pseudod::NMemonico::PD_OPERADOR_O},
 	{"leer", pseudod::NMemonico::PD_LEER},
 	{"utilizar", pseudod::NMemonico::PD_UTILIZAR},
 	{"llamar", pseudod::NMemonico::PD_LLAMAR},
@@ -66,6 +73,7 @@ static std::multimap<PDCadena, pseudod::NMemonico::Palabra> ConversorS2P =
 	{"con", pseudod::NMemonico::PD_CON},
 	{"funcion", pseudod::NMemonico::PD_FUNCION},
 	{"finfun", pseudod::NMemonico::PD_FIN_FUNCION},
+	{"finfuncion", pseudod::NMemonico::PD_FIN_FUNCION},
 	{"fin", pseudod::NMemonico::PD_FIN_SI},
 	{"finbucle", pseudod::NMemonico::PD_FIN_BUCLE},
 	{"empujar", pseudod::NMemonico::PD_EMPUJAR},
@@ -86,7 +94,10 @@ static std::multimap<PDCadena, pseudod::NMemonico::Palabra> ConversorS2P =
 	{"[", pseudod::NMemonico::PD_COMENTARIO},
 	{"]", pseudod::NMemonico::PD_COMENTARIO},
 	{"sal", pseudod::NMemonico::PD_SALIR},
-	{"salir", pseudod::NMemonico::PD_SALIR}
+	{"salir", pseudod::NMemonico::PD_SALIR},
+	{"intenta", pseudod::NMemonico::PD_INTENTA},
+	{"atrapar", pseudod::NMemonico::PD_ATRAPA_ERROR},
+	{"finintenta", pseudod::NMemonico::PD_FIN_INTENTA}
 };
 static std::multimap<pseudod::NMemonico::Palabra, std::string> ConversorP2S;
 static bool CreadoConversor = false;

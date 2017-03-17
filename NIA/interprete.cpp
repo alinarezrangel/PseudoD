@@ -183,7 +183,9 @@ namespace pseudod
 		{
 			PDCadena func = "", a = "", h = "";
 			e >> func;
+
 			std::ifstream en(func.c_str());
+
 			if(!en)
 			{
 				// el archivo no esta en una ruta actual, ejecutalo desde BEPD
@@ -324,7 +326,7 @@ namespace pseudod
 		{
 			PDCadena nom = "", arg = "", lin = "", func = "";
 			e >> nom;
-			while(lin != "finfun")
+			while((lin != "finfun") && (lin != "finfuncion"))
 			{
 				std::getline(e, lin, '\n');
 				func += lin + '\n';

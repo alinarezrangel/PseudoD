@@ -291,6 +291,8 @@ namespace PDvar
 
 	PDCadena ValorDelToken(PDCadena tok, std::istream& in, PDDatos* data)
 	{
+		pseudod::NMemonicoProxy proxy = pseudod::ConvertirCadenaANMemonico(tok);
+
 		if(tok.front() == '[')
 		{
 			if(tok.back() == ']')
@@ -302,60 +304,69 @@ namespace PDvar
 			in >> tok;
 			return ValorDelToken(tok, in, data);
 		}
-		if(tok == "tanto")
+
+		if(proxy == pseudod::NMemonico::PD_OPERADOR_TANTO)
 		{
 			bool esVerdadero = true;
 			std::istream::pos_type pos = 0;
-			PDCadena buff = "";
 
 			do
 			{
 				in >> tok;
-				esVerdadero = (ValorDelToken(tok, in, data) == "verdadero") && esVerdadero;
+				esVerdadero =
+					(ValorDelToken(tok, in, data) == data->VERDADERO)
+					&& esVerdadero;
 				pos = in.tellg();
-				in >> buff;
-				if((buff != "como") && (buff != "y") && (buff != "e"))
+				in >> proxy;
+
+				if(proxy != pseudod::NMemonico::PD_OPERADOR_COMO)
 				{
 					in.seekg(pos);
 					break;
 				}
 			} while(true);
 
-			return esVerdadero? "verdadero" : "falso";
+			return esVerdadero? data->VERDADERO : data->FALSO;
 		}
-		if(tok == "algun")
+
+		if(proxy == pseudod::NMemonico::PD_OPERADOR_ALGUN)
 		{
 			bool esVerdadero = false;
 			std::istream::pos_type pos = 0;
-			PDCadena buff = "";
 
 			do
 			{
 				in >> tok;
-				esVerdadero = (ValorDelToken(tok, in, data) == "verdadero") || esVerdadero;
+				esVerdadero =
+					(ValorDelToken(tok, in, data) == data->VERDADERO)
+					|| esVerdadero;
 				pos = in.tellg();
-				in >> buff;
-				if((buff != "u") && (buff != "o"))
+				in >> proxy;
+
+				if(proxy == pseudod::NMemonico::PD_OPERADOR_O)
 				{
 					in.seekg(pos);
 					break;
 				}
 			} while(true);
 
-			return esVerdadero? "verdadero" : "falso";
+			return esVerdadero? data->VERDADERO : data->FALSO;
 		}
-		if(tok == "si")
+
+		if(proxy == pseudod::NMemonico::PD_SI)
 		{
 			in >> tok;
 			return ValorDelToken(tok, in, data);
 		}
-		if(tok == "llamar")
+
+		if(proxy == pseudod::NMemonico::PD_LLAMAR)
 		{
 			data->Ejecutar("llamar", in);
 			PDCadena top = data->Sacar(cae(data->ObtenerVariable("VG_PILA_ACTUAL")));
 			return top;
 		}
-		if(tok == "comparar")
+
+		if(proxy == pseudod::NMemonico::PD_OPERADOR_COMPARAR)
 		{
 			PDCadena orden = "", arg1 = "", op = "", arg2 = "";
 			in >> orden >> arg1 >> op >> arg2;
@@ -364,7 +375,8 @@ namespace PDvar
 			data->Ejecutar(orden);
 			return data->ObtenerVariable("___codigo_pseudod_buffer_interno___");
 		}
-		if(tok == "ejecutar")
+
+		if(proxy == pseudod::NMemonico::PD_OPERADOR_EJECUTAR)
 		{
 			PDCadena orden = "", arg1 = "", op = "", arg2 = "", arg3 = "";
 			in >> orden >> arg1 >> op >> arg2 >> arg3;
@@ -375,48 +387,66 @@ namespace PDvar
 			return (
 				(data->ObtenerVariable("___codigo_pseudod_buffer_interno___")
 					== data->ObtenerVariable(arg3))?
-					"verdadero" : "falso"
+					data->VERDADERO : data->FALSO
 				);
 		}
-		if(tok == "¿son_iguales?") // verificado
+
+		if(proxy == pseudod::NMemonico::PD_OPERADOR_SON_IGUALES) // verificado
 		{
 			PDCadena arg1 = "", arg2 = "";
 			in >> arg1 >> arg2;
 			return (
 				(data->ObtenerVariable(arg1) == data->ObtenerVariable(arg2))?
-					"verdadero" : "falso"
+					data->VERDADERO : data->FALSO
 				);
 		}
-		if((tok == "son") || (tok == "sean"))
+
+		if(proxy == pseudod::NMemonico::PD_OPERADOR_SON)
 		{
 			PDCadena op = "", tok1 = "", val1 = "", tok2 = "", val2 = "", ytok = "";
+
 			in >> op >> tok1;
 			val1 = ValorDelToken(tok1, in, data);
 			in >> ytok >> tok2;
 			val2 = ValorDelToken(tok2, in, data);
-			if(ytok != "y")
+
+			proxy = pseudod::ConvertirCadenaANMemonico(ytok);
+
+			if(proxy != pseudod::NMemonico::PD_OPERADOR_Y)
 			{
 				throw PDvar::ErrorDeSintaxis(
 					PDCadena("Error en el parser(expr): 'son/sean iguales/diferentes") +
 					" expr y expr': se esperaba 'y' no " + ytok
 				);
 			}
-			if(op == "iguales")
+
+			proxy = pseudod::ConvertirCadenaANMemonico(op);
+
+			if(proxy == pseudod::NMemonico::PD_OPERADOR_IGUALES)
 			{
-				return ((val1 == val2)? "verdadero" : "falso");
+				return ((val1 == val2)? data->VERDADERO : data->FALSO);
 			}
-			if(op == "diferentes")
+			else if(proxy == pseudod::NMemonico::PD_OPERADOR_DIFERENTES)
 			{
-				return ((val1 != val2)? "verdadero" : "falso");
+				return ((val1 != val2)? data->VERDADERO : data->FALSO);
+			}
+			else
+			{
+				throw PDvar::ErrorDeSintaxis(
+					PDCadena("Error en el parse(expr): 'son/sean iguales/diferentes'") +
+					": se esperaba iguales/diferentes, no " + op
+				);
 			}
 		}
-		if(tok == "no") // verificado
+
+		if(proxy == pseudod::NMemonico::PD_OPERADOR_NO) // verificado
 		{
 			PDCadena pd;
 			in >> pd;
-			return (ValorDelToken(pd, in, data) == "verdadero")?
-				"falso" : "verdadero";
+			return (ValorDelToken(pd, in, data) == data->VERDADERO)?
+				data->FALSO : data->VERDADERO;
 		}
+
 		if(tok[0] == '{')
 		{
 			if(tok[tok.size() - 1] == '}')
@@ -427,6 +457,7 @@ namespace PDvar
 			std::getline(in, str, '}');
 			return tok.substr(1, tok.size()) + str;
 		}
+
 		if((tok.size() >= 2)
 			&& (tok[0] == (char)0xC2)
 			&& (tok[1] == (char)0xAB)) // Comillas angulares (apertura "«")
@@ -456,10 +487,12 @@ namespace PDvar
 			// <= Comillas angulares (cierre "»")
 			return tok.substr(2, tok.size()) + str.substr(0, str.size() - 2);
 		}
+
 		if(data->ExisteVariable(true, tok) || data->ExisteVariable(false, tok))
 		{
 			return data->ObtenerVariable(tok);
 		}
+
 		throw PDvar::ErrorDelNucleo(
 			"Error en el parser(expr): 'expr' es '" + tok +
 			"': Token invalido"

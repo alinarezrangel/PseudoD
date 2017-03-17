@@ -41,6 +41,8 @@ limitations under the License.
 
 #include "interno/data.hh"
 
+#include "nmemoic.hh"
+
 /**
 * @brief Espacio de nombres principal de PseudoD.
 *
