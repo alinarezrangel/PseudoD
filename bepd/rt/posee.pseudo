@@ -1,0 +1,149 @@
+[ ******************************************************************************
+*****************************************
+*********
+** Bibliotecas de Rasgos de Tipo: subconjunto de la BEPD.
+** Determina si un tipo posee un atributo/metodo/puntero.
+*********
+*****************************************
+********************************************************************************
+Copyright 2016 Alejandro Linarez Rangel
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+********************************************************************************
+****************************************************************************** ]
+
+utilizar fn/cadena.pseudo
+
+[DOCUMENTA
+@brief `PoseeMetodo` - Determina si el tipo posee en su **declaración** el \
+método.
+Aunque posea en su declaración el método dado, no hay garantías de que
+se pueda llamar de forma segura dicho método en un objeto.
+
+@arg tipo Tipo (no referencia a tipo) o clase en el cual se buscará el método
+@arg nombre_metodo Nombre del método a buscar.
+
+@dev VERDADERO si el tipo posee el método o FALSO de lo contrario.
+
+@races Fatal.NotAType
+Si el tipo no es una clase su comportamiento está indefinido.
+
+Por ejemplo: nunca se debe llamar a esta función como:
+
+```
+llamar PoseeMetodo PseudoVariable#Tipo {...} finargs
+```
+
+Sino directamente como:
+
+```
+llamar PoseeMetodo PseudoVariable {...} finargs
+```
+DOCUMENTA]
+funcion PoseeMetodo de tipo y nombre_metodo
+	fijar nombre_metodo a
+		llamar Cadena#Concatenar
+			{:}
+			llamar Cadena#Concatenar
+				nombre_metodo
+				{ }
+			finargs
+		finargs
+
+	si son iguales llamar Cadena#Buscar tipo nombre_metodo finargs y CMMERROR
+		devolver FALSO
+	sino
+		devolver VERDADERO
+	fin
+finfun
+
+[DOCUMENTA
+@brief `PoseeAtributo` - Determina si el tipo posee en su **declaración** el \
+atributo.
+No puede detectar atributos creados dinámicamente.
+
+@arg tipo Tipo (no referencia a tipo) o clase en el cual se buscará el atributo
+@arg nombre_atributo Nombre del atributo a buscar.
+
+@dev VERDADERO si el tipo posee el atributo o FALSO de lo contrario.
+
+@races Fatal.NotAType
+Si el tipo no es una clase su comportamiento está indefinido.
+
+Por ejemplo: nunca se debe llamar a esta función como:
+
+```
+llamar PoseeAtributo PseudoVariable#Tipo {...} finargs
+```
+
+Sino directamente como:
+
+```
+llamar PoseeAtributo PseudoVariable {...} finargs
+```
+DOCUMENTA]
+funcion PoseeAtributo de tipo y nombre_atributo
+	fijar nombre_atributo a
+		llamar Cadena#Concatenar
+			nombre_atributo
+			{ }
+		finargs
+
+	si son iguales llamar Cadena#Buscar tipo nombre_atributo finargs y CMMERROR
+		devolver FALSO
+	sino
+		devolver VERDADERO
+	fin
+finfun
+
+[DOCUMENTA
+@brief `PoseePuntero` - Determina si el tipo posee en su **declaración** el \
+puntero.
+No puede detectar punteros creados dinámicamente.
+
+@arg tipo Tipo (no referencia a tipo) o clase en el cual se buscará el puntero
+@arg nombre_puntero Nombre del puntero a buscar.
+
+@dev VERDADERO si el tipo posee el puntero o FALSO de lo contrario.
+
+@races Fatal.NotAType
+Si el tipo no es una clase su comportamiento está indefinido.
+
+Por ejemplo: nunca se debe llamar a esta función como:
+
+```
+llamar PoseePuntero PseudoVariable#Tipo {...} finargs
+```
+
+Sino directamente como:
+
+```
+llamar PoseePuntero PseudoVariable {...} finargs
+```
+DOCUMENTA]
+funcion PoseePuntero de tipo y nombre_puntero
+	fijar nombre_puntero a
+		llamar Cadena#Concatenar
+			{;}
+			llamar Cadena#Concatenar
+				nombre_puntero
+				{ }
+			finargs
+		finargs
+
+	si son iguales llamar Cadena#Buscar tipo nombre_puntero finargs y CMMERROR
+		devolver FALSO
+	sino
+		devolver VERDADERO
+	fin
+finfun

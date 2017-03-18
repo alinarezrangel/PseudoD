@@ -1,0 +1,83 @@
+[ ******************************************************************************
+*****************************************
+*********
+** Bibliotecas de Funciones de Utilidad: subconjunto de la BEPD.
+** Funcion Asertar.
+*********
+*****************************************
+********************************************************************************
+Copyright 2016 Alejandro Linarez Rangel
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+********************************************************************************
+****************************************************************************** ]
+
+utilizar fn/esfuncional.pseudo
+
+[DOCUMENTA
+@brief `VG_ASERTAR_FALSO_ES_FATAL` - Bandera global que indica si <Asertar> \
+deberia terminar el programa.
+De ser VERDADERO, cuando se llame a `Asertar ... FALSO` o equivalente
+se terminará con el programa ejecutando `necesitas FALSO`. En caso contrario,
+solo se imrpimirá una advertencia de acuerdo a
+<VG_ASERTAR_NO_IMPRIME_ADVERTENCIAS>.
+DOCUMENTA]
+adquirir VG_ASERTAR_FALSO_ES_FATAL
+
+[DOCUMENTA
+@brief `VG_ASERTAR_NO_IMPRIME_ADVERTENCIAS` - Bandera global que indica si \
+<Asertar> debe imprimir una advertencia.
+Cuando <VG_ASERTAR_FALSO_ES_FATAL> es FALSO y se llega a una llamada equivalente
+a `Asertar ... FALSO`, de ser esta bandera FALSO entonces se imprimirá una
+advertencia indicando que se continuará con el flujo del programa. De ser
+VERDADERO, <Asertar> no hará náda más que imprimir el mensaje especificado
+cuando la condición sea falsa.
+DOCUMENTA]
+adquirir VG_ASERTAR_NO_IMPRIME_ADVERTENCIAS
+
+fijar VG_ASERTAR_FALSO_ES_FATAL a VERDADERO
+fijar VG_ASERTAR_NO_IMPRIME_ADVERTENCIAS a FALSO
+
+[DOCUMENTA
+@brief `Asertar` - Termina con el programa si la condición es falsa.
+Similar al `static_assert` de C++, esta función termina con el programa
+cuando la condición es falsa (`condicion` es igual a FALSO). Al terminar
+con el programa, muestra al usuario el mensaje de error que se pasó como
+argumento. Véase <VG_ASERTAR_FALSO_ES_FATAL> y
+<VG_ASERTAR_NO_IMPRIME_ADVERTENCIAS>.
+
+@arg mensaje Mensaje a imprimir si la condición se evalua falsa
+@arg condicion Variable Booleana que indica el estado de la condición
+
+@throws ErrorDeSemantica
+Ejecuta `necesitas FALSO` cuando la condición es falsa, `necesitas` lanza
+un error de semantica y por ende, esta función también.
+DOCUMENTA]
+funcion Asertar de mensaje y condicion
+	si no condicion
+		llamar ImprimirLinea
+			{Error fatal en Asertar (tipos.pseudo):}
+			mensaje
+			NULO
+		finargs
+		si VG_ASERTAR_FALSO_ES_FATAL
+			necesitas FALSO
+		sino
+			si no VG_ASERTAR_NO_IMPRIME_ADVERTENCIAS
+				llamar EscribirLinea
+					{Advertencia en Asertar (tipos.pseudo): VG_ASERTAR_FALSO_ES_FATAL es FALSO}
+				finargs
+			fin
+		fin
+	fin
+finfun

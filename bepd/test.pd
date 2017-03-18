@@ -19,13 +19,17 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ****************************************************************************** ]
 
-utilizar cadena.pseudo
+utilizar rt/posee.pseudo
 
-adquirir A
-adquirir B
+clase X hereda Objeto
+	atributo attr
+	puntero ptr
+	metodo mth
+finclase
 
-fijar A a {Hola }
-fijar B a {Mundo}
-
-escribir llamar Cadena#Concatenar A B finargs
+escribir llamar PoseeMetodo X {mth} finargs
+nl
+escribir llamar PoseeAtributo X {attr} finargs
+nl
+escribir llamar PoseePuntero X {ptr} finargs
 nl
