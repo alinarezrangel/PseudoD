@@ -1,0 +1,109 @@
+[ ******************************************************************************
+*****************************************
+*********
+** Bibliotecas de Funciones de Utilidad: subconjunto de la BEPD.
+*********
+*****************************************
+********************************************************************************
+Copyright 2016 Alejandro Linarez Rangel
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+********************************************************************************
+****************************************************************************** ]
+
+instancia PseudoFuncion TipoCaracter
+fijar TipoCaracter a {}
+redireccionar TipoCaracter#cod TipoCaracter
+
+adquirir TipoCaracter#BF
+
+[DOCUMENTA
+@brief `TipoCaracter#CaracterNuevaLinea` - El carácter de nueva línea
+Es el caracter de nueva línea o `\n`.
+DOCUMENTA]
+adquirir TipoCaracter#CaracterNuevaLinea
+fijar TipoCaracter#CaracterNuevaLinea a {}
+
+[DOCUMENTA
+@brief `TipoCaracter#CaracterRetornoDeCarro` - El carácter de retorno de carro
+Es el carácter de retorno de carro o `\r`.
+DOCUMENTA]
+adquirir TipoCaracter#CaracterRetornoDeCarro
+fijar TipoCaracter#CaracterRetornoDeCarro a {}
+
+[DOCUMENTA
+@brief `TipoCaracter#CaracterEspacioEnBlanco` - El carácter de espacio en blanco
+Es el caracter de espacio en blanco o "` `".
+DOCUMENTA]
+adquirir TipoCaracter#CaracterEspacioEnBlanco
+fijar TipoCaracter#CaracterEspacioEnBlanco a {}
+
+[DOCUMENTA
+@brief `TipoCaracter#CaracterTabulador` - El carácter tabulador
+Es el caracter tabulador o `\t`.
+DOCUMENTA]
+adquirir TipoCaracter#CaracterTabulador
+fijar TipoCaracter#CaracterTabulador a {	}
+
+fijar TipoCaracter#BF a {NL}
+Importar.Cad.Caracter_Especial
+	TipoCaracter#BF
+	TipoCaracter#CaracterNuevaLinea
+fijar TipoCaracter#BF a {RC}
+Importar.Cad.Caracter_Especial
+	TipoCaracter#BF
+	TipoCaracter#CaracterRetornoDeCarro
+fijar TipoCaracter#BF a {EB}
+Importar.Cad.Caracter_Especial
+	TipoCaracter#BF
+	TipoCaracter#CaracterEspacioEnBlanco
+
+liberar TipoCaracter#BF
+
+[DOCUMENTA
+@brief `TipoCaracter#EsEspacioEnBlanco` - Determina si el carácter es un \
+espacio en blanco.
+
+@arg caracter Carácter a determinar.
+
+@dev <builtins.pseudo#VERDADERO> si el carácter es un espacio en blanco o \
+<builtins.pseudo#FALSO> en caso contrario.
+
+@races None
+DOCUMENTA]
+funcion TipoCaracter#EsEspacioEnBlanco con caracter
+	devolver
+		si algun
+			son iguales caracter y TipoCaracter#CaracterEspacioEnBlanco
+		o son iguales caracter y TipoCaracter#CaracterTabulador
+		o son iguales caracter y TipoCaracter#CaracterNuevaLinea
+		o son iguales caracter y TipoCaracter#CaracterRetornoDeCarro
+finfun
+
+[DOCUMENTA
+@brief `TipoCaracter#EsFinDeLinea` - Determina si el carácter es un \
+final de línea.
+
+@arg caracter Carácter a determinar.
+
+@dev <builtins.pseudo#VERDADERO> si el carácter es un final de línea o \
+<builtins.pseudo#FALSO> en caso contrario.
+
+@races None
+DOCUMENTA]
+funcion TipoCaracter#EsFinDeLinea con caracter
+	devolver
+		si algun
+			son iguales caracter y TipoCaracter#CaracterNuevaLinea
+		o son iguales caracter y TipoCaracter#CaracterRetornoDeCarro
+finfun

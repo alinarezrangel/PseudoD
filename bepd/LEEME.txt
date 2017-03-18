@@ -43,7 +43,7 @@ La tabla de versiones de la BEPD es:
 | tipos            | Utilidades, Algoritmos        | 2.1.0                 |
 | algor            | Algoritmos                    | 2.1.0                 |
 | cadena           | Utilidades                    | 2.2.0                 |
-| plugins          | Bibliotecas Dinamicas         | 1.9.5                 |
+| plugins          | Bibliotecas Dinámicas         | 1.9.5                 |
 | entsal           | Entrada y salida              | 2.2.0                 |
 | errores          | Errores                       | 2.2.0                 |
 | mate             | Matemáticas                   | 2.2.0                 |
@@ -88,9 +88,12 @@ Los valores para la etiqueta `@races ...` son:
 - `ReturnValue.Shared`: El valor de retorno puede (o es) compartido entre
 llamadas de la función o entre otras funciones (o ambos).
 - `Undefined.NoBoundsCheck`: Algún valor (argumento o interno o valor de
-retorno) no es verificado antes o despues (o ambos) de la función pudiendo
+retorno) no es verificado antes o después (o ambos) de la función pudiendo
 albergar valores inválidos (y consecuentemente, errores al usarlos).
-- `Stack.Underflow`: Una o más condiciones pueden ocacionar que alguna
+- `Undefined.NoSameType`: Algún argumento (o todos) deben ser del mismo tipo
+que algún objeto específico (generalmente el objeto que está llamando al
+método). De cualquier otra manera el comportamiento del método está indefinido.
+- `Stack.Underflow`: Una o más condiciones pueden ocasionar que alguna
 pila de datos sufra un *underflow*. Durante el *underflow*, se sacan más
 datos de la pila de los que dicha contiene ocasionando un error.
 - `Fatal.HaveAttr`: Si un objeto determinado posee un atributo específico,
@@ -102,8 +105,8 @@ la función puede fallar.
 
 Los archivos (por utilidad) son:
 
-- builtins.pseudo (automatico), inic.pseudo (automatico): Inicializan PseudoD
-- errores.pseudo (automatico): Clases de error
+- builtins.pseudo (automático), inic.pseudo (automático): Inicialízan PseudoD
+- errores.pseudo (automático): Clases de error
 - cadena.pseudo: Operaciones sobre cadenas de caracteres
 - clases.pseudo: Clase `Par` y `ElementoMatematico` (`Fraccion`, `Decimal`,
 `Entero`, `Boole`)
@@ -112,3 +115,22 @@ Los archivos (por utilidad) son:
 - plugins.pseudo: Sistema de carga de módulos dinámicos
 - algor.pseudo: Estructuras de datos y algoritmos
 - tipos.pseudo: Utilidades (`CrearAtributoDinamico`, `DestruirAtributoDinamico`)
+
+- Directorio gt/: Generalidades de tipo.
+- Directorio rt/: Rasgos de tipo.
+- Directorio cl/: Clases de utilidad.
+- Directorio fn/: Funciones de utilidad.
+- Directorio ag/: Algoritmos.
+- Directorio dt/: Estructuras de datos.
+- Directorio mt/: Biblioteca matemática.
+
+                      Biblioteca de Generalidades de tipo
+
+La biblioteca de generalidades de tipo declaran un montón de clases, interfaces
+y plantillas útiles para el trabajo en PseudoD.
+
+La biblioteca de generalidades de tipo sigue las convenciones estándares de
+nombres, tal como en la BEPD con una única excepción: la BEPD nunca declara
+interfaces, mientras que la biblioteca de generalidades de tipo si. Todas las
+interfaces definidas comanzarán con un carácter arroba (`@`) seguido por el
+nombre de la interfáz.

@@ -1,0 +1,56 @@
+[ ******************************************************************************
+*****************************************
+*********
+** Bibliotecas de Generalidades de Tipo de PseudoD: subconjunto de la BEPD.
+*********
+*****************************************
+********************************************************************************
+Copyright 2016 Alejandro Linarez Rangel
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+********************************************************************************
+****************************************************************************** ]
+
+[DOCUMENTA
+@brief `@Objeto` - Un objeto
+La interfáz Objeto define cualquier objeto a nivel de programación. Todos los
+tipos instanciables (aquellos que pueden ser creados con `instancia`) deben
+seguir esta interfáz.
+
+**Implementaciones**:
+
+ * Clase `Objeto` en <builtins.pseudo#Objeto> (BEPD)
+
+**Atributos**:
+
+ * `NOMBRE` (texto sin espacios e identificador válido): Nombre de la variable
+(instancia) que posee este atributo.
+ * `Tipo` (texto sin espacios e identificador válido): Nombre de la clase que se
+instanció para crear esta instancia.
+
+**Métodos**:
+
+ * `crear` (opcional, sin argumentos o valor de retorno): Este método es
+invocado sin argumentos cuando la instancia está recién creada. No es esperado
+algún valor de retorno.
+ * `destruir` (opcional, sin argumentos o valor de retorno): Este método es
+invocado justamente **antes** de destruir todas las propiedades y métodos de
+la instancia. No se pasa algún argumento y no es esperado algún valor de
+retorno.
+
+@abstract
+DOCUMENTA]
+clase abstracta @Objeto
+	atributo NOMBRE
+	atributo Tipo
+finclase

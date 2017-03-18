@@ -37,7 +37,7 @@ fijar NULO a {nulo}
 [DOCUMENTA
 @brief Representa el valor de Boole 1 o verdadero.
 Es utilizada para sentencias si - si_no. Tambien es devuelto por algunas
-funciones para indicar un afirmativo o que el resultado es verdadero,(como
+funciones para indicar un afirmativo o que el resultado es verdadero (como
 <inic.pseudo#EsNulo>).
 DOCUMENTA]
 adquirir VERDADERO
@@ -46,7 +46,7 @@ fijar VERDADERO a {verdadero}
 [DOCUMENTA
 @brief Representa el valor de Boole 0 o falso.
 Es utilizada para sentencias si - si_no. Tambien es devuelto por algunas
-funciones para indicar un negativo o que el resultado es falso,(como
+funciones para indicar un negativo o que el resultado es falso (como
 <inic.pseudo#EsNulo>).
 DOCUMENTA]
 adquirir FALSO
@@ -147,7 +147,7 @@ Es necesario llamar a este método para sacar al puntero del estado inválido
 con el que es creado.
 
 @argyo
-@arg Variable Referencia comun a la nueva variable a ser apuntada.
+@arg otro Referencia comun a la nueva variable a ser apuntada.
 
 @races None
 DOCUMENTA]
@@ -157,6 +157,8 @@ finfun
 
 [DOCUMENTA
 @brief Determina si el puntero es nulo.
+
+Un puntero nulo apunta a la variable <NULO>.
 
 @argyo
 

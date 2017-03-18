@@ -23,6 +23,8 @@ limitations under the License.
 
 utilizar cadena.pseudo
 
+utilizar cl/buffertexto.pseudo
+
 [DOCUMENTA
 @file Documentación de entsal.pseudo
 Este archivo provee manipulación de *flujos*, en estos, las operaciones
@@ -31,16 +33,6 @@ por las cuales, se agrega el contenido al flujo de salida, para lectura,
 una vez que se lee del flujo, esa palabra es eliminada, prohibiendo su
 lectura más de dos veces.
 DOCUMENTA]
-
-[DOCUMENTA
-@brief Un objeto que sirve de buffer para operaciones E/S.
-DOCUMENTA]
-clase BufferTexto hereda Objeto
-	atributo valor
-
-	metodo escribir
-	metodo escribirLinea
-finclase
 
 [DOCUMENTA
 @brief Escribe un texto en la salida estándar.
@@ -80,32 +72,6 @@ funcion LeerPalabra
 	leer valor
 	devolver valor
 	liberar valor
-finfun
-
-[DOCUMENTA
-@brief Escribe en un objeto <BufferTexto>.
-
-@argyo
-@arg texto Texto a escribir en el.
-
-@races None
-DOCUMENTA]
-funcion BufferTexto#escribir con yo y texto
-	Importar.Cad.Concatenar <yo>#valor texto <yo>#valor
-finfun
-
-[DOCUMENTA
-@brief Similar a <BufferTexto\#escribir>.
-Este además, agrega un nueva linea despues de texto.
-
-@argyo
-@arg texto Texto a escribir en el.
-
-@races None
-DOCUMENTA]
-funcion BufferTexto#escribirLinea con yo y texto
-	Importar.Cad.Concatenar <yo>#valor texto <yo>#valor
-	Importar.Cad.Concatenar <yo>#valor NUEVALINEA <yo>#valor
 finfun
 
 [DOCUMENTA

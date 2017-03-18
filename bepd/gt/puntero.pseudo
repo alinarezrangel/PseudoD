@@ -1,0 +1,99 @@
+[ ******************************************************************************
+*****************************************
+*********
+** Bibliotecas de Generalidades de Tipo de PseudoD: subconjunto de la BEPD.
+*********
+*****************************************
+********************************************************************************
+Copyright 2016 Alejandro Linarez Rangel
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+********************************************************************************
+****************************************************************************** ]
+
+utilizar gt/objeto.pseudo
+
+[DOCUMENTA
+@brief `@Puntero` - Un puntero simple
+Los punteros nativos provistos por PseudoD son útiles y rápidos, pero no proveen
+una interfáz cómoda para trabajar. La interfáz Puntero provee una envoltura
+a los punteros nativos que posee una mejor interfáz para trabajar.
+
+Toda la API de Puntero esta basada en un sistema similar al de referencias,
+donde para apuntar a una variable realmente a una variable apuntas a su nombre.
+Por esto, los Punteros solo pueden apuntar a Objetos o similares.
+
+Al crear el puntero, la implementación **no garantiza** que el puntero apunte
+a un valor específico, es recomendable que se llame al método
+<@Puntero\#apuntar> a <builtins.pseudo#NULO> para inicializar el puntero:
+
+```pseudod
+instancia @Puntero ptr
+
+llamar ptr#apuntar NULO#NOMBRE finargs
+```
+
+**Implementaciones**:
+
+ * Clase `PunteroInteligente` en <builtins.pseudo#PunteroInteligente> (BEPD)
+
+**Extiende**:
+
+ * Interfáz `@Objeto` en <gt/objeto.pseudo#@Objeto> (GT)
+
+**Atributos**:
+
+ * `direccion` (puntero nativo): puntero interno del Puntero (solo lectura).
+
+**Métodos**:
+
+ * `apuntar` (véase <@Puntero\#apuntar>): Apunta el Puntero a una nueva variable.
+ * `esNulo` (véase <@Puntero\#esNulo>): Determina si el Puntero esta apuntando
+a la variable <builtins.pseudo#NULO>.
+
+@abstract
+DOCUMENTA]
+clase abstracta @Puntero extiende @Objeto
+	puntero direccion
+
+	metodo apuntar
+	metodo esNulo
+finclase
+
+[DOCUMENTA
+@brief `@Puntero#apuntar` - Apunta el puntero a una nueva variable
+La nueva variable debería ser una referencia a la variable que se desea apuntar.
+
+@argyo
+@arg nuevaVariable Referencia a la variable que se desea apuntar.
+
+@races None
+DOCUMENTA]
+funcion @Puntero#apuntar con yo y nuevaVariable
+	necesitas FALSO
+finfun
+
+[DOCUMENTA
+@brief `@Puntero#esNulo` - Determina si el puntero es nulo.
+Un puntero nulo es aquel que apunta a la variable <builtins.pseudo#NULO>.
+
+@argyo
+
+@dev <builtins.pseudo#VERDADERO> si el puntero es nulo o \
+<builtins.pseudo#FALSO> en caso contrario.
+
+@races None
+DOCUMENTA]
+funcion @Puntero#esNulo con yo
+	necesitas FALSO
+finfun

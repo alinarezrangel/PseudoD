@@ -19,16 +19,70 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ****************************************************************************** ]
 
-utilizar entsal.pseudo
-utilizar algor.pseudo
-utilizar clases.pseudo
-utilizar plugins.pseudo
-utilizar tipos.pseudo
-utilizar mate.pseudo
-utilizar cadena.pseudo
+utilizar cl/buffertexto.pseudo
 
-llamar EscribirLinea {Ingrese un numero para Seno:} finargs
-llamar ImprimirFormato
-	{El seno del numero es %\k}
-	llamar Seno llamar LeerPalabra finargs finargs
-finargs
+instancia BufferTexto bf
+
+fijar bf#buffer a {Hola, yo soy un buffer de texto que fue iniciado
+manualmente a un texto multilinea.
+
+En mi se probará que la interfáz funciona correctamente.}
+
+si llamar bf#estaCerrado finargs
+	llamar bf#abrir finargs
+fin
+
+llamar bf#fijarPosicion {0} finargs
+
+si no llamar bf#puedeLeer finargs
+	escribir {Error en }
+	escribir __ARCH__
+	escribir {: BufferTexto>bf#puedeLeer es FALSO}
+	nl
+	necesitas FALSO
+fin
+
+adquirir res
+fijar res a {}
+
+fijar res a llamar bf#leerCaracter finargs
+
+escribir {El carácter leído es: }
+escribir res
+nl
+
+fijar res a llamar bf#leerPalabra finargs
+
+escribir {La palabra leída es: }
+escribir res
+nl
+
+fijar res a llamar bf#leerLinea finargs
+
+escribir {La línea leída es: }
+escribir res
+nl
+
+fijar res a llamar bf#leerBloque {9} finargs
+
+escribir {El bloque leído es: }
+escribir res
+nl
+
+fijar bf#buffer a {}
+
+llamar bf#fijarPosicion {0} finargs
+
+escribir {Ingrese un texto a escribir en el buffer: }
+leer res
+
+llamar bf#escribirTexto res finargs
+
+escribir {Ingrese un texto a escribir en el buffer: }
+leer res
+
+llamar bf#escribirLinea res finargs
+
+escribir bf#buffer
+
+llamar bf#cerrar finargs

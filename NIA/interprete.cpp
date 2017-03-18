@@ -46,7 +46,9 @@ namespace pseudod
 	{
 		if(!Ejecutar)
 			return;
+
 		NMemonicoProxy proxy = ConvertirCadenaANMemonico(o);
+
 		if(proxy == NMemonico::PD_ADQUIRIR)
 		{
 			PDCadena a;
@@ -125,7 +127,7 @@ namespace pseudod
 		{
 			PDCadena h = "";
 			e >> h;
-			std::cout << DATOS_INT.ObtenerVariable(h);
+			std::cout << PDvar::ValorDelToken(h, e, &DATOS_INT);
 		}
 		else if(proxy == NMemonico::PD_EJECUTAR)
 		{
@@ -143,6 +145,7 @@ namespace pseudod
 		{
 			if(o != "fijar")
 				std::cerr << "Advertencia: oper/operador estan obsoletos" << std::endl;
+
 			PDCadena variable1 = "", oper = "", h = "", linea = "";
 			e >> variable1 >> oper >> h;
 			PDCadena& a = DATOS_INT.ObtenerVariable(variable1);

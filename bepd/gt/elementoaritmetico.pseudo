@@ -1,0 +1,126 @@
+[ ******************************************************************************
+*****************************************
+*********
+** Bibliotecas de Generalidades de Tipo de PseudoD: subconjunto de la BEPD.
+*********
+*****************************************
+********************************************************************************
+Copyright 2016 Alejandro Linarez Rangel
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+********************************************************************************
+****************************************************************************** ]
+
+utilizar gt/objeto.pseudo
+
+[DOCUMENTA
+@brief `@ElementoAritmetico` - Un elemento de operaciones aritméticas básicas.
+Debido a que el ElementoAritmetico solo soporta operaciones **aritmeticas**
+solo puedes sumar, restar, multiplicar y dividir elementos aritméticos.
+
+**Implementaciones**:
+
+ * Interfáz `ElementoMatematico` en <clases.pseudo#ElementoMatematico> (BEPD)
+
+**Extiende**:
+
+ * Interfáz `@Objeto` en <gt/objeto.pseudo#@Objeto> (GT)
+
+**Atributos**:
+
+Ninguno adicional.
+
+**Métodos**:
+
+ * `sumar` (véase <@ElementoAritmetico\#sumar>): Suma dos elementos.
+ * `restar` (véase <@ElementoAritmetico\#restar>): Resta dos elementos.
+ * `multiplicar` (véase <@ElementoAritmetico\#multiplicar>): Multiplica dos
+elementos.
+ * `dividir` (véase <@ElementoAritmetico\#dividir>): Divide dos elementos.
+
+@abstract
+DOCUMENTA]
+clase abstracta @ElementoAritmetico extiende @Objeto
+	metodo sumar
+	metodo restar
+	metodo multiplicar
+	metodo dividir
+finclase
+
+[DOCUMENTA
+@brief `@ElementoAritmetico#sumar` - Suma dos elementos aritmeticos.
+Es **obligatorio** que tanto el operando izquierdo como el resultado sean
+del mismo **tipo** que el operando derecho (este objeto).
+
+@argyo
+@arg izq Referencia al operador izquierdo.
+@arg resultado Referencia a la instancia donde se almacenará el resultado.
+
+@races Undefined.NoSameType
+Si el operando izquierdo o el resultado no son del mismo tipo que el operando
+derecho (este objeto) el comportamiento está indefinido.
+DOCUMENTA]
+funcion @ElementoAritmetico#sumar con yo y izq y resultado
+	necesitas FALSO
+finfun
+
+[DOCUMENTA
+@brief `@ElementoAritmetico#restar` - Resta dos elementos aritmeticos.
+Es **obligatorio** que tanto el operando izquierdo como el resultado sean
+del mismo **tipo** que el operando derecho (este objeto).
+
+@argyo
+@arg izq Referencia al operador izquierdo.
+@arg resultado Referencia a la instancia donde se almacenará el resultado.
+
+@races Undefined.NoSameType
+Si el operando izquierdo o el resultado no son del mismo tipo que el operando
+derecho (este objeto) el comportamiento está indefinido.
+DOCUMENTA]
+funcion @ElementoAritmetico#restar con yo y izq y resultado
+	necesitas FALSO
+finfun
+
+[DOCUMENTA
+@brief `@ElementoAritmetico#multiplicar` - Multiplica dos elementos aritmeticos.
+Es **obligatorio** que tanto el operando izquierdo como el resultado sean
+del mismo **tipo** que el operando derecho (este objeto).
+
+@argyo
+@arg izq Referencia al operador izquierdo.
+@arg resultado Referencia a la instancia donde se almacenará el resultado.
+
+@races Undefined.NoSameType
+Si el operando izquierdo o el resultado no son del mismo tipo que el operando
+derecho (este objeto) el comportamiento está indefinido.
+DOCUMENTA]
+funcion @ElementoAritmetico#multiplicar con yo y izq y resultado
+	necesitas FALSO
+finfun
+
+[DOCUMENTA
+@brief `@ElementoAritmetico#dividir` - Divide dos elementos aritmeticos.
+Es **obligatorio** que tanto el operando izquierdo como el resultado sean
+del mismo **tipo** que el operando derecho (este objeto).
+
+@argyo
+@arg izq Referencia al operador izquierdo.
+@arg resultado Referencia a la instancia donde se almacenará el resultado.
+
+@races Undefined.NoSameType
+Si el operando izquierdo o el resultado no son del mismo tipo que el operando
+derecho (este objeto) el comportamiento está indefinido.
+DOCUMENTA]
+funcion @ElementoAritmetico#dividir con yo y izq y resultado
+	necesitas FALSO
+finfun

@@ -343,7 +343,7 @@ namespace PDvar
 				pos = in.tellg();
 				in >> proxy;
 
-				if(proxy == pseudod::NMemonico::PD_OPERADOR_O)
+				if(proxy != pseudod::NMemonico::PD_OPERADOR_O)
 				{
 					in.seekg(pos);
 					break;

@@ -1,0 +1,343 @@
+[ ******************************************************************************
+*****************************************
+*********
+** Bibliotecas de Generalidades de Tipo de PseudoD: subconjunto de la BEPD.
+*********
+*****************************************
+********************************************************************************
+Copyright 2016 Alejandro Linarez Rangel
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+********************************************************************************
+****************************************************************************** ]
+
+utilizar gt/objeto.pseudo
+
+[DOCUMENTA
+@brief `@FlujoTexto` - Un flujo de texto.
+Los flujos dependiendo de su tipo, pueden ser de lectura, escritura o ambos.
+Tal como se esperaría, solo puedes leer de flujos de lectura, solo escribir en
+flujos de escritura y realizar ambos en flujos de lectura y escritura.
+
+Esta interfáz describe los métodos generales a **todos** los flujos,
+indiferentemente si son de lectura, escritura o ambos.
+
+**Implementaciones**:
+
+ * Clase `BufferTexto` en <entsal.pseudo#BufferTexto> (BEPD)
+
+**Extiende**:
+
+ * Interfáz `@Objeto` en <gt/objeto.pseudo#@Objeto> (GT)
+
+**Atributos**:
+
+Ninguno adicional.
+
+**Métodos**:
+
+ * `abrir` (véase <@FlujoTexto\#abrir>): Abre un flujo. Cada implementación
+puede tener sus propios parametros para este método.
+ * `cerrar` (véase <@FlujoTexto\#cerrar>): Cierra el flujo convirtiendo
+cualquier operación de lectura, escritura o marcada como "De acceso al flujo"
+como fatal (lanza un error, más no está indefinida).
+ * `estaCerrado` (véase <@FlujoTexto\#estaCerrado>): Determina si el flujo
+está cerrado.
+ * `puedeLeer` (véase <@FlujoTexto\#puedeLeer>): Determina si es posible
+realizar alguna operación de lectura sobre el flujo.
+ * `puedeEscribir` (véase <@FlujoTexto\#puedeEscribir>): Determina si es posible
+realizar alguna operación de escritura sobre el flujo.
+ * `leerCaracter` (véase <@FlujoTexto\#leerCaracter>): Lee solamente **un**
+carácter del flujo y lo devuelve.
+ * `leerPalabra` (véase <@FlujoTexto\#leerPalabra>): Lee una cadena hasta
+encontrar un caracter en blanco. Extrae los carácteres en blanco más no los
+agrega a la cadena, la cual será devuelta.
+ * `leerLinea` (véase <@FlujoTexto\#leerLinea>): Lee una cadena hasta encontrar
+un carácter de fin de línea (`\n`) y la devuelve.
+ * `leerBloque` (véase <@FlujoTexto\#leerBloque>): Lee una cantidad específica
+de carácteres y los devuelve.
+ * `escribirTexto` (véase <@FlujoTexto\#escribirTexto>): Escribe una determinada
+cadena al flujo.
+ * `escribirLinea` (véase <@FlujoTexto\#escribirLinea>): Escribe una determinada
+cadena al flujo y escribe además un carácter de fin de línea.
+ * `fijarPosicion` (véase <@FlujoTexto\#fijarPosicion>): Fija la posición del
+cursor del flujo.
+ * `obtenerPosicion` (véase <@FlujoTexto\#obtenerPosicion>): Obtiene la posición
+del cursor del flujo.
+ * `finDelFlujo` (véase <@FlujoTexto\#finDelFlujo>): Determina si el flujo
+llego a su final (EOF, FDA, *Fin Del Archivo*).
+
+@abstract
+DOCUMENTA]
+clase abstracta @FlujoTexto extiende @Objeto
+	metodo abrir
+	metodo cerrar
+
+	metodo estaCerrado
+
+	metodo puedeLeer
+	metodo puedeEscribir
+
+	metodo leerCaracter
+	metodo leerPalabra
+	metodo leerLinea
+	metodo leerBloque
+
+	metodo escribirTexto
+	metodo escribirLinea
+
+	metodo fijarPosicion
+	metodo obtenerPosicion
+
+	metodo finDelFlujo
+finclase
+
+[DOCUMENTA
+@brief `@FlujoTexto#abrir` - Abre un flujo para su uso.
+Cada implementacion puede tener sus propios argumentos, pero en todo caso:
+
+ * Este método **nunca** devuelve algún valor.
+ * Si no se logra abrir correctamente el flujo lanzará un error y dejará el
+flujo en un estádo tal que se pueda volver a llamar a este método para
+reintentar abrir el flujo.
+ * Abrir un flujo ya abierto lanzará un error.
+
+@argyo
+
+@races None
+DOCUMENTA]
+funcion @FlujoTexto#abrir con yo
+	necesitas FALSO
+finfun
+
+[DOCUMENTA
+@brief `@FlujoTexto#cerrar` - Cierra el flujo.
+Luego de cerrar el flujo, cualquier operación de lectura, escritura o marcada
+como "De acceso al flujo" lanzará un error (más no quedan indefinidas).
+
+Al intentar cerrar más de una vez el mismo flujo sin reabrirlo (operación que
+no todos soportan, véase <@FlujoTexto\#abrir>) puede lanzar un error.
+
+@argyo
+
+@races None
+DOCUMENTA]
+funcion @FlujoTexto#cerrar con yo
+	necesitas FALSO
+finfun
+
+[DOCUMENTA
+@brief `@FlujoTexto#estaCerrado` - Determina si el flujo está cerrado.
+De ser <builtins.pseudo#VERDADERO>, es seguro abrir el flujo de nuevo (no
+lanzará algún error porque el flujo ya este abierto) y de ser
+<builtins.pseudo#FALSO> es seguro cerrar el flujo (no lanzará algún error
+porque el flujo ya estaba cerrado).
+
+@argyo
+
+@dev <builtins.pseudo#VERDADERO> si el flujo esta cerrado, \
+<builtins.pseudo#FALSO> en caso contrario.
+
+@races None
+DOCUMENTA]
+funcion @FlujoTexto#estaCerrado con yo
+	necesitas FALSO
+finfun
+
+[DOCUMENTA
+@brief `@FlujoTexto#puedeLeer` - Determina si se puede leer del flujo.
+Si devuelve <builtins.pseudo#FALSO>, cualquier operación de lectura lanzará
+un error (más no está indefinida).
+
+@argyo
+
+@dev <builtins.pseudo#VERDADERO> si se puede leer del flujo, \
+<builtins.pseudo#FALSO> en caso contrario.
+
+@races
+DOCUMENTA]
+funcion @FlujoTexto#puedeLeer con yo
+	necesitas FALSO
+finfun
+
+[DOCUMENTA
+@brief `@FlujoTexto#puedeEscribir` - Determina si se puede escribir en el flujo.
+Si devuelve <builtins.pseudo#FALSO>, cualquier operación de escritura lanzará
+un error (más no está indefinida).
+
+@argyo
+
+@dev <builtins.pseudo#VERDADERO> si se puede escribir en el flujo, \
+<builtins.pseudo#FALSO> en caso contrario.
+
+@races
+DOCUMENTA]
+funcion @FlujoTexto#puedeEscribir con yo
+	necesitas FALSO
+finfun
+
+[DOCUMENTA
+@brief `@FlujoTexto#leerCaracter` - Lee un carácter del flujo.
+Lee un único carácter y lo devuelve. Si el flujo terminó (EOF, FDA,
+*Fin Del Archivo*) devuelve una cadena vacía (`{}`).
+
+@argyo
+
+@dev Carácter que se leyó o la cadena vacía (`{}`).
+
+@races None
+DOCUMENTA]
+funcion @FlujoTexto#leerCaracter con yo
+	necesitas FALSO
+finfun
+
+[DOCUMENTA
+@brief `@FlujoTexto#leerPalabra` - Lee una palabra del flujo.
+Una palabra es una secuencia de carácteres delimitados por uno o más espacios
+en blanco. Un espacio en blanco es:
+
+ * Un espacio (hex. 20, dec. 32).
+ * Un tabulador (hex. 9, dec. 9).
+ * Un retorno de carro (hex. D, dec. 13).
+ * Una nueva línea (hex. A, dec. 10).
+ * Cualquier carácter marcado por la codificación actual como espacio en blanco.
+
+Si llega a leer el fin del flujo (EOF, FDA, *Fin Del Archivo*) se retornará la
+cadena vacía (`{}`).
+
+@argyo
+
+@dev La palabra leída o la cadena vacía (`{}`).
+
+@races None
+DOCUMENTA]
+funcion @FlujoTexto#leerPalabra con yo
+	necesitas FALSO
+finfun
+
+[DOCUMENTA
+@brief `@FlujoTexto#leerLinea` - Lee una línea del flujo.
+Una línea son todos los carácteres desde la posición actual del flujo hasta
+un carácter de nueva línea (hex. A, dec. 10). Si se llega a leer el fin del
+flujo se retornará la cadena vacía (`{}`).
+
+@argyo
+
+@dev La línea leída o la cadena vacía (`{}`)
+
+@races None
+DOCUMENTA]
+funcion @FlujoTexto#leerLinea con yo
+	necesitas FALSO
+finfun
+
+[DOCUMENTA
+@brief `@FlujoTexto#leerBloque` - Lee un bloque de datos.
+Un bloque es una cantidad de unidades específica. Las *unidades* pueden ser
+bytes o carácteres u otra definición dependiendo de la implementación.
+
+Si no hay suficientes unidades como para retornar un bloque del tamaño
+específico, se retornará la cantidad de unidades que se logren leer o la
+cadena vacía (`{}`).
+
+@argyo
+@arg tam_bloque Tamaño del bloque a leer en unidades.
+
+@dev Bloque leído o la cadena vacía (`{}`).
+DOCUMENTA]
+funcion @FlujoTexto#leerBloque con yo y tam_bloque
+	necesitas FALSO
+finfun
+
+[DOCUMENTA
+@brief `@FlujoTexto#escribirTexto` - Escribe un texto dentro del flujo.
+Al texto no se le agregan ni "nueva línea" ni otros carácteres a menos que
+la implementación así lo especifique.
+
+@argyo
+@arg texto Texto a escribir.
+
+@races None
+DOCUMENTA]
+funcion @FlujoTexto#escribirTexto con yo y texto
+	necesitas FALSO
+finfun
+
+[DOCUMENTA
+@brief `@FlujoTexto#escribirLinea` - Escribe una línea de texto.
+Tal como <@FlujoTexto\#escribirTexto> solo que agrega un "nueva línea"
+al final.
+
+@argyo
+@arg texto Texto a escribir.
+
+@races None
+DOCUMENTA]
+funcion @FlujoTexto#escribirLinea con yo y texto
+	necesitas FALSO
+finfun
+
+[DOCUMENTA
+@brief `@FlujoTexto#fijarPosicion` - Fija la posición del cursor del flujo.
+El cursor del flujo indica donde se realizará la siguiente operación tanto
+de lectura como de escritura.
+
+La posición siempre es un **entero** que indica la cantidad de unidades pasadas
+el inicio del flujo para llegar a la posición dada. Las *unidades* pueden ser
+bytes o carácteres u otra definición dependiendo de la implementación.
+
+@argyo
+@arg posicion Nueva posición del cursor.
+
+@races None
+DOCUMENTA]
+funcion @FlujoTexto#fijarPosicion con yo y posicion
+	necesitas FALSO
+finfun
+
+[DOCUMENTA
+@brief `@FlujoTexto#obtenerPosicion` - Obtiene la posición del cursor del flujo.
+El cursor del flujo indica donde se realizará la siguiente operación tanto
+de lectura como de escritura.
+
+La posición siempre es un **entero** que indica la cantidad de unidades pasadas
+el inicio del flujo para llegar a la posición dada. Las *unidades* pueden ser
+bytes o carácteres u otra definición dependiendo de la implementación.
+
+@argyo
+
+@dev Actual posición del cursor.
+
+@races None
+DOCUMENTA]
+funcion @FlujoTexto#obtenerPosicion con yo
+	necesitas FALSO
+finfun
+
+[DOCUMENTA
+@brief `@FlujoTexto#finDelFlujo` - Determina si se llegó al fin del flujo.
+De ser <builtins.pseudo#VERDADERO>, el cursor del flujo esta pasado o en el
+fin del flujo, indicando que no hay más datos que leer. Básicamente en flujos
+de solo escritura este método devolverá siempre <builtins.pseudo#VERDADERO>
+a menos que se cambie la ubicación de escritura con
+<@FlujoTexto\#fijarPosicion>.
+
+@argyo
+
+@dev Si el cursor del flujo está al final de dicho.
+
+@races None
+DOCUMENTA]
+funcion @FlujoTexto#finDelFlujo con yo
+	necesitas FALSO
+finfun
