@@ -2,6 +2,7 @@
 *****************************************
 *********
 ** Bibliotecas de Clases de Utilidad: subconjunto de la BEPD.
+** BufferTexto: Implementación de `@FlujoTexto` con buffering.
 *********
 *****************************************
 ********************************************************************************
@@ -59,6 +60,9 @@ clase BufferTexto hereda Objeto implementa @FlujoTexto
 	metodo finDelFlujo
 
 	metodo crear
+
+	metodo obtenerBuffer
+	metodo fijarBuffer
 finclase
 
 funcion BufferTexto#crear con yo
@@ -66,6 +70,32 @@ funcion BufferTexto#crear con yo
 	fijar <yo>#cursor a {0}
 	fijar <yo>#buffer a {}
 	fijar <yo>#fda a FALSO
+finfun
+
+[DOCUMENTA
+@brief `BufferTexto#obtenerBuffer` - Obtiene el buffer interno.
+En el buffer interno es donde se escribe/leen todos los datos.
+
+@argyo
+
+@dev El buffer interno.
+
+@races None
+DOCUMENTA]
+funcion BufferTexto#obtenerBuffer con yo
+finfun
+
+[DOCUMENTA
+@brief `BufferTexto#fijarBuffer` - Fijar el buffer interno.
+En el buffer interno es donde se escribe/leen todos los datos.
+
+@argyo
+@arg buffer Texto que será el nuevo buffer interno.
+
+@races None
+DOCUMENTA]
+funcion BufferTexto#fijarBuffer con yo y buffer
+	fijar <yo>#buffer a buffer
 finfun
 
 [DOCUMENTA
