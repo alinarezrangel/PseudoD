@@ -1,0 +1,86 @@
+[ ******************************************************************************
+*****************************************
+*********
+** Biblioteca Matemática: subconjunto de la BEPD.
+** Constantes y variables para la biblioteca matemática.
+*********
+*****************************************
+********************************************************************************
+Copyright 2016 Alejandro Linarez Rangel
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+********************************************************************************
+****************************************************************************** ]
+
+[DOCUMENTA
+@brief `PI` - Valor PI.
+Es el valor 3.14159...
+DOCUMENTA]
+adquirir PI
+fijar PI a {3.141595}
+
+[DOCUMENTA
+@brief `E` - Constante de Napier.
+Es el valor 2.718281...
+DOCUMENTA]
+adquirir E
+fijar E a {2.718281}
+
+[DOCUMENTA
+@brief `DELTA` - Valor para comparar decimales.
+Es aproximadamente 0.000005.
+DOCUMENTA]
+adquirir DELTA
+fijar DELTA a {0.000005}
+
+[DOCUMENTA
+@brief `PRECISION_DECIMAL` - Mayor cantidad de decimales que puede almacenar \
+un numero.
+Es el limite visualizable de `long double` (para numeros mayores, se
+visualizarán con notación científica).
+DOCUMENTA]
+adquirir PRECISION_DECIMAL
+fijar PRECISION_DECIMAL a {6}
+
+[DOCUMENTA
+@brief `RAIZ_CUADRADA_MIN` - Es el punto de inicio de la funcion \
+<mate.pseudo#RaizCuadrada>.
+A menor valor, mayor es la precicion de la funcion pero es mas lenta.
+DOCUMENTA]
+adquirir RAIZ_CUADRADA_MIN
+fijar RAIZ_CUADRADA_MIN a {0.0001}
+
+[DOCUMENTA
+@brief `NO_ES_NUMERO` - Es un valor que no es un numero.
+Representa valores indeterminados, como una division entre cero.
+DOCUMENTA]
+adquirir NO_ES_NUMERO
+fijar NO_ES_NUMERO a {**(No es un numero)**}
+
+[DOCUMENTA
+@brief `ITERACIONES_DE_SENO` - Es la cantidad de veces que la función seno \
+itera.
+Es inversamente proporcional a la velocidad.
+
+Como `Seno(x)` utiliza series de Taylor para calcular el seno, este determina
+cuantas veces se tendra que iterar, un numero mayor o igual a cinco (5) ya
+se vuelve lento. Si se requiere una alta precisión, puede seleccionar
+un numero alto, como 7 o 9, pero esto es a costa de la velocidad. Si por
+el contrario, se requiere una precisión promedio, puede dejarlo en su
+valor predeterminado o en 5. Recuerde que este numero tambien es utilizado
+por `Coseno(x)` y `Tangente(x)`, y la función `Tangente(x)` dura el doble
+que las otras dos, por lo que un numero muy elevado para calcular tangentes
+es altamente ineficiente.
+DOCUMENTA]
+adquirir ITERACIONES_DE_SENO
+fijar ITERACIONES_DE_SENO a {5}

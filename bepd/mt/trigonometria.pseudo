@@ -1,0 +1,203 @@
+[ ******************************************************************************
+*****************************************
+*********
+** Biblioteca Matemática: subconjunto de la BEPD.
+** Funciones trigonométricas básicas.
+*********
+*****************************************
+********************************************************************************
+Copyright 2016 Alejandro Linarez Rangel
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+********************************************************************************
+****************************************************************************** ]
+
+utilizar mt/constantes.pseudo
+
+[DOCUMENTA
+@brief `GradosARadianes` - Convierte grados sexadecimales a radianes.
+
+@arg grados Grados a convertir
+
+@dev El valor en Radianes
+
+@races None
+DOCUMENTA]
+funcion GradosARadianes de grados
+	adquirir radianes
+	adquirir divisor
+	Importar.Dec.Multiplicar grados PI grados
+	fijar divisor a {180}
+	Importar.Dec.Dividir grados divisor radianes
+	devolver radianes
+	liberar grados
+	liberar divisor
+finfun
+
+[DOCUMENTA
+@brief `RadianesAGrados` - Convierte radianes a grados sexadecimales.
+
+@arg radianes Valor en radianes a convertir
+
+@dev El valor en Grados sexadecimales
+
+@races None
+DOCUMENTA]
+funcion RadianesAGrados de radianes
+	adquirir grados
+	adquirir divisor
+	fijar divisor a {180}
+	Importar.Dec.Multiplicar radianes divisor radianes
+	Importar.Dec.Dividir radianes PI grados
+	devolver grados
+	liberar grados
+	liberar divisor
+finfun
+
+funcion __Seno de angulo y num_iteraciones
+	[ *****************************************************************
+	* Calcula el seno de un angulo utilizando el polinomio de
+	* MacLaurin (Series de Taylor).
+	*
+	* Solo calcula el seno de un número entre 0 y PI/2.
+	***************************************************************** ]
+	adquirir n
+	adquirir 2n+1
+	adquirir seno
+	adquirir v
+	fijar n a {0}
+	fijar seno a {0.0}
+	fijar 2n+1 a {0.0}
+	fijar v a {0.0}
+
+	mientras comparar Importar.Ent.Comparar n < num_iteraciones
+		fijar 2n+1 a
+			llamar Sumar
+				llamar Multiplicar {2.0} n finargs
+				{1.0}
+			finargs
+		fijar v a
+			llamar Dividir
+				llamar ElevarValor
+					{-1.0}
+					n
+				finargs
+				llamar Factorial 2n+1 finargs
+			finargs
+
+		fijar seno a
+			llamar Sumar
+				seno
+				llamar Multiplicar
+					llamar ElevarValor
+						angulo
+						2n+1
+					finargs
+					v
+				finargs
+			finargs
+
+		Importar.Ent.Sumar n UNO n
+	finbucle
+
+	devolver seno
+
+	liberar n
+	liberar seno
+	liberar 2n+1
+	liberar v
+finfun
+
+[DOCUMENTA
+@brief `Seno` - Calcula el seno trigonométrico de un angulo.
+El seno de un número siempre estará entre 0 y 1 (inclusive ambos)
+y es una onda periodica en 2PI con las propiedades:
+
+ * `sen(0) = 0`
+ * `sen(PI) = 0`
+ * `sen(k * PI) = 0`
+ * `sen(PI / 2) = 1`
+ * `sen(x) = -sen(-x)`
+
+@arg angulo Angulo cuyo seno va a ser calculado
+
+@dev El seno trigonométrico de dicho angulo
+
+@races None
+DOCUMENTA]
+funcion Seno de angulo
+	[ *************************************************
+	* Similar a __Seno pero disminuye el angulo a
+	* un número entre 0 y PI/2 antes de ejecutarse.
+	************************************************* ]
+
+	adquirir PI/2
+	adquirir 2PI
+	adquirir mp
+	adquirir rs
+
+	fijar PI/2 a {0}
+	fijar 2PI a {0}
+	fijar mp a {1}
+	Importar.Dec.Dividir PI DOS PI/2
+	Importar.Dec.Multiplicar PI DOS 2PI
+
+	si comparar Importar.Dec.Comparar angulo < CERO
+		Importar.Dec.Restar CERO angulo angulo
+		fijar mp a {-1}
+	fin
+
+	mientras comparar Importar.Dec.Comparar angulo > 2PI
+		Importar.Dec.Restar angulo 2PI angulo
+	finbucle
+
+	si comparar Importar.Dec.Comparar angulo > PI
+		Importar.Ent.Multiplicar mp UNON mp
+		Importar.Dec.Restar angulo PI angulo
+	fin
+
+	si comparar Importar.Dec.Comparar angulo > PI/2
+		Importar.Dec.Restar PI angulo angulo
+	fin
+
+	fijar rs a llamar __Seno angulo ITERACIONES_DE_SENO finargs
+
+	Importar.Dec.Multiplicar rs mp rs
+
+	devolver rs
+
+	liberar PI/2
+	liberar 2PI
+	liberar mp
+	liberar rs
+finfun
+
+[DOCUMENTA
+@brief `Coseno` - Calcula el coseno de un angulo.
+
+Realmente llama a `Seno((PI/2) - ang)`, lo cual es equivalente.
+
+@arg ang Angulo en radianes.
+
+@dev El coseno del angulo.
+
+@races <Seno>
+DOCUMENTA]
+funcion Coseno de angulo
+	adquirir defase
+	fijar defase =¿? PI
+	Importar.Dec.Dividir defase DOS defase
+	Importar.Dec.Restar defase angulo angulo
+	devolver llamar Seno angulo finargs
+	liberar defase
+finfun

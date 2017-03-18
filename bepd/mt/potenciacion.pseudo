@@ -1,0 +1,89 @@
+[ ******************************************************************************
+*****************************************
+*********
+** Biblioteca Matemática: subconjunto de la BEPD.
+** Funciones de potenciación y radicación.
+*********
+*****************************************
+********************************************************************************
+Copyright 2016 Alejandro Linarez Rangel
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+********************************************************************************
+****************************************************************************** ]
+
+utilizar mt/constantes.pseudo
+
+[DOCUMENTA
+@brief `ElevarValor` - Calcula el valor de una base elevado a un exponente.
+Se asume que la base es decimal más el exponente es entero.
+
+@arg base Base de la potencia
+@arg exponente Exponente de la potencia
+
+@dev El resultado de `base^exponente`.
+
+@races None
+DOCUMENTA]
+funcion ElevarValor de base y exponente
+	si son iguales exponente y CERO
+		devolver UNO
+	sino
+		adquirir resultado
+		adquirir acumulador
+		adquirir cuenta
+		fijar cuenta a UNO
+		fijar acumulador a base
+		mientras comparar Importar.Ent.Comparar cuenta < exponente
+			Importar.Dec.Multiplicar acumulador base acumulador
+			Importar.Ent.Sumar cuenta UNO cuenta
+		finbucle
+		devolver acumulador
+		liberar cuenta
+		liberar acumulador
+		liberar resultado
+	fin
+finfun
+
+[DOCUMENTA
+@brief `RaizCuadrada` - Calcula la raiz cuadrada de un numero.
+Utiliza el metodo babilonico para calcular la raiz cuadrada de un numero.
+
+@arg area Numero a radicar.
+
+@dev Decimal resultado de la radicacion.
+
+@races None
+DOCUMENTA]
+funcion RaizCuadrada de area
+	adquirir base
+	adquirir altura
+	fijar base a {0.5}
+	fijar altura a RAIZ_CUADRADA_MIN
+	mientras no llamar SonIguales base altura finargs
+		fijar base a llamar Dividir
+			llamar Sumar
+				base
+				altura
+			finargs
+			{2}
+		finargs
+		fijar altura a llamar Dividir
+			area
+			base
+		finargs
+	finbucle
+	devolver base
+	liberar altura
+	liberar base
+finfun

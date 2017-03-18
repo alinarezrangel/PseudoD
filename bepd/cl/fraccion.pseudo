@@ -24,7 +24,7 @@ limitations under the License.
 
 utilizar cl/elementoaritmetico.pseudo
 
-utilizar mate.pseudo
+utilizar mt/aritmetica.pseudo
 
 [DOCUMENTA
 @brief `Fraccion` - Representa un numero en el conjunto `Q`, en forma de \

@@ -1,0 +1,214 @@
+[ ******************************************************************************
+*****************************************
+*********
+** Biblioteca Matemática: subconjunto de la BEPD.
+** Funciones aritméticas básicas.
+*********
+*****************************************
+********************************************************************************
+Copyright 2016 Alejandro Linarez Rangel
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+********************************************************************************
+****************************************************************************** ]
+
+utilizar mt/constantes.pseudo
+
+utilizar fn/cadena.pseudo
+
+[DOCUMENTA
+@brief `Sumar` - Suma dos numeros.
+Si los numeros son enteros, aplica la suma entera, en otro caso aplica
+la suma decimal.
+
+Determina si son enteros o no buscando un separador decimal ("," o ".") en
+los numeros.
+
+@arg lvalue Valor izquierdo a sumar.
+@arg rvalue Valor derecho a sumar.
+
+@dev Decimal resultado de la suma.
+
+@races None
+DOCUMENTA]
+funcion Sumar de lv y rv
+	adquirir sr
+	adquirir decimal
+	fijar decimal a FALSO
+	si son diferentes llamar Cadena#Buscar lv {.} finargs y CMMERROR
+		fijar decimal a VERDADERO
+	sino
+		si son diferentes llamar Cadena#Buscar rv {.} finargs y CMMERROR
+			fijar decimal a VERDADERO
+		fin
+	fin
+	si decimal
+		Importar.Dec.Sumar lv rv sr
+	sino
+		Importar.Ent.Sumar lv rv sr
+	fin
+	devolver sr
+	liberar sr
+	liberar decimal
+finfun
+
+[DOCUMENTA
+@brief `Restar` - Resta dos numeros.
+Si los numeros son enteros, aplica la resta entera, en otro caso aplica
+la resta decimal.
+
+Determina si son enteros o no buscando un separador decimal ("," o ".") en
+los numeros.
+
+@arg lvalue Valor izquierdo a restar.
+@arg rvalue Valor derecho a restar.
+
+@dev Decimal resultado de la resta.
+
+@races None
+DOCUMENTA]
+funcion Restar de lv y rv
+	adquirir sr
+	adquirir decimal
+	fijar decimal a FALSO
+	si son diferentes llamar Cadena#Buscar lv {.} finargs y CMMERROR
+		fijar decimal a VERDADERO
+	sino
+		si son diferentes llamar Cadena#Buscar rv {.} finargs y CMMERROR
+			fijar decimal a VERDADERO
+		fin
+	fin
+	si decimal
+		Importar.Dec.Restar lv rv sr
+	sino
+		Importar.Ent.Restar lv rv sr
+	fin
+	devolver sr
+	liberar sr
+	liberar decimal
+finfun
+
+[DOCUMENTA
+@brief `Multiplicar` - Multiplica dos numeros.
+Si los numeros son enteros, aplica la multiplicación entera, en otro caso aplica
+la multiplicación decimal.
+
+Determina si son enteros o no buscando un separador decimal ("," o ".") en
+los numeros.
+
+@arg lvalue Valor izquierdo a multiplicar.
+@arg rvalue Valor derecho a multiplicar.
+
+@dev Decimal resultado de la multiplicación.
+
+@races None
+DOCUMENTA]
+funcion Multiplicar de lv y rv
+	adquirir sr
+	adquirir decimal
+	fijar decimal a FALSO
+	si son diferentes llamar Cadena#Buscar lv {.} finargs y CMMERROR
+		fijar decimal a VERDADERO
+	sino
+		si son diferentes llamar Cadena#Buscar rv {.} finargs y CMMERROR
+			fijar decimal a VERDADERO
+		fin
+	fin
+	si decimal
+		Importar.Dec.Multiplicar lv rv sr
+	sino
+		Importar.Ent.Multiplicar lv rv sr
+	fin
+	devolver sr
+	liberar sr
+	liberar decimal
+finfun
+
+[DOCUMENTA
+@brief `Dividir` - Divide dos numeros.
+Si los numeros son enteros, aplica la división entera, en otro caso aplica
+la división decimal.
+
+Determina si son enteros o no buscando un separador decimal ("," o ".") en
+los numeros.
+
+@arg lvalue Valor izquierdo a dividir.
+@arg rvalue Valor derecho a dividir.
+
+@dev Decimal resultado de la división.
+
+@races None
+DOCUMENTA]
+funcion Dividir de lv y rv
+	adquirir sr
+	adquirir decimal
+	fijar decimal a FALSO
+	si son diferentes llamar Cadena#Buscar lv {.} finargs y CMMERROR
+		fijar decimal a VERDADERO
+	sino
+		si son diferentes llamar Cadena#Buscar rv {.} finargs y CMMERROR
+			fijar decimal a VERDADERO
+		fin
+	fin
+	si decimal
+		Importar.Dec.Dividir lv rv sr
+	sino
+		Importar.Ent.Dividir lv rv sr
+	fin
+	devolver sr
+	liberar sr
+	liberar decimal
+finfun
+
+[DOCUMENTA
+@brief `Resto` - Calcula el resto de una división entera.
+Si se desea utilizar junto a <Dividir> es necesario hacerlo de la forma:
+
+```
+llamar Piso llamar Dividir X Y finargs finargs
+```
+
+Debido a que <Dividir> puede ocasionar una división decimal y esta función
+asume que siempre se redondea a cero (tal como lo hace <Piso>).
+
+@arg dividendo Dividendo de la división cuyo resto va a ser calculado
+@arg divisor Divisor de la división cuyo resto va a ser calculado
+
+@dev Decimal que debe ser sumado a la división entera para obtener su \
+equivalente decimal.
+
+@throws ErrorMatematico, ErrorDeSemantica
+Si el divisor es cero, **puede** lanzar una de estas excepciones (depende
+de la versión del NEA utilizado).
+
+@races None
+DOCUMENTA]
+funcion Resto de dividendo y divisor
+	adquirir cociente
+	adquirir coc_redondeado
+	adquirir resto
+
+	fijar cociente a {0}
+	fijar coc_redondeado a {0}
+
+	Importar.Dec.Dividir dividendo divisor cociente
+	Importar.Ent.Dividir dividendo divisor coc_redondeado
+
+	Importar.Dec.Restar cociente coc_redondeado resto
+
+	devolver resto
+
+	liberar cociente
+	liberar coc_redondeado
+	liberar resto
+finfun

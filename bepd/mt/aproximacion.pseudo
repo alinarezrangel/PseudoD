@@ -1,0 +1,66 @@
+[ ******************************************************************************
+*****************************************
+*********
+** Biblioteca Matemática: subconjunto de la BEPD.
+** Funciones de redondeo, aproximación y manipulación básica de decimales.
+*********
+*****************************************
+********************************************************************************
+Copyright 2016 Alejandro Linarez Rangel
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+********************************************************************************
+****************************************************************************** ]
+
+utilizar mt/constantes.pseudo
+
+[DOCUMENTA
+@brief `Piso` - Calcula el piso de un numero.
+El piso de X, es el numero entero menor o igual más cercano a X.
+
+Por ejemplo: `piso(3.232) = 3`, `piso(3.99999) = 3`, `piso(8) = 8`.
+
+@arg valor Numero a calcular el piso.
+
+@dev El piso de `valor`.
+
+@races None
+DOCUMENTA]
+funcion Piso de valor
+	Importar.Ent.Sumar valor CERO valor [ La suma de enteros redondea a cero ]
+	devolver valor
+finfun
+
+[DOCUMENTA
+@brief `Techo` - Calcula el techo de un numero.
+El techo de X, es el numero entero mayor o igual más cercano a X.
+
+Por ejemplo: `techo(3.232) = 4`, `techo(3.99999) = 4`, `techo(8) = 8`.
+
+@arg nm Numero a calcular el techo.
+
+@dev El techo de nm.
+
+@races None
+DOCUMENTA]
+funcion Techo de valor
+	adquirir techo
+	Importar.Ent.Sumar valor CERO techo
+	si comparar Importar.Dec.Comparar valor = techo [ "son iguales" podria fallar por precisión ]
+		devolver techo
+	sino
+		Importar.Ent.Sumar techo UNO techo
+		devolver techo
+	fin
+	liberar techo
+finfun

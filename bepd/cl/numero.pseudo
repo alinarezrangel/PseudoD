@@ -24,6 +24,8 @@ limitations under the License.
 
 utilizar cl/elementoaritmetico.pseudo
 
+utilizar mt/aritmetica.pseudo
+
 [DOCUMENTA
 @brief `Numero` - Representa un numero en `Z`.
 Para un numero en `Q`, se pueden utilizar las clases <clases.pseudo#Fraccion> y

@@ -19,17 +19,17 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ****************************************************************************** ]
 
-utilizar rt/posee.pseudo
+utilizar cl/numero.pseudo
+utilizar fn/esfuncional.pseudo
 
-clase X hereda Objeto
-	atributo attr
-	puntero ptr
-	metodo mth
-finclase
+instancia Numero n1
+instancia Numero n2
+instancia Numero n3
 
-escribir llamar PoseeMetodo X {mth} finargs
-nl
-escribir llamar PoseeAtributo X {attr} finargs
-nl
-escribir llamar PoseePuntero X {ptr} finargs
+fijar n1#valor a {5}
+fijar n2#valor a {7}
+
+llamar n1#sumar n2#NOMBRE n3#NOMBRE finargs
+
+escribir n3#valor
 nl

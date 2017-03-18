@@ -1,0 +1,53 @@
+[ ******************************************************************************
+*****************************************
+*********
+** Biblioteca Matemática: subconjunto de la BEPD.
+** Funciones para comparar decimales.
+*********
+*****************************************
+********************************************************************************
+Copyright 2016 Alejandro Linarez Rangel
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+********************************************************************************
+****************************************************************************** ]
+
+utilizar mt/constantes.pseudo
+
+[DOCUMENTA
+@brief `SonIguales` - Determina si dos decimales son aproximadamente iguales.
+Nunca de debe comparar decimales con `son iguales` o
+`comparar Importar.Dec.Comparar`, esto puede ocasionar fallas poco esperadas.
+
+Utiliza <mate.pseudo#DELTA>.
+
+@arg dec1 Decimal número 1 a comparar
+@arg dec2 Decimal número 2 a comparar
+
+@dev Si son aproximadamente iguales.
+
+@races None
+DOCUMENTA]
+funcion SonIguales de dec1 y dec2
+	adquirir resta
+	Importar.Dec.Restar dec1 dec2 resta
+	si comparar Importar.Dec.Comparar resta < CERO
+		Importar.Dec.Restar CERO resta resta
+	fin
+	si comparar Importar.Dec.Comparar resta < DELTA
+		devolver VERDADERO
+	sino
+		devolver FALSO
+	fin
+	liberar resta
+finfun

@@ -24,6 +24,8 @@ limitations under the License.
 
 utilizar cl/elementoaritmetico.pseudo
 
+utilizar mt/aritmetica.pseudo
+
 [DOCUMENTA
 @brief `Decimal` - Representa un numero en `Q`.
 Para numeros en `Z`, u otra representacion de numeros en `Q`, se pueden ver:
