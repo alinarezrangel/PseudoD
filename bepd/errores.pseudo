@@ -21,6 +21,8 @@ limitations under the License.
 ********************************************************************************
 ****************************************************************************** ]
 
+utilizar gt/error.pseudo
+
 [DOCUMENTA
 @file errores.pseudo
 Inicializa el sistema de manejo de errores y declera los errores estandares.
@@ -30,7 +32,7 @@ DOCUMENTA]
 @brief Es un error común
 Es la clase base de todos los errores en PseudoD.
 DOCUMENTA]
-clase Error hereda Objeto
+clase Error hereda Objeto implementa @Error
 	atributo mensaje
 finclase
 

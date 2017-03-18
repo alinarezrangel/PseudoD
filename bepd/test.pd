@@ -19,20 +19,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ****************************************************************************** ]
 
-utilizar clases.pseudo
+utilizar cadena.pseudo
 
-instancia Fraccion num1
-instancia Fraccion num2
-instancia Fraccion num3
+adquirir A
+adquirir B
 
-fijar num1#numerador a {3}
-fijar num1#denominador a {4}
-fijar num2#numerador a {6}
-fijar num2#denominador a {3}
+fijar A a {Hola }
+fijar B a {Mundo}
 
-llamar num1#sumar num2#NOMBRE num3#NOMBRE finargs
-
-escribir num3#numerador
-escribir {/}
-escribir num3#denominador
+escribir llamar Cadena#Concatenar A B finargs
 nl

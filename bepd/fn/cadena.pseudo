@@ -1,0 +1,85 @@
+[ ******************************************************************************
+*****************************************
+*********
+** Bibliotecas de Funciones de Utilidad: subconjunto de la BEPD.
+** Operaciones sobre cadenas.
+*********
+*****************************************
+********************************************************************************
+Copyright 2016 Alejandro Linarez Rangel
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+********************************************************************************
+****************************************************************************** ]
+
+[ Declaramos el espacio de nombres ]
+instancia PseudoFuncion Cadena
+fijar Cadena a {}
+redireccionar Cadena#cod Cadena
+
+[DOCUMENTA
+@brief `Cadena#Concatenar` - Concatena dos cadenas
+
+@arg c1 Primera cadena a concatenar
+@arg c2 Segunda cadena a concatenar
+
+@dev c1 concatenado con c2
+
+@races None
+DOCUMENTA]
+funcion Cadena#Concatenar de c1 y c2
+	adquirir resultado
+	Importar.Cad.Concatenar c1 c2 resultado
+	devolver resultado
+	liberar resultado
+finfun
+
+[DOCUMENTA
+@brief `Cadena#SubCadena` - Extrae una sección de una cadena.
+
+@arg en Cadena de la cual se extraerá la subcadena.
+@arg desde Numero de caracter donde comenzará la subcadena.
+@arg longitud Numero de caracteres que se extraerán.
+
+@dev La subcadena
+
+@races None
+DOCUMENTA]
+funcion Cadena#SubCadena de en y desde y longitud
+	adquirir subcadena
+	Importar.Cad.Sub_Cadena desde longitud en subcadena
+	devolver subcadena
+	liberar subcadena
+finfun
+
+[DOCUMENTA
+@brief `Cadena#Buscar` - Busca una cadena en otra.
+
+@arg en Cadena en la que se buscara.
+@arg que Cadena a buscar.
+@arg desde Opcional: Desde que caracter se buscará.
+
+@dev El índice de la primera aparición.
+
+@races None
+DOCUMENTA]
+funcion Cadena#Buscar de en y que y desde
+	adquirir indice
+	si son iguales desde y NULO
+		fijar desde a {0}
+		empujar NULO
+	fin
+	Importar.Cad.Buscar que desde en indice
+	devolver indice
+	liberar indice
+finfun
