@@ -60,68 +60,68 @@ finclase
 
 [DOCUMENTA
 @brief `@ElementoAritmetico#sumar` - Suma dos elementos aritmeticos.
-Es **obligatorio** que tanto el operando izquierdo como el resultado sean
-del mismo **tipo** que el operando derecho (este objeto).
+Es **obligatorio** que tanto el operando derecho como el resultado sean
+del mismo **tipo** que el operando izquierdo (este objeto).
 
 @argyo
-@arg izq Referencia al operador izquierdo.
+@arg der Referencia al operador derecho.
 @arg resultado Referencia a la instancia donde se almacenará el resultado.
 
 @races Undefined.NoSameType
 Si el operando izquierdo o el resultado no son del mismo tipo que el operando
 derecho (este objeto) el comportamiento está indefinido.
 DOCUMENTA]
-funcion @ElementoAritmetico#sumar con yo y izq y resultado
+funcion @ElementoAritmetico#sumar con yo y der y resultado
 	necesitas FALSO
 finfun
 
 [DOCUMENTA
 @brief `@ElementoAritmetico#restar` - Resta dos elementos aritmeticos.
-Es **obligatorio** que tanto el operando izquierdo como el resultado sean
-del mismo **tipo** que el operando derecho (este objeto).
+Es **obligatorio** que tanto el operando derecho como el resultado sean
+del mismo **tipo** que el operando izquierdo (este objeto).
 
 @argyo
-@arg izq Referencia al operador izquierdo.
+@arg der Referencia al operador derecho.
 @arg resultado Referencia a la instancia donde se almacenará el resultado.
 
 @races Undefined.NoSameType
 Si el operando izquierdo o el resultado no son del mismo tipo que el operando
 derecho (este objeto) el comportamiento está indefinido.
 DOCUMENTA]
-funcion @ElementoAritmetico#restar con yo y izq y resultado
+funcion @ElementoAritmetico#restar con yo y der y resultado
 	necesitas FALSO
 finfun
 
 [DOCUMENTA
 @brief `@ElementoAritmetico#multiplicar` - Multiplica dos elementos aritmeticos.
-Es **obligatorio** que tanto el operando izquierdo como el resultado sean
-del mismo **tipo** que el operando derecho (este objeto).
+Es **obligatorio** que tanto el operando derecho como el resultado sean
+del mismo **tipo** que el operando izquierdo (este objeto).
 
 @argyo
-@arg izq Referencia al operador izquierdo.
+@arg der Referencia al operador derecho.
 @arg resultado Referencia a la instancia donde se almacenará el resultado.
 
 @races Undefined.NoSameType
 Si el operando izquierdo o el resultado no son del mismo tipo que el operando
 derecho (este objeto) el comportamiento está indefinido.
 DOCUMENTA]
-funcion @ElementoAritmetico#multiplicar con yo y izq y resultado
+funcion @ElementoAritmetico#multiplicar con yo y der y resultado
 	necesitas FALSO
 finfun
 
 [DOCUMENTA
 @brief `@ElementoAritmetico#dividir` - Divide dos elementos aritmeticos.
-Es **obligatorio** que tanto el operando izquierdo como el resultado sean
-del mismo **tipo** que el operando derecho (este objeto).
+Es **obligatorio** que tanto el operando derecho como el resultado sean
+del mismo **tipo** que el operando izquierdo (este objeto).
 
 @argyo
-@arg izq Referencia al operador izquierdo.
+@arg der Referencia al operador derecho.
 @arg resultado Referencia a la instancia donde se almacenará el resultado.
 
 @races Undefined.NoSameType
 Si el operando izquierdo o el resultado no son del mismo tipo que el operando
 derecho (este objeto) el comportamiento está indefinido.
 DOCUMENTA]
-funcion @ElementoAritmetico#dividir con yo y izq y resultado
+funcion @ElementoAritmetico#dividir con yo y der y resultado
 	necesitas FALSO
 finfun

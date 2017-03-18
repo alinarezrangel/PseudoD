@@ -1,0 +1,101 @@
+[ ******************************************************************************
+*****************************************
+*********
+** Bibliotecas de Clases de Utilidad: subconjunto de la BEPD.
+** Representa un Numero.
+*********
+*****************************************
+********************************************************************************
+Copyright 2016 Alejandro Linarez Rangel
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+********************************************************************************
+****************************************************************************** ]
+
+utilizar cl/elementoaritmetico.pseudo
+
+[DOCUMENTA
+@brief `Numero` - Representa un numero en `Z`.
+Para un numero en `Q`, se pueden utilizar las clases <clases.pseudo#Fraccion> y
+<clases.pseudo#Decimal>.
+
+El valor se almacena en el campo `valor`, como en <clases.pseudo#Decimal>.
+DOCUMENTA]
+clase Numero hereda ElementoAritmetico
+	atributo valor
+
+	metodo sumar
+	metodo restar
+	metodo multiplicar
+	metodo dividir
+finclase
+
+[DOCUMENTA
+@brief `Numero#sumar` - Suma dos Numeros.
+
+@argyo
+@arg der Referencia al elemento derecho de la operación a aplicar.
+@arg res Referencia al elemento donde se almacenará el resultado.
+
+@races None
+DOCUMENTA]
+funcion Numero#sumar con yo y der y res
+	fijar <res>#valor a llamar Sumar
+		<yo>#valor <der>#valor
+	finargs
+finfun
+
+[DOCUMENTA
+@brief `Numero#restar` - Resta dos Numeros.
+
+@argyo
+@arg der Referencia al elemento derecho de la operación a aplicar.
+@arg res Referencia al elemento donde se almacenará el resultado.
+
+@races None
+DOCUMENTA]
+funcion Numero#restar con yo y der y res
+	fijar <res>#valor a llamar Restar
+		<yo>#valor <der>#valor
+	finargs
+finfun
+
+[DOCUMENTA
+@brief `Numero#multiplicar` - Multiplica dos Numeros.
+
+@argyo
+@arg der Referencia al elemento derecho de la operación a aplicar.
+@arg res Referencia al elemento donde se almacenará el resultado.
+
+@races None
+DOCUMENTA]
+funcion Numero#multiplicar con yo y der y res
+	fijar <res>#valor a llamar Multiplicar
+		<yo>#valor <der>#valor
+	finargs
+finfun
+
+[DOCUMENTA
+@brief `Numero#dividir` - Divide dos Numeros.
+
+@argyo
+@arg der Referencia al elemento derecho de la operación a aplicar.
+@arg res Referencia al elemento donde se almacenará el resultado.
+
+@races None
+DOCUMENTA]
+funcion Numero#dividir con yo y der y res
+	fijar <res>#valor a llamar Dividir
+		<yo>#valor <der>#valor
+	finargs
+finfun

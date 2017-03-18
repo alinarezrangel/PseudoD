@@ -1,0 +1,91 @@
+[ ******************************************************************************
+*****************************************
+*********
+** Bibliotecas de Clases de Utilidad: subconjunto de la BEPD.
+** ElementoAritmetico: Implementación de la interfáz `@ElementoAritmetico`
+*********
+*****************************************
+********************************************************************************
+Copyright 2016 Alejandro Linarez Rangel
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+********************************************************************************
+****************************************************************************** ]
+
+utilizar gt/elementoaritmetico.pseudo
+
+[DOCUMENTA
+@brief `ElementoAritmetico` - Representa un objeto al cual se le pueden \
+aplicar operaciones aritméticas.
+
+@abstract
+DOCUMENTA]
+clase abstracta ElementoAritmetico hereda Objeto implementa @ElementoAritmetico
+	metodo sumar
+	metodo restar
+	metodo multiplicar
+	metodo dividir
+finclase
+
+[DOCUMENTA
+@brief `ElementoAritmetico#sumar` - Suma dos elementos (`res = yo + der`)
+
+@argyo
+@arg der Referencia al elemento derecho de la operación a aplicar.
+@arg res Referencia al elemento donde se almacenará el resultado.
+
+@races None
+DOCUMENTA]
+funcion ElementoMatematico#sumar con yo y izq y res
+	necesitas FALSO
+finfun
+
+[DOCUMENTA
+@brief `ElementoAritmetico#restar` - Resta dos elementos (`res = yo - der`)
+
+@argyo
+@arg der Referencia al elemento derecho de la operación a aplicar.
+@arg res Referencia al elemento donde se almacenará el resultado.
+
+@races None
+DOCUMENTA]
+funcion ElementoMatematico#restar con yo y izq y res
+	necesitas FALSO
+finfun
+
+[DOCUMENTA
+@brief `ElementoAritmetico#multiplicar` - Multiplica dos elementos \
+(`res = yo + der`)
+
+@argyo
+@arg der Referencia al elemento derecho de la operación a aplicar.
+@arg res Referencia al elemento donde se almacenará el resultado.
+
+@races None
+DOCUMENTA]
+funcion ElementoMatematico#multiplicar con yo y izq y res
+	necesitas FALSO
+finfun
+
+[DOCUMENTA
+@brief `ElementoAritmetico#dividir` - Divide dos elementos (`res = yo / der`)
+
+@argyo
+@arg der Referencia al elemento derecho de la operación a aplicar.
+@arg res Referencia al elemento donde se almacenará el resultado.
+
+@races None
+DOCUMENTA]
+funcion ElementoMatematico#dividir con yo y izq y res
+	necesitas FALSO
+finfun

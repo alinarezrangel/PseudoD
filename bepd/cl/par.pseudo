@@ -1,9 +1,11 @@
 [ ******************************************************************************
-Programa de prueba, cada caracteristica agregada a la BEPD es probada en este
-programa (no es una prueba general, solamente prueba la ultima cosa agregada).
-
-(Debería agregar más pruebas en vez de mantener este archivo?)
-
+*****************************************
+*********
+** Bibliotecas de Clases de Utilidad: subconjunto de la BEPD.
+** Representa un Par de elementos.
+*********
+*****************************************
+********************************************************************************
 Copyright 2016 Alejandro Linarez Rangel
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,22 +19,15 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+********************************************************************************
 ****************************************************************************** ]
 
-utilizar clases.pseudo
-
-instancia Fraccion num1
-instancia Fraccion num2
-instancia Fraccion num3
-
-fijar num1#numerador a {3}
-fijar num1#denominador a {4}
-fijar num2#numerador a {6}
-fijar num2#denominador a {3}
-
-llamar num1#sumar num2#NOMBRE num3#NOMBRE finargs
-
-escribir num3#numerador
-escribir {/}
-escribir num3#denominador
-nl
+[DOCUMENTA
+@brief `Par` - Representa un par de valores.
+Posee un `primero` (primer valor o clave) y un `segundo` (segundo valor o
+valor).
+DOCUMENTA]
+clase Par hereda Objeto
+	atributo primero
+	atributo segundo
+finclase

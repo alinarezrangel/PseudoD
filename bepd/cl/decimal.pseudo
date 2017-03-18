@@ -1,0 +1,101 @@
+[ ******************************************************************************
+*****************************************
+*********
+** Bibliotecas de Clases de Utilidad: subconjunto de la BEPD.
+** Representa un Decimal.
+*********
+*****************************************
+********************************************************************************
+Copyright 2016 Alejandro Linarez Rangel
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+********************************************************************************
+****************************************************************************** ]
+
+utilizar cl/elementoaritmetico.pseudo
+
+[DOCUMENTA
+@brief `Decimal` - Representa un numero en `Q`.
+Para numeros en `Z`, u otra representacion de numeros en `Q`, se pueden ver:
+
+ * <Numero> para representaciones en `Z`.
+ * <Fraccion> para representaciones en `Q`.
+DOCUMENTA]
+clase Decimal hereda ElementoAritmetico
+	atributo valor
+
+	metodo sumar
+	metodo restar
+	metodo multiplicar
+	metodo dividir
+finclase
+
+[DOCUMENTA
+@brief `Decimal#sumar` - Suma dos Decimales.
+
+@argyo
+@arg der Referencia al elemento derecho de la operación a aplicar.
+@arg res Referencia al elemento donde se almacenará el resultado.
+
+@races None
+DOCUMENTA]
+funcion Decimal#sumar con yo y der y res
+	fijar <res>#valor a llamar Sumar
+		<yo>#valor <der>#valor
+	finargs
+finfun
+
+[DOCUMENTA
+@brief `Decimal#restar` - Resta dos Decimales.
+
+@argyo
+@arg der Referencia al elemento derecho de la operación a aplicar.
+@arg res Referencia al elemento donde se almacenará el resultado.
+
+@races None
+DOCUMENTA]
+funcion Decimal#restar con yo y der y res
+	fijar <res>#valor a llamar Restar
+		<yo>#valor <der>#valor
+	finargs
+finfun
+
+[DOCUMENTA
+@brief `Decimal#multiplicar` - Multiplica dos Decimales.
+
+@argyo
+@arg der Referencia al elemento derecho de la operación a aplicar.
+@arg res Referencia al elemento donde se almacenará el resultado.
+
+@races None
+DOCUMENTA]
+funcion Decimal#multiplicar con yo y der y res
+	fijar <res>#valor a llamar Multiplicar
+		<yo>#valor <der>#valor
+	finargs
+finfun
+
+[DOCUMENTA
+@brief `Decimal#dividir` - Divide dos Decimales.
+
+@argyo
+@arg der Referencia al elemento derecho de la operación a aplicar.
+@arg res Referencia al elemento donde se almacenará el resultado.
+
+@races None
+DOCUMENTA]
+funcion Decimal#dividir con yo y der y res
+	fijar <res>#valor a llamar Dividir
+		<yo>#valor <der>#valor
+	finargs
+finfun
