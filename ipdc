@@ -53,10 +53,10 @@ if [ -z ${RUTA_PSEUDOD_BIN+x} ]; then
 	# No existe, pero existe el directorio $HOME/.pseudod/bin/?
 	if [ -d "$HOME/.pseudod/bin/" ]; then
 		# Si existe, usa la instalación local
-		export RUTA_PSEUDOD_BIN="$HOME/.pseudod/bin/"
+		export RUTA_PSEUDOD_BIN="$HOME/.pseudod/bin/PseudoD"
 	else
 		# No existe, usa la instalación global
-		export RUTA_PSEUDOD_BIN="/opt/pseudod/bin/"
+		export RUTA_PSEUDOD_BIN="/opt/pseudod/bin/PseudoD"
 	fi
 fi
 
@@ -146,9 +146,9 @@ if [ "$param3" = "-s" ]; then
 fi
 
 if [ "$param1" = "-f" ]; then
-	$RUTA_PSEUDOD_BIN/PseudoD "$param2" "$RUTA_PSEUDOD" "$RUTA_PSEUDOD_LIB";
+	$RUTA_PSEUDOD_BIN "$param2" "$RUTA_PSEUDOD" "$RUTA_PSEUDOD_LIB";
 fi
 
 if [ "$param1" = "-i" ]; then
-	$RUTA_PSEUDOD_BIN/PseudoD -i "$RUTA_PSEUDOD" "$RUTA_PSEUDOD_LIB";
+	$RUTA_PSEUDOD_BIN -i "$RUTA_PSEUDOD" "$RUTA_PSEUDOD_LIB";
 fi

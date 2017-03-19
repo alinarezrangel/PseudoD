@@ -36,7 +36,7 @@ echo "Recuerde que las opciones son afectadas por las MaYuScUlAs ('s' no es"
 echo "lo mismo que 'S')."
 echo
 
-echo "Deseas continuar? (s = yes / [n] = no):"
+echo "Deseas continuar? (s = si / [n] = no):"
 read opt
 case "$opt" in
 	s)
@@ -79,7 +79,7 @@ esac
 export RUTA_PSEUDOD_INSTALACION="/opt/pseudod"
 
 echo
-echo "Detectando si el directorio '$HOME/.pseudod/' existe..."
+echo "Detectando si el directorio '$RUTA_PSEUDOD_INSTALACION' existe..."
 
 if [ ! -d "$RUTA_PSEUDOD_INSTALACION" ]; then
 	echo "No existe, creandolo..."
