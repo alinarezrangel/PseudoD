@@ -46,9 +46,9 @@ En caso que sea imposible utilizar git, puede contactar a
                          Requisítos para un pull request
 
 * La primera línea del mensaje del commit debe ser menor a 50 caracteres.
-  Puede utilizar más parrafos de ser necesario (no comenzar un mensaje de
-  commit con un paragrafo, de forma que este sea una única línea). El nombre
-  debe ser simple y descriptivo, indicado facilmente los cambios realizados.
+  Puede utilizar más párrafos de ser necesario (no comenzar un mensaje de
+  commit con un párrafo, de forma que este sea una única línea). El nombre
+  debe ser simple y descriptivo, indicado fácilmente los cambios realizados.
 
     Por ejemplo:
 
@@ -64,6 +64,6 @@ En caso que sea imposible utilizar git, puede contactar a
 
 * Evítese agregar código dependiente del sistema. El único código
   dependiente de sistema que se aceptará será aquel que este diseñado
-  para agregar soporte a otras plataformas, o código que utilize
+  para agregar soporte a otras plataformas, o código que utilíze
   bibliotecas POSIX que puedan ser utilizadas en sistemas mayormente
   compatibles (no necesariamente POSIX completo).

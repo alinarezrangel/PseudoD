@@ -32,7 +32,7 @@ ifndef COMP
 COMP =
 endif
 
-all: PseudoD libpseudod.so
+all: PseudoD libpseudod.so libpseudodsrc.a
 
 nea_interno_data.o: $(NEAPATH)/interno/data.cpp $(NEAPATH)/interno/data.hh
 	$(CXX) $(COPT) $(DEBUG) $(CPPLANG) $(OPT) $(CFLAGS) $< $(LIBS) -o $@

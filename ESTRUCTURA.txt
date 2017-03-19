@@ -28,81 +28,25 @@ Ver README.mkd para una introducción
 
 La estructura del directorio de PseudoD es:
 
- PseudoD/
-     +- bepd/
-     |    +- builtins.pseudo
-     |    +- inic.pseudo
-     |    +- clases.pseudo
-     |    +- mate.pseudo
-     |    +- algor.pseudo
-     |    +- cadena.pseudo
-     |    +- entsal.pseudo
-     |    +- errores.pseudo
-     |    +- plugins.pseudo
-     |    +- tipos.pseudo
-     |    +- test.pd
-     |    +- LEEME.txt              <= *
-     +- NEA/
-     |    +- Bit/
-     |    |    +- Bit.cpp
-     |    |    +- Bit.h
-     |    |    +- INBit.h
-     |    |    +- PDBit.cpp
-     |    +- interno/
-     |     |    +- data.hh
-     |     |    +- data.cpp
-     |    +- BibliotecaDinamica.cpp
-     |    +- BibliotecaDinamica.hh
-     |    +- INBibliotecaDinamica.hh
-     |    +- PDBibliotecaDinamica.cpp
-     |    +- PDData.cpp
-     |    +- PDData.hh
-     |    +- PDTipos.cpp
-     |    +- Tipos.cpp
-     |    +- Tipos.hh
-     +- tests/
-     |    +- nucleo/
-     |    |    +- diff.txt
-     |    |    +- entrada.txt
-     |    |    +- espr.txt
-     |    |    +- fmt.txt
-     |    |    +- salida.txt
-     |    |    +- test.pd
-     |    +- LEEME.txt              <= *
-     +- Ejemplos/
-     |    +- AdiosMundo.pd
-     |    +- BuclesAnidados.pd
-     |    +- Clases.pd
-     |    +- CuentaRegresiva.pd
-     |    +- Formato.pd
-     |    +- HolaMundo.pd
-     |    +- ObjetosGenericos.pd
-     |    +- Operadores.pd
-     |    +- Redireccionar.pd
-     |    +- Si_Sino.pd
-     |    +- UTF-8.pd
-     |    +- Variables.pd
-     +- codefile.cpp
-     +- definitionfile.cpp
-     +- includefile.hh
-     +- includefilelib.hh
-     +- interprete.cpp
-     +- interprete.hh
-     +- Main.cpp
-     +- pseudod.hh
-     +- pseudod.cpp
-     +- instalar.sh
-     +- ipdc
-     +- .travis.yml
-     +- .gitignore
-     +- README.mkd                  <= *
-     +- LEEME.txt                   <= *
-     +- ESTRUCTURA.txt              <= *
-     +- CONTRIBUTE.txt              <= *
-     +- CODEOFCONDUCT.txt           <= *
-
-Los archivos marcados con `<= *` son archivos que se deberían leer antes de
-continuar con la exploración del código.
+ * `bepd/`: Biblioteca Estándar de PseudoD
+ * `bepd/cl/`: Clases de utilidad (BEPD CL)
+ * `bepd/fn/`: Funciones de utilidad (BEPD FN)
+ * `bepd/gt/`: Generalidades de Tipo (BEPD GT)
+ * `bepd/mt/`: Biblioteca matemática (BEPD MT)
+ * `bepd/rt/`: Rasgos de Tipo (BEPD RT)
+ * `bepd/LEEME.txt`: LEEME de la BEPD (se recomienda leer)
+ * `Ejemplos/`: Ejemplos básicos (y no tanto)
+ * `NEA/`: Núcleo Extensible de la Aplicación
+ * `NEA/interno/`: Tipos de datos básicos para PseudoD
+ * `NEA/Bit/`: Módulo "Bit"
+ * `NIA/`: Núcleo Interno de la Aplicación
+ * `tests/`: Suite de pruebas
+ * `tests/LEEME.txt`: LEEME de la suite de pruebas (se recomienda leer)
+ * `README.mkd`: LEEME del proyecto para GitHub (se recomienda leer)
+ * `LEEME.txt`: LEEME del proyecto (se recomienda leer)
+ * `CONTRIBUTE.txt`: Recomendaciones para contribuidores (se recomienda leer)
+ * `ESTRUCTURA.txt`: Explicación de la estructura del proyecto (se recomienda
+   leer)
 
                          Preguntas frecuentes
 
@@ -118,4 +62,4 @@ continuar con la exploración del código.
 
 ¿Como instalo PseudoD?
 	Debe ejecutar `./instalar.sh` con permisos de administrador en el
-	directorio raiz del proyecto.
+	directorio raíz del proyecto, esto intalará PseudoD en `/opt/pseudod/`.

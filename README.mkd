@@ -1,9 +1,9 @@
-# PseudoD
+# PseudoD #
 
-[![Build Status](https://travis-ci.org/alinarezrangel/PseudoD.svg?branch=master)](https://travis-ci.org/alinarezrangel/PseudoD)
+[![BuildStatus](https://travis-ci.org/alinarezrangel/PseudoD.svg?branch=master)](https://travis-ci.org/alinarezrangel/PseudoD)
 
 PseudoD es un lenguaje de programación interpretado, escrito en C++11 con
-caracteristicas de alto y medio nivel. Es orientado a objetos y posee una
+características de alto y medio nivel. Es orientado a objetos y posee una
 sintaxis en español.
 
 ## Contacto
@@ -72,9 +72,7 @@ llamar EscribirLinea {Hola Mundo} finargs
 Sin la biblioteca estándar (BEPD)
 
 ```pseudod
-adquirir mensaje
-fijar mensaje a {Hola Mundo}
-escribir mensaje
+escribir {Hola Mundo}
 nl
 ```
 
@@ -112,23 +110,18 @@ Sin la biblioteca estándar (BEPD)
 adquirir n1
 adquirir n2
 adquirir res
-adquirir msg
 
-fijar msg a {Ingrese dos numeros enteros:}
-escribir msg
+escribir {Ingrese dos numeros enteros:}
 nl
 
 leer n1
 leer n2
 Importar.Ent.Sumar n1 n2 res
 
-fijar msg a { + }
 escribir n1
-escribir msg
+escribir { + }
 escribir n2
-
-fijar msg a { = }
-escribir msg
+escribir { = }
 escribir res
 nl
 ```

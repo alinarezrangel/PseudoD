@@ -30,7 +30,7 @@ Ver README.mkd para una introducción
 
 Desde PseudoD 2.0.0, se incluye con el código fuente una suite de pruebas
 simples que siguen un formato unificado. Estas pruebas son pocas, dado que
-la gran mayoria estará en otra rama.
+la gran mayoría estará en otra rama.
 
 Las pruebas se encuentran en `tests/` (ver `tests/LEEME.txt`).
 
@@ -41,7 +41,7 @@ algunos puntos clave:
 
 * Si desea agregar o modificar opciones de la linea de comandos, vea
 `Main.cpp`.
-* Si desea agregar un módulo del NEA, puede seguir las guias oficiales.
+* Si desea agregar un módulo del NEA, puede seguir las guías oficiales.
 * Si desea modificar un módulo del NEA, puede ver los archivos dentro del
 directorio `NEA/`.
 

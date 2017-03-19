@@ -4,14 +4,6 @@
 #########################################################
 ########                                         ########
 # ipdc: Intermedio entre PseudoD y la consola           #
-# Desarrollado por Alejandro Linarez Rangel             #
-# Para indicar la ruta de instalacion, cambiar el       #
-# valor de RUTA_PSEUDOD a la ruta donde se              #
-# instalo y se extrajo BEPD, fijar RUTA_LIB             #
-# a donde se movio libpseudod.so y fijar FIJO a         #
-# "si". Se supondra que se movio el ejecutable          #
-# PseudoD y ipd a /home/$USER/bin/                      #
-# Gracias por usar PseudoD                              #
 ########                                         ########
 # Copyright 2016 Alejandro Linarez Rangel
 #
@@ -29,16 +21,67 @@
 #########################################################
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-#RUTA_PSEUDOD="$HOME/bin/bepd/BEPD/"
-RUTA_PSEUDOD="/opt/pseudod/bepd/"   # Ruta donde se movio BEPD(preferiblemente la que tiene por decfecto)
-RUTA_LIB="/usr/lib/libpseudod.so" # Ruta donde se movio la biblioteca libpseudod.so
-FIJO="si"
-if [ "$FIJO" = "no" ]
-	then
-		echo "Advertencia de ipdc: No se configuro ipdc"
-		echo "Modifique el archivo ipdc y cambie las variables RUTA_PSEUDOD y RUTA_LIB"
-		echo "Abortado..."
-		exit
+# Las variables de entorno para PseudoD son:
+#
+# * `PSEUDODPATH` (pdhelpextracter): Igual que RUTA_PSEUDOD
+# * `RUTA_PSEUDOD`: Ruta a la BEPD
+# * `RUTA_PSEUDOD_LIB`: Ruta al NEA (libpseudod.so)
+# * `RUTA_PSEUDOD_INSTALACION`: Ruta donde se instaló PseudoD
+# * `RUTA_PSEUDOD_DEV_LIB`: Ruta a las librerias de desarrollo (si hay)
+# * `RUTA_PSEUDOD_BIN`: Ruta al binario de PseudoD (PseudoD)
+#
+# Los archivos donde podemos escribir estas variales son:
+#
+# * `$HOME/.bash_profile` (user-only)
+# * `$HOME/.profile` (user-only)
+# * `/etc/profile`
+
+# Existe la variable RUTA_PSEUDOD?
+if [ -z ${RUTA_PSEUDOD+x} ]; then
+	# No existe, pero existe el directorio $HOME/.pseudod/bepd/?
+	if [ -d "$HOME/.pseudod/bepd/" ]; then
+		# Si existe, usa la instalación local
+		export RUTA_PSEUDOD="$HOME/.pseudod/bepd/"
+	else
+		# No existe, usa la instalación global
+		export RUTA_PSEUDOD="/opt/pseudod/bepd/"
+	fi
+fi
+
+# Existe la variable RUTA_PSEUDOD_BIN?
+if [ -z ${RUTA_PSEUDOD_BIN+x} ]; then
+	# No existe, pero existe el directorio $HOME/.pseudod/bin/?
+	if [ -d "$HOME/.pseudod/bin/" ]; then
+		# Si existe, usa la instalación local
+		export RUTA_PSEUDOD_BIN="$HOME/.pseudod/bin/"
+	else
+		# No existe, usa la instalación global
+		export RUTA_PSEUDOD_BIN="/opt/pseudod/bin/"
+	fi
+fi
+
+# Existe la variable RUTA_PSEUDOD_LIB?
+if [ -z ${RUTA_PSEUDOD_LIB+x} ]; then
+	# No existe, pero existe el archivo $HOME/.pseudod/lib/libpseudod.so?
+	if [ -e "$HOME/.pseudod/lib/libpseudod.so" ]; then
+		# Si existe, usa la instalación local
+		export RUTA_PSEUDOD_LIB="$HOME/.pseudod/lib/libpseudod.so"
+	else
+		# No existe, usa la instalación global
+		export RUTA_PSEUDOD_LIB="/opt/pseudod/lib/libpseudod.so"
+	fi
+fi
+
+# Existe la variable RUTA_PSEUDOD_INSTALACION
+if [ -z ${RUTA_PSEUDOD_INSTALACION+x} ]; then
+	# No existe, pero existe el directorio $HOME/.pseudod/?
+	if [ -d "$HOME/.pseudod/" ]; then
+		# Si existe, usa la instalación local
+		export RUTA_PSEUDOD_INSTALACION="$HOME/.pseudod/"
+	else
+		# No existe, usa la instalación global
+		export RUTA_PSEUDOD_INSTALACION="/opt/pseudod/"
+	fi
 fi
 
 param1=$1
@@ -65,54 +108,47 @@ function ayuda() {
 	exit
 }
 
-if [ "$param1" = "--help" ]
-	then
-		ayuda
+if [ "$param1" = "--help" ]; then
+	ayuda
 fi
-if [ "$param1" = "-h" ]
-	then
-		ayuda
+if [ "$param1" = "-h" ]; then
+	ayuda
 fi
-if [ "$param1" = "--ayuda" ]
-	then
-		ayuda
+if [ "$param1" = "--ayuda" ]; then
+	ayuda
 fi
 
-if [ "$param1" = "-d" ] # -d
-	then
-		echo "Ruta lib predeterminada:"
-		echo "$RUTA_PSEUDOD"
-		echo "Ruta de NEA predeterminada:"
-		echo "$RUTA_LIB"
-		exit
+if [ "$param1" = "-d" ]; then
+	echo "Ruta a la BEPD predeterminada:"
+	echo "$RUTA_PSEUDOD"
+	echo "Ruta al NEA predeterminada:"
+	echo "$RUTA_PSEUDOD_LIB"
+	echo "Ruta a la instalación predeterminada:"
+	echo "$RUTA_PSEUDOD_INSTALACION"
+	echo "Ruta a las librerias de desarrollo (si hay):"
+	echo "$RUTA_PSEUDOD_DEV_LIB"
+	exit
 fi
 
-if [ "$param1" = "-s" ] # -s RUTA (-f|-i|-fo) (a)
-	then
-		RUTA_PSEUDOD=$param2
-		param1=$param3
-		param2=$param4
+if [ "$param1" = "-s" ]; then
+	RUTA_PSEUDOD=$param2
+	param1=$param3
+	param2=$param4
 fi
 
-if [ "$param2" = "-s" ] # (-f|-i|-fo) -s RUTA (a)
-	then
-		RUTA_PSEUDOD=$param3
-		param2=$param4
+if [ "$param2" = "-s" ]; then
+	RUTA_PSEUDOD=$param3
+	param2=$param4
 fi
 
-if [ "$param3" = "-s" ] # (-f|-i|-fo) (a) (-s) RUTA
-	then
-		RUTA_PSEUDOD=$param4
+if [ "$param3" = "-s" ]; then
+	RUTA_PSEUDOD=$param4
 fi
-if [ "$param1" = "-f" ]
-	then
-		PseudoD "$param2" "$RUTA_PSEUDOD" "$RUTA_LIB";
+
+if [ "$param1" = "-f" ]; then
+	$RUTA_PSEUDOD_BIN/PseudoD "$param2" "$RUTA_PSEUDOD" "$RUTA_PSEUDOD_LIB";
 fi
-if [ "$param1" = "-i" ]
-	then
-		PseudoD -i "$RUTA_PSEUDOD" "$RUTA_LIB";
-fi
-if [ "$param1" = "-io" ]
-	then
-		ipd nulo "$RUTA_PSEUDOD" "$RUTA_LIB";
+
+if [ "$param1" = "-i" ]; then
+	$RUTA_PSEUDOD_BIN/PseudoD -i "$RUTA_PSEUDOD" "$RUTA_PSEUDOD_LIB";
 fi
