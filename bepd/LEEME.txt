@@ -26,7 +26,7 @@ Ver README.mkd para una introducción
 
 =============================================================================
 
-Bienvenido a la Biblioteca Estándar de PseudoD (BEPD) versión 2.2.0:2.2.0,
+Bienvenido a la Biblioteca Estándar de PseudoD (BEPD) versión 2.3.0:2.2.0,
 diseñada para ser usada como mínimo con PseudoD 2.2.0.
 
 La BEPD declara sistemas necesarios para poder utilizar PseudoD, más algunos
@@ -37,16 +37,16 @@ La tabla de versiones de la BEPD es:
  __________________________________________________________________________
 / Archivo          | Parte de                      | Versión               \
 |------------------|-------------------------------|-----------------------|
-| builtins         | Inicialización                | 2.2.0                 |
-| inic             | Inicialización                | 2.2.0                 |
-| clases           | Utilidades                    | 2.0.0                 |
-| tipos            | Utilidades, Algoritmos        | 2.1.0                 |
-| algor            | Algoritmos                    | 2.1.0                 |
-| cadena           | Utilidades                    | 2.2.0                 |
-| plugins          | Bibliotecas Dinámicas         | 1.9.5                 |
-| entsal           | Entrada y salida              | 2.2.0                 |
-| errores          | Errores                       | 2.2.0                 |
-| mate             | Matemáticas                   | 2.2.0                 |
+| builtins         | Inicialización                | 2.3.0                 |
+| inic             | Inicialización                | 2.3.0                 |
+| clases           | Utilidades                    | 2.3.0                 |
+| tipos            | Utilidades, Algoritmos        | 2.3.0                 |
+| algor            | Algoritmos                    | 2.3.0                 |
+| cadena           | Utilidades                    | 2.3.0                 |
+| plugins          | Bibliotecas Dinámicas         | 2.3.0                 |
+| entsal           | Entrada y salida              | 2.3.0                 |
+| errores          | Errores                       | 2.3.0                 |
+| mate             | Matemáticas                   | 2.3.0                 |
 \------------------'-------------------------------'-----------------------/
 
 El formato utilizado para documentar la BEPD es:
@@ -124,7 +124,8 @@ Los archivos (por utilidad) son:
 - Directorio dt/: Estructuras de datos.
 - Directorio mt/: Biblioteca matemática.
 
-                      Biblioteca de Generalidades de tipo
+                      Biblioteca de Generalidades de Tipo
+                                    (BEPD GT)
 
 La biblioteca de generalidades de tipo declaran un montón de clases, interfaces
 y plantillas útiles para el trabajo en PseudoD.
@@ -134,3 +135,70 @@ nombres, tal como en la BEPD con una única excepción: la BEPD nunca declara
 interfaces, mientras que la biblioteca de generalidades de tipo si. Todas las
 interfaces definidas comanzarán con un carácter arroba (`@`) seguido por el
 nombre de la interfáz.
+
+Esta biblioteca no existía antes de la versión 2.3.0:2.2.0 de la BEPD.
+
+                        Biblioteca de Rasgos de Tipo
+                                (BEPD RT)
+
+La biblioteca de rasgos tipo declaran utilidades que permiten detectar rasgos
+en determinados tipos o instancias.
+
+La biblioteca de rasgos de tipo permite desarrollar meta-programas: programas
+que tratan programas como sus propios datos.
+
+Es el reemplazo de `tipos.pseudo`.
+
+                       Biblioteca de Clases de Utilidad
+                                 (BEPD CL)
+
+La biblioteca de clases de utilidad definen clases útiles para el programa,
+como flujos de datos o fracciones.
+
+Esta biblioteca permite utilizar características de alto nivel en PseudoD
+dentro del mismo lenguaje.
+
+Es el reemplazo de `clases.pseudo` y `plugins.pseudo`.
+
+                     Biblioteca de Funciones de Utilidad
+                                (BEPD FN)
+
+La biblioteca de funciones de utilidad definen características de alto nivel
+pero en vez de utilizar clases, se implementan de manera orientada a funciones.
+
+Las funciones van desde clasificación de carácteres hasta E/S.
+
+Es el reemplazo de `entsal.pseudo`, `cadena.pseudo` y `plugins.pseudo`, algunas
+secciones no existían antes de la versión 2.3.0:2.2.0 de la BEPD.
+
+                          Biblioteca de Algoritmos
+                                (BEPD AG)
+
+La biblioteca de algoritmos declara algoritmos (tanto orientados a funciones
+como orientados a objetos) que pueden ser utilizados por contenedores y clases
+declarados en la biblioteca de estructuras de datos (BEPD DT).
+
+Esta biblioteca contiene, por ejemplo, los algoritmos `Ordenamiento#QuickSort`
+y `Busqueda#Lineal`.
+
+Es el reemplazo de `algor.pseudo`.
+
+                      Biblioteca de Estructuras de Datos
+                                 (BEPD DT)
+
+La biblioteca de estructuras de datos permiten al desarrollador utilizar
+estructuras de alto nivel y fácil uso en programas.
+
+Esta altamente relacionada con la biblioteca de generalidades de tipo (BEPD GT)
+y la biblioteca de algoritmos (BEPD AG).
+
+Es el reemplazo de `algor.pseudo`, `tipos.pseudo` y `clases.pseudo`.
+
+                           Biblioteca Mateḿatica
+                                (BEPD MT)
+
+Esta biblioteca define todas las funciones matemáticas de PseudoD. Las
+funciones están catalogadas para su uso por separado en programas: las
+funciones aritméticas estan separadas de las trigonométricas, etc.
+
+Es el reemplazo de `mate.pseudo`.

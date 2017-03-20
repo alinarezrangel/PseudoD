@@ -24,31 +24,19 @@ adquirir resultado
 
 adquirir hasta
 
-adquirir mensaje
-adquirir por
-adquirir igual
-
 fijar numero a {1}
 fijar otro a {1}
 fijar resultado a {1}
 fijar hasta a {9}
-fijar mensaje a {El resultado de:}
-fijar por a {*}
-fijar igual a {=}
 
 mientras comparar Importar.Ent.Comparar numero <= hasta
 	mientras comparar Importar.Ent.Comparar otro <= hasta
 		Importar.Ent.Multiplicar numero otro resultado
-		escribir mensaje
-		escribir_esp
+		escribir {El resultado de: }
 		escribir numero
-		escribir_esp
-		escribir por
-		escribir_esp
+		escribir { * }
 		escribir otro
-		escribir_esp
-		escribir igual
-		escribir_esp
+		escribir { = }
 		escribir resultado
 		nl
 		Importar.Ent.Sumar otro UNO otro

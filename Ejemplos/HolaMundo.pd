@@ -18,11 +18,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 *************************************************** ]
 
-[ Creamos una nueva variable ]
-adquirir mensaje
-[ Fijarmos su contenido a "Hola Mundo" ]
-fijar mensaje a {Hola Mundo}
-[ Y escribimos el contenido ]
-escribir mensaje
-[ No hay que olvidar el fin-de-línea ]
-nl
+[ *****************************************************************************
+Escribimos el texto "Hola Mundo" (en PseudoD, el texto literal se delimita por
+"{" y "}")
+***************************************************************************** ]
+
+escribir {Hola Mundo}
+
+[ PseudoD a diferencia de otros lenguages no agrega el fin de línea: ]
+nl [ Esto imprime el fin de línea ]

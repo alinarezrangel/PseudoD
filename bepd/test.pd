@@ -19,17 +19,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ****************************************************************************** ]
 
-utilizar cl/numero.pseudo
 utilizar fn/esfuncional.pseudo
 
-instancia Numero n1
-instancia Numero n2
-instancia Numero n3
-
-fijar n1#valor a {5}
-fijar n2#valor a {7}
-
-llamar n1#sumar n2#NOMBRE n3#NOMBRE finargs
-
-escribir n3#valor
-nl
+llamar ImprimirFormato {Hola %\k} {Mundo} finargs
+llamar ImprimirFormato {NULO = %\k} NULO finargs
+llamar ImprimirFormato {VERDADERO = %\k} VERDADERO finargs
+llamar ImprimirFormato {FALSO = %\k} FALSO finargs
