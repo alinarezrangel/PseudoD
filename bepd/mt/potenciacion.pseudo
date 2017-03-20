@@ -23,6 +23,8 @@ limitations under the License.
 ****************************************************************************** ]
 
 utilizar mt/constantes.pseudo
+utilizar mt/aritmetica.pseudo
+utilizar mt/comparar.pseudo
 
 [DOCUMENTA
 @brief `ElevarValor` - Calcula el valor de una base elevado a un exponente.

@@ -56,7 +56,8 @@ DOCUMENTA]
 funcion Techo de valor
 	adquirir techo
 	Importar.Ent.Sumar valor CERO techo
-	si comparar Importar.Dec.Comparar valor = techo [ "son iguales" podria fallar por precisión ]
+	[ "son iguales" podria fallar por precisión: ]
+	si comparar Importar.Dec.Comparar valor = techo
 		devolver techo
 	sino
 		Importar.Ent.Sumar techo UNO techo

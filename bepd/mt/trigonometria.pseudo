@@ -23,6 +23,8 @@ limitations under the License.
 ****************************************************************************** ]
 
 utilizar mt/constantes.pseudo
+utilizar mt/aritmetica.pseudo
+utilizar mt/potenciacion.pseudo
 
 [DOCUMENTA
 @brief `GradosARadianes` - Convierte grados sexadecimales a radianes.
