@@ -43,6 +43,21 @@ código en **BASH** que el instalador provee basta con ejecutar
 * Si no deseas instalar PseudoD, solo ejecuta `make` y los binarios estarán
 en el directorio actual.
 
+## Dependencias ##
+
+PseudoD utiliza la biblioteca estándar de C++11 y la biblioteca estándar de
+C11, por ello es necesario poseer un compilador con soporte de C++11 y C11
+para compilar PseudoD (GCC y G++ 4.8 o superior). PseudoD también utiliza
+parte de las APIs POSIX, como `dlfcn.h` para algunas tareas, esto implica que
+PseudoD no puede compilarse en sistemas Microsoft Windows sin utilizar
+herramientas adicionales: **MinGW** es necesario para esta tarea.
+
+En resumen:
+
+* Compilador con soporte de C++11 y C11 o superior (gcc o g++ 4.8 o superior)
+* MinGW si se compila en sistemas Microsoft Windows
+* GNU Make o compatible (en general, algún Make).
+
 ## LEEME ##
 
 Es recomendable leer los siguientes archivos:
@@ -120,4 +135,4 @@ PseudoD esta licenciado bajo la Licencia de Apache 2.0.
 [LICENSE](LICENSE)
 
 [BuildStatus]: https://travis-ci.org/alinarezrangel/PseudoD.svg?branch=master
-[VersionesEstables]: http://pseudod.sourceforge.net/descargar.html
+[VersionesEstables]: http://pseudod.sourceforge.net/download.html
