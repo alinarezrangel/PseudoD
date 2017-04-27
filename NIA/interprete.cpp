@@ -58,6 +58,12 @@ namespace pseudod
 			DATOS_INT.CrearVariable(a + "#Tipo", true, 0, "PseudoVariable");
 			DATOS_INT.CrearVariable(a + "#NOMBRE", true, 0, a);
 		}
+		else if(proxy == NMemonico::PD_FIN_FUNCION)
+		{
+		}
+		else if(proxy == NMemonico::PD_SINO)
+		{
+		}
 		else if(proxy == NMemonico::PD_INSTANCIA) // alias de Importar.Tipos.Instancia
 		{
 			(*FUNCION)("Importar.Tipos.Instancia", e);
@@ -328,8 +334,12 @@ namespace pseudod
 		else if(proxy == NMemonico::PD_FUNCION)
 		{
 			PDCadena nom = "", arg = "", lin = "", func = "";
+
 			e >> nom;
-			while((lin != "finfun") && (lin != "finfuncion"))
+
+			NMemonicoProxy px = ConvertirCadenaANMemonico(lin);
+
+			while(px != NMemonico::PD_FIN_FUNCION)
 			{
 				std::getline(e, lin, '\n');
 				func += lin + '\n';
@@ -338,15 +348,12 @@ namespace pseudod
 					[](char x){return std::isspace(x);}),
 					lin.end()
 				);
+				px = ConvertirCadenaANMemonico(lin);
 			}
 			DATOS_INT.CrearVariable(nom, true, 0, func);
 			DATOS_INT.CrearVariable(nom + "#NOMBRE", true, 0, nom);
 			DATOS_INT.CrearVariable(nom + "#Tipo", true, 0, "PseudoFuncion");
 			DATOS_INT.CrearVariable(nom + "#cod", false, DATOS_INT.BuscarIndice(true, nom), "NULO");
-		}
-		else if(proxy == NMemonico::PD_FIN_FUNCION)
-		{
-			// Nada
 		}
 		else if(o.front() == '[')
 		{
@@ -520,9 +527,10 @@ namespace pseudod
 		}
 		else
 		{
-				(*FUNCION)(o,e);
+			(*FUNCION)(o,e);
 		}
 	}
+
 	PDCadena iniciar(PDCadena nea, PDCadena bepd, PDCadena main)
 	{
 		coneccion_nea = dlopen(nea.c_str(), RTLD_LAZY);
@@ -585,11 +593,13 @@ namespace pseudod
 		}
 		return "Ok";
 	}
+
 	int terminar(void)
 	{
 		liberar_nea();
 		return dlclose(coneccion_nea);
 	}
+
 	void ejecutar(PDCadena linea)
 	{
 		PDCadena p;
@@ -597,6 +607,7 @@ namespace pseudod
 		while(Ejecutar && (in >> p))
 			procesar(p, in, ejecutar_nea);
 	}
+
 	void ejecutar(std::istream& entrada)
 	{
 		PDCadena p;

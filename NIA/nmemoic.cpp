@@ -72,6 +72,8 @@ static std::multimap<PDCadena, pseudod::NMemonico::Palabra> ConversorS2P =
 	{"de", pseudod::NMemonico::PD_CON},
 	{"con", pseudod::NMemonico::PD_CON},
 	{"funcion", pseudod::NMemonico::PD_FUNCION},
+	{"procedimiento", pseudod::NMemonico::PD_FUNCION},
+	{"metodo", pseudod::NMemonico::PD_FUNCION},
 	{"finfun", pseudod::NMemonico::PD_FIN_FUNCION},
 	{"finfuncion", pseudod::NMemonico::PD_FIN_FUNCION},
 	{"fin", pseudod::NMemonico::PD_FIN_SI},

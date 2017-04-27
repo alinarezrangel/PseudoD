@@ -1,0 +1,57 @@
+[ ***************************************************************
+****************************
+*** Prueba de los condicionales en PseudoD.
+*** Descripción:
+*** ** Prueba como responden los condicionales embebidos.
+*** Por: Alejandro Linarez Rangel
+***      <alinarezrangel@gmail.com>
+****************************
+Copyright 2016 Alejandro Linarez Rangel
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*************************************************************** ]
+
+funcion Prueba con nombre y mensaje
+	escribir {Prueba <}
+	escribir nombre
+	escribir {>: }
+	escribir mensaje
+	nl
+finfun
+
+funcion Comer de variable
+finfun
+
+si FALSO
+	llamar Prueba {si FALSO} {Esto no deberia mostrarse} finargs
+fin
+
+si VERDADERO
+	llamar Prueba {si VERDADERO} {Esto deberia mostrarse} finargs
+fin
+
+si FALSO
+	[
+	fin
+	]
+	llamar Prueba {si FALSO - [fin]} {Esto no deberia mostrarse} finargs
+fin
+
+si FALSO
+	llamar Comer { fin } finargs
+	llamar Prueba {si FALSO - <fin>} {Esto no deberia mostrarse} finargs
+fin
+
+si FALSO
+	llamar Prueba {si FALSO - <<fin>>} {Esto no deberia mostrarse} finargs
+fin
