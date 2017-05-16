@@ -403,19 +403,29 @@ namespace pseudod
 			NMemonicoProxy ord;
 
 			e >> variable1;
+
 			val = ValorDelToken(variable1, e, &DATOS_INT);
 			cond = (val == DATOS_INT.VERDADERO);
 			i = AMBITO.size();
 			AMBITO.push_back(0);
+
 			while(AMBITO.size() != i)
 			{
 				e >> ord;
+
 				if(ord == NMemonico::PD_OPERADOR_FIJAR)
 				{
 					PDCadena line = "";
 					getline(e, line, '\n');
 					e >> ord;
 				}
+
+				if((ord == NMemonico::PD_COMENTARIO) || (ord.original.front() == '['))
+				{
+					PDCadena line = "";
+					getline(e, line, ']');
+				}
+
 				if(cond)
 				{
 					procesar(ord, e, FUNCION);

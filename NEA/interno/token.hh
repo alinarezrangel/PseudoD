@@ -22,65 +22,48 @@ See the License for the specific language governing permissions and
 limitations under the License.
 **************************************************************************/
 
-/*
-Define la macro INTERACTIVO a 1 para un interprete en linea de comandos
-https://sourceforge.net/projects/pseudod/
-*/
-#ifndef __PSEUDOD_NIA_INTERPRETE_HH__
-#define __PSEUDOD_NIA_INTERPRETE_HH__ 1
+#ifndef __PSEUDOD_NIA_TOKEN__
+#define __PSEUDOD_NIA_TOKEN__ 1
 
 #include <iostream>
-#include <fstream>
-#include <cstdlib>
-#include <vector>
-#include <stack>
-#include <string>
-#include <cstring>
-#include <cstdio>
-#include <algorithm>
-#include <cctype>
-#include <sstream>
-#include <exception>
-#include <dlfcn.h>
+#include <memory>
 
 #include "NEA/interno/data.hh"
 #include "NEA/interno/nmemoic.hh"
-#include "NEA/PDData.hh"
 
 namespace pseudod
 {
-	typedef void (*inic_nea)(
-		std::vector<PDCadena>&,
-		std::vector<PDCadena>&,
-		std::vector<PDCadena>&,
-		std::vector<int>&,
-		std::vector<std::stack<PDCadena>>&,
-		PDFuncionNIA
-	);
-	typedef void (*ejec_nea)(PDCadena, std::istream&);
-	typedef void (*liber_nea)(void);
+	class Token : public PDvar::PDObjeto
+	{
+		public:
+			struct ValorLiteral
+			{
+				enum TipoValor
+				{
+					Cadena,
+					Comentario,
+					Identificador
+				};
 
-	extern bool Ejecutar;
-	extern PDvar::PDDatos DATOS_INT;
-	extern std::vector<int> AMBITO;
-	extern inic_nea iniciar_nea;
-	extern ejec_nea ejecutar_nea;
-	extern liber_nea liberar_nea;
-	extern void* coneccion_nea;
+				PDCadena valor;
+				TipoValor tipo;
+			};
 
-	void procesar(
-		PDCadena,
-		std::istream&,
-		PDFuncionNEA
-	);
-	PDCadena iniciar(
-		PDCadena nea,
-		PDCadena bepd,
-		PDCadena main
-	);
-	int terminar(void);
-	void ejecutar(PDCadena);
-	void ejecutar(std::istream&);
+			enum TipoToken
+			{
+				SinTipo,
+				NMemonico,
+				Literal
+			};
+
+			Token(void);
+			Token(NMemonicoProxy nm);
+			Token(ValorLiteral lit);
+		private:
+			TipoToken tipo;
+			std::shared_ptr<NMemonicoProxy> nmemonico;
+			std::shared_ptr<ValorLiteral> valorliteral;
+	};
 }
 
-#endif
+#endif /* ~__PSEUDOD_NIA_TOKEN__ */

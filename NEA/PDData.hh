@@ -40,8 +40,7 @@ limitations under the License.
 #define PDVOID_INIC_VACIO_NULL ('a')
 
 #include "interno/data.hh"
-
-#include "nmemoic.hh"
+#include "interno/nmemoic.hh"
 
 /**
 * @brief Espacio de nombres principal de PseudoD.

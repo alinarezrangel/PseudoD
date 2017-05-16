@@ -40,7 +40,7 @@ nea_interno_data.o: $(NEAPATH)/interno/data.cpp $(NEAPATH)/interno/data.hh
 nea_pddata.o: $(NEAPATH)/PDData.cpp $(NEAPATH)/PDData.hh
 	$(CXX) $(COPT) $(DEBUG) $(CPPLANG) $(OPT) $(CFLAGS) $< $(LIBS) -o $@
 
-nia_nmemonic.o: $(NIAPATH)/nmemoic.cpp $(NIAPATH)/nmemoic.hh
+nia_nmemonic.o: $(NEAPATH)/interno/nmemoic.cpp $(NEAPATH)/interno/nmemoic.hh
 	$(CXX) $(COPT) $(DEBUG) $(CPPLANG) $(OPT) $(CFLAGS) $< $(LIBS) -o $@
 
 nia_interprete.o: $(NIAPATH)/interprete.cpp $(NIAPATH)/interprete.hh
