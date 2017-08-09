@@ -50,12 +50,12 @@ C11, por ello es necesario poseer un compilador con soporte de C++11 y C11
 para compilar PseudoD (GCC y G++ 4.8 o superior). PseudoD también utiliza
 parte de las APIs POSIX, como `dlfcn.h` para algunas tareas, esto implica que
 PseudoD no puede compilarse en sistemas Microsoft Windows sin utilizar
-herramientas adicionales: **MinGW** es necesario para esta tarea.
+herramientas adicionales: **Cygwin** es necesario para esta tarea.
 
 En resumen:
 
 * Compilador con soporte de C++11 y C11 o superior (gcc o g++ 4.8 o superior)
-* MinGW si se compila en sistemas Microsoft Windows
+* Cygwin si se compila en sistemas Microsoft Windows
 * GNU Make o compatible (en general, algún Make).
 
 ## LEEME ##
@@ -104,11 +104,11 @@ Los parámetros comienzan con "con/de" y son una lista de nombres separados
 por "y", el parámtro "yo" es como el "self" de Python o el "this" de C++
 y contiene a la instancia actual.
 ]
-funcion Anfitríon#saludarA con yo y nombre_persona
+metodo Anfitríon#saludarA con yo y nombre_persona
 	escribir {Bienvenido }
 	escribir nombre_persona
 	nl
-finfun
+finmetodo
 
 instancia Anfitríon anfitríon
 

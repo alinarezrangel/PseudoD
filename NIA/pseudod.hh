@@ -38,6 +38,9 @@ limitations under the License.
 #include <sstream>
 
 #include "NEA/interno/data.hh"
+#include "NEA/interno/nmemoic.hh"
+#include "NEA/interno/token.hh"
+#include "NEA/interno/tokenizer.hh"
 #include "NEA/PDData.hh"
 
 #include "includefilelib.hh"
@@ -57,7 +60,7 @@ extern "C" void PDInicializar(
 	std::vector<std::stack<PDCadena>>&,
 	PDFuncionNIA
 );
-extern "C" void PDEjecutar(PDCadena, std::istream&);
+extern "C" void PDEjecutar(pseudod::Token, pseudod::Tokenizador&);
 extern "C" void PDFinal(void);
 
 #endif

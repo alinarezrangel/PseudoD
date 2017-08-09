@@ -50,7 +50,7 @@ namespace BibliotecaDinamica
 			* @brief Lee los parametros del flujo.
 			* @arg in Flujo del cual leer.
 			*/
-			void LeerParametros(std::istream& in);
+			void LeerParametros(pseudod::Tokenizador& in);
 			/**
 			* @brief Ejecuta el llamado a la biblioteca dinamica.
 			* @arg data Memoria del interprete.
@@ -81,7 +81,7 @@ namespace BibliotecaDinamica
 			* @brief Lee los parametros del flujo.
 			* @arg in Flujo del cual leer.
 			*/
-			void LeerParametros(std::istream& in);
+			void LeerParametros(pseudod::Tokenizador& in);
 			/**
 			* @brief Ejecuta el llamado a la biblioteca dinamica.
 			* @arg data Memoria del interprete.

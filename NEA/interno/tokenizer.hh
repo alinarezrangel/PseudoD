@@ -26,18 +26,95 @@ limitations under the License.
 #define __PSEUDOD_NIA_TOKENIZER__ 1
 
 #include <iostream>
+#include <list>
+#include <utility>
+#include <locale>
+
+#include <cctype>
 
 #include "NEA/interno/data.hh"
+#include "NEA/interno/token.hh"
 
 namespace pseudod
 {
-	class Tokenizer : public PDvar::PDObjeto
+	class Tokenizador : public PDvar::PDObjeto
 	{
 		public:
-			Tokenizer(void);
-			Tokenizer(std::istream& stream);
-			Tokenizer(std::std::vector<Token> tokens);
+			typedef std::list<Token> ListaTokens;
+			typedef typename ListaTokens::iterator IteradorLT;
+			typedef std::size_t Posicion;
+
+			enum TipoTokenizacion
+			{
+				Agregar,
+				Reemplazar
+			};
+
+			Tokenizador(void);
+			Tokenizador(std::istream& stream);
+			Tokenizador(const ListaTokens& tokens);
+			Tokenizador(const Tokenizador& tk);
+			Tokenizador(Tokenizador&& tk);
+			virtual ~Tokenizador(void);
+
+			Tokenizador& operator=(const Tokenizador& tk);
+			Tokenizador& operator=(Tokenizador&& tk);
+
+			bool TokenizarFlujo(std::istream& stream, TipoTokenizacion tktype);
+			ListaTokens& ObtenerTokens(void);
+
+			IteradorLT ObtenerIterador(void);
+			Posicion ObtenerPosicion(void);
+
+			bool IgnorarHasta(IteradorLT iter);
+			bool FijarIteradorA(IteradorLT iter);
+			bool IgnorarHasta(Posicion iter);
+			bool FijarIteradorA(Posicion iter);
+
+			IteradorLT BuscarToken(
+				IteradorLT iter,
+				const Token& hasta,
+				bool acumulable,
+				const Token& acc
+			);
+			IteradorLT BuscarToken(
+				IteradorLT iter,
+				const Token& hasta1,
+				const Token& hasta2,
+				bool acumulable,
+				const Token& acc
+			);
+
+			const Token& ObtenerTokenActual(void);
+			void ExtraerToken(Token& out);
+
+			void Borrar(void);
+
+			bool FinDelFlujo(void);
+
+			operator bool(void);
+		private:
+			ListaTokens tokens;
+			IteradorLT itertk;
+			Posicion tkpos;
+			bool findelflujo;
 	};
+
+	template<class ForwardIterator, class DistanceType>
+	ForwardIterator IncrementaIteradorPor(
+		ForwardIterator i,
+		DistanceType n
+	)
+	{
+		for(DistanceType j = 0; j < n; j++)
+		{
+			i ++;
+		}
+
+		return i;
+	}
+
+	Tokenizador& operator>>(Tokenizador& tk, Token& tok);
 }
 
 #endif /* ~__PSEUDOD_NIA_TOKENIZER__ */

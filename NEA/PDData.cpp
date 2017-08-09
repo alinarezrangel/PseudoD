@@ -161,7 +161,7 @@ namespace PDvar
 
 	void PDDatos::CrearPila(void)
 	{
-		(*this->pilas).push_back(std::stack<PDCadena>());
+		this->pilas->push_back(std::stack<PDCadena>());
 	}
 
 	PDCadena PDDatos::Sacar(int n)
@@ -169,6 +169,11 @@ namespace PDvar
 		PDCadena val = this->Tope(n);
 		this->BorrarTope(n);
 		return val;
+	}
+
+	bool PDDatos::PilaVacia(int n)
+	{
+		return (*this->pilas)[n].empty();
 	}
 
 	void PDDatos::CrearVariable(PDCadena n, bool t, int va, PDCadena vl)
@@ -218,14 +223,51 @@ namespace PDvar
 	void PDDatos::Ejecutar(PDCadena ord)
 	{
 		std::istringstream in(ord);
-		PDCadena orden = "escribir CMMERROR";
-		in >> orden;
-		(*this->PROCESAR)(orden, in, this->PROCESO);
+		pseudod::Tokenizador tkz(in);
+		pseudod::Token tok;
+
+		tkz >> tok;
+
+		(*this->PROCESAR)(tok, tkz, this->PROCESO);
+
+		//while(!tkz.FinDelFlujo())
+		//	(*this->PROCESAR)(tkz, this->PROCESO);
 	}
 
 	void PDDatos::Ejecutar(PDCadena ord, std::istream& in)
 	{
+		std::istringstream zin(ord);
+		pseudod::Tokenizador tkz(zin), tkq(in);
+		pseudod::Token tok;
+
+		tkz >> tok;
+
+		(*this->PROCESAR)(tok, tkq, this->PROCESO);
+
+		//while(!tkq.FinDelFlujo())
+		//	(*this->PROCESAR)(tkq, this->PROCESO);
+	}
+
+	void PDDatos::Ejecutar(PDCadena ord, pseudod::Tokenizador& in)
+	{
+		std::istringstream ins(ord);
+		pseudod::Tokenizador tkz(ins);
+		pseudod::Token tok;
+
+		tkz >> tok;
+
+		(*this->PROCESAR)(tok, in, this->PROCESO);
+
+		//while(!in.FinDelFlujo())
+		//	(*this->PROCESAR)(in, this->PROCESO);
+	}
+
+	void PDDatos::Ejecutar(pseudod::Token ord, pseudod::Tokenizador& in)
+	{
 		(*this->PROCESAR)(ord, in, this->PROCESO);
+
+		//while(!in.FinDelFlujo())
+		//	(*this->PROCESAR)(in, this->PROCESO);
 	}
 
 	PDCadena PDDatos::ResolverNombre(PDCadena nombre)
@@ -234,6 +276,7 @@ namespace PDvar
 		// evaluarlos hacia un nombre.
 		if(nombre.find('<') == PDCadena::npos)
 			return nombre;
+
 		PDCadena res = "";
 		PDCadena buff = "";
 		bool inEval = false;
@@ -289,213 +332,294 @@ namespace PDvar
 		return this->data;
 	}
 
-	PDCadena ValorDelToken(PDCadena tok, std::istream& in, PDDatos* data)
+	PDCadena ValorDelToken(pseudod::Token tok, pseudod::Tokenizador& in, PDDatos* data)
 	{
-		pseudod::NMemonicoProxy proxy = pseudod::ConvertirCadenaANMemonico(tok);
+		using namespace pseudod::Utilidades;
 
-		if(tok.front() == '[')
+		if(Tokens::EsCadena(tok))
 		{
-			if(tok.back() == ']')
-			{
-				in >> tok;
-				return ValorDelToken(tok, in, data);
-			}
-			std::getline(in, tok, ']');
+			return Tokens::ObtenerValor(tok);
+		}
+
+		if(Tokens::EsIdentificador(tok))
+		{
+			return data->ObtenerVariable(Tokens::ObtenerValor(tok));
+		}
+
+		if(Tokens::EsComentario(tok))
+		{
 			in >> tok;
+
 			return ValorDelToken(tok, in, data);
 		}
 
+		if(Tokens::EsCuerpoDeCodigo(tok))
+		{
+			throw PDvar::ErrorDelNucleo(
+				"Error en el parser(expr): Cuerpo de codigo inesperado en la expresion"
+			);
+		}
+
+		pseudod::NMemonicoProxy proxy = tok.ObtenerNMemonico();
+
 		if(proxy == pseudod::NMemonico::PD_OPERADOR_TANTO)
 		{
-			bool esVerdadero = true;
-			std::istream::pos_type pos = 0;
+			pseudod::Token como, var;
+			bool vl = true, ex = false;
 
 			do
 			{
-				in >> tok;
-				esVerdadero =
-					(ValorDelToken(tok, in, data) == data->VERDADERO)
-					&& esVerdadero;
-				pos = in.tellg();
-				in >> proxy;
-
-				if(proxy != pseudod::NMemonico::PD_OPERADOR_COMO)
+				if(!(in >> var))
 				{
-					in.seekg(pos);
+					throw PDvar::ErrorDeSintaxis(
+						"Error en el parser(expr): EOF inesperado"
+					);
+				}
+
+				ex = (ValorDelToken(var, in, data) == data->VERDADERO);
+
+				vl = vl && ex;
+
+				if(in.FinDelFlujo())
+				{
+					throw PDvar::ErrorDeSintaxis(
+						"Error en el parser(expr): EOF inesperado"
+					);
+				}
+
+				como = in.ObtenerTokenActual();
+
+				if((!Tokens::EsNMemonico(como))
+					|| (como.ObtenerNMemonico() != pseudod::NMemonico::PD_OPERADOR_COMO))
+				{
 					break;
 				}
+
+				in >> como;
 			} while(true);
 
-			return esVerdadero? data->VERDADERO : data->FALSO;
+			return vl? data->VERDADERO : data->FALSO;
 		}
 
 		if(proxy == pseudod::NMemonico::PD_OPERADOR_ALGUN)
 		{
-			bool esVerdadero = false;
-			std::istream::pos_type pos = 0;
+			pseudod::Token como, var;
+			bool vl = true, ex = false;
 
 			do
 			{
-				in >> tok;
-				esVerdadero =
-					(ValorDelToken(tok, in, data) == data->VERDADERO)
-					|| esVerdadero;
-				pos = in.tellg();
-				in >> proxy;
-
-				if(proxy != pseudod::NMemonico::PD_OPERADOR_O)
+				if(!(in >> var))
 				{
-					in.seekg(pos);
+					throw PDvar::ErrorDeSintaxis(
+						"Error en el parser(expr): EOF inesperado"
+					);
+				}
+
+				ex = (ValorDelToken(var, in, data) == data->VERDADERO);
+
+				vl = vl || ex;
+
+				if(in.FinDelFlujo())
+				{
+					throw PDvar::ErrorDeSintaxis(
+						"Error en el parser(expr): EOF inesperado"
+					);
+				}
+
+				como = in.ObtenerTokenActual();
+
+				if((!Tokens::EsNMemonico(como))
+					|| (como.ObtenerNMemonico() != pseudod::NMemonico::PD_OPERADOR_O))
+				{
 					break;
 				}
+
+				in >> como;
 			} while(true);
 
-			return esVerdadero? data->VERDADERO : data->FALSO;
+			return vl? data->VERDADERO : data->FALSO;
 		}
 
 		if(proxy == pseudod::NMemonico::PD_SI)
 		{
 			in >> tok;
+
 			return ValorDelToken(tok, in, data);
 		}
 
 		if(proxy == pseudod::NMemonico::PD_LLAMAR)
 		{
 			data->Ejecutar("llamar", in);
-			PDCadena top = data->Sacar(cae(data->ObtenerVariable("VG_PILA_ACTUAL")));
-			return top;
+
+			int n = cae(data->ObtenerVariable("VG_PILA_ACTUAL"));
+
+			if(data->PilaVacia(n))
+			{
+				throw PDvar::ErrorDeSemantica(
+					"Error en el parser(expr): 'llamar ... FIN': La pila esta vacia"
+				);
+			}
+
+			return data->Sacar(n);
 		}
 
 		if(proxy == pseudod::NMemonico::PD_OPERADOR_COMPARAR)
 		{
-			PDCadena orden = "", arg1 = "", op = "", arg2 = "";
-			in >> orden >> arg1 >> op >> arg2;
-			orden += " " + arg1 + " " + op + " " + arg2 +
-				" ___codigo_pseudod_buffer_interno___";
-			data->Ejecutar(orden);
+			pseudod::Token ord;
+
+			in >> ord;
+
+			// Nota: el siguiente código puede ser extremadamente eficiente o
+			// impresionantemente lento dependiendo de la implementacion de
+			// pseudod::Tokenizador::ListaTokens
+			auto iter = in.ObtenerIterador();
+			pseudod::Tokenizador::ListaTokens& ls = in.ObtenerTokens();
+
+			// iter es o un BidirectionalIterator o un RandomAccessIterator o un
+			// ForwardIterator, la funcion pseudod::IncrementaIteradorPor funciona
+			// con cualquier ForwardIterator y permite moverlo cual
+			// RandomAccessIterator. Por seguridad de tipo, es mejor asumir que el
+			// iterador es el menos poderoso y tratarlo commo ForwardIterator:
+			auto itr = pseudod::IncrementaIteradorPor(iter, 3);
+
+			pseudod::Token::ValorLiteral vl;
+
+			vl.valor = "___codigo_pseudod_buffer_interno___";
+			vl.tipo = pseudod::Token::ValorLiteral::Identificador;
+
+			pseudod::Token faketoken(vl);
+
+			//std::cout << "<" << in.ObtenerTokens().size() << std::endl;
+
+			auto it = ls.insert(itr, faketoken);
+
+			//std::cout << ">" << in.ObtenerTokens().size() << std::endl;
+
+			data->Ejecutar(ord, in);
+
+			ls.erase(it);
+
 			return data->ObtenerVariable("___codigo_pseudod_buffer_interno___");
 		}
 
 		if(proxy == pseudod::NMemonico::PD_OPERADOR_EJECUTAR)
 		{
-			PDCadena orden = "", arg1 = "", op = "", arg2 = "", arg3 = "";
-			in >> orden >> arg1 >> op >> arg2 >> arg3;
-			if(arg2 != "es")
-				throw ErrorDeSintaxis("Token invalido: se esperaba \"es\" no " + arg2);
-			orden += " " + arg1 + " " + op + " ___codigo_pseudod_buffer_interno___";
-			data->Ejecutar(orden);
-			return (
-				(data->ObtenerVariable("___codigo_pseudod_buffer_interno___")
-					== data->ObtenerVariable(arg3))?
-					data->VERDADERO : data->FALSO
+			pseudod::Token ord, es, vl;
+
+			in >> ord;
+
+			auto iter = in.ObtenerIterador();
+			auto ls = in.ObtenerTokens();
+			auto itr = pseudod::IncrementaIteradorPor(iter, 2);
+
+			pseudod::Token::ValorLiteral vl2;
+
+			vl2.valor = "___codigo_pseudod_buffer_interno___";
+			vl2.tipo = pseudod::Token::ValorLiteral::Identificador;
+
+			pseudod::Token faketoken(vl2);
+
+			ls.insert(itr, faketoken);
+
+			data->Ejecutar(ord, in);
+
+			in >> es >> vl;
+
+			if((!Tokens::EsNMemonico(es))
+				|| (es.ObtenerNMemonico() != pseudod::NMemonico::PD_OPERADOR_ES))
+			{
+				throw PDvar::ErrorDeSintaxis(
+					"Error en el parser(expr): 'ejecutar ... es ...': Se esperaba 'es'"
 				);
+			}
+
+			PDCadena vl3 = ValorDelToken(vl, in, data);
+
+			return (
+				(data->ObtenerVariable("___codigo_pseudod_buffer_interno___") == vl3)?
+				data->VERDADERO : data->FALSO
+			);
 		}
 
-		if(proxy == pseudod::NMemonico::PD_OPERADOR_SON_IGUALES) // verificado
+		if(proxy == pseudod::NMemonico::PD_OPERADOR_SON_IGUALES)
 		{
-			PDCadena arg1 = "", arg2 = "";
+			pseudod::Token arg1, arg2;
+
 			in >> arg1 >> arg2;
-			return (
-				(data->ObtenerVariable(arg1) == data->ObtenerVariable(arg2))?
-					data->VERDADERO : data->FALSO
+
+			if((!Tokens::EsIdentificador(arg1)) || (!Tokens::EsIdentificador(arg2)))
+			{
+				throw PDvar::ErrorDeSintaxis(
+					"Error en el parser(expr): 'comparar_i ...': Se esperaban dos "
+					"identificadores"
 				);
+			}
+
+			return (
+				(data->ObtenerVariable(Tokens::ObtenerValor(arg1))
+					== data->ObtenerVariable(Tokens::ObtenerValor(arg2)))?
+					data->VERDADERO : data->FALSO
+			);
 		}
 
 		if(proxy == pseudod::NMemonico::PD_OPERADOR_SON)
 		{
-			PDCadena op = "", tok1 = "", val1 = "", tok2 = "", val2 = "", ytok = "";
+			pseudod::Token op, tok1, tok2, ytok;
+			PDCadena val1 = "", val2 = "";
 
 			in >> op >> tok1;
 			val1 = ValorDelToken(tok1, in, data);
 			in >> ytok >> tok2;
 			val2 = ValorDelToken(tok2, in, data);
 
-			proxy = pseudod::ConvertirCadenaANMemonico(ytok);
-
-			if(proxy != pseudod::NMemonico::PD_OPERADOR_Y)
+			if(
+				(!Tokens::EsNMemonico(ytok)) ||
+				(ytok.ObtenerNMemonico() != pseudod::NMemonico::PD_OPERADOR_Y)
+			)
 			{
 				throw PDvar::ErrorDeSintaxis(
-					PDCadena("Error en el parser(expr): 'son/sean iguales/diferentes") +
-					" expr y expr': se esperaba 'y' no " + ytok
+					"Error en el parser(expr): 'son/sean iguales/diferentes"
+					" expr y expr': se esperaba 'y'"
 				);
 			}
 
-			proxy = pseudod::ConvertirCadenaANMemonico(op);
+			if(!Tokens::EsNMemonico(op))
+			{
+				throw PDvar::ErrorDeSintaxis(
+					"Error en el parser(expr): 'son/sean iguales/diferentes expr y expr'"
+					": se esperaba KW- iguales/diferentes"
+				);
+			}
 
-			if(proxy == pseudod::NMemonico::PD_OPERADOR_IGUALES)
+			if(op.ObtenerNMemonico() == pseudod::NMemonico::PD_OPERADOR_IGUALES)
 			{
 				return ((val1 == val2)? data->VERDADERO : data->FALSO);
 			}
-			else if(proxy == pseudod::NMemonico::PD_OPERADOR_DIFERENTES)
+			else if(op.ObtenerNMemonico() == pseudod::NMemonico::PD_OPERADOR_DIFERENTES)
 			{
 				return ((val1 != val2)? data->VERDADERO : data->FALSO);
 			}
 			else
 			{
 				throw PDvar::ErrorDeSintaxis(
-					PDCadena("Error en el parse(expr): 'son/sean iguales/diferentes'") +
-					": se esperaba iguales/diferentes, no " + op
+					"Error en el parse(expr): 'son/sean iguales/diferentes'"
+					": se esperaba iguales/diferentes"
 				);
 			}
 		}
 
-		if(proxy == pseudod::NMemonico::PD_OPERADOR_NO) // verificado
+		if(proxy == pseudod::NMemonico::PD_OPERADOR_NO)
 		{
-			PDCadena pd;
+			pseudod::Token pd;
+
 			in >> pd;
-			return (ValorDelToken(pd, in, data) == data->VERDADERO)?
-				data->FALSO : data->VERDADERO;
-		}
 
-		if(tok[0] == '{')
-		{
-			if(tok[tok.size() - 1] == '}')
-			{
-				return tok.substr(1, tok.size() - 2);
-			}
-			PDCadena str = "";
-			std::getline(in, str, '}');
-			return tok.substr(1, tok.size()) + str;
-		}
-
-		if((tok.size() >= 2)
-			&& (tok[0] == (char)0xC2)
-			&& (tok[1] == (char)0xAB)) // Comillas angulares (apertura "«")
-		{
-			char l = tok[tok.size() - 1];
-			char l2 = tok[tok.size() - 2];
-			// Comillas angulares (cierre "»")
-			if((l2 == (char)0xC2) && (l == (char)0xBB))
-			{
-				// Fin:
-				return tok.substr(2, tok.size() - 4);
-			}
-			// Busca el final:
-			l = (char)0;
-			l2 = (char)0;
-			PDCadena str = "";
-			do
-			{
-				str += in.get();
-				if(str.size() >= 2)
-				{
-					l = str[str.size() - 1];
-					l2 = str[str.size() - 2];
-				}
-			}
-			while((l2 != (char)0xC2) || (l != (char)0xBB));
-			// <= Comillas angulares (cierre "»")
-			return tok.substr(2, tok.size()) + str.substr(0, str.size() - 2);
-		}
-
-		if(data->ExisteVariable(true, tok) || data->ExisteVariable(false, tok))
-		{
-			return data->ObtenerVariable(tok);
+			return (ValorDelToken(pd, in, data) == data->FALSO)?
+				data->VERDADERO : data->FALSO;
 		}
 
 		throw PDvar::ErrorDelNucleo(
-			"Error en el parser(expr): 'expr' es '" + tok +
-			"': Token invalido"
+			"Error en el parser(expr): Token invalido"
 		);
 	}
 

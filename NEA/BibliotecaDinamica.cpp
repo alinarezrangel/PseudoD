@@ -25,6 +25,8 @@ limitations under the License.
 
 namespace BibliotecaDinamica
 {
+	using namespace pseudod::Utilidades;
+
 	PseudoLlamar::PseudoLlamar(PDCadena var, std::vector<PDCadena> args)
 	{
 		this->var = var;
@@ -37,9 +39,11 @@ namespace BibliotecaDinamica
 		//~~~~
 	}
 
-	void PseudoLlamar::LeerParametros(std::istream& in)
+	void PseudoLlamar::LeerParametros(pseudod::Tokenizador& in)
 	{
-		if(!(in >> this->var))
+		pseudod::Token var, p;
+
+		if(!(in >> var))
 		{
 			throw PDvar::ErrorDeSintaxis(
 				"Error en "
@@ -49,16 +53,30 @@ namespace BibliotecaDinamica
 				+ " inst args... FIN': EOF inesperado"
 			);
 		}
-		PDCadena p = "";
-		while((in >> p) && (p != "#(Final)."))
+
+		if(!Tokens::EsIdentificador(var))
 		{
-			param.push_back(p);
+			throw PDvar::ErrorDeSintaxis(
+				"Error en "
+				+ this->ObtenerClave()
+				+ ": '"
+				+ this->ObtenerClave()
+				+ " inst args... FIN': 'inst' no es un identificador"
+			);
+		}
+
+		this->var = Tokens::ObtenerValor(var);
+
+		while((in >> p) && (!Tokens::EsNMemonico(p)))
+		{
+			param.push_back(Tokens::ObtenerValor(p));
 		}
 	}
 
 	void PseudoLlamar::InscribirInstancia(PDvar::PDDatos* data)
 	{
 		void* con = dlopen(data->ObtenerVariable(this->var + "#lib").c_str(), RTLD_LAZY);
+
 		if(!con)
 		{
 			throw PDvar::ErrorDelNucleo(
@@ -79,6 +97,7 @@ namespace BibliotecaDinamica
 		if(!fun)
 		{
 			dlclose(con);
+
 			throw PDvar::ErrorDelNucleo(
 				"Error en "
 				+ this->ObtenerClave()
@@ -89,6 +108,7 @@ namespace BibliotecaDinamica
 				+ "'"
 			);
 		}
+
 		try
 		{
 			(*fun)(&data, this->param);
@@ -113,9 +133,11 @@ namespace BibliotecaDinamica
 		//~~~~
 	}
 
-	void PseudoLlamarOO::LeerParametros(std::istream& in)
+	void PseudoLlamarOO::LeerParametros(pseudod::Tokenizador& in)
 	{
-		if(!(in >> this->var))
+		pseudod::Token var, p;
+
+		if(!(in >> var))
 		{
 			throw PDvar::ErrorDeSintaxis(
 				"Error en "
@@ -124,18 +146,31 @@ namespace BibliotecaDinamica
 				+ this->ObtenerClave()
 				+ " inst args... FIN': EOF inesperado"
 			);
-			return;
 		}
-		PDCadena p = "";
-		while((in >> p) && (p != "#(Final)."))
+
+		if(!Tokens::EsIdentificador(var))
 		{
-			param.push_back(p);
+			throw PDvar::ErrorDeSintaxis(
+				"Error en "
+				+ this->ObtenerClave()
+				+ ": '"
+				+ this->ObtenerClave()
+				+ " inst args... FIN': 'inst' no es un identificador"
+			);
+		}
+
+		this->var = Tokens::ObtenerValor(var);
+
+		while((in >> p) && (!Tokens::EsNMemonico(p)))
+		{
+			param.push_back(Tokens::ObtenerValor(p));
 		}
 	}
 
 	void PseudoLlamarOO::InscribirInstancia(PDvar::PDDatos* data)
 	{
 		void* con = dlopen(data->ObtenerVariable(this->var + "#lib").c_str(), RTLD_LAZY);
+
 		if(!con)
 		{
 			throw PDvar::ErrorDelNucleo(
@@ -148,8 +183,10 @@ namespace BibliotecaDinamica
 				+ "'"
 			);
 		}
+
 		typedef PDvar::Din::ModuloDinamico* (*pdini_t)(void);
 		typedef void (*pdend_t)(PDvar::Din::ModuloDinamico*);
+
 		PDvar::Din::ModuloDinamico* mod;
 
 		pdini_t obtener = NULL;
@@ -160,6 +197,7 @@ namespace BibliotecaDinamica
 		if((obtener == NULL) || (liberar == NULL))
 		{
 			dlclose(con);
+
 			throw PDvar::ErrorDelNucleo(
 				"Error en "
 				+ this->ObtenerClave()

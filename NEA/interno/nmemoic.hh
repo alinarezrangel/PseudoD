@@ -96,11 +96,13 @@ namespace pseudod
 				PD_LEER, // leer
 				PD_UTILIZAR, // utilizar
 				PD_LLAMAR, // llamar
+				PD_SEPARADOR_DE_ARGUMENTOS, // y/e/o/u
 				PD_CON, // con|de
 				PD_FUNCION, // funcion
 				PD_FIN_FUNCION, // finfun
 				PD_FIN_SI, // fin
 				PD_FIN_BUCLE, // finbucle
+				PD_FIN_CLASE, // finclase
 				PD_EMPUJAR, // empujar/devolver/enviar_parametro
 				PD_SACAR, // sacar/recibir_parametro/recibir_resultado
 				PD_USAR_PILA, // usar_pila
@@ -116,6 +118,21 @@ namespace pseudod
 				PD_INTENTA, // intenta
 				PD_ATRAPA_ERROR, // error
 				PD_FIN_INTENTA, // finintenta
+				PD_IMPLEMENTAR, // clase X implementa Y
+				PD_CLASE_ATRIBUTO, // atributo X
+				PD_CLASE_METODO, // metodo X
+				PD_CLASE_PUNTERO, // puntero X
+				PD_FIN_ARGUMENTOS, // #(Final).|finargs
+				PD_COMPARAR_IGUAL, // =/==
+				PD_COMPARAR_MENOR, // <
+				PD_COMPARAR_MENOR_O_IGUAL, // <=
+				PD_COMPARAR_MAYOR, // >
+				PD_COMPARAR_MAYOR_O_IGUAL, // >=
+				PD_COMPARAR_DISTINTO, // <>, !=
+				PD_COMPARAR_MINIMO, // <?
+				PD_COMPARAR_MAXIMO, //?>
+				PD_OPERADOR_ES, // es
+				PD_CLASE_ABSTRACTA, // abstracta
 				PD_NEA, // Importar.X.Y
 				PD_ALIAS, // Aliases
 				PD_OTRO // ???
@@ -207,6 +224,12 @@ namespace pseudod
 			*/
 			NMemonico& operator=(const NMemonico& otro); // Fijar desde otro
 			/**
+			* @brief Mueve desde otro nmemonico.
+			* Mueve todos los datos desde el otro nmemonico hasta este.
+			* @param otro NMemonico a mover.
+			*/
+			NMemonico& operator=(NMemonico&& otro); // Mover desde otro
+			/**
 			* @brief Asigna otra palabra.
 			* Cambia la palabra actual a la especificada.
 			* @param otro Nueva palabra del nmemonico.
@@ -246,14 +269,14 @@ namespace pseudod
 			iterator;
 		iterator begin;
 		iterator end;
+		iterator rlend;
 		PDCadena original;
+		bool matched;
 
 		operator PDCadena(void);
 
-		bool operator==(NMemonico otro);
-		bool operator!=(NMemonico otro);
-		bool operator==(NMemonico::Palabra otro);
-		bool operator!=(NMemonico::Palabra otro);
+		bool operator==(NMemonicoProxy otro) const;
+		bool operator!=(NMemonicoProxy otro) const;
 		bool operator==(NMemonico otro) const;
 		bool operator!=(NMemonico otro) const;
 		bool operator==(NMemonico::Palabra otro) const;
@@ -269,8 +292,29 @@ namespace pseudod
 	* sobre el proxy devolverán falso.
 	*
 	* @param in Simbolo sintáctico a convertir.
+	* @return El conjunto de nmemonicos que concuerdan con la palabra.
 	*/
 	NMemonicoProxy ConvertirCadenaANMemonico(PDCadena in);
+
+	/**
+	* @brief Convierte un memonico a un conjunto de nmemonicos.
+	* El conjunto contendrá únicamente este nmemonico.
+	*
+	* Equivalente a `ConvertirPalabraAProxy(mem.ObtenerValor())`.
+	*
+	* @param mem El nmemonico a convertir.
+	* @return El conjunto de nmemonicos que contiene al nmemonico dado.
+	*/
+	NMemonicoProxy ConvertirNMemonicoAProxy(NMemonico mem);
+
+	/**
+	* @brief Convierte una palabra a un conjunto de nmemonicos.
+	* El conjunto contendrá únicamente esta palabra.
+	*
+	* @param mem La palabra a convertir.
+	* @return El conjunto de nmemonicos que contiene a la palabra dada.
+	*/
+	NMemonicoProxy ConvertirPalabraAProxy(NMemonico::Palabra pal);
 
 	std::istream& operator>>(std::istream& in, NMemonicoProxy& res);
 	std::ostream& operator<<(std::ostream& out, NMemonico res);

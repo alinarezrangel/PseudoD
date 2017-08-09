@@ -28,7 +28,7 @@ limitations under the License.
 #include <vector>
 #include <stack>
 #include <string>
-#include <cstring>
+#include <locale>
 #include <cstdio>
 #include <algorithm>
 #include <cctype>
@@ -38,7 +38,11 @@ limitations under the License.
 
 //#include "pseudod.hh"
 //#include "NEA/PDData.hh"
+
 #include "NEA/interno/data.hh"
+#include "NEA/interno/token.hh"
+#include "NEA/interno/tokenizer.hh"
+
 #include "interprete.hh"
 
 using namespace std;
@@ -48,13 +52,23 @@ int main (int argc, char* argv[])
 	bool interactivo = false;
 	string bepd = "", nea = "", op = "", mn = "", err = "", ord ="";
 	string prgNom = argv[0];
+
+	// Obtener la localizacion cultural del usuario y fijarla como la
+	// predeterminada a nivel global: las funciones que mas uso hacen de
+	// este cambio son pseudod::Tokenizador (para leer los archivos) y
+	// pseudod::procesar (para escribir al flujo de salida estandar).
+	std::locale userlocale("");
+	std::locale::global(userlocale);
+
 	if(argc == 1)
 	{
 		cerr << "Error argumentos insuficientes" << endl;
 		cerr << "Pruebe con " << prgNom << " --help para ayuda" << endl;
 		return 1;
 	}
+
 	op = argv[1];
+
 	if((op == "-h") || (op == "--help"))
 	{
 		cout << prgNom << "  -  El interprete de PseudoD" << endl;
@@ -71,28 +85,34 @@ int main (int argc, char* argv[])
 		cout << "Creado por Alejandro Linarez Rangel" << endl;
 		return 0;
 	}
+
 	if((op == "-v") || (op == "--version"))
 	{
 		cout << "PseudoD " << PSEUDOD_VERSION << endl;
 		return 0;
 	}
+
 	if(argc < 4)
 	{
 		cerr << "Error argumentos insuficientes" << endl;
 		cerr << "Pruebe con " << prgNom << " --help para ayuda" << endl;
 		return 1;
 	}
+
 	bepd = argv[2];
 	nea = argv[3];
 	mn = op;
+
 	if((bepd == "--") || (bepd == "-d"))
 	{
 		bepd = "/opt/pseudod/bepd/";
 	}
+
 	if((nea == "--") || (nea == "-d"))
 	{
 		nea = "/usr/lib/libpseudod.so";
 	}
+
 	if(op == "-i")
 	{
 		interactivo = true;
@@ -102,7 +122,9 @@ int main (int argc, char* argv[])
 		cout << ">>> ";
 		mn = "nulo";
 	}
+
 	err = pseudod::iniciar(nea,bepd,mn);
+
 	if(err != "Ok")
 	{
 		cerr << "La creacion del interprete dio un error:" << endl;
@@ -110,11 +132,12 @@ int main (int argc, char* argv[])
 		cerr << "Abortando..." << endl;
 		return 1;
 	}
+
 	try
 	{
 		if(interactivo)
 		{
-			while((pseudod::Ejecutar)&&(cin))
+			while((pseudod::Ejecutar) && (cin))
 			{
 				char l1 = ' ';
 				char l2 = ' ';
@@ -130,9 +153,14 @@ int main (int argc, char* argv[])
 					buff += l2;
 				}
 				buff += l1;
+
 				try
 				{
-					pseudod::ejecutar(buff);
+					istringstream in(buff);
+
+					in.imbue(std::locale());
+
+					pseudod::ejecutar(in);
 				}
 				catch(const PDvar::Error& e)
 				{
@@ -150,6 +178,7 @@ int main (int argc, char* argv[])
 					{
 						cerr << "Error " << e.what() << endl;
 					}
+
 					cerr << "En " << pseudod::DATOS_INT.ObtenerVariable("__ARCH__") << endl;
 				}
 				catch(string e)
@@ -163,13 +192,18 @@ int main (int argc, char* argv[])
 					cerr << "En " << pseudod::DATOS_INT.ObtenerVariable("__ARCH__") << endl;
 					cerr << "Error no identificado!" << endl;
 				}
+
 				cout << endl << ">>> " << flush;
 			}
+
 			cout << "Adios!" << endl;
 		}
 		else
 		{
 			ifstream in(mn.c_str());
+
+			in.imbue(std::locale());
+
 			pseudod::ejecutar(in);
 		}
 	}
@@ -189,6 +223,7 @@ int main (int argc, char* argv[])
 		{
 			cerr << "Error " << e.what() << endl;
 		}
+
 		cerr << "En " << pseudod::DATOS_INT.ObtenerVariable("__ARCH__") << endl;
 	}
 	catch(string e)
@@ -202,5 +237,59 @@ int main (int argc, char* argv[])
 		cerr << "En " << pseudod::DATOS_INT.ObtenerVariable("__ARCH__") << endl;
 		cerr << "Error no identificado!" << endl;
 	}
+
 	return pseudod::terminar();
+
+	/*
+
+	std::ifstream e("./tests/col-tokenizador/test1.pd");
+
+	pseudod::Tokenizador tk;
+
+	try
+	{
+		tk.TokenizarFlujo(e, pseudod::Tokenizador::Reemplazar);
+	}
+	catch(PDvar::ErrorDeSintaxis err)
+	{
+		std::cerr << "Error: " << err.Mensaje() << std::endl;
+		return 0;
+	}
+
+	while(!tk.FinDelFlujo())
+	{
+		pseudod::Token tok;
+
+		tk >> tok;
+
+		if(tok.ObtenerTipo() == pseudod::Token::Literal)
+		{
+			std::cout << "Valor literal {" << tok.ObtenerValorLiteral().valor << "}" << std::endl;
+
+			switch(tok.ObtenerValorLiteral().tipo)
+			{
+				case pseudod::Token::ValorLiteral::Cadena:
+					std::cout << "Valor Literal del tipo cadena" << std::endl;
+					break;
+				case pseudod::Token::ValorLiteral::Comentario:
+					std::cout << "Valor Literal del tipo comentario" << std::endl;
+					break;
+				case pseudod::Token::ValorLiteral::Identificador:
+					std::cout << "Valor Literal del tipo identificador" << std::endl;
+					break;
+				case pseudod::Token::ValorLiteral::CuerpoDeCodigo:
+					std::cout << "Valor Literal del tipo cuerpo de codigo" << std::endl;
+					break;
+			}
+		}
+
+		if(tok.ObtenerTipo() == pseudod::Token::NMemonico)
+		{
+			std::cout << "NMemonico {" << tok.ObtenerNMemonico().original << "}" << std::endl;
+		}
+	}
+
+	*/
+
+	return 0;
 }

@@ -194,7 +194,7 @@ y la biblioteca de algoritmos (BEPD AG).
 
 Es el reemplazo de `algor.pseudo`, `tipos.pseudo` y `clases.pseudo`.
 
-                           Biblioteca Mateḿatica
+                           Biblioteca Matemática
                                 (BEPD MT)
 
 Esta biblioteca define todas las funciones matemáticas de PseudoD. Las

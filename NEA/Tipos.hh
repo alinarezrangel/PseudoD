@@ -37,6 +37,10 @@ limitations under the License.
 #include <type_traits>
 #include <functional>
 
+#include "interno/data.hh"
+#include "interno/nmemoic.hh"
+#include "interno/token.hh"
+#include "interno/tokenizer.hh"
 #include "PDData.hh"
 
 /******************************************************************************/
@@ -71,7 +75,7 @@ namespace PDTipos
 			* @brief Lee los parametros del flujo in como instancias.
 			* @param in Flujo del cual se leeran los datos
 			*/
-			virtual void LeerParametros(std::istream& in);
+			virtual void LeerParametros(pseudod::Tokenizador& in);
 		protected:
 			/**
 			* @brief Fija la clave de la orden y el paquete
@@ -131,42 +135,46 @@ namespace PDTipos
 			* @biref Lee los parametros necesarios para crear el nuevo Array.
 			* @param in Flujo del que se leen los parametros
 			*/
-			void LeerParametros(std::istream& in);
+			void LeerParametros(pseudod::Tokenizador& in);
 		private:
 			int cant;
 			PDCadena nm;
 	};
 
 	/**
-	* @brief Tipo del lenguaje, representa una estructura.
+	* @brief Clase del lenguaje.
 	*
-	* Nota: No confundir, es solo para PseudoD no es una estructura de C++.
+	* Nota: No confundir, no es un array para C++ es solo para uso de PseudoD.
 	*/
 	class PseudoClase : virtual public PDInstancia
 	{
 		public:
 			/**
-			* @brief Inicializador.
+			* @brief Crea una clase.
 			*
-			* Crea una instancia que sirve para crear una estructura en PseudoD
-			* @param a nombre de la clase
-			* @param b campos de la dicha clase
+			* @param nm Nombre de la clase.
+			* @param base Nombre de la clase base.
+			* @param mt Todos sus atributos o metodos.
 			*/
-			PseudoClase(PDCadena a = "____", PDCadena base = "", std::vector<PDCadena> b = std::vector<PDCadena>());
+			PseudoClase(
+				PDCadena nm = "____",
+				PDCadena base = "",
+				std::vector<PDCadena> mt = std::vector<PDCadena>()
+			);
 			/**
-			* @brief Destruye la dicha instancia
+			* @brief destruye este objeto.
 			*/
 			virtual ~PseudoClase(void);
 			/**
-			* @brief Guarda la instancia en memoria del interprete.
-			* @param data Puntero a la memoria del interprete.
+			* @brief Guarda la nueva clase en la memoria del interprete.
+			* @param data Puntero a la memoria del interprete
 			*/
 			void InscribirInstancia(PDvar::PDDatos* data);
 			/**
-			* @brief Lee los parametros necesarios.
-			* @param in Flujo donde estan los parametros.
+			* @biref Lee los parametros necesarios para crear la nueva clase.
+			* @param in Flujo del que se leen los parametros
 			*/
-			void LeerParametros(std::istream& in);
+			void LeerParametros(pseudod::Tokenizador& in);
 		private:
 			PDCadena nm;
 			PDCadena base;
@@ -184,7 +192,9 @@ namespace PDTipos
 			/**
 			* @brief Inicializador
 			*
-			* Crea una instancia que sirve para crear una instancia de una clase ya existente
+			* Crea una instancia que sirve para crear una instancia de una clase ya
+			* existente.
+			*
 			* @param a nombre de la clase a instanciar
 			* @param b nombre de la instancia
 			*/
@@ -193,6 +203,7 @@ namespace PDTipos
 			* @brief Destructor
 			*/
 			virtual ~PseudoReferenciaClase(void);
+
 			/**
 			* @brief Guarda la instancia actual en la memoria tipo interprete
 			* @param data Memoria tipo interprete
@@ -201,7 +212,7 @@ namespace PDTipos
 			/**
 			* @brief Lee los parametros necesarios para crear la instancia
 			*/
-			void LeerParametros(std::istream& in);
+			void LeerParametros(pseudod::Tokenizador& in);
 		private:
 			PDCadena nm;
 			PDCadena ni;
@@ -221,21 +232,22 @@ namespace PDTipos
 			*
 			* Crea una instancia que sirve para visualizar los datos de memoria
 			*/
-			PseudoDebug(void) : PDInstancia() {this->FijarClave("debug", "PseudoD");}
+			PseudoDebug(void) : PDInstancia()
+			{
+				this->FijarClave("debug", "PseudoD");
+			}
 			/**
 			* @brief Destructor
 			*/
 			virtual ~PseudoDebug(void) {}
+
 			/**
-			* @brief Lee y visualiza la memoria del interprete.
+			* @brief Inicia el depurador del interprete.
 			*
-			* Al visualizarla, la muestra como en arreglos de la forma ["valor","valor"] numerovalores. Visualiza casi todos los datos como:
-			*
-			* Nombres de las variables.
-			* Valores de las variables.
-			* Nombres de los punteros.
-			* Valores de los puntero y variables a las que apuntan.
-			* Los contenidos de las pilas .
+			* Desde el depurador, se puede manipular la memoria del interprete desde
+			* la línea de comandos. Esto es muy útil mientras se busca una falla en
+			* algún programa, sin embargo, es realmente importante quitar cualquier
+			* aparición de esta instrucción cuando el programa pase a producción.
 			*
 			* @param data memoria del interprete
 			*/
@@ -254,16 +266,21 @@ namespace PDTipos
 			* @param b nombre de la estructura
 			* @param c cantidad de elementos
 			*/
-			PseudoArrayEstructura(PDCadena a = "____", PDCadena b = "____", int c = 0);
+			PseudoArrayEstructura(
+				PDCadena a = "____",
+				PDCadena b = "____",
+				int c = 0
+			);
 			/**
 			* @brief Destructor
 			*/
 			virtual ~PseudoArrayEstructura(void);
+
 			/**
 			* @brief Lee los parametros para ejecutar la orden
 			* @param in Flujo donde estan los parametros
 			*/
-			void LeerParametros(std::istream& in);
+			void LeerParametros(pseudod::Tokenizador& in);
 			/**
 			* @brief Actua sobre la memoria creando el array dentro de la estructura
 			* @param data memoria del interprete
@@ -290,11 +307,12 @@ namespace PDTipos
 			* @brief Destructor
 			*/
 			virtual ~PseudoBorrarVariable(void);
+
 			/**
 			* @brief Lee los parametros necesarios para ejecutar la orden
 			* @param in Flujo donde estan los parametros
 			*/
-			void LeerParametros(std::istream& in);
+			void LeerParametros(pseudod::Tokenizador& in);
 			/**
 			* @brief actua sobre la memoria incapacitando el uso de la variable
 			* @param data Memoria del interprete
@@ -320,11 +338,12 @@ namespace PDTipos
 			* @brief Destructor
 			*/
 			virtual ~PseudoHerencia(void);
+
 			/**
 			* @brief Lee los parametros necesarios
 			* @param in Flujo con los parametros
 			*/
-			void LeerParametros(std::istream& in);
+			void LeerParametros(pseudod::Tokenizador& in);
 			/**
 			* @brief Hereda las clases actuando sobre memoria del interprete
 			* @param data Memoria del interprete
@@ -352,11 +371,12 @@ namespace PDTipos
 			* @brief destructor
 			*/
 			virtual ~PseudoDireccionarPuntero(void);
+
 			/**
 			* @brief Lee los parametros necesarios
 			* @param in Flujo con los parametros
 			*/
-			void LeerParametros(std::istream& in);
+			void LeerParametros(pseudod::Tokenizador& in);
 			/**
 			* @brief Hereda las clases actuando sobre memoria del interprete
 			* @param data Memoria del interprete
@@ -365,40 +385,6 @@ namespace PDTipos
 		private:
 			PDCadena nmp;
 			PDCadena nmv;
-	};
-
-	/**
-	* @brief Representa el bucle mientras, pero pide una meta-funcion en vez de un cuerpo
-	* Es solo para PseudoD no C++
-	*/
-	class PseudoMientras : virtual public PDInstancia
-	{
-		public:
-			/**
-			* @brief Inicializador
-			* @param a token inicial de la expresion.
-			* @param o resto de la expresion.
-			* @param b cuerpo a ejecutar.
-			*/
-			PseudoMientras(PDCadena b = "____", PDCadena o = "____", PDCadena f = "____");
-			/**
-			* @brief destructor
-			*/
-			virtual ~PseudoMientras(void);
-			/**
-			* @brief Lee los parametros necesarios
-			* @param in Flujo con los parametros
-			*/
-			void LeerParametros(std::istream& in);
-			/**
-			* @brief Hereda las clases actuando sobre memoria del interprete
-			* @param data Memoria del interprete
-			*/
-			void InscribirInstancia(PDvar::PDDatos* data);
-		private:
-			PDCadena nmv;
-			PDCadena func;
-			PDCadena orden;
 	};
 
 	/**
@@ -415,16 +401,22 @@ namespace PDTipos
 			* @param c nombre del campo
 			* @param d 1 para un puntero y 0 para un campo estatico
 			*/
-			PseudoClaseContenida(PDCadena a = "____", PDCadena b = "____", PDCadena c = "____", bool d = false);
+			PseudoClaseContenida(
+				PDCadena a = "____",
+				PDCadena b = "____",
+				PDCadena c = "____",
+				bool d = false
+			);
 			/**
 			* @brief destructor
 			*/
 			virtual ~PseudoClaseContenida(void);
+
 			/**
 			* @brief Lee los parametros necesarios
 			* @param in Flujo con los parametros
 			*/
-			void LeerParametros(std::istream& in);
+			void LeerParametros(pseudod::Tokenizador& in);
 			/**
 			* @brief Hereda las clases actuando sobre memoria del interprete
 			* @param data Memoria del interprete
@@ -453,11 +445,12 @@ namespace PDTipos
 			* @brief destructor
 			*/
 			virtual ~PseudoBorrarInteligente(void);
+
 			/**
 			* @brief Lee los parametros necesarios
 			* @param in Flujo con los parametros
 			*/
-			void LeerParametros(std::istream& in);
+			void LeerParametros(pseudod::Tokenizador& in);
 			/**
 			* @brief Hereda las clases actuando sobre memoria del interprete
 			* @param data Memoria del interprete

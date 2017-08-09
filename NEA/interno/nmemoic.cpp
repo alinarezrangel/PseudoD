@@ -33,6 +33,9 @@ static std::multimap<PDCadena, pseudod::NMemonico::Palabra> ConversorS2P =
 	{"clase", pseudod::NMemonico::PD_CLASE},
 	{"estructura", pseudod::NMemonico::PD_CLASE},
 	{"heredar", pseudod::NMemonico::PD_HEREDAR},
+	{"hereda", pseudod::NMemonico::PD_HEREDAR},
+	{"extiende", pseudod::NMemonico::PD_HEREDAR},
+	{"implementa", pseudod::NMemonico::PD_IMPLEMENTAR},
 	{"redireccionar", pseudod::NMemonico::PD_REDIRECCIONAR},
 	{"mientras", pseudod::NMemonico::PD_MIENTRAS},
 	{"incrementar_p", pseudod::NMemonico::PD_INCREMENTAR_PUNTERO},
@@ -69,6 +72,11 @@ static std::multimap<PDCadena, pseudod::NMemonico::Palabra> ConversorS2P =
 	{"leer", pseudod::NMemonico::PD_LEER},
 	{"utilizar", pseudod::NMemonico::PD_UTILIZAR},
 	{"llamar", pseudod::NMemonico::PD_LLAMAR},
+	{"y", pseudod::NMemonico::PD_SEPARADOR_DE_ARGUMENTOS},
+	{"e", pseudod::NMemonico::PD_SEPARADOR_DE_ARGUMENTOS},
+	{"o", pseudod::NMemonico::PD_SEPARADOR_DE_ARGUMENTOS},
+	{"u", pseudod::NMemonico::PD_SEPARADOR_DE_ARGUMENTOS},
+	{",", pseudod::NMemonico::PD_SEPARADOR_DE_ARGUMENTOS},
 	{"de", pseudod::NMemonico::PD_CON},
 	{"con", pseudod::NMemonico::PD_CON},
 	{"funcion", pseudod::NMemonico::PD_FUNCION},
@@ -76,8 +84,12 @@ static std::multimap<PDCadena, pseudod::NMemonico::Palabra> ConversorS2P =
 	{"metodo", pseudod::NMemonico::PD_FUNCION},
 	{"finfun", pseudod::NMemonico::PD_FIN_FUNCION},
 	{"finfuncion", pseudod::NMemonico::PD_FIN_FUNCION},
+	{"finmetodo", pseudod::NMemonico::PD_FIN_FUNCION},
+	{"finprocedimiento", pseudod::NMemonico::PD_FIN_FUNCION},
 	{"fin", pseudod::NMemonico::PD_FIN_SI},
+	{"finsi", pseudod::NMemonico::PD_FIN_SI},
 	{"finbucle", pseudod::NMemonico::PD_FIN_BUCLE},
+	{"finmientras", pseudod::NMemonico::PD_FIN_BUCLE},
 	{"empujar", pseudod::NMemonico::PD_EMPUJAR},
 	{"devolver", pseudod::NMemonico::PD_EMPUJAR},
 	{"enviar_parametro", pseudod::NMemonico::PD_EMPUJAR},
@@ -93,15 +105,41 @@ static std::multimap<PDCadena, pseudod::NMemonico::Palabra> ConversorS2P =
 	{"comparar_i", pseudod::NMemonico::PD_SON_IGUALES},
 	{"¿son_iguales?", pseudod::NMemonico::PD_SON_IGUALES},
 	{"escribir_esp", pseudod::NMemonico::PD_ESCRIBIR_ESPACIO},
-	{"[", pseudod::NMemonico::PD_COMENTARIO},
-	{"]", pseudod::NMemonico::PD_COMENTARIO},
 	{"sal", pseudod::NMemonico::PD_SALIR},
 	{"salir", pseudod::NMemonico::PD_SALIR},
 	{"intenta", pseudod::NMemonico::PD_INTENTA},
 	{"atrapar", pseudod::NMemonico::PD_ATRAPA_ERROR},
-	{"finintenta", pseudod::NMemonico::PD_FIN_INTENTA}
+	{"finintenta", pseudod::NMemonico::PD_FIN_INTENTA},
+	{"atributo", pseudod::NMemonico::PD_CLASE_ATRIBUTO},
+	{"puntero", pseudod::NMemonico::PD_CLASE_PUNTERO},
+	{"metodo", pseudod::NMemonico::PD_CLASE_METODO},
+	{"finargs", pseudod::NMemonico::PD_FIN_ARGUMENTOS},
+	{"#(Final).", pseudod::NMemonico::PD_FIN_ARGUMENTOS},
+	{"finclase", pseudod::NMemonico::PD_FIN_CLASE},
+	{"abstracta", pseudod::NMemonico::PD_CLASE_ABSTRACTA},
+	{"( NEA )", pseudod::NMemonico::PD_NEA},
+	//{"menor", pseudod::NMemonico::PD_COMPARAR_MENOR},
+	{"<", pseudod::NMemonico::PD_COMPARAR_MENOR},
+	//{"menor_o_igual", pseudod::NMemonico::PD_COMPARAR_MENOR_O_IGUAL},
+	//{"menoroigual", pseudod::NMemonico::PD_COMPARAR_MENOR_O_IGUAL},
+	{"<=", pseudod::NMemonico::PD_COMPARAR_MENOR_O_IGUAL},
+	//{"mayor", pseudod::NMemonico::PD_COMPARAR_MAYOR},
+	{">", pseudod::NMemonico::PD_COMPARAR_MAYOR},
+	//{"mayor_o_igual", pseudod::NMemonico::PD_COMPARAR_MAYOR_O_IGUAL},
+	//{"mayoroigual", pseudod::NMemonico::PD_COMPARAR_MAYOR_O_IGUAL},
+	{">=", pseudod::NMemonico::PD_COMPARAR_MAYOR_O_IGUAL},
+	//{"igual", pseudod::NMemonico::PD_COMPARAR_IGUAL},
+	{"=", pseudod::NMemonico::PD_COMPARAR_IGUAL},
+	{"==", pseudod::NMemonico::PD_COMPARAR_IGUAL},
+	//{"distinto", pseudod::NMemonico::PD_COMPARAR_DISTINTO},
+	{"<>", pseudod::NMemonico::PD_COMPARAR_DISTINTO},
+	{"!=", pseudod::NMemonico::PD_COMPARAR_DISTINTO},
+	{"<?", pseudod::NMemonico::PD_COMPARAR_MINIMO},
+	{"?>", pseudod::NMemonico::PD_COMPARAR_MAXIMO},
+	{"es", pseudod::NMemonico::PD_OPERADOR_ES}
 };
-static std::multimap<pseudod::NMemonico::Palabra, std::string> ConversorP2S;
+
+static std::multimap<pseudod::NMemonico::Palabra, PDCadena> ConversorP2S;
 static bool CreadoConversor = false;
 
 static inline void IntentaCrearConversor(void)
@@ -179,6 +217,12 @@ namespace pseudod
 		this->valor = otro;
 		return *this;
 	}
+	NMemonico& NMemonico::operator=(NMemonico&& otro)
+	{
+		this->valor = otro.valor;
+		otro.valor = NMemonico::PD_OTRO;
+		return *this;
+	}
 	// Obtener valor:
 	NMemonico::Palabra& NMemonico::ObtenerValor(void)
 	{
@@ -194,41 +238,36 @@ namespace pseudod
 	{
 		return this->original;
 	}
-	bool NMemonicoProxy::operator==(NMemonico otro)
+	bool NMemonicoProxy::operator==(NMemonicoProxy otro) const
 	{
+		if(!this->matched)
+		{
+			return false;
+		}
+
 		NMemonicoProxy::iterator iter;
+
 		for(iter = this->begin; iter != this->end; iter++)
 		{
-			if(iter->second == otro.ObtenerValor())
+			if(otro == iter->second)
 			{
 				return true;
 			}
 		}
+
 		return false;
 	}
-	bool NMemonicoProxy::operator!=(NMemonico otro)
+	bool NMemonicoProxy::operator!=(NMemonicoProxy otro) const
 	{
 		return !(*this == otro);
 	}
-	bool NMemonicoProxy::operator==(NMemonico::Palabra otro)
-	{
-		NMemonicoProxy::iterator iter;
-		for(iter = this->begin; iter != this->end; iter++)
-		{
-			if(iter->second == otro)
-			{
-				return true;
-			}
-		}
-		return false;
-	}
-	bool NMemonicoProxy::operator!=(NMemonico::Palabra otro)
-	{
-		return !(*this == otro);
-	}
-	// Comparaciones constantes:
 	bool NMemonicoProxy::operator==(NMemonico otro) const
 	{
+		if(!this->matched)
+		{
+			return false;
+		}
+
 		NMemonicoProxy::iterator iter;
 		for(iter = this->begin; iter != this->end; iter++)
 		{
@@ -245,6 +284,11 @@ namespace pseudod
 	}
 	bool NMemonicoProxy::operator==(NMemonico::Palabra otro) const
 	{
+		if(!this->matched)
+		{
+			return false;
+		}
+
 		NMemonicoProxy::iterator iter;
 		for(iter = this->begin; iter != this->end; iter++)
 		{
@@ -278,11 +322,50 @@ namespace pseudod
 		// > y cuya diferencia es únicamente semantica y no sintáctica.
 		// Por ello, debemos devolver todos los posibles nmemonicos y
 		// que el parser compare si entre ellos está el que busca.
+
+		// Note que debido a la naturaleza dinámica del NEA, todas las palabras
+		// que comiencen por Importar serán tratadas como instrucciones del NEA.
+
+		PDCadena imp = "Importar.";
+
 		NMemonicoProxy proxy;
+
 		proxy.original = in;
+		proxy.rlend = ConversorS2P.end();
 		proxy.begin = values.first;
 		proxy.end = values.second;
+
+		if((in.size() > imp.size()) && (in.find(imp.c_str()) == 0))
+		{
+			values = ConversorS2P.equal_range("( NEA )");
+
+			proxy.begin = values.first;
+			proxy.end = values.second;
+			proxy.matched = true;
+
+			return proxy;
+		}
+
+		proxy.matched = (ConversorS2P.count(in) > 0);
+
 		return proxy;
+	}
+
+	NMemonicoProxy ConvertirNMemonicoAProxy(NMemonico mem)
+	{
+		return ConvertirPalabraAProxy(mem.ObtenerValor());
+	}
+
+	NMemonicoProxy ConvertirPalabraAProxy(NMemonico::Palabra pal)
+	{
+		// Esta **garantizado** que no importa cual valor devuelva
+		// ConversorP2S.find(pal), el resultado de
+		// ConvertirCadenaANMemonico(ConversorP2S.find(pal)) **siempre**
+		// será igual a pal.
+
+		IntentaCrearConversor();
+
+		return ConvertirCadenaANMemonico(ConversorP2S.find(pal)->second);
 	}
 
 	std::istream& operator>>(std::istream& in, NMemonicoProxy& res)

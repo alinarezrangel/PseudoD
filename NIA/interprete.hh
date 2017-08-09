@@ -35,9 +35,10 @@ https://sourceforge.net/projects/pseudod/
 #include <vector>
 #include <stack>
 #include <string>
-#include <cstring>
+#include <locale>
 #include <cstdio>
 #include <algorithm>
+#include <utility>
 #include <cctype>
 #include <sstream>
 #include <exception>
@@ -45,6 +46,8 @@ https://sourceforge.net/projects/pseudod/
 
 #include "NEA/interno/data.hh"
 #include "NEA/interno/nmemoic.hh"
+#include "NEA/interno/token.hh"
+#include "NEA/interno/tokenizer.hh"
 #include "NEA/PDData.hh"
 
 namespace pseudod
@@ -57,7 +60,7 @@ namespace pseudod
 		std::vector<std::stack<PDCadena>>&,
 		PDFuncionNIA
 	);
-	typedef void (*ejec_nea)(PDCadena, std::istream&);
+	typedef void (*ejec_nea)(pseudod::Token, pseudod::Tokenizador&);
 	typedef void (*liber_nea)(void);
 
 	extern bool Ejecutar;
@@ -69,8 +72,12 @@ namespace pseudod
 	extern void* coneccion_nea;
 
 	void procesar(
-		PDCadena,
-		std::istream&,
+		Tokenizador&,
+		PDFuncionNEA
+	);
+	void procesar(
+		Token,
+		Tokenizador&,
 		PDFuncionNEA
 	);
 	PDCadena iniciar(

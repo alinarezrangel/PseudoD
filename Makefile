@@ -40,13 +40,19 @@ nea_interno_data.o: $(NEAPATH)/interno/data.cpp $(NEAPATH)/interno/data.hh
 nea_pddata.o: $(NEAPATH)/PDData.cpp $(NEAPATH)/PDData.hh
 	$(CXX) $(COPT) $(DEBUG) $(CPPLANG) $(OPT) $(CFLAGS) $< $(LIBS) -o $@
 
-nia_nmemonic.o: $(NEAPATH)/interno/nmemoic.cpp $(NEAPATH)/interno/nmemoic.hh
+nia_interno_nmemonic.o: $(NEAPATH)/interno/nmemoic.cpp $(NEAPATH)/interno/nmemoic.hh
+	$(CXX) $(COPT) $(DEBUG) $(CPPLANG) $(OPT) $(CFLAGS) $< $(LIBS) -o $@
+
+nia_interno_token.o: $(NEAPATH)/interno/token.cpp $(NEAPATH)/interno/token.hh
+	$(CXX) $(COPT) $(DEBUG) $(CPPLANG) $(OPT) $(CFLAGS) $< $(LIBS) -o $@
+
+nia_interno_tokenizer.o: $(NEAPATH)/interno/tokenizer.cpp $(NEAPATH)/interno/tokenizer.hh
 	$(CXX) $(COPT) $(DEBUG) $(CPPLANG) $(OPT) $(CFLAGS) $< $(LIBS) -o $@
 
 nia_interprete.o: $(NIAPATH)/interprete.cpp $(NIAPATH)/interprete.hh
 	$(CXX) $(COPT) $(DEBUG) $(CPPLANG) $(OPT) $(CFLAGS) $< $(LIBS) -o $@
 
-libpseudodsrc.a: nea_pddata.o nia_nmemonic.o nia_interprete.o nea_interno_data.o
+libpseudodsrc.a: nea_pddata.o nia_interno_nmemonic.o nia_interprete.o nea_interno_data.o nia_interno_token.o nia_interno_tokenizer.o
 	ar -cvr $@ $^
 
 libpseudod.so: $(NIAPATH)/pseudod.cpp $(NIAPATH)/pseudod.hh $(NIAPATH)/codefile.cpp $(NIAPATH)/definitionfile.cpp $(NIAPATH)/includefile.hh $(NIAPATH)/includefilelib.hh libpseudodsrc.a
@@ -56,7 +62,7 @@ PseudoD: $(NIAPATH)/Main.cpp libpseudodsrc.a
 	$(CXX) $(DEBUG) $(CPPLANG) $(OPT) $(CFLAGS) $< libpseudodsrc.a $(LIBS) -o $@
 
 clean:
-	rm nea_interno_data.o nea_pddata.o nia_nmemonic.o nia_interprete.o libpseudodsrc.a libpseudod.so PseudoD
+	rm nea_interno_data.o nea_pddata.o nia_interno_nmemonic.o nia_interprete.o libpseudodsrc.a libpseudod.so PseudoD
 
 install:
 	./instalar.sh

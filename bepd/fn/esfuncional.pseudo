@@ -70,7 +70,7 @@ Donde:
  * `SPEC`: Es el comodin para el caracter especial.
  * `NLINE`: Es el comodin para el nueva linea (junto con `SPEC`).
  * `NLINER`: Es el comodin para el retorno de carro (junto con `SPEC`).
- * `NLINE`: Es el comodin para el nueva linea del sistema (junto con `SPEC`).
+ * `NLINERR`: Es el comodin para el nueva linea del sistema (junto con `SPEC`).
  * `NRESOLV`: Es el comodin para resolver un argumento (junto con `SPEC`)
 DOCUMENTA]
 clase DatosDeSalida hereda Objeto
@@ -98,20 +98,20 @@ Donde:
 DOCUMENTA]
 instancia DatosDeSalida DATOS_DE_IMPRIMIR
 
-fijar DATOS_DE_IMPRIMIR#MARCA =* %
-fijar DATOS_DE_IMPRIMIR#SPEC =* \
-fijar DATOS_DE_IMPRIMIR#NLINE =* n
-fijar DATOS_DE_IMPRIMIR#NLINER =* r
-fijar DATOS_DE_IMPRIMIR#NLINERR =* k
-fijar DATOS_DE_IMPRIMIR#NRESOLV =* <
+fijar DATOS_DE_IMPRIMIR#MARCA a {%}
+fijar DATOS_DE_IMPRIMIR#SPEC a {\}
+fijar DATOS_DE_IMPRIMIR#NLINE a {n}
+fijar DATOS_DE_IMPRIMIR#NLINER a {r}
+fijar DATOS_DE_IMPRIMIR#NLINERR a {k}
+fijar DATOS_DE_IMPRIMIR#NRESOLV a {<}
 empujar VG_BUFFER
-fijar VG_BUFFER =* CV
+fijar VG_BUFFER a {CV}
 Importar.Cad.Caracter_Especial VG_BUFFER DATOS_DE_IMPRIMIR#CV
 Importar.Cad.Caracter_Especial VG_BUFFER DATOS_DE_IMPRIMIR#NL
 Importar.Cad.Caracter_Especial VG_BUFFER DATOS_DE_IMPRIMIR#RC
-fijar VG_BUFFER =* NL
+fijar VG_BUFFER a {NL}
 Importar.Cad.Caracter_Especial VG_BUFFER DATOS_DE_IMPRIMIR#NL
-fijar VG_BUFFER =* RC
+fijar VG_BUFFER a {RC}
 Importar.Cad.Caracter_Especial VG_BUFFER DATOS_DE_IMPRIMIR#RC
 sacar VG_BUFFER
 

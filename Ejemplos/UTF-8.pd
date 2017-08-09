@@ -31,16 +31,15 @@ adquirir resto%de%algo
 adquirir =algo=
 adquirir !nonono
 
-[ No puedes utilizar palabras clave como identificadores, en general es el
-unico requisito en PseudoD ]
+[ No puedes utilizar palabras clave, numeros o nombres compuestos como <hola>
+como identificadores, en general es el unico requisito en PseudoD ]
 
 [ Estos tambien son validos ]
 adquirir html
 adquirir araña
 adquirir €sŧø_ŧi€n€_uŧf8
 adquirir algo(de)algo
-adquirir algo{de}algo
+adquirir algo,de,algo
 adquirir amp&amp
 adquirir "mira"esto
-adquirir 1234567890
 adquirir `mira`algo´esto´

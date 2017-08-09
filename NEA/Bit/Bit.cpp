@@ -24,6 +24,8 @@ limitations under the License.
 
 namespace Bit
 {
+	using namespace pseudod::Utilidades;
+
 	PseudoBitAnd::PseudoBitAnd(PDCadena a, PDCadena b, PDCadena r) : PDTipos::PDInstancia()
 	{
 		this->res = r;
@@ -40,9 +42,11 @@ namespace Bit
 		b = cae(data->ObtenerVariable(this->pb));
 		data->ObtenerVariable(this->res) = eas(a & b);
 	}
-	void PseudoBitAnd::LeerParametros(std::istream& in)
+	void PseudoBitAnd::LeerParametros(pseudod::Tokenizador& in)
 	{
-		if(!(in >> this->pa >> this->pb >> this->res))
+		pseudod::Token pa, pb, res;
+
+		if(!(in >> pa >> pb >> res))
 		{
 			throw PDvar::ErrorDeSintaxis(
 				"Error en "
@@ -52,6 +56,25 @@ namespace Bit
 				+ " a b res': EOF inesperado"
 			);
 		}
+
+		if(
+			(!Tokens::EsIdentificador(pa)) ||
+			(!Tokens::EsIdentificador(pb)) ||
+			(!Tokens::EsIdentificador(res))
+		)
+		{
+			throw PDvar::ErrorDeSintaxis(
+				"Error en "
+				+ this->ObtenerClave()
+				+ ": '"
+				+ this->ObtenerClave()
+				+ " a b res': Se esperaban identificadores"
+			);
+		}
+
+		this->pa = Tokens::ObtenerValor(pa);
+		this->pb = Tokens::ObtenerValor(pb);
+		this->res = Tokens::ObtenerValor(res);
 	}
 
 	PseudoBitOr::PseudoBitOr(PDCadena a, PDCadena b, PDCadena r) : PDTipos::PDInstancia()
@@ -70,9 +93,11 @@ namespace Bit
 		b = cae(data->ObtenerVariable(this->pb));
 		data->ObtenerVariable(this->res) = eas(a | b);
 	}
-	void PseudoBitOr::LeerParametros(std::istream& in)
+	void PseudoBitOr::LeerParametros(pseudod::Tokenizador& in)
 	{
-		if(!(in >> this->pa >> this->pb >> this->res))
+		pseudod::Token pa, pb, res;
+
+		if(!(in >> pa >> pb >> res))
 		{
 			throw PDvar::ErrorDeSintaxis(
 				"Error en "
@@ -82,6 +107,25 @@ namespace Bit
 				+ " a b res': EOF inesperado"
 			);
 		}
+
+		if(
+			(!Tokens::EsIdentificador(pa)) ||
+			(!Tokens::EsIdentificador(pb)) ||
+			(!Tokens::EsIdentificador(res))
+		)
+		{
+			throw PDvar::ErrorDeSintaxis(
+				"Error en "
+				+ this->ObtenerClave()
+				+ ": '"
+				+ this->ObtenerClave()
+				+ " a b res': Se esperaban identificadores"
+			);
+		}
+
+		this->pa = Tokens::ObtenerValor(pa);
+		this->pb = Tokens::ObtenerValor(pb);
+		this->res = Tokens::ObtenerValor(res);
 	}
 
 	PseudoBitXor::PseudoBitXor(PDCadena a, PDCadena b, PDCadena r) : PDTipos::PDInstancia()
@@ -100,9 +144,11 @@ namespace Bit
 		b = cae(data->ObtenerVariable(this->pb));
 		data->ObtenerVariable(this->res) = eas(a ^ b);
 	}
-	void PseudoBitXor::LeerParametros(std::istream& in)
+	void PseudoBitXor::LeerParametros(pseudod::Tokenizador& in)
 	{
-		if(!(in >> this->pa >> this->pb >> this->res))
+		pseudod::Token pa, pb, res;
+
+		if(!(in >> pa >> pb >> res))
 		{
 			throw PDvar::ErrorDeSintaxis(
 				"Error en "
@@ -112,6 +158,25 @@ namespace Bit
 				+ " a b res': EOF inesperado"
 			);
 		}
+
+		if(
+			(!Tokens::EsIdentificador(pa)) ||
+			(!Tokens::EsIdentificador(pb)) ||
+			(!Tokens::EsIdentificador(res))
+		)
+		{
+			throw PDvar::ErrorDeSintaxis(
+				"Error en "
+				+ this->ObtenerClave()
+				+ ": '"
+				+ this->ObtenerClave()
+				+ " a b res': Se esperaban identificadores"
+			);
+		}
+
+		this->pa = Tokens::ObtenerValor(pa);
+		this->pb = Tokens::ObtenerValor(pb);
+		this->res = Tokens::ObtenerValor(res);
 	}
 
 	PseudoBitNot::PseudoBitNot(PDCadena a, PDCadena r) : PDTipos::PDInstancia()
@@ -128,17 +193,36 @@ namespace Bit
 		a = cae(data->ObtenerVariable(this->pa));
 		data->ObtenerVariable(this->res) = eas(~a);
 	}
-	void PseudoBitNot::LeerParametros(std::istream& in)
+	void PseudoBitNot::LeerParametros(pseudod::Tokenizador& in)
 	{
-		if(!(in >> this->pa >> this->res))
+		pseudod::Token pa, res;
+
+		if(!(in >> pa >> res))
 		{
 			throw PDvar::ErrorDeSintaxis(
 				"Error en "
 				+ this->ObtenerClave()
 				+ ": '"
 				+ this->ObtenerClave()
-				+ " a b res': EOF inesperado"
+				+ " a res': EOF inesperado"
 			);
 		}
+
+		if(
+			(!Tokens::EsIdentificador(pa)) ||
+			(!Tokens::EsIdentificador(res))
+		)
+		{
+			throw PDvar::ErrorDeSintaxis(
+				"Error en "
+				+ this->ObtenerClave()
+				+ ": '"
+				+ this->ObtenerClave()
+				+ " a res': Se esperaban identificadores"
+			);
+		}
+
+		this->pa = Tokens::ObtenerValor(pa);
+		this->res = Tokens::ObtenerValor(res);
 	}
 }

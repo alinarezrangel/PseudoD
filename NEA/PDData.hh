@@ -35,12 +35,18 @@ limitations under the License.
 #include <cstring>
 #include <cstdio>
 #include <exception>
+#include <algorithm>
 
 #define PDVOID_INIC_VACIO char
 #define PDVOID_INIC_VACIO_NULL ('a')
 
 #include "interno/data.hh"
 #include "interno/nmemoic.hh"
+#include "interno/token.hh"
+#include "interno/tokenizer.hh"
+
+typedef void(*PDFuncionNEA)(pseudod::Token, pseudod::Tokenizador&);
+typedef void (*PDFuncionNIA)(pseudod::Token, pseudod::Tokenizador&, PDFuncionNEA);
 
 /**
 * @brief Espacio de nombres principal de PseudoD.
@@ -139,6 +145,13 @@ namespace PDvar
 			*/
 			void CrearPila(void);
 			/**
+			* @brief Determina si la pila esta vacía.
+			* Sacar un valor de una pila vacía es un comportamiento indefinído en C++,
+			* siempre verifica que esta función retorne "false" antes de sacar de
+			* la pila.
+			*/
+			bool PilaVacia(int n);
+			/**
 			* @brief Crea una nueva variable o puntero
 			* @param n Nombre de la nueva variable o puntero
 			* @param t Tipo, true para crear una variable y false para un puntero
@@ -171,6 +184,18 @@ namespace PDvar
 			* @param in Flujo de tokens
 			*/
 			void Ejecutar(PDCadena ord, std::istream& in);
+			/**
+			* @brief ejecuta una orden como interprete.
+			* @param ord Orden a ejecutar.
+			* @param in Flujo de tokens
+			*/
+			void Ejecutar(PDCadena ord, pseudod::Tokenizador& in);
+			/**
+			* @brief ejecuta una orden como interprete.
+			* @param ord Orden a ejecutar.
+			* @param in Flujo de tokens
+			*/
+			void Ejecutar(pseudod::Token ord, pseudod::Tokenizador& in);
 			/**
 			* @brief Aplica la reducción de nombres sobre el nombre <v>.
 			* Esta reducción resuelve punteros y referencias dentro del nombre.
@@ -274,7 +299,7 @@ namespace PDvar
 	* @param data Puntero a la memoria del interprete.
 	* @return el valor de los tokens
 	*/
-	PDCadena ValorDelToken(PDCadena tok, std::istream& in, PDDatos* data);
+	PDCadena ValorDelToken(pseudod::Token tok, pseudod::Tokenizador& in, PDDatos* data);
 
 	/**
 	* @brief Posee lo necesario para crear modulos dinamicos

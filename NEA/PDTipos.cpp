@@ -96,15 +96,6 @@ limitations under the License.
 	}
 }
 {
-	PDTipos::PseudoMientras pm;
-	if(o == PDS(pm.ObtenerClave()))
-	{
-		pm.LeerParametros(i);
-		pm.InscribirInstancia(PDDATA);
-		PSEUDOD_NEA_SALIR_PC;
-	}
-}
-{
 	PDTipos::PseudoClaseContenida cc;
 	if(o == PDS(cc.ObtenerClave()))
 	{

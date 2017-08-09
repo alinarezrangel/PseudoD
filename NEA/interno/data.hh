@@ -47,8 +47,6 @@ limitations under the License.
 typedef long long int PDEntero;
 typedef long double PDDecimal;
 typedef std::string PDCadena;
-typedef void(*PDFuncionNEA)(PDCadena, std::istream&);
-typedef void (*PDFuncionNIA)(PDCadena, std::istream&, PDFuncionNEA);
 
 template<class T>
 int buscar(std::vector<T> a, T b)

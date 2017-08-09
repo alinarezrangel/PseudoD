@@ -33,7 +33,7 @@ namespace Bit
 			PseudoBitAnd(PDCadena a = "", PDCadena b = "", PDCadena r = "");
 			virtual ~PseudoBitAnd(void);
 			virtual void InscribirInstancia(PDvar::PDDatos* data);
-			virtual void LeerParametros(std::istream& in);
+			virtual void LeerParametros(pseudod::Tokenizador& in);
 		private:
 			PDCadena res;
 			PDCadena pa;
@@ -45,7 +45,7 @@ namespace Bit
 			PseudoBitOr(PDCadena a = "", PDCadena b = "", PDCadena r = "");
 			virtual ~PseudoBitOr(void);
 			virtual void InscribirInstancia(PDvar::PDDatos* data);
-			virtual void LeerParametros(std::istream& in);
+			virtual void LeerParametros(pseudod::Tokenizador& in);
 		private:
 			PDCadena res;
 			PDCadena pa;
@@ -57,7 +57,7 @@ namespace Bit
 			PseudoBitXor(PDCadena a = "", PDCadena b = "", PDCadena r = "");
 			virtual ~PseudoBitXor(void);
 			virtual void InscribirInstancia(PDvar::PDDatos* data);
-			virtual void LeerParametros(std::istream& in);
+			virtual void LeerParametros(pseudod::Tokenizador& in);
 		private:
 			PDCadena res;
 			PDCadena pa;
@@ -69,7 +69,7 @@ namespace Bit
 			PseudoBitNot(PDCadena a = "", PDCadena r = "");
 			virtual ~PseudoBitNot(void);
 			virtual void InscribirInstancia(PDvar::PDDatos* data);
-			virtual void LeerParametros(std::istream& in);
+			virtual void LeerParametros(pseudod::Tokenizador& in);
 		private:
 			PDCadena res;
 			PDCadena pa;

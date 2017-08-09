@@ -25,6 +25,8 @@ limitations under the License.
 
 namespace PDTipos
 {
+	using namespace pseudod::Utilidades;
+
 	PDOrden::PDOrden(void) : PDvar::PDObjeto()
 	{
 		this->clave = "NO FIJADA";
@@ -40,7 +42,7 @@ namespace PDTipos
 		return this->clave;
 	}
 
-	void PDOrden::LeerParametros(std::istream& in)
+	void PDOrden::LeerParametros(pseudod::Tokenizador& in)
 	{
 		return;
 	}
@@ -73,9 +75,11 @@ namespace PDTipos
 		}
 	}
 
-	void PseudoArray::LeerParametros(std::istream& in)
+	void PseudoArray::LeerParametros(pseudod::Tokenizador& in)
 	{
-		if(!(in >> this->nm >> this->cant))
+		pseudod::Token nm, cant;
+
+		if(!(in >> nm >> cant))
 		{
 			throw PDvar::ErrorDeSintaxis(
 				"Error en "
@@ -85,6 +89,23 @@ namespace PDTipos
 				+ " nom len': EOF inesperado"
 			);
 		}
+
+		if(
+			(!Tokens::EsIdentificador(nm)) ||
+			(!Tokens::EsCadena(cant))
+		)
+		{
+			throw PDvar::ErrorDeSintaxis(
+				"Error en "
+				+ this->ObtenerClave()
+				+ ": '"
+				+ this->ObtenerClave()
+				+ " nom len': Se esperaba un identificador o una literal numerica"
+			);
+		}
+
+		this->nm = Tokens::ObtenerValor(nm);
+		this->cant = cae(Tokens::ObtenerValor(cant));
 	}
 
 	PseudoClase::PseudoClase(PDCadena nm, PDCadena base, std::vector<PDCadena> mt)
@@ -105,12 +126,15 @@ namespace PDTipos
 	{
 		data->CrearVariable(this->nm);
 		data->ObtenerVariable(this->nm) = "";
+
 		for(decltype(this->methods)::size_type i = 0; i < this->methods.size(); i++)
 		{
 			data->ObtenerVariable(this->nm) += this->methods[i] + " ";
 		}
+
 		data->CrearVariable(this->nm + "#Tipo");
 		data->ObtenerVariable(this->nm + "#Tipo") = this->nm;
+
 		if(this->base != "")
 		{
 			PseudoHerencia hb(this->base, this->nm);
@@ -118,61 +142,123 @@ namespace PDTipos
 		}
 	}
 
-	void PseudoClase::LeerParametros(std::istream& in)
+	void PseudoClase::LeerParametros(pseudod::Tokenizador& in)
 	{
-		PDCadena b = "";
-		std::function<PDCadena (std::istream&)> readStr = [&](std::istream& input) -> PDCadena
+		pseudod::Token hrd, nmb;
+
+		in >> nmb;
+
+		if(Tokens::EsNMemonico(nmb))
 		{
-			PDCadena w = "";
-			if(!(input >> w))
+			if(nmb.ObtenerNMemonico() != pseudod::NMemonico::PD_CLASE_ABSTRACTA)
 			{
 				throw PDvar::ErrorDeSintaxis(
-					"Error en "
-					+ this->ObtenerClave()
-					+ ": '"
-					+ this->ObtenerClave()
-					+ " nm ... FIN' alias 'clase nm ... FIN': EOF inesperado"
+					"Error de sintaxis en 'clase <abstracta> nm <hereda base> ... "
+					"finclase': Se esperaba palabra clave 'abstracta' para declarar una"
+					"clase abstracta, pero se encontro otra palabra clave"
 				);
 			}
-			return w;
-		};
-		this->nm = readStr(in);
-		if(this->nm == "abstracta")
-		{
-			this->nm = readStr(in);
+
+			in >> nmb;
 		}
-		b = readStr(in);
-		while((b != "#(Final).") && (b != "finclase"))
+
+		if(!Tokens::EsIdentificador(nmb))
 		{
-			if(b.front() == '[')
+			throw PDvar::ErrorDeSintaxis(
+				"Error de sintaxis en 'clase <abstracta> nm <hereda base> ... "
+				"finclase': El nombre de la clase no es un identificador valido"
+			);
+		}
+
+		this->nm = Tokens::ObtenerValor(nmb);
+
+		// Ahora a leer todos los metodos/atributos/punteros
+
+		while(in >> hrd)
+		{
+			if(Tokens::EsComentario(hrd))
 			{
-				if(b.back() != ']')
-					std::getline(in, b, ']');
-				b = readStr(in);
 				continue;
 			}
-			if((b == "hereda") || (b == "heredar") || (b == "extiende") || (b == "implementa"))
+
+			if(!Tokens::EsNMemonico(hrd))
 			{
-				b = readStr(in);
-				if(b != "implementa") // PseudoD aún no soporta implementaciones sin herencia
-					this->base = b;
-				b = readStr(in);
+				if(!Tokens::EsIdentificador(hrd))
+				{
+					throw PDvar::ErrorDeSintaxis(
+						"Error de sintaxis en 'clase <abstracta> nm <hereda base> ... "
+						"finclase': Detectado atributo al estilo viejo, pero el nombre de"
+						" este atributo no es un identificador"
+					);
+				}
+
+				// Crear el atributo al estilo viejo ("a", ":a" y ";a")
+				this->methods.push_back(Tokens::ObtenerValor(hrd));
+			}
+
+			if(hrd.ObtenerNMemonico() == pseudod::NMemonico::PD_HEREDAR)
+			{
+				in >> nmb;
+
+				if(!Tokens::EsIdentificador(nmb))
+				{
+					throw PDvar::ErrorDeSintaxis(
+						"Error de sintaxis en 'clase <abstracta> nm <hereda base> ... "
+						"finclase': 'hereda/extiende A': Se esperaba el nombre de una "
+						"clase o interfaz"
+					);
+				}
+
+				this->base = Tokens::ObtenerValor(nmb);
+			}
+
+			if(hrd.ObtenerNMemonico() == pseudod::NMemonico::PD_IMPLEMENTAR)
+			{
+				in >> nmb;
+
+				if(!Tokens::EsIdentificador(nmb))
+				{
+					throw PDvar::ErrorDeSintaxis(
+						"Error de sintaxis en 'clase <abstracta> nm <hereda base> ... "
+						"finclase': 'implementa A': Se esperaba el nombre de una "
+						"clase o interfaz"
+					);
+				}
+
 				continue;
 			}
-			if(b == "atributo")
+
+			if(
+				(hrd.ObtenerNMemonico() == pseudod::NMemonico::PD_CLASE_ATRIBUTO) ||
+				(hrd.ObtenerNMemonico() == pseudod::NMemonico::PD_CLASE_METODO) ||
+				(hrd.ObtenerNMemonico() == pseudod::NMemonico::PD_CLASE_PUNTERO)
+			)
 			{
-				b = readStr(in);
+				in >> nmb;
+
+				if(!Tokens::EsIdentificador(nmb))
+				{
+					throw PDvar::ErrorDeSintaxis(
+						"Error de sintaxis en 'clase <abstracta> nm <hereda base> ... "
+						"finclase': 'atributo/metodo/puntero A': Se esperaba un nombre "
+						"valido para el atributo/metodo/puntero"
+					);
+				}
+
+				PDCadena nm = Tokens::ObtenerValor(nmb);
+
+				if(hrd.ObtenerNMemonico() == pseudod::NMemonico::PD_CLASE_METODO)
+					nm = ':' + nm;
+				if(hrd.ObtenerNMemonico() == pseudod::NMemonico::PD_CLASE_PUNTERO)
+					nm = ';' + nm;
+
+				this->methods.push_back(nm);
 			}
-			else if(b == "puntero")
+
+			if(hrd.ObtenerNMemonico() == pseudod::NMemonico::PD_FIN_CLASE)
 			{
-				b = ";" + readStr(in);
+				break;
 			}
-			else if(b == "metodo")
-			{
-				b = ":" + readStr(in);
-			}
-			this->methods.push_back(b);
-			b = readStr(in);
 		}
 	}
 
@@ -255,19 +341,31 @@ namespace PDTipos
 		}
 	}
 
-	void PseudoReferenciaClase::LeerParametros(std::istream& in)
+	void PseudoReferenciaClase::LeerParametros(pseudod::Tokenizador& in)
 	{
-		if(!(in >> this->nm >> this->ni))
+		pseudod::Token nm, ni;
+
+		if(!(in >> nm >> ni))
 		{
 			throw PDvar::ErrorDeSintaxis(
-				"Error en "
-				+ this->ObtenerClave()
-				+ ": '"
-				+ this->ObtenerClave()
-				+ " cls nm' alias 'instancia cls nm': EOF inesperado"
+				"Error en 'instancia cls nm': EOF inesperado"
 			);
 			return;
 		}
+
+		if(
+			(!Tokens::EsIdentificador(nm)) ||
+			(!Tokens::EsIdentificador(ni))
+		)
+		{
+			throw PDvar::ErrorDeSintaxis(
+				"Error en 'instancia cls nm': Se esparaban identificadores validos"
+			);
+			return;
+		}
+
+		this->nm = Tokens::ObtenerValor(nm);
+		this->ni = Tokens::ObtenerValor(ni);
 	}
 
 	void PseudoDebug::InscribirInstancia(PDvar::PDDatos* data)
@@ -289,7 +387,7 @@ namespace PDTipos
 				{
 					PDCadena var;
 					std::cin >> var;
-					PDCadena val = data->ObtenerVariable(var);
+					const PDCadena& val = data->ObtenerVariable(var);
 					std::cout << "La variable (o puntero) " << var
 						<< " posee el valor \"" << val << "\"" << std::endl;
 				}
@@ -361,7 +459,7 @@ namespace PDTipos
 				{
 					std::cout
 						<< "Advertencia: la instancia debe poseer los atributos"
-						<< "fundamentales..." << std::endl;
+						<< "fundamentales [NOMBRE] y [Tipo]..." << std::endl;
 					PDCadena var = "", est = "";
 					std::cin >> var;
 					est = data->ObtenerVariable(var + "#Tipo");
@@ -447,7 +545,13 @@ namespace PDTipos
 				}
 				else if(i != "salir")
 				{
-					data->Ejecutar(i, std::cin);
+					std::string c = "";
+
+					std::getline(std::cin, c, '\n');
+
+					c = i + ' ' + c;
+
+					data->Ejecutar(c);
 				}
 			}
 			catch(const PDvar::Error& e)
@@ -479,9 +583,11 @@ namespace PDTipos
 		//NADA
 	}
 
-	void PseudoArrayEstructura::LeerParametros(std::istream& in)
+	void PseudoArrayEstructura::LeerParametros(pseudod::Tokenizador& in)
 	{
-		if(!(in >> this->nme >> this->nma >> this->tma))
+		pseudod::Token nme, nma, tma;
+
+		if(!(in >> nme >> nma >> tma))
 		{
 			throw PDvar::ErrorDeSintaxis(
 				"Error en "
@@ -491,6 +597,25 @@ namespace PDTipos
 				+ " nme nma tma': EOF inesperado"
 			);
 		}
+
+		if(
+			(!Tokens::EsIdentificador(nme)) ||
+			(!Tokens::EsIdentificador(nma)) ||
+			(!Tokens::EsCadena(tma))
+		)
+		{
+			throw PDvar::ErrorDeSintaxis(
+				"Error en "
+				+ this->ObtenerClave()
+				+ ": '"
+				+ this->ObtenerClave()
+				+ " nme nma tma': Se esperaban identificadores y una literal numerica"
+			);
+		}
+
+		this->nme = Tokens::ObtenerValor(nme);
+		this->nma = Tokens::ObtenerValor(nma);
+		this->tma = cae(Tokens::ObtenerValor(tma));
 	}
 
 	void PseudoArrayEstructura::InscribirInstancia(PDvar::PDDatos* data)
@@ -522,9 +647,11 @@ namespace PDTipos
 		//NADA
 	}
 
-	void PseudoBorrarVariable::LeerParametros(std::istream& in)
+	void PseudoBorrarVariable::LeerParametros(pseudod::Tokenizador& in)
 	{
-		if(!(in >> this->nm))
+		pseudod::Token nm;
+
+		if(!(in >> nm))
 		{
 			throw PDvar::ErrorDeSintaxis(
 				"Error en "
@@ -533,8 +660,20 @@ namespace PDTipos
 				+ this->ObtenerClave()
 				+ " nm': EOF inesperado"
 			);
-			return;
 		}
+
+		if(!Tokens::EsIdentificador(nm))
+		{
+			throw PDvar::ErrorDeSintaxis(
+				"Error en "
+				+ this->ObtenerClave()
+				+ ": '"
+				+ this->ObtenerClave()
+				+ " nm': Se esperaba un identificador"
+			);
+		}
+
+		this->nm = Tokens::ObtenerValor(nm);
 	}
 
 	void PseudoBorrarVariable::InscribirInstancia(PDvar::PDDatos* data)
@@ -577,25 +716,47 @@ namespace PDTipos
 		//NADA
 	}
 
-	void PseudoHerencia::LeerParametros(std::istream& in)
+	void PseudoHerencia::LeerParametros(pseudod::Tokenizador& in)
 	{
-		if(!(in >> this->nmb >> this->nmh))
+		pseudod::Token nmb, nmh;
+
+		if(!(in >> nmb >> nmh))
 		{
 			throw PDvar::ErrorDeSintaxis(
 				"Error en "
 				+ this->ObtenerClave()
 				+ ": '"
 				+ this->ObtenerClave()
-				+ " cls_base cls_hija' alias 'heredar cls_base cls_hija': EOF inesperado"
+				+ " cls_base cls_hija' alias 'heredar cls_base cls_hija': EOF "
+				"inesperado"
 			);
 		}
+
+		if(
+			(!Tokens::EsIdentificador(nmb)) ||
+			(!Tokens::EsIdentificador(nmh))
+		)
+		{
+			throw PDvar::ErrorDeSintaxis(
+				"Error en "
+				+ this->ObtenerClave()
+				+ ": '"
+				+ this->ObtenerClave()
+				+ " cls_base cls_hija' alias 'heredar cls_base cls_hija': Se esperaban "
+				"identificadores"
+			);
+		}
+
+		this->nmb = Tokens::ObtenerValor(nmb);
+		this->nmh = Tokens::ObtenerValor(nmh);
 	}
 
 	void PseudoHerencia::InscribirInstancia(PDvar::PDDatos* data)
 	{
-		PDCadena& base = data->ObtenerVariable(this->nmb);
+		const PDCadena& base = data->ObtenerVariable(this->nmb);
 		PDCadena& hija = data->ObtenerVariable(this->nmh);
 		PDCadena curr_mtd = "";
+
 		for(PDCadena::size_type i = 0; i < base.size(); i++)
 		{
 			if(base[i] == ' ')
@@ -639,9 +800,11 @@ namespace PDTipos
 		// NADA
 	}
 
-	void PseudoDireccionarPuntero::LeerParametros(std::istream& in)
+	void PseudoDireccionarPuntero::LeerParametros(pseudod::Tokenizador& in)
 	{
-		if(!(in >> this->nmp >> this->nmv))
+		pseudod::Token nmp, nmv;
+
+		if(!(in >> nmp >> nmv))
 		{
 			throw PDvar::ErrorDeSintaxis(
 				"Error en "
@@ -651,6 +814,24 @@ namespace PDTipos
 				+ " ptr nval' alias 'redireccionar ptr nval': EOF inesperado"
 			);
 		}
+
+		if(
+			(!Tokens::EsIdentificador(nmp)) ||
+			(!Tokens::EsIdentificador(nmv))
+		)
+		{
+			throw PDvar::ErrorDeSintaxis(
+				"Error en "
+				+ this->ObtenerClave()
+				+ ": '"
+				+ this->ObtenerClave()
+				+ " ptr nval' alias 'redireccionar ptr nval': Se esperaban "
+				"identificadores"
+			);
+		}
+
+		this->nmp = Tokens::ObtenerValor(nmp);
+		this->nmv = Tokens::ObtenerValor(nmv);
 	}
 
 	void PseudoDireccionarPuntero::InscribirInstancia(PDvar::PDDatos* data)
@@ -680,69 +861,6 @@ namespace PDTipos
 		data->ObtenerIndicePuntero(this->nmp) = oi;
 	}
 
-	PseudoMientras::PseudoMientras(PDCadena v, PDCadena o, PDCadena f)
-		: PDInstancia()
-	{
-		this->nmv = v;
-		this->func = f;
-		this->orden = o;
-		this->FijarClave("Mientras", "PseudoD");
-	}
-	PseudoMientras::~PseudoMientras(void)
-	{
-		// NADA
-	}
-
-	void PseudoMientras::LeerParametros(std::istream& in)
-	{
-		in >> this->nmv;
-		std::getline(in,this->orden,'\n');
-		std::vector<PDCadena> lineas;
-		PDCadena lin = "";
-		int mientras = 1;
-		while(mientras > 0)
-		{
-			std::getline(in, lin, '\n');
-			lineas.push_back(lin);
-			lin.erase(std::remove_if(lin.begin(),
-				lin.end(),
-				[](char x){return std::isspace(x);}),
-				lin.end());
-			if((PDCadena(lin.substr(0, PDCadena("mientras").size())) == "mientras")
-				|| (PDCadena(lin.substr(0, PDCadena("Importar.PseudoD.mientras").size()))
-					== "Importar.PseudoD.mientras"))
-			{
-				mientras++;
-			}
-			if(lin == "finbucle")
-			{
-				mientras--;
-			}
-		}
-		this->func = "";
-		for(decltype(lineas)::size_type i = 0; i < lineas.size(); i++)
-		{
-			this->func += lineas[i] + "\n";
-		}
-	}
-
-	void PseudoMientras::InscribirInstancia(PDvar::PDDatos* data)
-	{
-		std::istringstream sin(this->orden);
-		PDCadena res = PDvar::ValorDelToken(this->nmv, sin, data);
-		while(res == "verdadero")
-		{
-			PDCadena pal = "";
-			std::istringstream sin2(this->func);
-			while(sin2 >> pal)
-			{
-				data->Ejecutar(pal, sin2);
-			}
-			std::istringstream sin3(this->orden);
-			res = PDvar::ValorDelToken(this->nmv, sin3, data);
-		}
-	}
-
 	PseudoClaseContenida::PseudoClaseContenida(
 		PDCadena es,
 		PDCadena tp,
@@ -762,9 +880,11 @@ namespace PDTipos
 		// NADA
 	}
 
-	void PseudoClaseContenida::LeerParametros(std::istream& in)
+	void PseudoClaseContenida::LeerParametros(pseudod::Tokenizador& in)
 	{
-		if(!(in >> this->ptr >> this->nme >> this->tpe >> this->nmv))
+		pseudod::Token ptr, nme, tpe, nmv;
+
+		if(!(in >> ptr >> nme >> tpe >> nmv))
 		{
 			throw PDvar::ErrorDeSintaxis(
 				"Error en "
@@ -774,6 +894,27 @@ namespace PDTipos
 				+ " ptr? nme tpe nmv': EOF inesperado"
 			);
 		}
+
+		if(
+			(!Tokens::EsCadena(ptr)) ||
+			(!Tokens::EsIdentificador(nme)) ||
+			(!Tokens::EsIdentificador(tpe)) ||
+			(!Tokens::EsIdentificador(nmv))
+		)
+		{
+			throw PDvar::ErrorDeSintaxis(
+				"Error en "
+				+ this->ObtenerClave()
+				+ ": '"
+				+ this->ObtenerClave()
+				+ " ptr? nme tpe nmv': Se esperaba una literal e identificadores"
+			);
+		}
+
+		this->ptr = cae(Tokens::ObtenerValor(ptr));
+		this->nme = Tokens::ObtenerValor(nme);
+		this->tpe = Tokens::ObtenerValor(tpe);
+		this->nmv = Tokens::ObtenerValor(nmv);
 	}
 
 	void PseudoClaseContenida::InscribirInstancia(PDvar::PDDatos* data)
@@ -811,9 +952,11 @@ namespace PDTipos
 		// nada
 	}
 
-	void PseudoBorrarInteligente::LeerParametros(std::istream& i)
+	void PseudoBorrarInteligente::LeerParametros(pseudod::Tokenizador& i)
 	{
-		if(!(i >> this->var))
+		pseudod::Token var;
+
+		if(!(i >> var))
 		{
 			throw PDvar::ErrorDeSintaxis(
 				"Error en "
@@ -823,6 +966,19 @@ namespace PDTipos
 				+ " var' alias 'liberar var': EOF inesperado"
 			);
 		}
+
+		if(!Tokens::EsIdentificador(var))
+		{
+			throw PDvar::ErrorDeSintaxis(
+				"Error en "
+				+ this->ObtenerClave()
+				+ ": '"
+				+ this->ObtenerClave()
+				+ " var' alias 'liberar var': 'var' no es un identificador"
+			);
+		}
+
+		this->var = Tokens::ObtenerValor(var);
 	}
 
 	void PseudoBorrarInteligente::InscribirInstancia(PDvar::PDDatos* data)
