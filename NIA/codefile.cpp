@@ -30,3 +30,4 @@ limitations under the License.
 #include "NEA/PDTipos.cpp"
 #include "NEA/PDBibliotecaDinamica.cpp"
 #include "NEA/Bit/PDBit.cpp"
+#include "NEA/Localizacion/PDLocalizacion.cpp"

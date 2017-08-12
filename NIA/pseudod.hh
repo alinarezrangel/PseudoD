@@ -22,8 +22,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 **************************************************************************/
 
-#ifndef __PSEUDOD_NIA_PSEUDOD_HH__
-#define __PSEUDOD_NIA_PSEUDOD_HH__ 1
+#ifndef HDR_PSEUDOD_NIA_PSEUDOD_HH
+#define HDR_PSEUDOD_NIA_PSEUDOD_HH 1
 
 #include <iostream>
 #include <fstream>

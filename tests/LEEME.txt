@@ -26,9 +26,24 @@ Ver README.mkd para una introducción
 
 =============================================================================
 
-Bienvenido al sistema de pruebas de PseudoD, donde estan las pruebas de cada
-caracteristica del lenguaje, a continuación podras ver como crear, editar
+Bienvenido al sistema de pruebas de PseudoD, donde están las pruebas de cada
+característica del lenguaje, a continuación podrás ver como crear, editar
 y ejecutar las pruebas.
+
+                      Ejecutando una prueba
+
+Para ejecutar todas las pruebas en PseudoD, debes estar dentro del directorio
+de pruebas, es decir: si estas en el directorio principal de PseudoD es
+necesario ejecutar:
+
+```sh
+cd tests/
+./runtests.sh
+```
+
+El archivo `runtests.sh` ejecutará todas las pruebas e indicará cuales falláron
+y cuales no. Si desea personalizar la salida o configurar el programa, puede
+ver todas las opciones que acepta con `./runtests.sh --help`.
 
                      Estructura de una prueba
 
@@ -51,32 +66,30 @@ posea de nombre, el nombre de la prueba.
 
                       Formato de los archivos
 
+'prueba.txt'
+	Un archivo de texto con una descripción de la prueba. Cuando se ejecute una
+	prueba, todo el contenido de la primera línea del archivo será mostrado,
+	así que intenta que esta parte sea muy descriptiva. Por ejemplo:
+
+		Prueba que el sistema de condicionales funcione correctamente.
+
+		... una descripción más completa ...
 'salida.txt'
 	Debe contener la salida sin modificar de la prueba, debe seguir el
 	formato de 'fmt.txt'.
 'test.pd'
 	Debe contener el código fuente de la prueba, comentado y debe cumplir
-	los requisitos basicos de código fuente(ver más abajo).
+	los requisitos básicos de código fuente(ver más abajo).
 'entrada.txt'
 	Entrada de la prueba, debe seguir el formato de 'fmt.txt'.
 'fmt.txt'
-	Especificación del formato de las pruebas, en dos secciones:
-		'---GENERAL---'
-			Especificación en formato general de las pruebas, conteniendo
-			variables y la descripción de ellas, por ejemplo:
-				---GENERAL---
-				La entrada se compone de 'N' lineas con el siguiente formato:
-					a b c d
-				Donde 'N' es especificado en la primera linea como:
-					N w f
-		'---EXPR---'
-			Especificación en formato de expresión regular(regexpr), por ejemplo:
-				---EXPR---
-				(<N>[0-9]+) (<w>[a-z]*) (<f>[0-9]{2})
-				(<a><b><c><d>){{{N}}}
-			Recordar que {a,b} es que la expresion se repita entre a y b veces
-			mientras que {{a}} es el valor de la variable a.
+	Especificación del formato de las pruebas, debe describir claramente en que
+	formato y que rango de valores aceptará el programa como entrada.
 'espr.txt'
 	Salida esperada de la prueba, siguiendo el formato de 'fmt.txt'.
 'diff.txt'
 	Salida de ejecutar 'diff' entre 'salida.txt' y 'espr.txt'.
+
+Es altamente recomendable que se utilicen los programas incluidos dentro del
+directorio de la suite de pruebas (`newtest.sh` y `runtests.sh`) para crear
+y ejecutar las pruebas en vez de hacerlo de forma manual.

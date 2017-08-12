@@ -1,0 +1,3 @@
+yo <Persona1> me muevo a la casa
+Mascota <Mascota1> me muevo a la casa con mi dueño <Persona1>
+Le ladro a <Persona1>!

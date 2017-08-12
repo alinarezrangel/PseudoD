@@ -22,8 +22,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 **************************************************************************/
 
-#ifndef __PSEUDOD_NIA_NMEMOIC_HH__
-#define __PSEUDOD_NIA_NMEMOIC_HH__ 1
+#ifndef HDR_PSEUDOD_NIA_NMEMOIC_HH
+#define HDR_PSEUDOD_NIA_NMEMOIC_HH 1
 
 #include <iostream>
 #include <sstream>
@@ -133,6 +133,7 @@ namespace pseudod
 				PD_COMPARAR_MAXIMO, //?>
 				PD_OPERADOR_ES, // es
 				PD_CLASE_ABSTRACTA, // abstracta
+				PD_OPERADOR_REDIRECCIONAR_A, // a
 				PD_NEA, // Importar.X.Y
 				PD_ALIAS, // Aliases
 				PD_OTRO // ???

@@ -1,0 +1,12 @@
+Prueba las instrucciones de memoria y las reglas para identificadores.
+
+Prueba las palabras clave:
+
+* `adquirir`
+* `instancia`
+* `puntero`
+* `liberar`
+* `fijar`
+
+Y también prueba nombres que deben ser válidos en PseudoD y los nombres
+compuestos.

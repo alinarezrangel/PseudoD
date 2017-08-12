@@ -14,10 +14,10 @@
 # limitations under the License.
 
 ifndef CC
-CC = gcc
+CC=gcc
 endif
 ifndef CXX
-CXX = g++
+CXX=g++
 endif
 NIAPATH=NIA
 NEAPATH=NEA

@@ -33,3 +33,4 @@ limitations under the License.
 #include "NEA/BibliotecaDinamica.hh"
 #include "NEA/Bit/Bit.hh"
 #include "NEA/PDData.hh"
+#include "NEA/Localizacion/Localizacion.hh"

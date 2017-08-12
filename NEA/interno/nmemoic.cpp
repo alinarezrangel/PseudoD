@@ -136,7 +136,8 @@ static std::multimap<PDCadena, pseudod::NMemonico::Palabra> ConversorS2P =
 	{"!=", pseudod::NMemonico::PD_COMPARAR_DISTINTO},
 	{"<?", pseudod::NMemonico::PD_COMPARAR_MINIMO},
 	{"?>", pseudod::NMemonico::PD_COMPARAR_MAXIMO},
-	{"es", pseudod::NMemonico::PD_OPERADOR_ES}
+	{"es", pseudod::NMemonico::PD_OPERADOR_ES},
+	{"a", pseudod::NMemonico::PD_OPERADOR_REDIRECCIONAR_A}
 };
 
 static std::multimap<pseudod::NMemonico::Palabra, PDCadena> ConversorP2S;

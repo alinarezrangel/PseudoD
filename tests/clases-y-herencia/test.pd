@@ -1,0 +1,85 @@
+[ ****************************************************************************
+* Copyright 2016 Alejandro Linarez Rangel
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*  http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+**************************************************************************** ]
+
+clase abstracta Entidad hereda Objeto
+	atributo nombre
+
+	metodo mover
+
+	metodo saludar
+finclase
+
+metodo Entidad#saludar con yo
+	escribir {Hola, yo soy }
+	escribir <yo>#nombre
+	escribir {!}
+	nl
+finmetodo
+
+clase Persona hereda Entidad
+	[ sobrecarga del método mover ]
+	metodo mover
+finclase
+
+metodo Persona#mover con yo y donde
+	escribir {yo }
+	escribir <yo>#nombre
+	escribir { me muevo a }
+	escribir donde
+	nl
+finmetodo
+
+clase abstracta Mascota extiende Entidad
+	puntero dueño
+
+	metodo mover
+	metodo interactuar
+finclase
+
+metodo Mascota#mover con yo y donde
+	escribir {Mascota }
+	escribir <yo>#nombre
+	escribir { me muevo a }
+	escribir donde
+	escribir { con mi dueño }
+	escribir <yo>#dueño
+	nl
+finmetodo
+
+clase Perro hereda Mascota
+	metodo interactuar
+finclase
+
+metodo Perro#interactuar con yo y quien
+	escribir {Le ladro a }
+	escribir quien
+	escribir {!}
+	nl
+finmetodo
+
+[ Instanciamos ]
+
+instancia Persona p1
+instancia Perro p2
+
+fijar p1#nombre a {<Persona1>}
+fijar p2#nombre a {<Mascota1>}
+
+redireccionar p2#dueño a p1#nombre
+
+llamar p1#mover {la casa} finargs
+llamar p2#mover {la casa} finargs
+llamar p2#interactuar p1#nombre finargs

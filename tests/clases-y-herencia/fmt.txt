@@ -1,0 +1,2 @@
+La salida del programa son tres (3) líneas sin formato, este programa no
+solicita entrada alguna.

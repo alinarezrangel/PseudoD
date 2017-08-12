@@ -42,3 +42,4 @@ limitations under the License.
 #include <iomanip>
 #include "NEA/INBibliotecaDinamica.hh"
 #include "NEA/Bit/INBit.hh"
+#include "NEA/Localizacion/INLocalizacion.hh"

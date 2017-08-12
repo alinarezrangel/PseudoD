@@ -1,0 +1,9 @@
+Prueba las funciones y llamadas a funciones de PseudoD.
+
+Prueba las palabras clave:
+
+* `funcion` / `procedimiento`
+* `finfun` / `finfuncion` / `finprocedimiento`
+* `llamar`
+* `finargs`
+* `de` / `con` => `y` / `e`

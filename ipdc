@@ -89,7 +89,7 @@ param2=$2
 param3=$3
 param4=$4
 
-function ayuda() {
+function ayuda {
 	echo "Ayuda del Intermedio entre PseudoD y la Consola"
 	echo "-----------------------------------------------"
 	echo "	$0 -d :Muestra la ruta predeterminada de bepd"

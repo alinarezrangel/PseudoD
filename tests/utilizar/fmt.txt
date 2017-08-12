@@ -1,0 +1,3 @@
+Este programa no utiliza entrada alguna.
+
+La salida consiste de una (1) línea con el texto literal "Hola Mundo".

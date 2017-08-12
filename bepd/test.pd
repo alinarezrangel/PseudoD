@@ -19,9 +19,22 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ****************************************************************************** ]
 
-utilizar fn/esfuncional.pseudo
+adquirir nloc
+adquirir locale
+adquirir vl
 
-llamar ImprimirFormato {Hola %\k} {Mundo} finargs
-llamar ImprimirFormato {NULO = %\k} NULO finargs
-llamar ImprimirFormato {VERDADERO = %\k} VERDADERO finargs
-llamar ImprimirFormato {FALSO = %\k} FALSO finargs
+fijar nloc a {TA}
+fijar locale a {es_VE.UTF8}
+
+fijar vl a {á}
+
+escribir vl
+nl
+
+Importar.Localizacion.Fijar locale
+
+Importar.Localizacion.TipoCaracter * vl nloc
+
+escribir vl
+nl
+

@@ -374,10 +374,15 @@ namespace pseudod
 				{
 					rc = stream.get();
 
-					if(std::isspace<char>(rc, lc))
+					if(
+						std::isspace<char>(rc, lc) ||
+						(rc == std::char_traits<char>::eof())
+					)
+					{
 						break;
+					}
 
-					if((!std::isdigit<char>(rc, lc)) || (rc != '.'))
+					if((!std::isdigit<char>(rc, lc)) && (rc != '.'))
 					{
 						throw PDvar::ErrorDeSintaxis(
 							"Literal numérica inválida: solo se permiten dígitos (0-9) y el "

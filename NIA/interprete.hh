@@ -26,8 +26,8 @@ limitations under the License.
 Define la macro INTERACTIVO a 1 para un interprete en linea de comandos
 https://sourceforge.net/projects/pseudod/
 */
-#ifndef __PSEUDOD_NIA_INTERPRETE_HH__
-#define __PSEUDOD_NIA_INTERPRETE_HH__ 1
+#ifndef HDR_PSEUDOD_NIA_INTERPRETE_HH
+#define HDR_PSEUDOD_NIA_INTERPRETE_HH 1
 
 #include <iostream>
 #include <fstream>

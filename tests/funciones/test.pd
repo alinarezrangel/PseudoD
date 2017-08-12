@@ -1,0 +1,43 @@
+[ ****************************************************************************
+* Copyright 2016 Alejandro Linarez Rangel
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*  http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+**************************************************************************** ]
+
+procedimiento SaludarA de nombre
+	escribir {Hola }
+	escribir nombre
+	escribir {!}
+	nl
+finprocedimiento
+
+funcion CalcularValor de var1 y var2
+	adquirir res
+
+	Importar.Cad.Concatenar var1 var2 res
+
+	devolver res
+
+	liberar res
+finfun
+
+llamar SaludarA {Mundo} finargs
+
+escribir llamar CalcularValor {Hola } , {Mundo!} finargs
+nl
+
+escribir llamar CalcularValor {Hola } y {Mundo!} finargs
+nl
+
+escribir llamar CalcularValor {Hola } {Mundo!} finargs
+nl

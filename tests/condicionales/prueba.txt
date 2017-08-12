@@ -1,0 +1,9 @@
+Prueba los condicionales `si` y `necesitas` de PseudoD.
+
+Prueba las palabras clave:
+
+* `si`
+* `fin` / `finsi`
+* `sino`
+
+Y el parser de expresiones (`parser(expr)`).

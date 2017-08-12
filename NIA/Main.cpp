@@ -53,13 +53,6 @@ int main (int argc, char* argv[])
 	string bepd = "", nea = "", op = "", mn = "", err = "", ord ="";
 	string prgNom = argv[0];
 
-	// Obtener la localizacion cultural del usuario y fijarla como la
-	// predeterminada a nivel global: las funciones que mas uso hacen de
-	// este cambio son pseudod::Tokenizador (para leer los archivos) y
-	// pseudod::procesar (para escribir al flujo de salida estandar).
-	std::locale userlocale("");
-	std::locale::global(userlocale);
-
 	if(argc == 1)
 	{
 		cerr << "Error argumentos insuficientes" << endl;

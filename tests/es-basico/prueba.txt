@@ -1,0 +1,10 @@
+Prueba de la entrada/salida básica de PseudoD.
+
+Prueba las palabras clave:
+
+* `leer`
+* `escribir`
+* `escribir_esp` (obsoleto)
+* `nl`
+
+Y su correcto funcionamiento.

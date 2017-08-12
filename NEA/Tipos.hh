@@ -22,9 +22,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 **************************************************************************/
 
-
-#ifndef __PSEUDOD_NEA_TIPOS_HH__
-#define __PSEUDOD_NEA_TIPOS_HH__ 1
+#ifndef HDR_PSEUDOD_NEA_TIPOS_HH
+#define HDR_PSEUDOD_NEA_TIPOS_HH 1
 
 #include <iostream>
 #include <fstream>

@@ -25,13 +25,13 @@ obtener PseudoD debes compilarlo (es muy fácil):
 * Clona este repositorio con
 `git clone https://github.com/alinarezrangel/PseudoD.git` o descarga una
 [versión estable][VersionesEstables]
-* Extrae (si descargastes una versión estable) y entra al directorio del código
-fuente (por ejemplo: si descargastes PseudoD 2.1.0 y lo extraes en
+* Extrae (si descargástes una versión estable) y entra al directorio del código
+fuente (por ejemplo: si descargástes PseudoD 2.1.0 y lo extraes en
 `pseudod-code`, entonces entra a `pseudod-code`). Si clonastes el repositorio
 con Git, simplemente entra al directorio recién creado.
 * Si deseas instalar PseudoD, simplemente ejecuta `./instalar.sh` (o
 `sudo ./instalar.sh`) para iniciar el instalador, es recomendable instalar
-PseudoD para utilizar, aunque si no deseas instalarlo de manera global, puedes
+PseudoD para utilizarlo, aunque si no deseas instalarlo de manera global, puedes
 fijar la variable de entorno `RUTA_PSEUDOD_INSTALACION` a la ruta donde deseas
 instalar PseudoD y luego ejecutar el instalador (por ejemplo, para instalar
 PseudoD en `./install/` solo utiliza
@@ -57,6 +57,25 @@ En resumen:
 * Compilador con soporte de C++11 y C11 o superior (gcc o g++ 4.8 o superior)
 * Cygwin si se compila en sistemas Microsoft Windows
 * GNU Make o compatible (en general, algún Make).
+
+### Suite de pruebas ###
+
+La suite de pruebas tiene los mismos requerimientos base que PseudoD pero los
+siguientes programas deben estar instalados además:
+
+* `find`
+* `sed`
+* `cat`
+* `diff`
+* `head`
+* `wc`
+* `bc`
+* `touch`
+* `mkdir`
+* Los binarios resultantes de compilar e instalar PseudoD.
+
+Opcionalmente, si deseas que la salida de las pruebas este coloreada (util para
+detectar pruebas fallidas), es necesario poseer el programa `tput`.
 
 ## LEEME ##
 
@@ -94,7 +113,7 @@ nl [ nl es "Nueva Línea" e imprimir el fin de línea ]
 
 [ Vayamos a algo más complejo: una clase anfitríon ]
 
-[ PseudoD soporta Unicode en los nombres: ]
+[ PseudoD soporta caracteres Unicode UTF-8 en los nombres: ]
 clase Anfitríon hereda Objeto
 	metodo saludarA
 finclase

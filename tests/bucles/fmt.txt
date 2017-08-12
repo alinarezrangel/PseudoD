@@ -1,0 +1,6 @@
+La entrada al programa consiste de un único número entero positivo "N".
+
+	N
+
+La salida del programa consiste de una línea con un mensaje sin formato,
+seguida de "N" líneas con el texto literal "hola".

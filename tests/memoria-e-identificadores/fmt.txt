@@ -1,0 +1,1 @@
+Este programa no utiliza ningún sistema de entrada o salida.

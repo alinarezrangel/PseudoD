@@ -815,6 +815,32 @@ namespace PDTipos
 			);
 		}
 
+		if(Tokens::EsNMemonico(nmv))
+		{
+			if(nmv.ObtenerNMemonico() != pseudod::NMemonico::PD_OPERADOR_REDIRECCIONAR_A)
+			{
+				throw PDvar::ErrorDeSintaxis(
+					"Error en "
+					+ this->ObtenerClave()
+					+ ": '"
+					+ this->ObtenerClave()
+					+ " ptr nval' alias 'redireccionar ptr a nval': Se esperaba operador"
+					" 'a'"
+				);
+			}
+
+			if(!(in >> nmv))
+			{
+				throw PDvar::ErrorDeSintaxis(
+					"Error en "
+					+ this->ObtenerClave()
+					+ ": '"
+					+ this->ObtenerClave()
+					+ " ptr nval' alias 'redireccionar ptr nval': EOF inesperado"
+				);
+			}
+		}
+
 		if(
 			(!Tokens::EsIdentificador(nmp)) ||
 			(!Tokens::EsIdentificador(nmv))
@@ -989,6 +1015,16 @@ namespace PDTipos
 			|| (data->ExisteVariable(false, this->var + "#destruir")))
 		{
 			data->Ejecutar("llamar " + this->var + "#destruir finargs");
+		}
+
+		if(data->ExisteVariable(false, this->var))
+		{
+			// Es un puntero!
+			PseudoBorrarVariable bv(this->var);
+
+			bv.InscribirInstancia(data);
+
+			return;
 		}
 
 		// Primero se determina el tipo de variable y se busca, siempre se borra la

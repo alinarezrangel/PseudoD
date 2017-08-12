@@ -4,9 +4,14 @@
 *.[oa]
 *.so
 *.out
+*.dll
+*.exe
 
 PseudoD
 
 # 2) Ignoramos archivos de las IDEs
 .vscode/
 
+# 3) Ignoramos los resultados de las pruebas
+tests/*/diff.txt
+tests/*/salida.txt

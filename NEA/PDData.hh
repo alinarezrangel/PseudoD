@@ -22,8 +22,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 **************************************************************************/
 
-#ifndef __PSEUDOD_NEA_PDDATA_HH__
-#define __PSEUDOD_NEA_PDDATA_HH__ 1
+#ifndef HDR_PSEUDOD_NEA_PDDATA_HH
+#define HDR_PSEUDOD_NEA_PDDATA_HH 1
 
 #include <iostream>
 #include <fstream>
@@ -163,7 +163,7 @@ namespace PDvar
 			* @brief Obtiene el indice de la variable o puntero
 			* @param t tipo, true para una variable y false para un puntero
 			* @param n Nombre a buscar
-			* @return indice
+			* @return indice o -1 si no existe.
 			*/
 			int BuscarIndice(bool t, PDCadena n);
 			/**

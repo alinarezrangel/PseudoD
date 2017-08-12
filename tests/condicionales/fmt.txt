@@ -1,0 +1,8 @@
+La entrada esta compuesta por dos líneas:
+
+La primera línea contiene una palabra que puede o no ser igual a la cadena
+literal "mundo".
+
+La segunda línea contiene un número entero de cualquier signo.
+
+La salida no posee formato alguno.

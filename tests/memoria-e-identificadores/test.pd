@@ -1,0 +1,52 @@
+[ ****************************************************************************
+* Copyright 2016 Alejandro Linarez Rangel
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*  http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+**************************************************************************** ]
+
+adquirir variable
+adquirir otra_variable
+adquirir mas-variables
+
+adquirir numero1
+adquirir numero2
+adquirir numero3
+adquirir numero144314134124
+
+adquirir este_nombre-es~muy_laaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaargo
+
+adquirir algo-más
+adquirir acéntos
+adquirir €ßþóéßúþf¾
+adquirir mezcla-(de)-operadores
+
+instancia PseudoVariable tal-como_adquirir
+instancia PseudoFuncion es_una_funcion?
+instancia Objeto es_un-objeto
+
+puntero ptrvar variable
+puntero ptr1 numero1
+puntero ptr_nombre_fn es_una_funcion?#NOMBRE
+
+fijar variable a {Hola Mundo}
+fijar ptr1 a {Soy el numero 1}
+fijar tal-como_adquirir a {Objeto?}
+fijar mezcla-(de)-operadores a {Operadores}
+
+fijar otra_variable a variable
+fijar numero2 a numero1
+
+liberar acéntos
+liberar este_nombre-es~muy_laaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaargo
+liberar es_un-objeto
+liberar ptr_nombre_fn

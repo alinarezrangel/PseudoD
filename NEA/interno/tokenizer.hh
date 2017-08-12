@@ -22,8 +22,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 **************************************************************************/
 
-#ifndef __PSEUDOD_NIA_TOKENIZER__
-#define __PSEUDOD_NIA_TOKENIZER__ 1
+#ifndef HDR_PSEUDOD_NIA_TOKENIZER_HH
+#define HDR_PSEUDOD_NIA_TOKENIZER_HH 1
 
 #include <iostream>
 #include <list>
@@ -117,4 +117,4 @@ namespace pseudod
 	Tokenizador& operator>>(Tokenizador& tk, Token& tok);
 }
 
-#endif /* ~__PSEUDOD_NIA_TOKENIZER__ */
+#endif /* ~HDR_PSEUDOD_NIA_TOKENIZER_HH */

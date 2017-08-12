@@ -1,0 +1,13 @@
+Prueba las clases y las mecánicas de la herencia.
+
+Prueba las palabras clave:
+
+* `clase`
+* `hereda` / `implementa` / `extiende`
+* `clase abstracta`
+* `finclase`
+* `metodo` / `atributo` / `puntero`
+* `instancia`
+* `llamar`
+
+Además prueba que la herencia y las clases en PseudoD funcionan como deberían.

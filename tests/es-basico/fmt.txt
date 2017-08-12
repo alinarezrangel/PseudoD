@@ -1,0 +1,8 @@
+La primera línea de la entrada debe estar compuesta de 4 palabras separadas
+por espacios en blanco y la siguiente línea debe contener 2 o más palabras
+separadas también por espacios en blanco:
+
+	P1 P2 P3 P4
+	P5 P6...
+
+La salida no tiene formato alguno.

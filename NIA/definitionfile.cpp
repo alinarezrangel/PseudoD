@@ -30,3 +30,4 @@ limitations under the License.
 #include "NEA/Tipos.cpp"
 #include "NEA/BibliotecaDinamica.cpp"
 #include "NEA/Bit/Bit.cpp"
+#include "NEA/Localizacion/Localizacion.cpp"

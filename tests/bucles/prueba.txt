@@ -1,0 +1,8 @@
+Prueba los bucles de PseudoD.
+
+Prueba las palabras clave:
+
+* `mientras`
+* `finbucle`
+
+También prueba el parser de expresiones (`parser(expr)`).
