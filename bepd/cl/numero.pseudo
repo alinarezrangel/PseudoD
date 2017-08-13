@@ -51,11 +51,11 @@ finclase
 
 @races None
 DOCUMENTA]
-funcion Numero#sumar con yo y der y res
+metodo Numero#sumar con yo y der y res
 	fijar <res>#valor a llamar Sumar
 		<yo>#valor <der>#valor
 	finargs
-finfun
+finmetodo
 
 [DOCUMENTA
 @brief `Numero#restar` - Resta dos Numeros.
@@ -66,11 +66,11 @@ finfun
 
 @races None
 DOCUMENTA]
-funcion Numero#restar con yo y der y res
+metodo Numero#restar con yo y der y res
 	fijar <res>#valor a llamar Restar
 		<yo>#valor <der>#valor
 	finargs
-finfun
+finmetodo
 
 [DOCUMENTA
 @brief `Numero#multiplicar` - Multiplica dos Numeros.
@@ -81,11 +81,11 @@ finfun
 
 @races None
 DOCUMENTA]
-funcion Numero#multiplicar con yo y der y res
+metodo Numero#multiplicar con yo y der y res
 	fijar <res>#valor a llamar Multiplicar
 		<yo>#valor <der>#valor
 	finargs
-finfun
+finmetodo
 
 [DOCUMENTA
 @brief `Numero#dividir` - Divide dos Numeros.
@@ -96,8 +96,8 @@ finfun
 
 @races None
 DOCUMENTA]
-funcion Numero#dividir con yo y der y res
+metodo Numero#dividir con yo y der y res
 	fijar <res>#valor a llamar Dividir
 		<yo>#valor <der>#valor
 	finargs
-finfun
+finmetodo

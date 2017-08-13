@@ -19,23 +19,32 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ****************************************************************************** ]
 
-utilizar cl/localizacion.pseudo
-utilizar fn/tipocaracter.pseudo
+utilizar entsal.pseudo
+utilizar cadena.pseudo
+utilizar mate.pseudo
+utilizar plugins.pseudo
+utilizar tipos.pseudo
+utilizar clases.pseudo
+utilizar algor.pseudo
 
-adquirir nlc
+instancia Arreglo arr
 
-instancia Localizacion loc
+llamar arr#agregar PseudoVariable#Tipo finargs
 
-llamar loc#fijarNombre {es_VE.UTF-8} finargs
+adquirir ref
 
-llamar Localizacion#fijarGlobal loc finargs
+fijar ref a llamar arr#obtener 0 finargs
 
-escribir {Ingresa un caracter: }
-leer nlc
+fijar <ref> a {Hola Mundo}
 
-escribir llamar TipoCaracter#EsDigito nlc finargs
-nl
+funcion pp de i
+	adquirir r
+	fijar r a llamar arr#obtener i finargs
+	escribir <r>
+	nl
+	liberar r
+finfun
 
-llamar Localizacion#fijarGlobal
-	llamar Localizacion#obtenerClasico finargs
-finargs
+llamar pp 0 finargs
+
+Importar.PseudoD.debug

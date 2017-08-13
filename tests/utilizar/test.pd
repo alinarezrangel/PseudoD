@@ -15,5 +15,6 @@
 **************************************************************************** ]
 
 utilizar testfile.pseudo
+utilizar testfile.pseudo
 
 llamar Hola {Mundo} finargs

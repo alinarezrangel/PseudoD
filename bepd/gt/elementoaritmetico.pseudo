@@ -71,9 +71,9 @@ del mismo **tipo** que el operando izquierdo (este objeto).
 Si el operando izquierdo o el resultado no son del mismo tipo que el operando
 derecho (este objeto) el comportamiento está indefinido.
 DOCUMENTA]
-funcion @ElementoAritmetico#sumar con yo y der y resultado
+metodo @ElementoAritmetico#sumar con yo y der y resultado
 	necesitas FALSO
-finfun
+finmetodo
 
 [DOCUMENTA
 @brief `@ElementoAritmetico#restar` - Resta dos elementos aritmeticos.
@@ -88,9 +88,9 @@ del mismo **tipo** que el operando izquierdo (este objeto).
 Si el operando izquierdo o el resultado no son del mismo tipo que el operando
 derecho (este objeto) el comportamiento está indefinido.
 DOCUMENTA]
-funcion @ElementoAritmetico#restar con yo y der y resultado
+metodo @ElementoAritmetico#restar con yo y der y resultado
 	necesitas FALSO
-finfun
+finmetodo
 
 [DOCUMENTA
 @brief `@ElementoAritmetico#multiplicar` - Multiplica dos elementos aritmeticos.
@@ -105,9 +105,9 @@ del mismo **tipo** que el operando izquierdo (este objeto).
 Si el operando izquierdo o el resultado no son del mismo tipo que el operando
 derecho (este objeto) el comportamiento está indefinido.
 DOCUMENTA]
-funcion @ElementoAritmetico#multiplicar con yo y der y resultado
+metodo @ElementoAritmetico#multiplicar con yo y der y resultado
 	necesitas FALSO
-finfun
+finmetodo
 
 [DOCUMENTA
 @brief `@ElementoAritmetico#dividir` - Divide dos elementos aritmeticos.
@@ -122,6 +122,6 @@ del mismo **tipo** que el operando izquierdo (este objeto).
 Si el operando izquierdo o el resultado no son del mismo tipo que el operando
 derecho (este objeto) el comportamiento está indefinido.
 DOCUMENTA]
-funcion @ElementoAritmetico#dividir con yo y der y resultado
+metodo @ElementoAritmetico#dividir con yo y der y resultado
 	necesitas FALSO
-finfun
+finmetodo

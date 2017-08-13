@@ -37,16 +37,19 @@ DOCUMENTA]
 funcion Factorial de numero
 	adquirir factorial
 	fijar factorial a numero
+
 	si comparar Importar.Dec.Comparar numero <= UNO
 		fijar factorial a UNO
-	fin
+	finsi
+
 	mientras comparar Importar.Dec.Comparar numero > UNO
 		Importar.Dec.Restar numero UNO numero
 		Importar.Dec.Multiplicar factorial numero factorial
 	finbucle
+
 	devolver factorial
 	liberar factorial
-finfun
+finfuncion
 
 [DOCUMENTA
 @brief `ValorAbsoluto` - Calcula el valor absoluto de un numero.
@@ -63,6 +66,7 @@ DOCUMENTA]
 funcion ValorAbsoluto de valor
 	si comparar Importar.Dec.Comparar valor < CERO
 		Importar.Dec.Restar CERO valor valor
-	fin
+	finsi
+
 	devolver valor
-finfun
+finfuncion

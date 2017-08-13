@@ -63,13 +63,14 @@ argumento. Véase <VG_ASERTAR_FALSO_ES_FATAL> y
 Ejecuta `necesitas FALSO` cuando la condición es falsa, `necesitas` lanza
 un error de semantica y por ende, esta función también.
 DOCUMENTA]
-funcion Asertar de mensaje y condicion
+procedimiento Asertar de mensaje y condicion
 	si no condicion
 		llamar ImprimirLinea
 			{Error fatal en Asertar (tipos.pseudo):}
 			mensaje
 			NULO
 		finargs
+
 		si VG_ASERTAR_FALSO_ES_FATAL
 			necesitas FALSO
 		sino
@@ -77,7 +78,7 @@ funcion Asertar de mensaje y condicion
 				llamar EscribirLinea
 					{Advertencia en Asertar (tipos.pseudo): VG_ASERTAR_FALSO_ES_FATAL es FALSO}
 				finargs
-			fin
-		fin
-	fin
-finfun
+			finsi
+		finsi
+	finsi
+finprocedimiento

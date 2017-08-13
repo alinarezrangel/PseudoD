@@ -44,7 +44,7 @@ funcion GradosARadianes de grados
 	devolver radianes
 	liberar grados
 	liberar divisor
-finfun
+finfuncion
 
 [DOCUMENTA
 @brief `RadianesAGrados` - Convierte radianes a grados sexadecimales.
@@ -64,7 +64,7 @@ funcion RadianesAGrados de radianes
 	devolver grados
 	liberar grados
 	liberar divisor
-finfun
+finfuncion
 
 funcion __Seno de angulo y num_iteraciones
 	[ *****************************************************************
@@ -118,7 +118,7 @@ funcion __Seno de angulo y num_iteraciones
 	liberar seno
 	liberar 2n+1
 	liberar v
-finfun
+finfuncion
 
 [DOCUMENTA
 @brief `Seno` - Calcula el seno trigonométrico de un angulo.
@@ -157,7 +157,7 @@ funcion Seno de angulo
 	si comparar Importar.Dec.Comparar angulo < CERO
 		Importar.Dec.Restar CERO angulo angulo
 		fijar mp a {-1}
-	fin
+	finsi
 
 	mientras comparar Importar.Dec.Comparar angulo > 2PI
 		Importar.Dec.Restar angulo 2PI angulo
@@ -166,11 +166,11 @@ funcion Seno de angulo
 	si comparar Importar.Dec.Comparar angulo > PI
 		Importar.Ent.Multiplicar mp UNON mp
 		Importar.Dec.Restar angulo PI angulo
-	fin
+	finsi
 
 	si comparar Importar.Dec.Comparar angulo > PI/2
 		Importar.Dec.Restar PI angulo angulo
-	fin
+	finsi
 
 	fijar rs a llamar __Seno angulo ITERACIONES_DE_SENO finargs
 
@@ -182,7 +182,7 @@ funcion Seno de angulo
 	liberar 2PI
 	liberar mp
 	liberar rs
-finfun
+finfuncion
 
 [DOCUMENTA
 @brief `Coseno` - Calcula el coseno de un angulo.
@@ -197,9 +197,9 @@ Realmente llama a `Seno((PI/2) - ang)`, lo cual es equivalente.
 DOCUMENTA]
 funcion Coseno de angulo
 	adquirir defase
-	fijar defase =¿? PI
+	fijar defase a PI
 	Importar.Dec.Dividir defase DOS defase
 	Importar.Dec.Restar defase angulo angulo
 	devolver llamar Seno angulo finargs
 	liberar defase
-finfun
+finfuncion

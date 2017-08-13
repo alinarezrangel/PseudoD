@@ -117,9 +117,9 @@ reintentar abrir el flujo.
 
 @races None
 DOCUMENTA]
-funcion @FlujoTexto#abrir con yo
+metodo @FlujoTexto#abrir con yo
 	necesitas FALSO
-finfun
+finmetodo
 
 [DOCUMENTA
 @brief `@FlujoTexto#cerrar` - Cierra el flujo.
@@ -133,9 +133,9 @@ no todos soportan, véase <@FlujoTexto\#abrir>) puede lanzar un error.
 
 @races None
 DOCUMENTA]
-funcion @FlujoTexto#cerrar con yo
+metodo @FlujoTexto#cerrar con yo
 	necesitas FALSO
-finfun
+finmetodo
 
 [DOCUMENTA
 @brief `@FlujoTexto#estaCerrado` - Determina si el flujo está cerrado.
@@ -151,9 +151,9 @@ porque el flujo ya estaba cerrado).
 
 @races None
 DOCUMENTA]
-funcion @FlujoTexto#estaCerrado con yo
+metodo @FlujoTexto#estaCerrado con yo
 	necesitas FALSO
-finfun
+finmetodo
 
 [DOCUMENTA
 @brief `@FlujoTexto#puedeLeer` - Determina si se puede leer del flujo.
@@ -167,9 +167,9 @@ un error (más no está indefinida).
 
 @races
 DOCUMENTA]
-funcion @FlujoTexto#puedeLeer con yo
+metodo @FlujoTexto#puedeLeer con yo
 	necesitas FALSO
-finfun
+finmetodo
 
 [DOCUMENTA
 @brief `@FlujoTexto#puedeEscribir` - Determina si se puede escribir en el flujo.
@@ -183,9 +183,9 @@ un error (más no está indefinida).
 
 @races
 DOCUMENTA]
-funcion @FlujoTexto#puedeEscribir con yo
+metodo @FlujoTexto#puedeEscribir con yo
 	necesitas FALSO
-finfun
+finmetodo
 
 [DOCUMENTA
 @brief `@FlujoTexto#leerCaracter` - Lee un carácter del flujo.
@@ -198,9 +198,9 @@ Lee un único carácter y lo devuelve. Si el flujo terminó (EOF, FDA,
 
 @races None
 DOCUMENTA]
-funcion @FlujoTexto#leerCaracter con yo
+metodo @FlujoTexto#leerCaracter con yo
 	necesitas FALSO
-finfun
+finmetodo
 
 [DOCUMENTA
 @brief `@FlujoTexto#leerPalabra` - Lee una palabra del flujo.
@@ -222,9 +222,9 @@ cadena vacía (`{}`).
 
 @races None
 DOCUMENTA]
-funcion @FlujoTexto#leerPalabra con yo
+metodo @FlujoTexto#leerPalabra con yo
 	necesitas FALSO
-finfun
+finmetodo
 
 [DOCUMENTA
 @brief `@FlujoTexto#leerLinea` - Lee una línea del flujo.
@@ -238,9 +238,9 @@ flujo se retornará la cadena vacía (`{}`).
 
 @races None
 DOCUMENTA]
-funcion @FlujoTexto#leerLinea con yo
+metodo @FlujoTexto#leerLinea con yo
 	necesitas FALSO
-finfun
+finmetodo
 
 [DOCUMENTA
 @brief `@FlujoTexto#leerBloque` - Lee un bloque de datos.
@@ -256,9 +256,9 @@ cadena vacía (`{}`).
 
 @dev Bloque leído o la cadena vacía (`{}`).
 DOCUMENTA]
-funcion @FlujoTexto#leerBloque con yo y tam_bloque
+metodo @FlujoTexto#leerBloque con yo y tam_bloque
 	necesitas FALSO
-finfun
+finmetodo
 
 [DOCUMENTA
 @brief `@FlujoTexto#escribirTexto` - Escribe un texto dentro del flujo.
@@ -270,9 +270,9 @@ la implementación así lo especifique.
 
 @races None
 DOCUMENTA]
-funcion @FlujoTexto#escribirTexto con yo y texto
+metodo @FlujoTexto#escribirTexto con yo y texto
 	necesitas FALSO
-finfun
+finmetodo
 
 [DOCUMENTA
 @brief `@FlujoTexto#escribirLinea` - Escribe una línea de texto.
@@ -284,9 +284,9 @@ al final.
 
 @races None
 DOCUMENTA]
-funcion @FlujoTexto#escribirLinea con yo y texto
+metodo @FlujoTexto#escribirLinea con yo y texto
 	necesitas FALSO
-finfun
+finmetodo
 
 [DOCUMENTA
 @brief `@FlujoTexto#fijarPosicion` - Fija la posición del cursor del flujo.
@@ -302,9 +302,9 @@ bytes o carácteres u otra definición dependiendo de la implementación.
 
 @races None
 DOCUMENTA]
-funcion @FlujoTexto#fijarPosicion con yo y posicion
+metodo @FlujoTexto#fijarPosicion con yo y posicion
 	necesitas FALSO
-finfun
+finmetodo
 
 [DOCUMENTA
 @brief `@FlujoTexto#obtenerPosicion` - Obtiene la posición del cursor del flujo.
@@ -321,9 +321,9 @@ bytes o carácteres u otra definición dependiendo de la implementación.
 
 @races None
 DOCUMENTA]
-funcion @FlujoTexto#obtenerPosicion con yo
+metodo @FlujoTexto#obtenerPosicion con yo
 	necesitas FALSO
-finfun
+finmetodo
 
 [DOCUMENTA
 @brief `@FlujoTexto#finDelFlujo` - Determina si se llegó al fin del flujo.
@@ -339,6 +339,6 @@ a menos que se cambie la ubicación de escritura con
 
 @races None
 DOCUMENTA]
-funcion @FlujoTexto#finDelFlujo con yo
+metodo @FlujoTexto#finDelFlujo con yo
 	necesitas FALSO
-finfun
+finmetodo

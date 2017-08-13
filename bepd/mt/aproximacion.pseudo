@@ -39,7 +39,7 @@ DOCUMENTA]
 funcion Piso de valor
 	Importar.Ent.Sumar valor CERO valor [ La suma de enteros redondea a cero ]
 	devolver valor
-finfun
+finfuncion
 
 [DOCUMENTA
 @brief `Techo` - Calcula el techo de un numero.
@@ -56,12 +56,14 @@ DOCUMENTA]
 funcion Techo de valor
 	adquirir techo
 	Importar.Ent.Sumar valor CERO techo
+
 	[ "son iguales" podria fallar por precisión: ]
 	si comparar Importar.Dec.Comparar valor = techo
 		devolver techo
 	sino
 		Importar.Ent.Sumar techo UNO techo
 		devolver techo
-	fin
+	finsi
+
 	liberar techo
-finfun
+finfuncion

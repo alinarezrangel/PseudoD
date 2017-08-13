@@ -217,7 +217,7 @@ funcion BufferTexto#leerCaracter con yo
 
 		liberar caracter
 		liberar tam_buffer
-	fin
+	finsi
 finfun
 
 [DOCUMENTA
@@ -257,7 +257,7 @@ funcion BufferTexto#leerPalabra con yo
 		fijar linea a {}
 
 		fijar cond a
-			si tanto
+			tanto
 				no llamar TipoCaracter#EsEspacioEnBlanco caracter finargs
 			como
 				comparar Importar.Ent.Comparar <yo>#cursor < tam_buffer
@@ -269,7 +269,7 @@ funcion BufferTexto#leerPalabra con yo
 			Importar.Cad.Concatenar linea caracter linea
 
 			fijar cond a
-				si tanto
+				tanto
 					no llamar TipoCaracter#EsEspacioEnBlanco caracter finargs
 				como
 					comparar Importar.Ent.Comparar <yo>#cursor < tam_buffer
@@ -283,7 +283,7 @@ funcion BufferTexto#leerPalabra con yo
 		liberar linea
 		liberar tam_buffer
 		liberar cond
-	fin
+	finsi
 finfun
 
 [DOCUMENTA
@@ -315,7 +315,7 @@ funcion BufferTexto#leerLinea con yo
 		fijar linea a {}
 
 		fijar cond a
-			si tanto
+			tanto
 				no llamar TipoCaracter#EsFinDeLinea caracter finargs
 			como
 				comparar Importar.Ent.Comparar <yo>#cursor < tam_buffer
@@ -327,7 +327,7 @@ funcion BufferTexto#leerLinea con yo
 			Importar.Cad.Concatenar linea caracter linea
 
 			fijar cond a
-				si tanto
+				tanto
 					no llamar TipoCaracter#EsFinDeLinea caracter finargs
 				como
 					comparar Importar.Ent.Comparar <yo>#cursor < tam_buffer
@@ -341,7 +341,7 @@ funcion BufferTexto#leerLinea con yo
 		liberar linea
 		liberar tam_buffer
 		liberar cond
-	fin
+	finsi
 finfun
 
 [DOCUMENTA
@@ -376,7 +376,7 @@ funcion BufferTexto#leerBloque con yo y tam_bloque
 		fijar tam_bql a {0}
 
 		fijar cond a
-			si tanto
+			tanto
 				comparar Importar.Ent.Comparar tam_bql <= tam_bloque
 			como
 				comparar Importar.Ent.Comparar <yo>#cursor < tam_buffer
@@ -389,7 +389,7 @@ funcion BufferTexto#leerBloque con yo y tam_bloque
 			Importar.Cad.Concatenar bloque caracter bloque
 
 			fijar cond a
-				si tanto
+				tanto
 					comparar Importar.Ent.Comparar tam_bql <= tam_bloque
 				como
 					comparar Importar.Ent.Comparar <yo>#cursor < tam_buffer
@@ -404,7 +404,7 @@ funcion BufferTexto#leerBloque con yo y tam_bloque
 		liberar tam_buffer
 		liberar cond
 		liberar tam_bql
-	fin
+	finsi
 finfun
 
 [DOCUMENTA

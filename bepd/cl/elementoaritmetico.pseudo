@@ -46,9 +46,9 @@ finclase
 
 @races None
 DOCUMENTA]
-funcion ElementoMatematico#sumar con yo y izq y res
+metodo ElementoMatematico#sumar con yo y izq y res
 	necesitas FALSO
-finfun
+finmetodo
 
 [DOCUMENTA
 @brief `ElementoAritmetico#restar` - Resta dos elementos (`res = yo - der`)
@@ -59,9 +59,9 @@ finfun
 
 @races None
 DOCUMENTA]
-funcion ElementoMatematico#restar con yo y izq y res
+metodo ElementoMatematico#restar con yo y izq y res
 	necesitas FALSO
-finfun
+finmetodo
 
 [DOCUMENTA
 @brief `ElementoAritmetico#multiplicar` - Multiplica dos elementos \
@@ -73,9 +73,9 @@ finfun
 
 @races None
 DOCUMENTA]
-funcion ElementoMatematico#multiplicar con yo y izq y res
+metodo ElementoMatematico#multiplicar con yo y izq y res
 	necesitas FALSO
-finfun
+finmetodo
 
 [DOCUMENTA
 @brief `ElementoAritmetico#dividir` - Divide dos elementos (`res = yo / der`)
@@ -86,6 +86,6 @@ finfun
 
 @races None
 DOCUMENTA]
-funcion ElementoMatematico#dividir con yo y izq y res
+metodo ElementoMatematico#dividir con yo y izq y res
 	necesitas FALSO
-finfun
+finmetodo

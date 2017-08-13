@@ -45,22 +45,25 @@ funcion Sumar de lv y rv
 	adquirir sr
 	adquirir decimal
 	fijar decimal a FALSO
+
 	si son diferentes llamar Cadena#Buscar lv {.} finargs y CMMERROR
 		fijar decimal a VERDADERO
 	sino
 		si son diferentes llamar Cadena#Buscar rv {.} finargs y CMMERROR
 			fijar decimal a VERDADERO
-		fin
-	fin
+		finsi
+	finsi
+
 	si decimal
 		Importar.Dec.Sumar lv rv sr
 	sino
 		Importar.Ent.Sumar lv rv sr
-	fin
+	finsi
+
 	devolver sr
 	liberar sr
 	liberar decimal
-finfun
+finfuncion
 
 [DOCUMENTA
 @brief `Restar` - Resta dos numeros.
@@ -81,22 +84,25 @@ funcion Restar de lv y rv
 	adquirir sr
 	adquirir decimal
 	fijar decimal a FALSO
+
 	si son diferentes llamar Cadena#Buscar lv {.} finargs y CMMERROR
 		fijar decimal a VERDADERO
 	sino
 		si son diferentes llamar Cadena#Buscar rv {.} finargs y CMMERROR
 			fijar decimal a VERDADERO
-		fin
-	fin
+		finsi
+	finsi
+
 	si decimal
 		Importar.Dec.Restar lv rv sr
 	sino
 		Importar.Ent.Restar lv rv sr
-	fin
+	finsi
+
 	devolver sr
 	liberar sr
 	liberar decimal
-finfun
+finfuncion
 
 [DOCUMENTA
 @brief `Multiplicar` - Multiplica dos numeros.
@@ -117,22 +123,25 @@ funcion Multiplicar de lv y rv
 	adquirir sr
 	adquirir decimal
 	fijar decimal a FALSO
+
 	si son diferentes llamar Cadena#Buscar lv {.} finargs y CMMERROR
 		fijar decimal a VERDADERO
 	sino
 		si son diferentes llamar Cadena#Buscar rv {.} finargs y CMMERROR
 			fijar decimal a VERDADERO
-		fin
-	fin
+		finsi
+	finsi
+
 	si decimal
 		Importar.Dec.Multiplicar lv rv sr
 	sino
 		Importar.Ent.Multiplicar lv rv sr
-	fin
+	finsi
+
 	devolver sr
 	liberar sr
 	liberar decimal
-finfun
+finfuncion
 
 [DOCUMENTA
 @brief `Dividir` - Divide dos numeros.
@@ -153,22 +162,25 @@ funcion Dividir de lv y rv
 	adquirir sr
 	adquirir decimal
 	fijar decimal a FALSO
+
 	si son diferentes llamar Cadena#Buscar lv {.} finargs y CMMERROR
 		fijar decimal a VERDADERO
 	sino
 		si son diferentes llamar Cadena#Buscar rv {.} finargs y CMMERROR
 			fijar decimal a VERDADERO
-		fin
-	fin
+		finsi
+	finsi
+
 	si decimal
 		Importar.Dec.Dividir lv rv sr
 	sino
 		Importar.Ent.Dividir lv rv sr
-	fin
+	finsi
+
 	devolver sr
 	liberar sr
 	liberar decimal
-finfun
+finfuncion
 
 [DOCUMENTA
 @brief `Resto` - Calcula el resto de una división entera.
@@ -211,4 +223,4 @@ funcion Resto de dividendo y divisor
 	liberar cociente
 	liberar coc_redondeado
 	liberar resto
-finfun
+finfuncion

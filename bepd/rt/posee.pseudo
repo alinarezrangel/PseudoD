@@ -64,8 +64,8 @@ funcion PoseeMetodo de tipo y nombre_metodo
 		devolver FALSO
 	sino
 		devolver VERDADERO
-	fin
-finfun
+	finsi
+finfuncion
 
 [DOCUMENTA
 @brief `PoseeAtributo` - Determina si el tipo posee en su **declaración** el \
@@ -103,8 +103,8 @@ funcion PoseeAtributo de tipo y nombre_atributo
 		devolver FALSO
 	sino
 		devolver VERDADERO
-	fin
-finfun
+	finsi
+finfuncion
 
 [DOCUMENTA
 @brief `PoseePuntero` - Determina si el tipo posee en su **declaración** el \
@@ -145,5 +145,5 @@ funcion PoseePuntero de tipo y nombre_puntero
 		devolver FALSO
 	sino
 		devolver VERDADERO
-	fin
-finfun
+	finsi
+finfuncion

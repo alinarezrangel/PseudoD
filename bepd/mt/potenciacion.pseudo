@@ -46,16 +46,18 @@ funcion ElevarValor de base y exponente
 		adquirir cuenta
 		fijar cuenta a UNO
 		fijar acumulador a base
+
 		mientras comparar Importar.Ent.Comparar cuenta < exponente
 			Importar.Dec.Multiplicar acumulador base acumulador
 			Importar.Ent.Sumar cuenta UNO cuenta
 		finbucle
+
 		devolver acumulador
 		liberar cuenta
 		liberar acumulador
 		liberar resultado
-	fin
-finfun
+	finsi
+finfuncion
 
 [DOCUMENTA
 @brief `RaizCuadrada` - Calcula la raiz cuadrada de un numero.
@@ -72,6 +74,7 @@ funcion RaizCuadrada de area
 	adquirir altura
 	fijar base a {0.5}
 	fijar altura a RAIZ_CUADRADA_MIN
+
 	mientras no llamar SonIguales base altura finargs
 		fijar base a llamar Dividir
 			llamar Sumar
@@ -85,7 +88,8 @@ funcion RaizCuadrada de area
 			base
 		finargs
 	finbucle
+
 	devolver base
 	liberar altura
 	liberar base
-finfun
+finfuncion

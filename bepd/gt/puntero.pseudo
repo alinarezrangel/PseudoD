@@ -80,9 +80,9 @@ La nueva variable debería ser una referencia a la variable que se desea apuntar
 
 @races None
 DOCUMENTA]
-funcion @Puntero#apuntar con yo y nuevaVariable
+metodo @Puntero#apuntar con yo y nuevaVariable
 	necesitas FALSO
-finfun
+finmetodo
 
 [DOCUMENTA
 @brief `@Puntero#esNulo` - Determina si el puntero es nulo.
@@ -95,6 +95,6 @@ Un puntero nulo es aquel que apunta a la variable <builtins.pseudo#NULO>.
 
 @races None
 DOCUMENTA]
-funcion @Puntero#esNulo con yo
+metodo @Puntero#esNulo con yo
 	necesitas FALSO
-finfun
+finmetodo

@@ -54,7 +54,7 @@ Almacena el resultado en el argumento res.
 
 @races None
 DOCUMENTA]
-funcion Fraccion#sumar con yo y der y res
+metodo Fraccion#sumar con yo y der y res
 	fijar <res>#numerador a llamar Sumar
 		llamar Multiplicar <yo>#numerador <der>#denominador finargs
 		llamar Multiplicar <yo>#denominador <der>#numerador finargs
@@ -62,7 +62,7 @@ funcion Fraccion#sumar con yo y der y res
 	fijar <res>#denominador a llamar Multiplicar
 		<yo>#denominador <der>#denominador
 	finargs
-finfun
+finmetodo
 
 [DOCUMENTA
 @brief `Fraccion#restar` - Resta dos fracciones.
@@ -76,7 +76,7 @@ Almacena el resultado en el argumento res.
 
 @races None
 DOCUMENTA]
-funcion Fraccion#restar con yo y der y res
+metodo Fraccion#restar con yo y der y res
 	fijar <res>#numerador a llamar Restar
 		llamar Multiplicar <yo>#numerador <der>#denominador finargs
 		llamar Multiplicar <yo>#denominador <der>#numerador finargs
@@ -84,7 +84,7 @@ funcion Fraccion#restar con yo y der y res
 	fijar <res>#denominador a llamar Multiplicar
 		<yo>#denominador <der>#denominador
 	finargs
-finfun
+finmetodo
 
 [DOCUMENTA
 @brief `Fraccion#multiplicar` - Multiplica dos fracciones.
@@ -98,14 +98,14 @@ Almacena el resultado en el argumento res.
 
 @races None
 DOCUMENTA]
-funcion Fraccion#multiplicar con yo y der y res
+metodo Fraccion#multiplicar con yo y der y res
 	fijar <res>#numerador a llamar Multiplicar
 		<yo>#numerador <der>#numerador
 	finargs
 	fijar <res>#denominador a llamar Multiplicar
 		<yo>#denominador <der>#denominador
 	finargs
-finfun
+finmetodo
 
 [DOCUMENTA
 @brief `Fraccion#dividir` - Divide dos fracciones.
@@ -119,11 +119,11 @@ Almacena el resultado en el argumento res.
 
 @races None
 DOCUMENTA]
-funcion Fraccion#dividir con yo y der y res
+metodo Fraccion#dividir con yo y der y res
 	fijar <res>#numerador a llamar Multiplicar
 		<yo>#numerador <der>#denominador
 	finargs
 	fijar <res>#denominador a llamar Multiplicar
 		<yo>#denominador <der>#numerador
 	finargs
-finfun
+finmetodo

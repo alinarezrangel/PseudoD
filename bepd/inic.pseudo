@@ -132,8 +132,8 @@ funcion EsNulo de valor
 		devolver VERDADERO
 	sino
 		devolver FALSO
-	fin
-finfun
+	finsi
+finfuncion
 
 [DOCUMENTA
 @brief Cambia dinámicamente la pila utilizada.
@@ -143,9 +143,9 @@ Equivalente a `usar_pila <i>`.
 
 @races None
 DOCUMENTA]
-funcion UsarPila de numero_de_pila
+procedimiento UsarPila de numero_de_pila
 	fijar VG_PILA_ACTUAL a numero_de_pila
-finfun
+finprocedimiento
 
 [DOCUMENTA
 @brief Obtiene dinámicamente la pila actualmente utilizada.
@@ -157,4 +157,4 @@ Equivalente a obtener el valor de VG_PILA_ACTUAL.
 DOCUMENTA]
 funcion ObtenerPila
 	devolver VG_PILA_ACTUAL
-finfun
+finfuncion

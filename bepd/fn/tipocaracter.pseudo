@@ -130,7 +130,7 @@ método y todos los demás de la clase <Localizacion>.
 DOCUMENTA]
 funcion TipoCaracter#EsEspacioEnBlanco con caracter
 	devolver llamar TipoCaracter#EsTipo caracter {ES} finargs
-finfun
+finfuncion
 
 [DOCUMENTA
 @brief `TipoCaracter#EsFinDeLinea` - Determina si el carácter es un \
@@ -148,7 +148,7 @@ funcion TipoCaracter#EsFinDeLinea con caracter
 		si algun
 			son iguales caracter y TipoCaracter#CaracterNuevaLinea
 		o son iguales caracter y TipoCaracter#CaracterRetornoDeCarro
-finfun
+finfuncion
 
 [DOCUMENTA
 @brief `TipoCaracter#EsAlfabetico` - Determina si el carácter es un \
@@ -170,7 +170,7 @@ método y todos los demás de la clase <Localizacion>.
 DOCUMENTA]
 funcion TipoCaracter#EsAlfabetico con caracter
 	devolver llamar TipoCaracter#EsTipo caracter {AL} finargs
-finfun
+finfuncion
 
 [DOCUMENTA
 @brief `TipoCaracter#EsAlfaNumerico` - Determina si el carácter es un \
@@ -192,7 +192,7 @@ método y todos los demás de la clase <Localizacion>.
 DOCUMENTA]
 funcion TipoCaracter#EsAlfaNumerico con caracter
 	devolver llamar TipoCaracter#EsTipo caracter {AN} finargs
-finfun
+finfuncion
 
 [DOCUMENTA
 @brief `TipoCaracter#EsDigito` - Determina si el carácter es un dígito.
@@ -213,7 +213,7 @@ método y todos los demás de la clase <Localizacion>.
 DOCUMENTA]
 funcion TipoCaracter#EsDigito con caracter
 	devolver llamar TipoCaracter#EsTipo caracter {DI} finargs
-finfun
+finfuncion
 
 [DOCUMENTA
 @brief `TipoCaracter#EsDigitoHex` - Determina si el carácter es un dígito \
@@ -235,7 +235,7 @@ método y todos los demás de la clase <Localizacion>.
 DOCUMENTA]
 funcion TipoCaracter#EsDigitoHex con caracter
 	devolver llamar TipoCaracter#EsTipo caracter {HE} finargs
-finfun
+finfuncion
 
 [DOCUMENTA
 @brief `TipoCaracter#EsMayusculas` - Determina si el carácter es un \
@@ -257,7 +257,7 @@ método y todos los demás de la clase <Localizacion>.
 DOCUMENTA]
 funcion TipoCaracter#EsMayusculas con caracter
 	devolver llamar TipoCaracter#EsTipo caracter {MA} finargs
-finfun
+finfuncion
 
 [DOCUMENTA
 @brief `TipoCaracter#EsMayusculas` - Determina si el carácter es un \
@@ -279,7 +279,7 @@ método y todos los demás de la clase <Localizacion>.
 DOCUMENTA]
 funcion TipoCaracter#EsMinusculas con caracter
 	devolver llamar TipoCaracter#EsTipo caracter {MI} finargs
-finfun
+finfuncion
 
 [DOCUMENTA
 @brief `TipoCaracter#EnMayusculas` - Convierte el carácter a mayúsculas.
@@ -299,7 +299,7 @@ método y todos los demás de la clase <Localizacion>.
 DOCUMENTA]
 funcion TipoCaracter#EnMayusculas con caracter
 	devolver llamar TipoCaracter#EsTipo caracter {TA} finargs
-finfun
+finfuncion
 
 [DOCUMENTA
 @brief `TipoCaracter#EnMinusculas` - Convierte el carácter a minúsculas.
@@ -319,4 +319,4 @@ método y todos los demás de la clase <Localizacion>.
 DOCUMENTA]
 funcion TipoCaracter#EnMinusculas con caracter
 	devolver llamar TipoCaracter#EsTipo caracter {TI} finargs
-finfun
+finfuncion

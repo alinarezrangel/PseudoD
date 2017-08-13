@@ -157,9 +157,9 @@ con el que es creado.
 
 @races None
 DOCUMENTA]
-funcion PunteroInteligente#apuntar con yo y otro
+metodo PunteroInteligente#apuntar con yo y otro
 	redireccionar <yo>#direccion <otro>
-finfun
+finmetodo
 
 [DOCUMENTA
 @brief Determina si el puntero es nulo.
@@ -172,13 +172,13 @@ Un puntero nulo apunta a la variable <NULO>.
 
 @races None
 DOCUMENTA]
-funcion PunteroInteligente#esNulo con yo
+metodo PunteroInteligente#esNulo con yo
 	si son iguales <yo>#direccion y NULO#NOMBRE
 		devolver VERDADERO
 	sino
 		devolver FALSO
 	nl
-finfun
+finmetodo
 
 adquirir ___codigo_pseudod_buffer_interno___
 puntero # ___codigo_pseudod_buffer_interno___

@@ -29,7 +29,7 @@ utilizar mt/constantes.pseudo
 Nunca de debe comparar decimales con `son iguales` o
 `comparar Importar.Dec.Comparar`, esto puede ocasionar fallas poco esperadas.
 
-Utiliza <mate.pseudo#DELTA>.
+Utiliza <mt/constantes.pseudo#DELTA>.
 
 @arg dec1 Decimal número 1 a comparar
 @arg dec2 Decimal número 2 a comparar
@@ -41,13 +41,16 @@ DOCUMENTA]
 funcion SonIguales de dec1 y dec2
 	adquirir resta
 	Importar.Dec.Restar dec1 dec2 resta
+
 	si comparar Importar.Dec.Comparar resta < CERO
 		Importar.Dec.Restar CERO resta resta
-	fin
+	finsi
+
 	si comparar Importar.Dec.Comparar resta < DELTA
 		devolver VERDADERO
 	sino
 		devolver FALSO
-	fin
+	finsi
+
 	liberar resta
-finfun
+finfuncion

@@ -42,7 +42,7 @@ funcion Cadena#Concatenar de c1 y c2
 	Importar.Cad.Concatenar c1 c2 resultado
 	devolver resultado
 	liberar resultado
-finfun
+finfuncion
 
 [DOCUMENTA
 @brief `Cadena#SubCadena` - Extrae una sección de una cadena.
@@ -60,7 +60,7 @@ funcion Cadena#SubCadena de en y desde y longitud
 	Importar.Cad.Sub_Cadena desde longitud en subcadena
 	devolver subcadena
 	liberar subcadena
-finfun
+finfuncion
 
 [DOCUMENTA
 @brief `Cadena#Buscar` - Busca una cadena en otra.
@@ -78,8 +78,8 @@ funcion Cadena#Buscar de en y que y desde
 	si son iguales desde y NULO
 		fijar desde a {0}
 		empujar NULO
-	fin
+	finsi
 	Importar.Cad.Buscar que desde en indice
 	devolver indice
 	liberar indice
-finfun
+finfuncion

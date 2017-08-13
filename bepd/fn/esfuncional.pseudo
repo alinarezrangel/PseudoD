@@ -30,9 +30,9 @@ Equivalente a `escribir`
 
 @races None
 DOCUMENTA]
-funcion Escribir de texto
+procedimiento Escribir de texto
 	escribir texto
-finfun
+finprocedimiento
 
 [DOCUMENTA
 @brief `EscribirLinea` - Casi identico a <Escribir>.
@@ -43,10 +43,10 @@ en `escribir` seguido de `nl`
 
 @races None
 DOCUMENTA]
-funcion EscribirLinea de texto
+procedimiento EscribirLinea de texto
 	escribir texto
 	nl
-finfun
+finprocedimiento
 
 [DOCUMENTA
 @brief `LeerPalabra` - Lee un valor desde la entrada estandar, y lo retorna.
@@ -60,7 +60,7 @@ funcion LeerPalabra
 	leer valor
 	devolver valor
 	liberar valor
-finfun
+finfuncion
 
 [DOCUMENTA
 @brief `DatosDeSalida` - Representa una configuracion de salida.
@@ -126,18 +126,20 @@ Los separa por espacios.
 Si la lista de argumentos no termina en <builtins.pseudo#NULO>, se bloqueara y
 terminara con un *stack underflow*.
 DOCUMENTA]
-funcion Imprimir de inicio [ ... NULO ]
+procedimiento Imprimir de inicio [ ... NULO ]
 	adquirir argumento
 	sacar argumento
 	escribir inicio
+
 	mientras sean diferentes argumento y NULO
 		escribir_esp
 		escribir argumento
 		sacar argumento
 	finbucle
+
 	empujar NULO
 	liberar argumento
-finfun
+finprocedimiento
 
 [DOCUMENTA
 @brief `ImprimirLinea` - Casi equivalente a <Imprimir>.
@@ -150,19 +152,21 @@ Solo que agrega un `nl` al final.
 Si la lista de argumentos no termina en <builtins.pseudo#NULO>, se bloqueara y
 terminara con un *stack underflow*.
 DOCUMENTA]
-funcion ImprimirLinea de inicio [ ... NULO ]
+procedimiento ImprimirLinea de inicio [ ... NULO ]
 	adquirir argumento
 	sacar argumento
 	escribir inicio
+
 	mientras sean diferentes argumento y NULO
 		escribir_esp
 		escribir argumento
 		sacar argumento
 	finbucle
+
 	nl
 	empujar NULO
 	liberar argumento
-finfun
+finprocedimiento
 
 [DOCUMENTA
 @brief `ImprimirFormato` - Equivalente en PseudoD a printf.
@@ -196,7 +200,7 @@ Si se especifica un comodin de caracter especial en el final de la cadena,
 o se especifica un comodin de reemplazo y falta el argumento, causara un
 *stack underflow*.
 DOCUMENTA]
-funcion ImprimirFormato [ str args... ]
+procedimiento ImprimirFormato [ str args... ]
 	adquirir cadena
 	adquirir caracter
 	adquirir ind
@@ -204,6 +208,7 @@ funcion ImprimirFormato [ str args... ]
 	recibir_parametro cadena
 	fijar ind a {0}
 	Importar.Cad.Tamaño cadena tam
+
 	mientras comparar Importar.Ent.Comparar ind < tam
 		fijar caracter a DATOS_DE_IMPRIMIR#CV
 		Importar.Cad.Caracter ind cadena caracter
@@ -214,24 +219,30 @@ funcion ImprimirFormato [ str args... ]
 				Importar.Ent.Sumar ind UNO ind
 				fijar caracter a DATOS_DE_IMPRIMIR#CV
 				Importar.Cad.Caracter ind cadena caracter
+
 				si son iguales caracter y DATOS_DE_IMPRIMIR#NLINE
 					fijar caracter a DATOS_DE_IMPRIMIR#NL
-				fin
+				finsi
+
 				si son iguales caracter y DATOS_DE_IMPRIMIR#NLINER
 					fijar caracter a DATOS_DE_IMPRIMIR#RC
-				fin
+				finsi
+
 				si son iguales caracter y DATOS_DE_IMPRIMIR#NLINERR
 					fijar caracter a DATOS_DE_IMPRIMIR#CV
 					nl
-				fin
+				finsi
+
 				si son iguales caracter y DATOS_DE_IMPRIMIR#NRESOLV
 					recibir_parametro caracter
 					fijar caracter a <caracter>
-				fin
+				finsi
+
 				escribir caracter
 				fijar caracter a DATOS_DE_IMPRIMIR#CV
-			fin
-		fin
+			finsi
+		finsi
+
 		escribir caracter
 		Importar.Ent.Sumar ind UNO ind
 	finbucle
@@ -239,4 +250,4 @@ funcion ImprimirFormato [ str args... ]
 	liberar caracter
 	liberar ind
 	liberar tam
-finfun
+finprocedimiento

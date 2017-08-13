@@ -19,3 +19,6 @@ procedimiento Hola de mundo
 	escribir mundo
 	nl
 finprocedimiento
+
+escribir {Hola Mundo!}
+nl

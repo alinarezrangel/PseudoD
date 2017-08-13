@@ -33,10 +33,10 @@ Equivalente a escribir `instancia tattr yo#nattr`.
 @races Fatal.HaveAttr
 Si el atributo ya existe, lanzara un error fatal.
 DOCUMENTA]
-funcion CrearAtributoDinamico de yo y nombre_atributo y tipo_atributo
+procedimiento CrearAtributoDinamico de yo y nombre_atributo y tipo_atributo
 	[ instancia tattr yo#nattr ]
 	instancia <tipo_atributo> <yo>#<nombre_atributo>
-finfun
+finprocedimiento
 
 [DOCUMENTA
 @brief `DestruirAtributoDinamico` - Destruye un atributo dinamico.
@@ -48,7 +48,7 @@ Este puede ser creado con <CrearAtributoDinamico>.
 @races Fatal.NonAttr
 De ya estar destruido el atributo, lanzara un error fatal.
 DOCUMENTA]
-funcion DestruirAtributoDinamico de yo y nombre_atributo
+procedimiento DestruirAtributoDinamico de yo y nombre_atributo
 	[ instancia tattr yo#nattr ]
 	liberar <yo>#<nombre_atributo>
-finfun
+finprocedimiento
