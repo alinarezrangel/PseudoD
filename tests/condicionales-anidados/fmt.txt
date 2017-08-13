@@ -1,0 +1,3 @@
+Este programa no utiliza entrada alguna.
+
+La salida son líneas de texto sin formato alguno.

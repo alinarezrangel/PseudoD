@@ -236,6 +236,16 @@ namespace PDTipos
 			{
 				in >> nmb;
 
+				if(
+					(Tokens::EsNMemonico(nmb)) &&
+					(nmb.ObtenerNMemonico() == pseudod::NMemonico::PD_CLASE_METODO_ESTATICO)
+				)
+				{
+					in >> nmb;
+
+					continue;
+				}
+
 				if(!Tokens::EsIdentificador(nmb))
 				{
 					throw PDvar::ErrorDeSintaxis(

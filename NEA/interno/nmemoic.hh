@@ -122,6 +122,7 @@ namespace pseudod
 				PD_CLASE_ATRIBUTO, // atributo X
 				PD_CLASE_METODO, // metodo X
 				PD_CLASE_PUNTERO, // puntero X
+				PD_CLASE_METODO_ESTATICO, // metodo estatico X
 				PD_FIN_ARGUMENTOS, // #(Final).|finargs
 				PD_COMPARAR_IGUAL, // =/==
 				PD_COMPARAR_MENOR, // <

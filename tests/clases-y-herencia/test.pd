@@ -57,6 +57,8 @@ metodo Mascota#mover con yo y donde
 	escribir { con mi dueño }
 	escribir <yo>#dueño
 	nl
+
+	llamar <yo>#interactuar <yo>#dueño finargs
 finmetodo
 
 clase Perro hereda Mascota
@@ -82,4 +84,3 @@ redireccionar p2#dueño a p1#nombre
 
 llamar p1#mover {la casa} finargs
 llamar p2#mover {la casa} finargs
-llamar p2#interactuar p1#nombre finargs

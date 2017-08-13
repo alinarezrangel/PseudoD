@@ -1,0 +1,231 @@
+[ ******************************************************************************
+*****************************************
+*********
+** Bibliotecas de Clases de Utilidad: subconjunto de la BEPD.
+** Localizacion: Abstracción de conjuntos de diferencias culturales.
+*********
+*****************************************
+********************************************************************************
+Copyright 2016 Alejandro Linarez Rangel
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+********************************************************************************
+****************************************************************************** ]
+
+[DOCUMENTA
+@brief `Localizacion` - Conjunto de diferencias culturales.
+Esta clase provee al programa de una abstracción entre las diferencias
+culturales del usuario.
+DOCUMENTA]
+clase Localizacion hereda Objeto
+	atributo nombre
+
+	metodo crear
+
+	metodo fijarNombre
+
+	metodo convertirEnteroHacia
+	metodo convertirDecimalHacia
+
+	metodo convertirEnteroDesde
+	metodo convertirDecimalDesde
+
+	metodo estatico obtenerClasico
+	metodo estatico fijarGlobal
+finclase
+
+[DOCUMENTA
+@brief `Localizacion#crear` - Crea una nueva localización.
+La nueva localización será una copia de la actual localización global.
+DOCUMENTA]
+metodo Localizacion#crear con yo
+	fijar <yo>#nombre a Localizacion#global#nombre
+finmetodo
+
+[DOCUMENTA
+@brief `Localizacion#fijarNombre` - Fija el nombre de la localización.
+Si el nombre de la localización no es soportado por el sistema, esta función
+puede fallar.
+
+Algunos nombres de ejemplo son:
+
+* `{en_US.UTF8}`
+* `{es_VE.UTF8}`
+* `{POSIX}`
+* `{C}`
+* `{}` (nombre vacío)
+
+@argyo
+@arg nombre Nuevo nombre de este locale.
+DOCUMENTA]
+metodo Localizacion#fijarNombre con yo y nombre
+	fijar <yo>#nombre a nombre
+finmetodo
+
+[DOCUMENTA
+@brief `Localizacion#convertirEnteroHacia` - Convierte un entero desde la \
+localización actual hacia la especificada.
+Se asume que `entero` es un número entero codificado en la localización de
+esta instancia.
+
+@argyo
+@arg locale Referencia a la nueva localización a usar para el entero.
+@arg entero Entero codificado en la localización de esta instancia.
+
+@dev Entero codificado en la localización especificada por `locale`.
+
+@races State.Shared, Fatal.NoThreadSafe
+
+Esta función accede a estados globales compartidos entre C, C++ y PseudoD de
+una manera no segura entre hilos. El estado global es compartido entre este
+método y todos los demás de la clase <Localizacion>.
+DOCUMENTA]
+metodo Localizacion#convertirEnteroHacia con yo y locale y entero
+	Importar.Localizacion.Fijar <yo>#nombre
+	Importar.Localizacion.ConvertirEnteroALocal <locale>#nombre entero
+	Importar.Localizacion.Fijar Localizacion#global#nombre
+
+	devolver entero
+finmetodo
+
+[DOCUMENTA
+@brief `Localizacion#convertirDecimalHacia` - Convierte un decimal desde la \
+localización actual hacia la especificada.
+Se asume que `decimal` es un número real codificado en la localización de
+esta instancia.
+
+@argyo
+@arg locale Referencia a la nueva localización a usar para el decimal.
+@arg decimal Decimal codificado en la localización de esta instancia.
+
+@dev Decimal codificado en la localización especificada por `locale`.
+
+@races State.Shared, Fatal.NoThreadSafe
+
+Esta función accede a estados globales compartidos entre C, C++ y PseudoD de
+una manera no segura entre hilos. El estado global es compartido entre este
+método y todos los demás de la clase <Localizacion>.
+DOCUMENTA]
+metodo Localizacion#convertirDecimalHacia con yo y locale y decimal
+	Importar.Localizacion.Fijar <yo>#nombre
+	Importar.Localizacion.ConvertirDecimalALocal <locale>#nombre decimal
+	Importar.Localizacion.Fijar Localizacion#global#nombre
+
+	devolver decimal
+finmetodo
+
+[DOCUMENTA
+@brief `Localizacion#convertirEnteroDesde` - Convierte un entero desde la \
+localización especificada hacia la actual.
+Se asume que `entero` es un número entero codificado en la localización
+especificada.
+
+@argyo
+@arg locale Referencia a la localización actual del entero.
+@arg entero Entero codificado en la localización de esta instancia.
+
+@dev Entero codificado en la localización de esta instancia.
+
+@races State.Shared, Fatal.NoThreadSafe
+
+Esta función accede a estados globales compartidos entre C, C++ y PseudoD de
+una manera no segura entre hilos. El estado global es compartido entre este
+método y todos los demás de la clase <Localizacion>.
+DOCUMENTA]
+metodo Localizacion#convertirEnteroDesde con yo y locale y entero
+	Importar.Localizacion.Fijar <yo>#nombre
+	Importar.Localizacion.ConvertirEnteroDesdeLocal <locale>#nombre entero
+	Importar.Localizacion.Fijar Localizacion#global#nombre
+
+	devolver entero
+finmetodo
+
+[DOCUMENTA
+@brief `Localizacion#convertirDecimalDesde` - Convierte un decimal desde la \
+localización especificada hacia la actual.
+Se asume que `decimal` es un número entero codificado en la localización
+especificada.
+
+@argyo
+@arg locale Referencia a la localización actual del entero.
+@arg decimal Decimal codificado en la localización de esta instancia.
+
+@dev Decimal codificado en la localización de esta instancia.
+
+@races State.Shared, Fatal.NoThreadSafe
+
+Esta función accede a estados globales compartidos entre C, C++ y PseudoD de
+una manera no segura entre hilos. El estado global es compartido entre este
+método y todos los demás de la clase <Localizacion>.
+DOCUMENTA]
+metodo Localizacion#convertirDecimalDesde con yo y locale y decimal
+	Importar.Localizacion.Fijar <yo>#nombre
+	Importar.Localizacion.ConvertirDecimalDesdeLocal <locale>#nombre decimal
+	Importar.Localizacion.Fijar Localizacion#global#nombre
+
+	devolver decimal
+finmetodo
+
+[DOCUMENTA
+@brief `Localizacion#obtenerClasico` - Devuelve la localización clásica.
+Esta es la misma localización que es global al inicio del programa.
+
+@argyo
+
+@dev Referencia al locale global que es el clásico.
+
+@races State.Shared, Fatal.NoThreadSafe, ReturnValue.Shared
+
+Esta función accede a estados globales compartidos entre C, C++ y PseudoD de
+una manera no segura entre hilos. El estado global es compartido entre este
+método y todos los demás de la clase <Localizacion>.
+DOCUMENTA]
+metodo estatico Localizacion#obtenerClasico
+	devolver Localizacion#clasica#NOMBRE
+finmetodo
+
+[DOCUMENTA
+@brief `Localizacion#fijarGlobal` - Fija la nueva localización global a \
+utilizar.
+Esto cambia la localización utilizada por los flujos de entrada, salida y error
+estándares.
+
+@argyo
+@arg locale Referencia a la nueva localización a usar como global.
+
+@races State.Shared, Fatal.NoThreadSafe
+
+Esta función accede a estados globales compartidos entre C, C++ y PseudoD de
+una manera no segura entre hilos. El estado global es compartido entre este
+método y todos los demás de la clase <Localizacion>.
+DOCUMENTA]
+metodo estatico Localizacion#fijarGlobal con locale
+	fijar Localizacion#global#nombre a <locale>#nombre
+
+	Importar.Localizacion.Fijar <locale>#nombre
+finmetodo
+
+[DOCUMENTA
+@brief `Localizacion#global` - Es la localización global.
+Nunca debería ser modificada directamente, véase <Localizacion#fijarGlobal>.
+DOCUMENTA]
+instancia Localizacion Localizacion#global
+
+llamar Localizacion#global#fijarNombre {C} finargs
+
+[NO DOCUMENTA
+@brief Esta variable global es la localización clásica.
+
+Nunca debería ser accedida directamente, véase <Localizacion#obtenerClasico>.
+NO DOCUMENTA]
+instancia Localizacion Localizacion#clasica

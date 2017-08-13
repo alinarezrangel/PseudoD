@@ -72,23 +72,64 @@ Importar.Cad.Caracter_Especial
 liberar TipoCaracter#BF
 
 [DOCUMENTA
+@brief `TipoCaracter#EsTipo` - Determina si el carácter es de un tipo \
+específico.
+
+Los tipos válidos son:
+
+* `ES`: Espacio en blanco (separador de palabras)
+* `AL`: Alfabético
+* `AN`: Alfanumérico
+* `BL`: Blanco (el carácter no es visible)
+* `CO`: Carácter de Control
+* `MA`: Mayúsculas
+* `MI`: Minúsculas
+* `DI`: Dígito
+* `PU`: Puntuación
+* `HE`: Dígito Hexadecimal
+* `VI`: Visible
+* `GR`: Gráfico
+
+Esta función utiliza la biblioteca de localización de PseudoD, véase
+<cl/localizacion.pseudo#Localizacion> para más información.
+
+@arg caracter El carácter cuyo tipo de va a determinar.
+@arg tipo Algúno de los tipos válidos.
+
+@dev <builtins.pseudo#VERDADERO> si `caracter` es del tipo `tipo`.
+
+@races State.Shared, Fatal.NoThreadSafe
+
+Esta función accede a estados globales compartidos entre C, C++ y PseudoD de
+una manera no segura entre hilos. El estado global es compartido entre este
+método y todos los demás de la clase <Localizacion>.
+DOCUMENTA]
+funcion TipoCaracter#EsTipo con caracter y tipo
+	Importar.Localizacion.TipoCaracter * caracter tipo
+
+	devolver caracter
+finfuncion
+
+[DOCUMENTA
 @brief `TipoCaracter#EsEspacioEnBlanco` - Determina si el carácter es un \
 espacio en blanco.
 
+Esta función utiliza la biblioteca de localización de PseudoD, véase
+<cl/localizacion.pseudo#Localizacion> para más información.
+
 @arg caracter Carácter a determinar.
 
-@dev <builtins.pseudo#VERDADERO> si el carácter es un espacio en blanco o \
-<builtins.pseudo#FALSO> en caso contrario.
+@dev <builtins.pseudo#VERDADERO> si el carácter es un espacio en blanco en la \
+localización actual o <builtins.pseudo#FALSO> en caso contrario.
 
-@races None
+@races State.Shared, Fatal.NoThreadSafe
+
+Esta función accede a estados globales compartidos entre C, C++ y PseudoD de
+una manera no segura entre hilos. El estado global es compartido entre este
+método y todos los demás de la clase <Localizacion>.
 DOCUMENTA]
 funcion TipoCaracter#EsEspacioEnBlanco con caracter
-	devolver
-		si algun
-			son iguales caracter y TipoCaracter#CaracterEspacioEnBlanco
-		o son iguales caracter y TipoCaracter#CaracterTabulador
-		o son iguales caracter y TipoCaracter#CaracterNuevaLinea
-		o son iguales caracter y TipoCaracter#CaracterRetornoDeCarro
+	devolver llamar TipoCaracter#EsTipo caracter {ES} finargs
 finfun
 
 [DOCUMENTA
@@ -107,4 +148,175 @@ funcion TipoCaracter#EsFinDeLinea con caracter
 		si algun
 			son iguales caracter y TipoCaracter#CaracterNuevaLinea
 		o son iguales caracter y TipoCaracter#CaracterRetornoDeCarro
+finfun
+
+[DOCUMENTA
+@brief `TipoCaracter#EsAlfabetico` - Determina si el carácter es un \
+carácter alfabético.
+
+Esta función utiliza la biblioteca de localización de PseudoD, véase
+<cl/localizacion.pseudo#Localizacion> para más información.
+
+@arg caracter Carácter a determinar.
+
+@dev <builtins.pseudo#VERDADERO> si el carácter es alfabético en la \
+localización actual o <builtins.pseudo#FALSO> en caso contrario.
+
+@races State.Shared, Fatal.NoThreadSafe
+
+Esta función accede a estados globales compartidos entre C, C++ y PseudoD de
+una manera no segura entre hilos. El estado global es compartido entre este
+método y todos los demás de la clase <Localizacion>.
+DOCUMENTA]
+funcion TipoCaracter#EsAlfabetico con caracter
+	devolver llamar TipoCaracter#EsTipo caracter {AL} finargs
+finfun
+
+[DOCUMENTA
+@brief `TipoCaracter#EsAlfaNumerico` - Determina si el carácter es un \
+carácter alfanumérico.
+
+Esta función utiliza la biblioteca de localización de PseudoD, véase
+<cl/localizacion.pseudo#Localizacion> para más información.
+
+@arg caracter Carácter a determinar.
+
+@dev <builtins.pseudo#VERDADERO> si el carácter es alfanumérico en la \
+localización actual o <builtins.pseudo#FALSO> en caso contrario.
+
+@races State.Shared, Fatal.NoThreadSafe
+
+Esta función accede a estados globales compartidos entre C, C++ y PseudoD de
+una manera no segura entre hilos. El estado global es compartido entre este
+método y todos los demás de la clase <Localizacion>.
+DOCUMENTA]
+funcion TipoCaracter#EsAlfaNumerico con caracter
+	devolver llamar TipoCaracter#EsTipo caracter {AN} finargs
+finfun
+
+[DOCUMENTA
+@brief `TipoCaracter#EsDigito` - Determina si el carácter es un dígito.
+
+Esta función utiliza la biblioteca de localización de PseudoD, véase
+<cl/localizacion.pseudo#Localizacion> para más información.
+
+@arg caracter Carácter a determinar.
+
+@dev <builtins.pseudo#VERDADERO> si el carácter es un dígito en la \
+localización actual o <builtins.pseudo#FALSO> en caso contrario.
+
+@races State.Shared, Fatal.NoThreadSafe
+
+Esta función accede a estados globales compartidos entre C, C++ y PseudoD de
+una manera no segura entre hilos. El estado global es compartido entre este
+método y todos los demás de la clase <Localizacion>.
+DOCUMENTA]
+funcion TipoCaracter#EsDigito con caracter
+	devolver llamar TipoCaracter#EsTipo caracter {DI} finargs
+finfun
+
+[DOCUMENTA
+@brief `TipoCaracter#EsDigitoHex` - Determina si el carácter es un dígito \
+hexadecimal.
+
+Esta función utiliza la biblioteca de localización de PseudoD, véase
+<cl/localizacion.pseudo#Localizacion> para más información.
+
+@arg caracter Carácter a determinar.
+
+@dev <builtins.pseudo#VERDADERO> si el carácter es un dígito hexadecimal en la \
+localización actual o <builtins.pseudo#FALSO> en caso contrario.
+
+@races State.Shared, Fatal.NoThreadSafe
+
+Esta función accede a estados globales compartidos entre C, C++ y PseudoD de
+una manera no segura entre hilos. El estado global es compartido entre este
+método y todos los demás de la clase <Localizacion>.
+DOCUMENTA]
+funcion TipoCaracter#EsDigitoHex con caracter
+	devolver llamar TipoCaracter#EsTipo caracter {HE} finargs
+finfun
+
+[DOCUMENTA
+@brief `TipoCaracter#EsMayusculas` - Determina si el carácter es un \
+carácter en mayúsculas.
+
+Esta función utiliza la biblioteca de localización de PseudoD, véase
+<cl/localizacion.pseudo#Localizacion> para más información.
+
+@arg caracter Carácter a determinar.
+
+@dev <builtins.pseudo#VERDADERO> si el carácter esta en mayúsculas en la \
+localización actual o <builtins.pseudo#FALSO> en caso contrario.
+
+@races State.Shared, Fatal.NoThreadSafe
+
+Esta función accede a estados globales compartidos entre C, C++ y PseudoD de
+una manera no segura entre hilos. El estado global es compartido entre este
+método y todos los demás de la clase <Localizacion>.
+DOCUMENTA]
+funcion TipoCaracter#EsMayusculas con caracter
+	devolver llamar TipoCaracter#EsTipo caracter {MA} finargs
+finfun
+
+[DOCUMENTA
+@brief `TipoCaracter#EsMayusculas` - Determina si el carácter es un \
+carácter en minúsculas.
+
+Esta función utiliza la biblioteca de localización de PseudoD, véase
+<cl/localizacion.pseudo#Localizacion> para más información.
+
+@arg caracter Carácter a determinar.
+
+@dev <builtins.pseudo#VERDADERO> si el carácter esta en minúsculas en la \
+localización actual o <builtins.pseudo#FALSO> en caso contrario.
+
+@races State.Shared, Fatal.NoThreadSafe
+
+Esta función accede a estados globales compartidos entre C, C++ y PseudoD de
+una manera no segura entre hilos. El estado global es compartido entre este
+método y todos los demás de la clase <Localizacion>.
+DOCUMENTA]
+funcion TipoCaracter#EsMinusculas con caracter
+	devolver llamar TipoCaracter#EsTipo caracter {MI} finargs
+finfun
+
+[DOCUMENTA
+@brief `TipoCaracter#EnMayusculas` - Convierte el carácter a mayúsculas.
+
+Esta función utiliza la biblioteca de localización de PseudoD, véase
+<cl/localizacion.pseudo#Localizacion> para más información.
+
+@arg caracter Carácter a convertir.
+
+@dev Versión en mayúsculas del carácter en la localización actual.
+
+@races State.Shared, Fatal.NoThreadSafe
+
+Esta función accede a estados globales compartidos entre C, C++ y PseudoD de
+una manera no segura entre hilos. El estado global es compartido entre este
+método y todos los demás de la clase <Localizacion>.
+DOCUMENTA]
+funcion TipoCaracter#EnMayusculas con caracter
+	devolver llamar TipoCaracter#EsTipo caracter {TA} finargs
+finfun
+
+[DOCUMENTA
+@brief `TipoCaracter#EnMinusculas` - Convierte el carácter a minúsculas.
+
+Esta función utiliza la biblioteca de localización de PseudoD, véase
+<cl/localizacion.pseudo#Localizacion> para más información.
+
+@arg caracter Carácter a convertir.
+
+@dev Versión en minúsculas del carácter en la localización actual.
+
+@races State.Shared, Fatal.NoThreadSafe
+
+Esta función accede a estados globales compartidos entre C, C++ y PseudoD de
+una manera no segura entre hilos. El estado global es compartido entre este
+método y todos los demás de la clase <Localizacion>.
+DOCUMENTA]
+funcion TipoCaracter#EnMinusculas con caracter
+	devolver llamar TipoCaracter#EsTipo caracter {TI} finargs
 finfun

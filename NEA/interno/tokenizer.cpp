@@ -524,12 +524,22 @@ namespace pseudod
 				continue;
 			}
 
-			if((*iter == hasta1) || (*iter == hasta2))
+			if(*iter == hasta1)
+			{
+				if(c == 0)
+					return iter;
+
+				continue;
+			}
+
+			if(*iter == hasta2)
 			{
 				if(c == 0)
 					return iter;
 				else
 					c--;
+
+				continue;
 			}
 		}
 

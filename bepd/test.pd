@@ -19,22 +19,23 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ****************************************************************************** ]
 
-adquirir nloc
-adquirir locale
-adquirir vl
+utilizar cl/localizacion.pseudo
+utilizar fn/tipocaracter.pseudo
 
-fijar nloc a {TA}
-fijar locale a {es_VE.UTF8}
+adquirir nlc
 
-fijar vl a {á}
+instancia Localizacion loc
 
-escribir vl
+llamar loc#fijarNombre {es_VE.UTF-8} finargs
+
+llamar Localizacion#fijarGlobal loc finargs
+
+escribir {Ingresa un caracter: }
+leer nlc
+
+escribir llamar TipoCaracter#EsDigito nlc finargs
 nl
 
-Importar.Localizacion.Fijar locale
-
-Importar.Localizacion.TipoCaracter * vl nloc
-
-escribir vl
-nl
-
+llamar Localizacion#fijarGlobal
+	llamar Localizacion#obtenerClasico finargs
+finargs

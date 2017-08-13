@@ -1,0 +1,3 @@
+Prueba los condicionales anidados `si` - `sino` - `finsi`.
+
+Prueba el funcionamiento de los condicionales cuando están altamente anidados.

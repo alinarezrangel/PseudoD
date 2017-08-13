@@ -571,7 +571,13 @@ namespace pseudod
 				DATOS_INT.Empujar(param[i], cae(DATOS_INT.ObtenerVariable("VG_PILA_ACTUAL")));
 			}
 
-			if(tipo_var != "PseudoFuncion")
+			/*
+			* Si tipo_var=="PseudoFuncion" entonces estamos llamando a una funcion,
+			* Si tipo_var==nombre_var entonces estamos llamando a un metodo estatico
+			* de una clase.
+			*/
+
+			if((tipo_var != "PseudoFuncion") && (tipo_var != nombre_var))
 			{
 				DATOS_INT.Empujar(nombre_var, cae(DATOS_INT.ObtenerVariable("VG_PILA_ACTUAL")));
 			}
@@ -724,6 +730,15 @@ namespace pseudod
 			Token nm, cp;
 
 			e >> nm >> cp;
+
+			if(
+				Tokens::EsNMemonico(nm) &&
+				(nm.ObtenerNMemonico() == NMemonico::PD_CLASE_METODO_ESTATICO)
+			)
+			{
+				nm = cp;
+				e >> cp;
+			}
 
 			if(!Tokens::EsIdentificador(nm))
 			{

@@ -102,6 +102,11 @@ la función puede fallar.
 específico, la función puede fallar.
 - `Fatal.NotAType`: Si un objeto específico **no es un tipo** (clase)
 la función puede fallar.
+- `Fatal.NoThreadSafe`: La función o método no es segura en caso de que
+múltiples hilos la llamen al mismo tiempo.
+- `State.Shared`: La función o método accede a un estado global compartido
+entre llamadas a esta o llamadas a otras funciones. Similar a
+`ReturnValue.Shared`.
 
 Los archivos (por utilidad) son:
 

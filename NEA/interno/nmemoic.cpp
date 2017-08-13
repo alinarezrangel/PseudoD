@@ -112,6 +112,7 @@ static std::multimap<PDCadena, pseudod::NMemonico::Palabra> ConversorS2P =
 	{"finintenta", pseudod::NMemonico::PD_FIN_INTENTA},
 	{"atributo", pseudod::NMemonico::PD_CLASE_ATRIBUTO},
 	{"puntero", pseudod::NMemonico::PD_CLASE_PUNTERO},
+	{"estatico", pseudod::NMemonico::PD_CLASE_METODO_ESTATICO},
 	{"metodo", pseudod::NMemonico::PD_CLASE_METODO},
 	{"finargs", pseudod::NMemonico::PD_FIN_ARGUMENTOS},
 	{"#(Final).", pseudod::NMemonico::PD_FIN_ARGUMENTOS},

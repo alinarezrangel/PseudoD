@@ -36,14 +36,22 @@ namespace Localizacion
 
 	void PseudoFijarLocalizacion::InscribirInstancia(PDvar::PDDatos* data)
 	{
-		if(!this->var)
+		std::locale tg;
+
+		if(this->var && (this->locale != "*"))
 		{
-			std::locale::global(std::locale(this->locale));
+			tg = std::locale(data->ObtenerVariable(this->locale));
+		}
+		else if(this->locale != "*")
+		{
+			tg = std::locale(this->locale);
 		}
 		else
 		{
-			std::locale::global(std::locale(data->ObtenerVariable(this->locale)));
+			tg = std::locale();
 		}
+
+		std::locale::global(tg);
 
 		std::cout.imbue(std::locale());
 		std::wcout.imbue(std::locale());
@@ -117,13 +125,17 @@ namespace Localizacion
 	{
 		std::locale tg;
 
-		if(this->var)
+		if(this->var && (this->locale != "*"))
 		{
 			tg = std::locale(data->ObtenerVariable(this->locale));
 		}
-		else
+		else if(this->locale != "*")
 		{
 			tg = std::locale(this->locale);
+		}
+		else
+		{
+			tg = std::locale();
 		}
 
 		PDCadena& vl = data->ObtenerVariable(this->vard);
@@ -184,13 +196,17 @@ namespace Localizacion
 	{
 		std::locale tg;
 
-		if(this->var)
+		if(this->var && (this->locale != "*"))
 		{
 			tg = std::locale(data->ObtenerVariable(this->locale));
 		}
-		else
+		else if(this->locale != "*")
 		{
 			tg = std::locale(this->locale);
+		}
+		else
+		{
+			tg = std::locale();
 		}
 
 		PDCadena& vl = data->ObtenerVariable(this->vard);
@@ -266,11 +282,13 @@ namespace Localizacion
 
 		PDCadena& vl = data->ObtenerVariable(this->vard);
 
+		std::locale cp {};
+
 		std::locale::global(tg);
 
 		PDDecimal dc = caf(vl);
 
-		std::locale::global(std::locale::classic());
+		std::locale::global(cp);
 
 		vl = dac(dc);
 	}
@@ -336,11 +354,13 @@ namespace Localizacion
 
 		PDCadena& vl = data->ObtenerVariable(this->vard);
 
+		std::locale cp {};
+
 		std::locale::global(tg);
 
 		PDDecimal dc = cae(vl);
 
-		std::locale::global(std::locale::classic());
+		std::locale::global(cp);
 
 		vl = eas(dc);
 	}
