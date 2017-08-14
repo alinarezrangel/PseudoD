@@ -62,7 +62,7 @@ PseudoD: $(NIAPATH)/Main.cpp libpseudodsrc.a
 	$(CXX) $(DEBUG) $(CPPLANG) $(OPT) $(CFLAGS) $< libpseudodsrc.a $(LIBS) -o $@
 
 clean:
-	rm nea_interno_data.o nea_pddata.o nia_interno_nmemonic.o nia_interprete.o libpseudodsrc.a libpseudod.so PseudoD
+	rm nea_interno_data.o nea_pddata.o nia_interno_nmemonic.o nia_interprete.o libpseudodsrc.a libpseudod.so PseudoD nia_interno_token.o nia_interno_tokenizer.o
 
 install:
 	./instalar.sh
