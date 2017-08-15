@@ -9,10 +9,10 @@ install:
 script: make
 os:
 - linux
+dist: trusty
 branches:
   only:
   - master
 env:
   global:
   - LANG="es_VEN.UTF-8"
-
