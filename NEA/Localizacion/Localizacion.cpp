@@ -40,11 +40,11 @@ namespace Localizacion
 
 		if(this->var && (this->locale != "*"))
 		{
-			tg = std::locale(data->ObtenerVariable(this->locale));
+			tg = std::locale((std::string) data->ObtenerVariable(this->locale));
 		}
 		else if(this->locale != "*")
 		{
-			tg = std::locale(this->locale);
+			tg = std::locale((std::string) this->locale);
 		}
 		else
 		{
@@ -127,11 +127,11 @@ namespace Localizacion
 
 		if(this->var && (this->locale != "*"))
 		{
-			tg = std::locale(data->ObtenerVariable(this->locale));
+			tg = std::locale((std::string) data->ObtenerVariable(this->locale));
 		}
 		else if(this->locale != "*")
 		{
-			tg = std::locale(this->locale);
+			tg = std::locale((std::string) this->locale);
 		}
 		else
 		{
@@ -198,11 +198,11 @@ namespace Localizacion
 
 		if(this->var && (this->locale != "*"))
 		{
-			tg = std::locale(data->ObtenerVariable(this->locale));
+			tg = std::locale((std::string) data->ObtenerVariable(this->locale));
 		}
 		else if(this->locale != "*")
 		{
-			tg = std::locale(this->locale);
+			tg = std::locale((std::string) this->locale);
 		}
 		else
 		{
@@ -269,11 +269,11 @@ namespace Localizacion
 
 		if(this->var && (this->locale != "*"))
 		{
-			tg = std::locale(data->ObtenerVariable(this->locale));
+			tg = std::locale((std::string) data->ObtenerVariable(this->locale));
 		}
 		else if(this->locale != "*")
 		{
-			tg = std::locale(this->locale);
+			tg = std::locale((std::string) this->locale);
 		}
 		else
 		{
@@ -341,11 +341,11 @@ namespace Localizacion
 
 		if(this->var && (this->locale != "*"))
 		{
-			tg = std::locale(data->ObtenerVariable(this->locale));
+			tg = std::locale((std::string) data->ObtenerVariable(this->locale));
 		}
 		else if(this->locale != "*")
 		{
-			tg = std::locale(this->locale);
+			tg = std::locale((std::string) this->locale);
 		}
 		else
 		{
@@ -413,11 +413,11 @@ namespace Localizacion
 
 		if(this->var && (this->locale != "*"))
 		{
-			tg = std::locale(data->ObtenerVariable(this->locale));
+			tg = std::locale((std::string) data->ObtenerVariable(this->locale));
 		}
 		else if(this->locale != "*")
 		{
-			tg = std::locale(this->locale);
+			tg = std::locale((std::string) this->locale);
 		}
 		else
 		{

@@ -366,7 +366,7 @@ namespace pseudod
 				continue;
 			}
 
-			if(std::isdigit<char>(rc, lc) && iniciotk)
+			if((std::isdigit<char>(rc, lc) || (rc == '-')) && iniciotk)
 			{
 				buffer = rc;
 
