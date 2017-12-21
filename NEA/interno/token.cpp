@@ -65,14 +65,8 @@ namespace pseudod
 	Token::Token(const Token& tok)
 		: PDvar::PDObjeto(),
 			tipo(tok.tipo),
-		/*
-		* Usamos std::make_shared(*tok.X) para copiar la información en vez de
-		* simplemente contener otro puntero al mismo dato.
-		*/
-			nmemonico(tok.nmemonico? std::make_shared<NMemonicoProxy>(*tok.nmemonico) : nullptr),
-			valorliteral(
-				tok.valorliteral? std::make_shared<Token::ValorLiteral>(*tok.valorliteral) : nullptr
-			),
+			nmemonico(tok.nmemonico),
+			valorliteral(tok.valorliteral),
 			fuente(tok.fuente)
 	{}
 
@@ -100,24 +94,16 @@ namespace pseudod
 		{
 			this->tipo = tok.tipo;
 
-			this->nmemonico =
-				tok.nmemonico? std::make_shared<NMemonicoProxy>(*tok.nmemonico) : nullptr;
-			this->valorliteral =
-				tok.valorliteral? std::make_shared<Token::ValorLiteral>(*tok.valorliteral) : nullptr;
+			this->nmemonico = tok.nmemonico;
+			this->valorliteral = tok.valorliteral;
 		}
 
 		return *this;
 	}
 	Token& Token::operator=(Token&& tok)
 	{
-		// assert(this != &tok);
-
-		/*
-		* ¿es esto necesario (el "assert(this != &tok)")? véase
-		* http://stackoverflow.com/questions/9322174/move-assignment-operator-and-if-this-rhs
-		* Luego de leerlo, me parece correcto decir the un "assert" es mejor que
-		* un "if".
-		*/
+		if(&tok == this)
+			return *this;
 
 		this->tipo = tok.tipo;
 		tok.tipo = Token::SinTipo;
