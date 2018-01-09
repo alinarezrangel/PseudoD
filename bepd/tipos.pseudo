@@ -36,6 +36,20 @@ Aqui se encuentran funciones comunes de PseudoD.
 Este archivo contiene además la biblioteca de rasgos de tipo, la cual
 detecta caracteristicas de objetos y tipos (clases) para su uso en
 ducktyping y metaprogramación.
+
+**Nota**:
+
+A partir de PseudoD 2.2.0, utilizar este archivo es equivalente a utilizar
+los archivos:
+
+* <cadena.pseudo>
+* <entsal.pseudo>
+* <rt/posee.pseudo>
+* <fn/asertar.pseudo>
+* <fn/atributosdinamicos.pseudo>
+
+A partir de PseudoD 2.2.0 este archivo se encuentra obsoleto y será elimindado
+en PseudoD 3.0.0.
 DOCUMENTA]
 
 [DOCUMENTA

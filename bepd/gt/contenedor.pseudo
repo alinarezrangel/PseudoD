@@ -1,0 +1,273 @@
+[ ******************************************************************************
+*****************************************
+*********
+** Bibliotecas de Generalidades de Tipo de PseudoD: subconjunto de la BEPD.
+** Interfáz `@Contenedor`.
+*********
+*****************************************
+********************************************************************************
+Copyright 2016 Alejandro Linarez Rangel
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+********************************************************************************
+****************************************************************************** ]
+
+utilizar gt/objeto.pseudo
+
+[DOCUMENTA
+@brief `@Contenedor` - Contenedor de objetos.
+Los contenedores pueden almacenar de diferentes maneras ninguno, uno o más
+*elementos*. Algunos contenedores pueden poseer requerimientos diferentes
+respecto a que elementos pueden contener, y cuantos de ellos (por ejemplo,
+la clase <dt/arreglo.pseudo#Arreglo> puede poseer cualquier cantidad de
+elementos de cualquier tipo instanciable, mientras que
+<dt/vector.pseudo#Vector> solo puede poseer el mismo tipo de elemento y siempre
+posee al menos un (1) elemento).
+
+Todos los contenedores poseen un tipo de *índice*. Este no necesariamente debe
+ser un entero, los requerimientos sobre este tipo los declara la
+implementación.
+
+Más importante que el índice, todos los contenedores poseen un tipo de
+*iterador* el cual implementa la interfáz <gt/iterador.pseudo#@Iterador> y
+permite el recorrido del contenedor.
+
+La única generalización de esta interfáz es la de los iteradores, se asume que
+para todo contenedor:
+
+ * Existen dos (2) iteradores especiales llamados *inicio* y *final* los cuales
+apuntan al primer elemento (inicio) y a un elemento **pasado** el último
+(final), véase abajo aclaratoria de estos.
+ * Existe una manera **lineal** de recorrer una ruta entre estos dos iteradores,
+sin embargo, no esta garantizado que todos los recorridos pasen por los mismos
+puntos o elementos (aunque si esta garantizado que incrementando reiteradas
+veces un iterador que es igual al iterador de inicio se llegará en algún punto
+al iterador final).
+
+A lo largo de esta interfáz se utilizarán los atributos *estado* y *contenido*,
+cabe resaltar que estos son sinónimos en la interfáz `@Contenedor` y
+representan lo mismo: el contenido y estructura de un contenedor dado.
+
+Desreferenciar (acceder al elemento apuntado) el iterador inicio nunca
+ocasionará un error a excepción de que el contenedor esté vacío. Desreferenciar
+el iterador final está indefinido.
+
+Un contenedor puede ser *constante*, en ese caso, cualquier método que
+modifique el contenido del contenedor (su tamaño o los elementos accesibles
+mediante los iteradores) debe lanzar una excepción (todas del mismo tipo) y
+no modificar el contenedor.
+
+**Extiende**:
+
+ * Interfáz `@Objeto` en <gt/objeto.pseudo#Objeto> (GT)
+
+**Atributos**:
+
+Para todo contenedor válido `A` existe una clase `A#Iterador` que representa el
+iterador del contenedor e implementa a la interfáz `@Iterador`. Por ejemplo: la
+clase `Arreglo` (véase <dt/arreglo.pseudo#Arreglo>) posee una clase interna
+llamada `Arreglo#Iterador` (véase <dt/arreglo.pseudo#Arreglo\#Iterador>) que
+representa el tipo de iterador válido para todos los arreglos.
+
+**Métodos**:
+
+ * `inicio` (véase <@Contenedor\#inicio>): Obtiene el iterador al inicio del
+contenedor.
+ * `final` (véase <@Contenedor\#final>): Obtiene el iterador al final del
+contenedor.
+ * `borrar` (véase <@Contenedor\#borrar>): Borra todos los elementos del
+contenedor.
+ * `copiar` (véase <@Contenedor\#copiar>): Copia el contenedor.
+ * `intercambiar` (véase <@Contenedor\#intercambiar>): Intercambia los
+contenedores especificados.
+ * `longitud` (véase <@Contenedor\#longitud>): Obtiene la cantidad de elementos
+almacenados.
+ * `tamaño` (véase <@Contenedor\#tamaño>): Obtiene la cantidad de elementos
+almacenados.
+
+@abstract
+DOCUMENTA]
+clase abstracta @Contenedor extiende @Objeto
+	metodo inicio
+	metodo final
+
+	metodo borrar
+	metodo copiar
+	metodo intercambiar
+
+	metodo longitud
+	metodo tamaño
+finclase
+
+[DOCUMENTA
+@brief `@Contenedor#inicio` - Obtiene un iterador al inicio del contenedor.
+Si el contenedor esta vacío, este iterador siempre se comparará igual al
+iterador final (véase <@Contenedor\#final>).
+
+Este método nunca modifica el contenedor actual.
+
+@argyo
+
+@dev Referencia al iterador al primer elemento.
+
+@races ReturnValue.Shared
+La referencia devuelta puede ser compartida entre llamadas a este método.
+Liberar o borrar esta referencia ocasionará un comportamiento indefinido.
+DOCUMENTA]
+metodo @Contenedor#inicio con yo
+	necesitas FALSO
+finmetodo
+
+[DOCUMENTA
+@brief `@Contenedor#final` - Obtiene un iterador a un elemento pasado el \
+último del contenedor.
+Si el contenedor esta vacío, este iterador siempre se comparará igual al
+iterador inicio (véase <@Contenedor\#inicio>).
+
+Este método nunca modifica el contenedor actual.
+
+@argyo
+
+@dev Referencia al iterador a un elemento pasado el último.
+
+@races ReturnValue.Shared
+La referencia devuelta puede ser compartida entre llamadas a este método.
+Liberar o borrar esta referencia ocasionará un comportamiento indefinido.
+DOCUMENTA]
+metodo @Contenedor#final con yo
+	necesitas FALSO
+finmetodo
+
+[DOCUMENTA
+@brief `@Contenedor#borrar` - Borra todos los elementos del contenedor.
+Si no se pueden borrar uno o más elementos del contenedor, se lanzará un error
+y el contenedor se deja en el mismo estádo en el que se encontraba antes de
+llamar a este método. Si se logra borrar todos los elementos del contenedor,
+todos los iteradores con invalidados, se generan nuevos iteradores al inicio y
+final.
+
+La complejidad de este método es constante (`O(1)`) o lineal en relación al
+tamaño del contenedor (`O(n)`) dependiendo de la implementación.
+
+Cada implementación puede realizar restricciones respecto a bajo que
+condiciones es posible borrar un contenedor. En caso de que el estado del
+contenedor no permita borrarlo en este instante, debe lanzar un error.
+
+Este método puede o puede no modificar el contenedor actual.
+
+@argyo
+
+@throws Error
+En caso de que no se pueda borrar el contenido del contenedor, un error
+dependiente de la implementación (pero siempre válido y que implementa a la
+interfáz <gt/error.pseudo#@Error>) será lanzado y el contenedor no será borrado.
+
+@races None
+DOCUMENTA]
+metodo @Contenedor#borrar con yo
+	necesitas FALSO
+finmetodo
+
+[DOCUMENTA
+@brief `@Contenedor#copiar` - Copia el contenido del contenedor.
+Si la copia no se pudo realizar con éxito se lanzará un error y el contenedor
+destino quedará en el mismo estado que tenia antes de ejecutar la copia.
+
+La complejidad de este método es lineal en relación al tamaño del contenedor
+a copiar (`O(n)`) o constante (`O(1)`) dependiendo de la implementación.
+
+Indiferentemente de si se logra copiar con éxito, la implementación puede
+o puede no invalidar los iteradores del contenedor destino. En caso de que el
+contenedor destino sea constante, esta función debe devolver `FALSO` y no
+hacer nada.
+
+Cada implementación puede realizar restricciones respecto al contenedor
+destino. Este método nunca modifica el contenedor actual.
+
+@argyo
+@arg destino Contenedor donde se almacenará una copia de este contenedor.
+
+@throws Error
+En caso de que no se pueda copiar el contenido del contenedor, un error
+dependiente de la implementación (pero siempre válido y que implementa a la
+interfáz <gt/error.pseudo#@Error>) será lanzado y el contenedor no será copiado.
+
+@races None
+DOCUMENTA]
+metodo @Contenedor#copiar con yo y destino
+	necesitas FALSO
+finmetodo
+
+[DOCUMENTA
+@brief `@Contenedor#intercambiar` - Intercambia dos contenedores.
+Luego del intercambio, el contenedor actual posee el mismo estado que poseía el
+otro contenedor antes del intercambio y el otro contenedor posee el estado que
+poseía el contenedor actual antes del intercambio. Una pequeña demostración
+sería (asumiendo que los contenedores son escalares creados con la palabra
+clave `adquirir`):
+
+```pseudod
+adquirir contenedorActual
+adquirir otroContenedor
+
+adquirir temporal
+fijar temporal a contenedorActual
+fijar contenedorActual a otroContenedor
+fijar otroContenedor a temporal
+```
+
+Esto es conocido como un *swap*.
+
+Cada implementación puede imponer restricciones respecto al otro contenedor.
+
+@argyo
+@arg otro Contenedor a intercambiar con este.
+
+@throws Error
+Si el intercambio no se pudo realizar con éxito, lanzará un error dependiente de
+la implementación que implementa a la interfáz <gt/error.pseudo#@Error>. La
+implementación decidirá la garantía de error.
+
+@races None
+DOCUMENTA]
+metodo @Contenedor#intercambiar con yo y otro
+	necesitas FALSO
+finmetodo
+
+[DOCUMENTA
+@brief `@Contenedor#longitud` - Obtiene la cantidad de elementos almacenados.
+Es un alias para <@Contenedor\#tamaño>.
+
+@argyo
+
+@dev Siempre devuelve el mismo valor que <@Contenedor\#tamaño>, es decir, \
+el número de elementos almacenados en este contenedor.
+
+@races None
+DOCUMENTA]
+metodo @Contenedor#longitud con yo
+	necesitas FALSO
+finmetodo
+
+[DOCUMENTA
+@brief `@Contenedor#tamaño` - Obtiene la cantidad de elementos almacenados.
+
+@argyo
+
+@dev La cantidad de elementos almacenados en este contenedor.
+
+@races None
+DOCUMENTA]
+metodo @Contenedor#tamaño con yo
+	necesitas FALSO
+finmetodo

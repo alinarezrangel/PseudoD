@@ -48,6 +48,10 @@ algún valor de retorno.
 invocado justamente **antes** de destruir todas las propiedades y métodos de
 la instancia. No se pasa algún argumento y no es esperado algún valor de
 retorno.
+ * `fijarA` (opcional, un único argumento y ningún valor de retorno): Este
+método es invocado cuando se necesita copiar un objeto. Su argumento es una
+referencia al objeto que se desea copiar hacia la instancia actual. Luego de
+ejecutar este método ambas instancias deberían ser iguales.
 
 @abstract
 DOCUMENTA]

@@ -35,7 +35,7 @@ indiferentemente si son de lectura, escritura o ambos.
 
 **Implementaciones**:
 
- * Clase `BufferTexto` en <entsal.pseudo#BufferTexto> (BEPD)
+ * Clase `BufferTexto` en <cl/buffertexto.pseudo#BufferTexto> (CL)
 
 **Extiende**:
 

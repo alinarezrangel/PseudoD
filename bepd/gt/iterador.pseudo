@@ -1,0 +1,192 @@
+[ ******************************************************************************
+*****************************************
+*********
+** Bibliotecas de Generalidades de Tipo de PseudoD: subconjunto de la BEPD.
+** Interfáz `@Iterador`.
+*********
+*****************************************
+********************************************************************************
+Copyright 2016 Alejandro Linarez Rangel
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+********************************************************************************
+****************************************************************************** ]
+
+utilizar gt/objeto.pseudo
+
+[DOCUMENTA
+@brief `@Iterador` - Iterador utilizado para recorrer una estructura de datos.
+Esta interfáz puede utilizarse para acceder a los elementos de cualquier
+contenedor mediante una interfáz que no depende del tipo de índice u otro valor.
+
+Sin embargo, debido a la generalización de la clase
+<contenedor.pseudo#@Contenedor>, este `@Iterador` no puede ser utilizado
+directamente para recorrer estructuras de datos, en cambio, las implementaciones
+de interfaces como <contenedorsecuencial.pseudo#@ContenedorSecuencial> utilizan
+interfaces más específicas como <iteradorunico.pseudo#@IteradorUnico> o
+<iteradorsecuencial.pseudo#@IteradorSecuencial>.
+
+Todos los métodos del iterador que trabajen sobre otros iteradores (como por
+ejemplo, los métodos heredados de la interfáz <comparable.pseudo#@Comparable>)
+deben poder operar sobre iteradores inválidos e iteradores en el rango
+inicio-final e inicio_reversa-final_reversa (es decir, aunque el iterador
+final y el iterador inicio-reversa son *iteradores válidos* y por ello todas
+las implementaciones de iterador deben poder trabajar correctanemente con
+ellos, no son *desrreferenciables* y por eso no es posible utilizar algunos
+métodos).
+
+Respecto a la relación de orden entre los iteradores: para dos iteradores `A`
+y `B` válidos más no necesariamente desrreferenciables que están asociados al
+mismo contenedor:
+
+ * `A` es menor que `B` si iterando desde el iterador de inicio hasta el
+iterador final primero se encuentra el iterador `A` y luego `B`.
+ * `A` es mayor que `B` si iterando desde el iterador de inicio hasta el
+iterador final primero se encuentra el iterador `B` y luego `A`.
+ * `A` es igual a `B` si ambos apuntan al mismo elemento.
+
+**Extiende**:
+
+ * Interfáz `@Objeto` en <gt/objeto.pseudo#Objeto> (GT)
+
+**Atributos**:
+
+Ninguno adicional.
+
+**Métodos**:
+
+Esta interfáz obliga a la implementación a implementar el método `fijarA` de
+`@Objeto` (véase <gt/objeto.pseudo#@Objeto>) y todos los los atributos y
+métodos de un *comparable completo* (véase <gt/comparable.pseudo#@Comparable>).
+
+ * `obtenerReferenciaContenedor` (véase
+<@Iterador\#obtenerReferenciaContenedor>): Obtiene una referencia al contenedor
+que contiene al elemento apuntado.
+ * `esConstante` (véase <@Iterador\#esConstante>): Determina si el iterador es
+constante.
+ * `obtener` (véase <@Iterador\#obtener>): Obtiene el elemento apuntado.
+ * `fijarValor` (véase <@Iterador\#fijarValor>): Fija el elemento apuntado.
+
+@abstract
+DOCUMENTA]
+clase abstracta @Iterador extiende @Objeto implementa @Comparable
+	atributo completo
+
+	metodo obtenerReferenciaContenedor
+	metodo esConstante
+
+	metodo obtener
+	metodo fijarValor
+
+	metodo fijarA
+
+	metodo igualA
+	metodo menorQue
+	metodo mayorQue
+	metodo compararCon
+finclase
+
+[DOCUMENTA
+@brief `@Iterador#obtenerReferenciaContenedor` - Obtiene una referencia al \
+contenedor de este iterador.
+Si este iterador no posee un contenedor asociado, devuelve NULO.
+
+@argyo
+
+@dev Referencia al contenedor asociado a este iterador.
+
+@races None
+DOCUMENTA]
+metodo @Iterador#obtenerReferenciaContenedor con yo
+	necesitas FALSO
+finmetodo
+
+[DOCUMENTA
+@brief `@Iterador#esConstante` - Determina si el iterador es constante.
+Un iterador constante no puede modificar el contenedor al que esta asociado,
+aún puedes cambiar el iterador en sí utilizando métodos como
+<@Iterador\#fijarA> pero no el contenedor asociado mediante métodos como
+<@Iterador\#obtenerReferenciaContenedor> o <@Iterador\#fijarValor>.
+
+Si el iterador no posee contenedor asociado, devuelve VERDADERO.
+
+@argyo
+
+@dev VERDADERO si es constante y FALSO de lo contrario.
+
+@races None
+DOCUMENTA]
+metodo @Iterador#esConstante con yo
+	necesitas FALSO
+finmetodo
+
+[DOCUMENTA
+@brief `@Iterador#obtener` - Obtiene el elemento apuntado.
+Cabe resaltar que no es posible modificar este elemento si el iterador es
+constante (véase <@Iterador\#esConstante>). Devuelve NULO si el iterador no
+posee contenedor asociado. Llamar a este metodo cuando el iterador esta
+asociado a un contenedor válido pero no apunta a un *elemento desrreferenciable*
+válido (como el iterador final) está indefinído.
+
+@argyo
+
+@dev Referencia al elemento apuntado.
+
+@races None
+DOCUMENTA]
+metodo @Iterador#obtener con yo
+	necesitas FALSO
+finmetodo
+
+[DOCUMENTA
+@brief `@Iterador#fijarValor` - Fija el valor apuntado.
+Cambia el valor apuntado por el iterador como si el siguiente código se hubiese
+utilizado en cambio:
+
+```pseudod
+adquirir ref
+fijar ref a llamar yo#obtener finargs
+llamar ref#fijarA otro finargs
+liberar ref
+```
+
+Este método está definido solo si el iterador no es constante.
+
+@argyo
+@arg otro Nuevo valor del elemento apuntado.
+
+@races None
+DOCUMENTA]
+metodo @Iterador#fijarValor con yo y otro
+	necesitas FALSO
+finmetodo
+
+metodo @Iterador#fijarA con yo
+	necesitas FALSO
+finmetodo
+
+metodo @Iterador#igualA con yo
+	necesitas FALSO
+finmetodo
+
+metodo @Iterador#menorQue con yo
+	necesitas FALSO
+finmetodo
+
+metodo @Iterador#mayorQue con yo
+	necesitas FALSO
+finmetodo
+
+metodo @Iterador#compararCon con yo
+	necesitas FALSO
+finmetodo

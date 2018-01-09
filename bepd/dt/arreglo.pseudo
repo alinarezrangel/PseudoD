@@ -1,0 +1,296 @@
+[ ******************************************************************************
+*****************************************
+*********
+** Bibliotecas de Algoritmos: subconjunto de la BEPD.
+** Arreglo: Clase contenedora de multiples elementos (como un vector).
+*********
+*****************************************
+********************************************************************************
+Copyright 2016 Alejandro Linarez Rangel
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+********************************************************************************
+****************************************************************************** ]
+
+utilizar gt/contenedorsecuencial.pseudo
+utilizar gt/contenedorreversible.pseudo
+utilizar gt/iteradoraleatorio.pseudo
+utilizar gt/iteradoraleatorioreversa.pseudo
+
+[DOCUMENTA
+@brief `Arreglo` - Almacena múltiples elementos de distintos tipos.
+Opcionalmente, extendiendo el método <Arreglo\#validadorDeTipo> es posible
+agregar restricciones respecto a los elementos (de hecho,
+<dt/vector.pseudo#Vector> esta implementado de esta manera).
+
+Es un <gt/contenedorsecuencial.pseudo#@ContenedorSecuencial> y
+<gt/contenedorreversible.pseudo#@ContenedorReversible> con iteradores
+<gt/iteradoraleatorio.pseudo#@IteradorAleatorio> e
+<gt/iteradoraleatorioreversa.pseudo#@IteradorAleatorioReversa>.
+DOCUMENTA]
+clase Arreglo hereda Objeto
+	implementa @ContenedorSecuencial
+	implementa @ContenedorReversible
+
+	[ ============================================================ ]
+
+	atributo numElementos
+	atributo contador
+
+	metodo validadorDeTipo
+
+	metodo crear
+	metodo destruir
+	metodo fijarA
+
+	metodo inicio
+	metodo final
+	metodo borrar
+	metodo copiar
+	metodo intercambiar
+	metodo longitud
+	metodo tamaño
+
+	metodo insertarAntes
+	metodo insertarDespues
+	metodo eliminar
+	metodo moverElemento
+	metodo intercambiarElemento
+	metodo agregarInicio
+	metodo agregarFinal
+	metodo eliminarInicio
+	metodo eliminarFinal
+finclase
+
+metodo Arreglo#validadorDeTipo con yo y tipo
+	devolver VERDADERO
+finmetodo
+
+metodo Arreglo#crear con yo
+	fijar <yo>#numElementos a 0
+	fijar <yo>#contador a 0
+
+	instancia Arreglo#Nodo <yo>#cabeza
+finmetodo
+
+metodo Arreglo#destruir con yo
+	llamar <yo>#borrar finargs
+
+	liberar <yo>#cabeza
+finmetodo
+
+metodo Arreglo#fijarA con yo y otro
+	llamar <yo>#copiar otro finargs
+finmetodo
+
+metodo Arreglo#inicio con yo
+	devolver NULO
+finmetodo
+
+metodo Arreglo#final con yo
+	devolver NULO
+finmetodo
+
+metodo Arreglo#borrar con yo
+	adquirir refPtr
+	adquirir sigPtr
+
+	fijar refPtr a <yo>#cabeza#siguiente
+
+	mientras sean diferentes refPtr y NULO
+		fijar sigPtr a <refPtr>#siguiente
+		liberar <refPtr>
+		fijar refPtr a sigPtr
+	finmientras
+
+	fijar <yo>#numElementos a 0
+	fijar <yo>#contador a 0
+
+	liberar refPtr
+	liberar sigPtr
+finmetodo
+
+metodo Arreglo#copiar con yo y desde
+	si son diferentes yo y desde
+		llamar <yo>#borrar finargs
+
+		adquirir tamOtro
+		adquirir refPtr
+
+		fijar tamOtro a <desde>#numElementos
+		fijar refPtr a <desde>#cabeza#siguiente
+
+		mientras sean diferentes refPtr y NULO
+			llamar <yo>#agregarFinal <refPtr>#objeto#NOMBRE finargs
+
+			fijar refPtr a <refPtr>#siguiente
+		finmientras
+
+		liberar tamOtro
+		liberar refPtr
+	finsi
+finmetodo
+
+metodo Arreglo#intercambiar con yo y otro
+finmetodo
+
+metodo Arreglo#longitud con yo
+	devolver <yo>#numElementos
+finmetodo
+
+metodo Arreglo#tamaño con yo
+	devolver <yo>#numElementos
+finmetodo
+
+metodo Arreglo#insertarAntes con yo e iter y elemento
+	instancia Arreglo#Nodo <yo>#_nodo<<yo>#contador>
+	adquirir nuevoNodoRef
+
+	fijar nuevoNodoRef a <yo>#_nodo<<yo>#contador>
+
+	fijar <<<iter>#nodo>#anterior>#siguiente a nuevoNodoRef
+	fijar <nodoRef>#anterior a <<iter>#nodo>#anterior
+	fijar <<iter>#nodo>#anterior a nuevoNodoRef
+	fijar <nodoRef>#siguiente a <iter>#nodo
+
+	llamar <nuevoNodoRef>#adquirirObjeto <elemento>#Tipo finargs
+	llamar <nuevoNodoRef>#objeto#fijarA elemento finargs
+finmetodo
+
+metodo Arreglo#insertarDespues con yo e iter y elemento
+finmetodo
+
+metodo Arreglo#eliminar con yo e iter
+finmetodo
+
+metodo Arreglo#moverElemento con yo e iter1 e iter2
+finmetodo
+
+metodo Arreglo#intercambiarElemento con yo
+finmetodo
+
+metodo Arreglo#agregarInicio con yo y elemento
+finmetodo
+
+metodo Arreglo#agregarFinal con yo y elemento
+finmetodo
+
+metodo Arreglo#eliminarInicio con yo
+finmetodo
+
+metodo Arreglo#eliminarFinal con yo
+finmetodo
+
+[ =========================================================================== ]
+
+clase Arreglo#Nodo hereda Objeto
+	atributo siguiente
+	atributo anterior
+
+	metodo crear
+	metodo fijarA
+
+	metodo adquirirObjeto
+	metodo liberarObjeto
+finclase
+
+metodo Arreglo#Nodo#crear con yo
+	fijar <yo>#siguiente a NULO
+	fijar <yo>#anterior a NULO
+finmetodo
+
+metodo Arreglo#Nodo#fijarA con yo y otro
+	fijar <yo>#siguiente a <otro>#siguiente
+	fijar <yo>#anterior a <otro>#anterior
+finmetodo
+
+metodo Arreglo#Nodo#adquirirObjeto con yo y tipo
+	instancia <tipo> <yo>#objeto
+finmetodo
+
+metodo Arreglo#Nodo#liberarObjeto con yo
+	liberar <yo>#objeto
+finmetodo
+
+[ =========================================================================== ]
+
+clase Arreglo#Iterador hereda Objeto implementa @IteradorAleatorio
+	atributo contenedor
+	atributo nodo
+
+	metodo crear
+	metodo fijarA
+
+	metodo igualA
+	metodo menorQue
+	metodo mayorQue
+	metodo compararCon
+
+	metodo obtenerReferenciaContenedor
+	metodo esConstante
+	metodo obtener
+	metodo fijarValor
+
+	metodo avanzarPor
+	metodo retrocederPor
+finclase
+
+metodo Arreglo#Iterador#crear con yo
+	fijar <yo>#contenedor a NULO
+	fijar <yo>#nodo a NULO
+finmetodo
+
+metodo Arreglo#Iterador#fijarA con yo y otro
+	fijar <yo>#contenedor a <otro>#contenedor
+	fijar <yo>#nodo a <otro>#nodo
+finmetodo
+
+metodo Arreglo#Iterador#igualA con yo y otro
+	devolver si
+		tanto son iguales <yo>#contenedor y <otro>#contenedor
+		como son iguales <yo>#nodo y <otro>#nodo
+finmetodo
+
+metodo Arreglo#Iterador#menorQue con yo y otro
+	devolver FALSO
+finmetodo
+
+metodo Arreglo#Iterador#mayorQue con yo y otro
+	devolver FALSO
+finmetodo
+
+metodo Arreglo#Iterador#compararCon con yo y otro
+	devolver si llamar <yo>#igualA otro finargs
+finmetodo
+
+metodo Arreglo#Iterador#obtenerReferenciaContenedor con yo
+	devolver <yo>#contenedor
+finmetodo
+
+metodo Arreglo#Iterador#esConstante con yo
+	devolver FALSO
+finmetodo
+
+metodo Arreglo#Iterador#obtener con yo
+	devolver <<yo>#nodo>#objeto
+finmetodo
+
+metodo Arreglo#Iterador#fijarValor con yo y valor
+	llamar <<yo>#nodo>#objeto#fijarValor valor finargs
+finmetodo
+
+metodo Arreglo#Iterador#avanzarPor con yo y distancia
+finmetodo
+
+metodo Arreglo#Iterador#retrocederPor con yo y distancia
+finmetodo

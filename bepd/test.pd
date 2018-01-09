@@ -27,24 +27,28 @@ utilizar tipos.pseudo
 utilizar clases.pseudo
 utilizar algor.pseudo
 
-instancia Arreglo arr
+clase Padre hereda Objeto
+	metodo foo
+	metodo estatico bar
+finclase
 
-llamar arr#agregar PseudoVariable#Tipo finargs
-
-adquirir ref
-
-fijar ref a llamar arr#obtener 0 finargs
-
-fijar <ref> a {Hola Mundo}
-
-funcion pp de i
-	adquirir r
-	fijar r a llamar arr#obtener i finargs
-	escribir <r>
+metodo Padre#foo con yo y otro
+	escribir yo
+	escribir {: }
+	escribir otro
 	nl
-	liberar r
-finfun
+finmetodo
 
-llamar pp 0 finargs
+metodo estatico Padre#bar con otro
+	escribir {Padre#bar: }
+	escribir otro
+	nl
+finmetodo
+
+clase Hijo hereda Padre
+finclase
+
+instancia Padre pp
+instancia Hijo pq
 
 Importar.PseudoD.debug

@@ -1,0 +1,78 @@
+[ ******************************************************************************
+*****************************************
+*********
+** Bibliotecas de Generalidades de Tipo de PseudoD: subconjunto de la BEPD.
+** Interfáz `@IteradorAvanzable`.
+*********
+*****************************************
+********************************************************************************
+Copyright 2016 Alejandro Linarez Rangel
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+********************************************************************************
+****************************************************************************** ]
+
+utilizar gt/iterador.pseudo
+
+[DOCUMENTA
+@brief `@IteradorAvanzable` - Un iterador que puede avanzar un elemento.
+Los iteradores *avanzables* pueden avanzar múltiples elementos de uno en uno,
+sin embargo, luego de avanzar una posición no hay garantía de que el iterador
+quede en una posición válida del contenedor.
+
+Debido a las mecánicas de los iteradores en los contenedores, el siguiente
+ejemplo demuestra un uso válido de cualquier iterador que implemente esta
+interfáz:
+
+```pseudod
+instancia @IteradorAvanzable iter
+
+llamar iter#fijarA llamar contenedor#inicio finargs finargs
+
+mientras llamar iter#menorQue llamar contenedor#final finargs finargs
+	... hacer algo con iter ...
+
+	llamar iter#siguiente finargs
+finbucle
+```
+
+**Extiende**:
+
+ * Interfáz `@Iterador` en <gt/iterador.pseudo#@Iterador> (GT)
+
+**Atributos**:
+
+Ninguno adicional.
+
+**Métodos**:
+
+ * `siguiente` (véase <@IteradorAvanzable\#siguiente>): Avanza un elemento.
+
+@abstract
+DOCUMENTA]
+clase abstracta @IteradorAvanzable extiende @Iterador
+	metodo siguiente
+finclase
+
+[DOCUMENTA
+@brief `@IteradorAvanzable#siguiente` - Avanza un elemento.
+Luego de avanzar, el iterador puede quedar inválido, recuerde verificar si
+el iterador es menor que el iterador final antes de desrreferenciarlo.
+
+@argyo
+
+@races None
+DOCUMENTA]
+metodo @IteradorAvanzable#siguiente con yo
+	necesitas FALSO
+finmetodo

@@ -1,0 +1,82 @@
+[ ******************************************************************************
+*****************************************
+*********
+** Bibliotecas de Generalidades de Tipo de PseudoD: subconjunto de la BEPD.
+** Interfáz `@IteradorAleatorio`.
+*********
+*****************************************
+********************************************************************************
+Copyright 2016 Alejandro Linarez Rangel
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+********************************************************************************
+****************************************************************************** ]
+
+utilizar gt/iteradorbidireccional.pseudo
+
+[DOCUMENTA
+@brief `@IteradorAleatorio` - Iterador que puede moverse a cualquier elemento \
+en tiempo constante.
+Un iterador bidireccional que además puede moverse a cualquier elemento del
+contenedor en tiempo constante.
+
+**Extiende**:
+
+ * Interfáz `@IteradorBidireccional` en
+<gt/iteradorbidireccional.pseudo#@IteradorBidireccional> (GT)
+
+**Atributos**:
+
+Ninguno adicional.
+
+**Métodos**:
+
+ * `avanzarPor` (véase <@IteradorAleatorio\#avanzarPor>): Avanza un número de
+elementos.
+ * `retrocederPor` (véase <@IteradorAleatorio\#retrocederPor>): Retrocede un
+número de elementos.
+
+@abstract
+DOCUMENTA]
+clase abstracta @IteradorAleatorio extiende @IteradorBidireccional
+	metodo avanzarPor
+	metodo retrocederPor
+finclase
+
+[DOCUMENTA
+@brief `@IteradorAleatorio#avanzarPor` - Avanza un número de elementos.
+Semánticamente, es igual a ejecutar el método `siguiente` `n`-veces, sin
+embargo, su complejidad computacional es constante y no lineal.
+
+@argyo
+@arg n Número entero positivo de elementos a avanzar.
+
+@races None
+DOCUMENTA]
+metodo @IteradorAleatorio#avanzarPor con yo y n
+	necesitas FALSO
+finmetodo
+
+[DOCUMENTA
+@brief `@IteradorAleatorio#retrocederPor` - Retrocede un número de elementos.
+Semánticamente, es igual a ejecutar el método `anterior` `n`-veces, sin
+embargo, su complejidad computacional es constante y no lineal.
+
+@argyo
+@arg n Número entero positivo de elementos a retroceder.
+
+@races None
+DOCUMENTA]
+metodo @IteradorAleatorio#retrocederPor con yo y n
+	necesitas FALSO
+finmetodo

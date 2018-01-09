@@ -1,0 +1,320 @@
+[ ******************************************************************************
+*****************************************
+*********
+** Bibliotecas de Generalidades de Tipo de PseudoD: subconjunto de la BEPD.
+** Interfáz `@ContenedorSecuencial`.
+*********
+*****************************************
+********************************************************************************
+Copyright 2016 Alejandro Linarez Rangel
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+********************************************************************************
+****************************************************************************** ]
+
+utilizar gt/contenedorunico.pseudo
+
+[DOCUMENTA
+@brief `@ContenedorSecuencial` - Contenedor de objetos secuenciales.
+Tal como un contenedor, los contenedores secuenciales almacenan objetos
+contenidos, pero estos poseen una garantía más: todos los elementos de un
+contenedor secuencial estan almacenados de manera lineal (o secuencial). Es
+decir, existe **uno y solo un** camino entre los iteradores de inicio y final.
+
+Esta garantía permite a los contenedores secuenciales definir métodos de
+inserción, destrucción y otros sobre los iteradores.
+
+Todos los iteradores de este contenedor deben implementar además la interfáz
+<gt/iteradoravanzable.pseudo#@IteradorAvanzable>.
+
+**Implementaciones**:
+
+ * Clase `Arreglo` en <dt/arreglo.pseudo#Arreglo> (DT)
+ * Clase `Vector` en <dt/vector.pseudo#Vector> (DT)
+
+**Extiende**:
+
+ * Interfáz `@ContenedorUnico` en <gt/contenedorunico.pseudo#@ContenedorUnico>
+(GT)
+
+**Atributos**:
+
+Ninguno adicional.
+
+**Métodos**:
+
+ * `insertarAntes` (véase <@ContenedorSecuencial\#insertarAntes>): Inserta un
+elemento justo antes de un iterador especificado.
+ * `insertarDespues` (véase <@ContenedorSecuencial\#insertarDespues>): Inserta
+un elemento justo despues de un iterador especificado.
+ * `eliminar` (véase <@ContenedorSecuencial\#eliminar>): Elimina del contenedor
+el elemento apuntado por un iterador especificado.
+ * `moverElemento` (véase <@ContenedorSecuencial\#moverElemento>): Mueve un
+elemento de su posición actual a la especificada por un iterador.
+ * `intercambiarElementos` (véase
+<@ContenedorSecuencial\#intercambiarElementos>): Intercambia (*swap*) los
+elementos apuntados por dos (2) iteradores.
+ * `agregarInicio` (véase <@ContenedorSecuencial\#agregarInicio>): Inserta un
+elemento al inicio del contenedor.
+ * `agregarFinal` (véase <@ContenedorSecuencial\#agregarFinal>): Inserta un
+elemento al final del contenedor.
+ * `eliminarInicio` (véase <@ContenedorSecuencial\#eliminarInicio>): Elimina
+el primer elemento del contenedor (el apuntado por el iterador inicio).
+ * `eliminarFinal` (véase <@ContenedorSecuencial\#eliminarFinal>): Elimina el
+último elemento del contenedor (el apuntado por el iterador final).
+
+@abstract
+DOCUMENTA]
+clase abstracta @ContenedorSecuencial extiende @ContenedorUnico
+	metodo insertarAntes
+	metodo insertarDespues
+
+	metodo eliminar
+
+	metodo moverElemento
+	metodo intercambiarElementos
+
+	metodo agregarInicio
+	metodo agregarFinal
+	metodo eliminarInicio
+	metodo eliminarFinal
+finclase
+
+[DOCUMENTA
+@brief `@ContenedorSecuencial#insertarAntes` - Inserta un elemento antes de un \
+iterador especificado.
+Si la posición justo antes del iterador no es válida, esta función lanzará un
+error. Existe un caso especial: si el iterador pasado es el iterador final,
+incluso si el contenedor está vacío (lo cual ocasionaría un error al acceder al
+elemento anterior al iterador inicio) este método siempre insertará el elemento
+al final del contenedor.
+
+Este método puede o puede no invalidar los iteradores del contenedor, en
+cualquier caso, siempre se debería asumir que todos los iteradores son
+invalidados.
+
+**Nota**: Como se podría esperar, llamar a este método con el iterador final
+como parametro insertará el elemento justo al final del contenedor (véase
+<@ContenedorSecuencial\#agregarFinal>) pero llamar a este método con el
+iterador de inicio como parametro lanzará un error.
+
+@argyo
+@arg iterador Iterador que se utilizará para determinar la posición de \
+inserción.
+@arg elemento Elemento o referencia al elemento a insertar.
+
+@throws Error
+Si no se pudo insertar el elemento, un error será lanzado y el contenedor
+quedará en el mismo estado que tenía antes de llamar a esta función. La clase
+del error es dependiente de la implementación, pero siempre será un error
+válido que implementa a la interfáz <gt/error.pseudo#@Error>.
+
+@races None
+DOCUMENTA]
+metodo @ContenedorSecuencial#insertarAntes con yo e iterador y elemento
+	necesitas FALSO
+finmetodo
+
+[DOCUMENTA
+@brief `@ContenedorSecuencial#insertarDespues` - Inserta un elemento después \
+de un iterador especificado.
+Si la posición justo después del iterador no es válida, esta función lanzará un
+error. Existe un caso especial: si el iterador pasado es el iterador inicio,
+incluso si el contenedor está vacío (lo cual ocasionaría un error al acceder al
+elemento después al iterador final) este método siempre insertará el elemento
+al inicio del contenedor.
+
+Este método puede o puede no invalidar los iteradores del contenedor, en
+cualquier caso, siempre se debería asumir que todos los iteradores son
+invalidados.
+
+**Nota**: Como se podría esperar, llamar a este método con el iterador inicio
+como parametro insertará el elemento justo al inicio del contenedor (véase
+<@ContenedorSecuencial\#agregarInicio>) pero llamar a este método con el
+iterador de final como parametro lanzará un error.
+
+@argyo
+@arg iterador Iterador que se utilizará para determinar la posición de \
+inserción.
+@arg elemento Elemento o referencia al elemento a insertar.
+
+@throws Error
+Si no se pudo insertar el elemento, un error será lanzado y el contenedor
+quedará en el mismo estado que tenía antes de llamar a esta función. La clase
+del error es dependiente de la implementación, pero siempre será un error
+válido que implementa a la interfáz <gt/error.pseudo#@Error>.
+
+@races None
+DOCUMENTA]
+metodo @ContenedorSecuencial#insertarDespues con yo e iterador y elemento
+	necesitas FALSO
+finmetodo
+
+[DOCUMENTA
+@brief `@ContenedorSecuencial#eliminar` - Elimina el elemento apuntado por el \
+iterador especificado.
+Si el iterador apunta a un elemento válido de este contenedor, todos los
+iteradores iguales a este (*iguales* significa comparados iguales con el
+método <gt/iterador.pseudo#@Iterador\#igualA> de la interfáz iterador) son
+invalidados y el elemento apuntado es eliminado de este contenedor. Es
+dependiente de la implementación si otros iteradores son invalidados.
+
+Si no se pudo borrar el elemento apuntado por el iterador, un error será
+lanzado.
+
+@argyo
+@arg iterador Iterador que apunta al elemento a eliminar.
+
+@throws Error
+Si no se pudo eliminar el elemento, un error será lanzado y el contenedor
+quedará en el mismo estado que tenía antes de llamar a esta función. La clase
+del error es dependiente de la implementación, pero siempre será un error
+válido que implementa a la interfáz <gt/error.pseudo#@Error>.
+
+@races None
+DOCUMENTA]
+metodo @ContenedorSecuencial#eliminar con yo e iterador
+	necesitas FALSO
+finmetodo
+
+[DOCUMENTA
+@brief `@ContenedorSecuencial#moverElemento` - Mueve un elemento de una \
+posición a otra.
+Luego de llamar a esta función, el *índice* del elemento apuntado por `iter2`
+ahora apuntará a `iter1`. Ambos iteradores son invalidados y el contenedor
+puede o no invalidar otros iteradores. Luego de llamar a esta función `iter2`
+estará ubicado en la posición siguiente a `iter1`.
+
+@argyo
+@arg iter1 Iterador apuntando al elemento a mover.
+@arg iter2 Iterador que apunta a la nueva posición de iter1.
+
+@throws Error
+Si no se pudo mover el elemento, un error será lanzado y el contenedor
+quedará en el mismo estado que tenía antes de llamar a esta función. La clase
+del error es dependiente de la implementación, pero siempre será un error
+válido que implementa a la interfáz <gt/error.pseudo#@Error>.
+
+@races None
+DOCUMENTA]
+metodo @ContenedorSecuencial#moverElemento con yo e iter1 e iter2
+	necesitas FALSO
+finmetodo
+
+[DOCUMENTA
+@brief `@ContenedorSecuencial#intercambiarElementos` - Intercambia la posición \
+de dos elementos.
+Luego de llamar a este método, los valores apuntados por los iteradores `iter1`
+e `iter2` serán intercambiados.
+
+Si algún iterador es invalidado es dependiente de la implementación.
+
+@argyo
+@arg iter1 Primer elemento a intercambiar.
+@arg iter2 Segundo elemento a intercambiar.
+
+@throws Error
+Si no se pudo intercambiar los elementos, un error será lanzado y el contenedor
+quedará en el mismo estado que tenía antes de llamar a esta función. La clase
+del error es dependiente de la implementación, pero siempre será un error
+válido que implementa a la interfáz <gt/error.pseudo#@Error>.
+
+@races None
+DOCUMENTA]
+metodo @ContenedorSecuencial#intercambiarElementos con yo e iter1 e iter2
+	necesitas FALSO
+finmetodo
+
+[DOCUMENTA
+@brief `@ContenedorSecuencial#agregarInicio` - Agrega un elemento al inicio.
+El nuevo elemento será apuntado por el iterador inicio. Todos los iteradores al
+inicio del contenedor son invalidados. Es dependiente de la implementación si
+otros iteradores son invalidados.
+
+@argyo
+@arg elemento Referencia al elemento que se va a agregar.
+
+@throws Error
+Si no se pudo agregar el elemento, un error será lanzado y el contenedor
+quedará en el mismo estado que tenía antes de llamar a esta función. La clase
+del error es dependiente de la implementación, pero siempre será un error
+válido que implementa a la interfáz <gt/error.pseudo#@Error>.
+
+@races None
+DOCUMENTA]
+metodo @ContenedorSecuencial#agregarInicio con yo y elemento
+	necesitas FALSO
+finmetodo
+
+[DOCUMENTA
+@brief `@ContenedorSecuencial#agregarFinal` - Agrega un elemento al final.
+El nuevo elemento será apuntado por el iterador final. Todos los iteradores al
+final del contenedor son invalidados. Es dependiente de la implementación si
+otros iteradores son invalidados.
+
+@argyo
+@arg elemento Referencia al elemento que se va a agregar.
+
+@throws Error
+Si no se pudo agregar el elemento, un error será lanzado y el contenedor
+quedará en el mismo estado que tenía antes de llamar a esta función. La clase
+del error es dependiente de la implementación, pero siempre será un error
+válido que implementa a la interfáz <gt/error.pseudo#@Error>.
+
+@races None
+DOCUMENTA]
+metodo @ContenedorSecuencial#agregarFinal con yo y elemento
+	necesitas FALSO
+finmetodo
+
+[DOCUMENTA
+@brief `@ContenedorSecuencial#eliminarInicio` - Elimina el primer elemento.
+Si el contenedor esta vacío antes de ejecutar este método, lanzará un error.
+
+Los iteradores inicio y final son invalidados siempre, otros iteradores pueden
+o no ser invalidados.
+
+@argyo
+
+@throws Error
+Si no se pudo eliminar el elemento, un error será lanzado y el contenedor
+quedará en el mismo estado que tenía antes de llamar a esta función. La clase
+del error es dependiente de la implementación, pero siempre será un error
+válido que implementa a la interfáz <gt/error.pseudo#@Error>.
+
+@races None
+DOCUMENTA]
+metodo @ContenedorSecuencial#eliminarInicio con yo
+	necesitas FALSO
+finmetodo
+
+[DOCUMENTA
+@brief `@ContenedorSecuencial#eliminarFinal` - Elimina el último elemento.
+Si el contenedor esta vacío antes de ejecutar este método, lanzará un error.
+
+Los iteradores inicio y final son invalidados siempre, otros iteradores pueden
+o no ser invalidados.
+
+@argyo
+
+@throws Error
+Si no se pudo eliminar el elemento, un error será lanzado y el contenedor
+quedará en el mismo estado que tenía antes de llamar a esta función. La clase
+del error es dependiente de la implementación, pero siempre será un error
+válido que implementa a la interfáz <gt/error.pseudo#@Error>.
+
+@races None
+DOCUMENTA]
+metodo @ContenedorSecuencial#eliminarFinal con yo
+	necesitas FALSO
+finmetodo

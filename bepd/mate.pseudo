@@ -35,6 +35,19 @@ utilizar mt/mixtos.pseudo
 @file Documentación de mate.pseudo.
 Esta es la biblioteca matemática de PseudoD, aqui estan todas las funciones
 matemáticas de PseudoD implementadas en PseudoD.
+
+**Nota**:
+
+A partir de PseudoD 2.2.0, utilizar este archivo es equivalente a utilizar
+los archivos:
+
+* <mt/constantes.pseudo>
+* <mt/comparar.pseudo>
+* <mt/aritmetica.pseudo>
+* <mt/potenciacion.pseudo>
+* <mt/trigonometria.pseudo>
+* <mt/aproximacion.pseudo>
+* <mt/mixtos.pseudo>
 DOCUMENTA]
 
 [DOCUMENTA

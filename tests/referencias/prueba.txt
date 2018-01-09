@@ -1,0 +1,4 @@
+Prueba de la resolución de nombres para referencias.
+
+Utiliza la resolución de nombres "<" y ">" sobre variables y punteros que
+actúan como referencias.

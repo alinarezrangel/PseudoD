@@ -277,33 +277,38 @@ namespace PDvar
 		if(nombre.find('<') == PDCadena::npos)
 			return nombre;
 
-		PDCadena res = "";
-		PDCadena buff = "";
-		bool inEval = false;
+		std::stack<PDCadena> buffs;
+		buffs.push("");
+
 		for(decltype(nombre)::size_type i = 0; i < nombre.size(); i++)
 		{
 			if(nombre[i] == '<')
 			{
-				inEval = true;
+				buffs.push("");
+
 				continue;
 			}
+
 			if(nombre[i] == '>')
 			{
-				inEval = false;
-				res += this->ObtenerVariable(buff);
-				buff = "";
+				if(buffs.size() == 1)
+				{
+					throw PDvar::ErrorDeSintaxis(
+						"Resolucion de nombres: '>' unbalanceado con '" + nombre + "'"
+					);
+				}
+
+				PDCadena& var = this->ObtenerVariable(buffs.top());
+				buffs.pop();
+				buffs.top() += var;
+
 				continue;
 			}
-			if(inEval)
-			{
-				buff += nombre[i];
-			}
-			else
-			{
-				res += nombre[i];
-			}
+
+			buffs.top() += nombre[i];
 		}
-		return res;
+
+		return buffs.top();
 	}
 
 	PDEntradaBasica::PDEntradaBasica(PDCadena tok, std::istream& in, PDDatos& dat)

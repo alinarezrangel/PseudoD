@@ -1,0 +1,3 @@
+Este programa no utiliza ningún sistema de entrada.
+
+La salida no posee formato alguno.

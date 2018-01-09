@@ -1,0 +1,187 @@
+[ ******************************************************************************
+*****************************************
+*********
+** Bibliotecas de Generalidades de Tipo de PseudoD: subconjunto de la BEPD.
+** Interfáz `@Comparable`.
+*********
+*****************************************
+********************************************************************************
+Copyright 2016 Alejandro Linarez Rangel
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+********************************************************************************
+****************************************************************************** ]
+
+utilizar gt/objeto.pseudo
+
+[DOCUMENTA
+@brief `@Comparable` - Un elemento comparable.
+Los objetos comparables definen las siguientes relaciones:
+
+ * *igual a*: dos objetos comparables se comparan iguales si pueden utilizarse
+intercambiablemente (por ejemplo: *5 es igual a 5*).
+ * *menor que*: dos objetos comparables se comparan uno *menor que* otro si
+estos poseen algún tipo de ordenamiento y el primer objeto se encuentra antes
+que el otro en dicho sistema (por ejemplo: *2 es menor que 7*).
+ * *mayor que*: dos objetos comparables se comparan uno *mayor que* otro si
+estos poseen algún tipo de ordenamiento y el primer objeto se encuentra después
+que el otro en dicho sistema (por ejemplo: *4 es mayor que -3*).
+
+Los comparables se separan en dos grupos:
+
+ * *Comparable Igualable*: Es un comparable cuyos métodos `menorQue` y
+`mayorQue` **siempre** devuelven FALSO.
+ * *Comparable Completo*: Es un comparable con todos los métodos correctamente
+implementados.
+
+**Implementaciones**:
+
+ * Interfáz `@Iterador` en <gt/iterador.pseudo#@Iterador> (GT)
+ * Clase `Fraccion` en <cl/fraccion.pseudo#Fraccion> (CL)
+ * Clase `Numero` en <cl/numero.pseudo#Numero> (CL)
+ * Clase `Decimal` en <cl/decimal.pseudo#Decimal> (CL)
+ * Clase `ParCV` en <cl/par.pseudo#ParCV> (CL)
+
+**Extiende**:
+
+ * Interfáz `@Objeto` en <gt/objeto.pseudo#@Objeto> (GT)
+
+**Atributos**:
+
+ * `completo` (booleano): VERDADERO si el comparable es un comparable
+completo, FALSO de otro modo.
+
+**Métodos**:
+
+ * `igualA` (véase <@Comparable\#igualA>): Determina si dos comparables son
+iguales.
+ * `menorQue` (véase <@Comparable\#menorQue>): Determina si un comparable es
+menor que otro.
+ * `mayorQue` (véase <@Comparable\#mayorQue>): Determina si un comparable es
+mayor que otro.
+ * `compararCon` (véase <@Comparable\#compararCon>): Determina la relación de
+orden entre dos comparables.
+
+@abstract
+DOCUMENTA]
+clase abstracta @Comparable extiende @Objeto
+	atributo completo
+
+	metodo igualA
+	metodo menorQue
+	metodo mayorQue
+	metodo compararCon
+finclase
+
+[DOCUMENTA
+@brief `@Comparable#igualA` - Determina si dos comparables son iguales.
+No es necesario que ambos posean el mismo tipo, pero `der` también debe ser un
+comparable y las siguientes *leyes* deben mantenerse siempre:
+
+ * Si `A` es igual a `B`, entonces `B` es igual a `A`.
+ * Si `A` es igual a `B` y `B` es igual a `C`, entonces `A` es igual a `C`.
+ * Comparar si son iguales `A` y `B` no modifica ni `A` ni `B`.
+
+La implementación deberá hacer que la complejidad de este método sea constante
+o en el peor caso lineal. De no ser posible poseer una complejidad constante o
+lineal, la complejidad esta definida por la implementación.
+
+@argyo
+@arg der Referencia al segundo comparable a comparar.
+
+@dev VERDADERO si ambos objetos son iguales, FALSO de lo contrario.
+
+@races None
+DOCUMENTA]
+metodo @Comparable#igualA con yo y der
+	necesitas FALSO
+finmetodo
+
+[DOCUMENTA
+@brief `@Comparable#menorQue` - Determina si un elemento es menor que otro.
+No es necesario que ambos posean el mismo tipo, pero `der` también debe ser un
+comparable y las siguientes *leyes* deben mantenerse siempre en implementaciones
+que sean un comparable completo:
+
+ * Si `A` es menor que `B`, entonces `B` no es menor que `A`.
+ * Si `A` es menor que `B`, y `B` es menor que `C`, entonces `A` es menor que
+`C`.
+ * Comparar si `A` es menor que `B` no modifica ni `A` ni `B`.
+
+Si la implementación no es un comparable completo (es un comparable igualable)
+entonces este método siempre debe devolver FALSO.
+
+@argyo
+@arg der Referencia al segundo comparable a comparar.
+
+@dev VERDADERO si la instancia actual es menor que `der`, FALSO de lo contrario.
+
+@races None
+DOCUMENTA]
+metodo @Comparable#menorQue con yo y der
+	necesitas FALSO
+finmetodo
+
+[DOCUMENTA
+@brief `@Comparable#mayorQue` - Determina si un elemento es mayor que otro.
+No es necesario que ambos posean el mismo tipo, pero `der` también debe ser un
+comparable y las siguientes *leyes* deben mantenerse siempre en implementaciones
+que sean un comparable completo:
+
+ * Si `A` es mayor que `B`, entonces `B` no es mayor que `A`.
+ * Si `A` es mayor que `B`, y `B` es mayor que `C`, entonces `A` es mayor que
+`C`.
+ * Comparar si `A` es mayor que `B` no modifica ni `A` ni `B`.
+
+Si la implementación no es un comparable completo (es un comparable igualable)
+entonces este método siempre debe devolver FALSO.
+
+@argyo
+@arg der Referencia al segundo comparable a comparar.
+
+@dev VERDADERO si la instancia actual es mayor que `der`, FALSO de lo contrario.
+
+@races None
+DOCUMENTA]
+metodo @Comparable#mayorQue con yo y der
+	necesitas FALSO
+finmetodo
+
+[DOCUMENTA
+@brief `@Comparable#compararCon` - Determina la relación de orden.
+Este método determina la relación de orden de dos comparables, no es necesario
+que posean el mismo tipo.
+
+ * Si el valor de retorno es `0`, entonces la instancia actual es igual a `der`.
+ * Si el valor de retorno es `1`, entonces la instancia actual es mayor que
+`der`.
+ * Si el valor de retorno es `-1`, entonces la instancia actual es menor que
+`der`.
+
+Si la implementación no es un comparable completo (es un comparable igualable)
+entonces este método devuelve:
+
+ * `0` si la instancia actual es igual a `der`.
+ * `1` si la instancia actual no es igual a `der`.
+
+@argyo
+@arg der Referencia al comparable cuya relación respecto a la instancia actual \
+va a ser determinada.
+
+@dev La relación de orden entre la instancia actual y `der`.
+
+@races None
+DOCUMENTA]
+metodo @Comparable#compararCon con yo y der
+	necesitas FALSO
+finmetodo

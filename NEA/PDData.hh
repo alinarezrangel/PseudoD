@@ -35,6 +35,7 @@ limitations under the License.
 #include <cstring>
 #include <cstdio>
 #include <exception>
+#include <stdexcept>
 #include <algorithm>
 
 #define PDVOID_INIC_VACIO char

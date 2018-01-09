@@ -29,4 +29,14 @@ utilizar fn/cadena.pseudo
 Este archivo declara envolturas utiles para la manipulacion de cadenas.
 
 Todas las funciones estan en el espacio de nombres Cadena.
+
+**Nota**:
+
+A partir de PseudoD 2.2.0, utilizar este archivo es equivalente a utilizar
+el archivo:
+
+* <fn/cadena.pseudo>
+
+Este archivo se encuentra **obsoleto** desde PseudoD 2.2.0 y será eliminado en
+PseudoD 3.0.0.
 DOCUMENTA]

@@ -1,7 +1,8 @@
 [ ******************************************************************************
 *****************************************
 *********
-** entsal.pseudo: Archivo Entrada/salida de PseudoD.
+** Bibliotecas de Generalidades de Tipo de PseudoD: subconjunto de la BEPD.
+** Interfáz `@IteradorBidireccionalReversa`.
 *********
 *****************************************
 ********************************************************************************
@@ -21,29 +22,34 @@ limitations under the License.
 ********************************************************************************
 ****************************************************************************** ]
 
-utilizar cadena.pseudo
-
-utilizar cl/buffertexto.pseudo
-
-utilizar fn/esfuncional.pseudo
+utilizar gt/iteradorbidireccional.pseudo
 
 [DOCUMENTA
-@file Documentación de entsal.pseudo
-Este archivo provee manipulación de *flujos*, en estos, las operaciones
-de entrada y salida, se realiza comúnmente por operaciones *append*,
-por las cuales, se agrega el contenido al flujo de salida, para lectura,
-una vez que se lee del flujo, esa palabra es eliminada, prohibiendo su
-lectura más de dos veces.
+@brief `@IteradorBidireccionalReversa` - Iterador que avanza y retrocede en \
+reversa.
+Un iterador bidireccional cuyo método `siguiente` retrocede en vez de avanzar
+un elemento y su método `anterior` avanza en vez de retroceder un elemento.
 
-**Nota**:
+**Extiende**:
 
-A partir de PseudoD 2.2.0, utilizar este archivo es equivalente a utilizar
-los archivos:
+ * Interfáz `@IteradorBidireccional` en
+<gt/iteradorbidireccional.pseudo#@IteradorBidireccional> (GT)
 
-* <cl/buffertexto.pseudo>
-* <fn/esfuncional.pseudo>
-* <cadena.pseudo>
+**Implementa**:
 
-Este archivo se encuentra **obsoleto** desde PseudoD 2.2.0 y será eliminado en
-PseudoD 3.0.0.
+ * Interfáz `@IteradorReversa` en
+<gt/iteradorreversa.pseudo#@IteradorReversa> (GT)
+
+**Atributos**:
+
+Ninguno adicional.
+
+**Métodos**:
+
+Ninguno adicional.
+
+@abstract
 DOCUMENTA]
+clase abstracta @IteradorBidireccionalReversa extiende @IteradorBidireccional
+	implementa @IteradorReversa
+finclase

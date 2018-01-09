@@ -1,7 +1,8 @@
 [ ******************************************************************************
 *****************************************
 *********
-** entsal.pseudo: Archivo Entrada/salida de PseudoD.
+** Bibliotecas de Generalidades de Tipo de PseudoD: subconjunto de la BEPD.
+** Interfáz `@ContenedorUnico`.
 *********
 *****************************************
 ********************************************************************************
@@ -21,29 +22,33 @@ limitations under the License.
 ********************************************************************************
 ****************************************************************************** ]
 
-utilizar cadena.pseudo
-
-utilizar cl/buffertexto.pseudo
-
-utilizar fn/esfuncional.pseudo
+utilizar gt/contenedor.pseudo
 
 [DOCUMENTA
-@file Documentación de entsal.pseudo
-Este archivo provee manipulación de *flujos*, en estos, las operaciones
-de entrada y salida, se realiza comúnmente por operaciones *append*,
-por las cuales, se agrega el contenido al flujo de salida, para lectura,
-una vez que se lee del flujo, esa palabra es eliminada, prohibiendo su
-lectura más de dos veces.
+@brief `@ContenedorUnico` - Contenedor de una única ruta.
+Todos los contenedores únicos son contenedores que poseen únicamente **una**
+ruta entre los iteradores de inicio y final.
 
-**Nota**:
+Ésta interfáz extiende los requisítos de <gt/contenedor.pseudo#@Contenedor>:
 
-A partir de PseudoD 2.2.0, utilizar este archivo es equivalente a utilizar
-los archivos:
+ * Solamente existe **una** ruta entre el iterador de inicio y final.
+ * Cada pase sobre el contenedor comenzando por el iterador inicio y
+terminando en el iterador final siempre debe pasar por los mismos elementos
+para un estado del contenedor dado.
 
-* <cl/buffertexto.pseudo>
-* <fn/esfuncional.pseudo>
-* <cadena.pseudo>
+**Extiende**:
 
-Este archivo se encuentra **obsoleto** desde PseudoD 2.2.0 y será eliminado en
-PseudoD 3.0.0.
+ * Interfáz `@Contenedor` en <gt/contenedor.pseudo#@Contenedor> (GT)
+
+**Atributos**:
+
+Ninguno adicional.
+
+**Métodos**:
+
+Ninguno adicional.
+
+@abstract
 DOCUMENTA]
+clase abstracta @ContenedorUnico extiende @Contenedor
+finclase

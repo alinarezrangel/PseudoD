@@ -1,0 +1,115 @@
+[ ******************************************************************************
+*****************************************
+*********
+** Bibliotecas de Generalidades de Tipo de PseudoD: subconjunto de la BEPD.
+** Interfáz `@ContenedorReversible`.
+*********
+*****************************************
+********************************************************************************
+Copyright 2016 Alejandro Linarez Rangel
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+********************************************************************************
+****************************************************************************** ]
+
+utilizar gt/contenedorsecuencial.pseudo
+
+[DOCUMENTA
+@brief `@ContenedorReversible` - Contenedor que puede ser recorrido en reversa.
+Algunos contenedores (o contenedores secuenciales, véase
+<gt/contenedorsecuencial.pseudo>) pueden ser recorridos en dos direcciones,
+todos los contenedores que posean ésta capacidad deben implementar esta
+interfáz para sacar máximo provecho a ésta característica.
+
+Todas las implementaciones, tal como deben proveer una clase miembro `Iterador`
+que representa el tipo de iterador de la clase (esto es especificado en la
+interfáz <gt/contenedor.pseudo#@Contenedor>), deben poseer una segunda clase
+miembro llamada `IteradorReversa` la cual implementa a la interfáz
+<gt/iteradorreversa.pseudo#@IteradorReversa>. Los iteradores normales de este
+contenedor deben cumplir además con los requerimientos de
+<gt/iteradorbidireccional.pseudo#@IteradorBidireccional>.
+
+Todos los contenedores reversibles poseen dos (2) iteradores especiales más:
+tal como todos los contenedores poseen los iteradores inicio y final, los
+contenedores reversibles poseen inicio, final, *inicio reversa* y
+*final reversa*.
+
+El iterador inicio reversa apunta al último elemento del contenedor y el
+iterador final reversa apunta a un elemento **antes** del primer elemento del
+contenedor. Son análogos a los iteradores inicio y final.
+
+**Implementaciones**:
+
+ * Clase `Arreglo` en <dt/arreglo.pseudo#Arreglo> (DT)
+ * Clase `Vector` en <dt/vector.pseudo#Vector> (DT)
+
+**Extiende**:
+
+ * Interfáz `@ContenedorUnico` en <gt/contenedorunico.pseudo#@ContenedorUnico>
+(GT)
+
+**Atributos**:
+
+Ninguno adicional.
+
+**Métodos**:
+
+ * `inicioReversa` (véase <@ContenedorReversible\#inicioReversa>): Obtiene el
+iterador de inicio en reversa.
+ * `finalReversa` (véase <@ContenedorReversible\#finalReversa>): Obtiene el
+iterador de final en reversa.
+
+@abstract
+DOCUMENTA]
+clase abstracta @ContenedorReversible extiende @ContenedorUnico
+	metodo inicioReversa
+	metodo finalReversa
+finclase
+
+[DOCUMENTA
+@brief `@ContenedorReversible#inicioReversa` - Obtiene el iterador inicio \
+reversa.
+
+El iterador devuelto debe implementar
+<gt/iteradorreversa.pseudo#@IteradorReversa>.
+
+@argyo
+
+@dev Una referencia al iterador de inicio en reversa.
+
+@races ReturnValue.Shared
+La referencia devuelta puede ser compartida entre llamadas a este método.
+Liberar o borrar esta referencia ocasionará un comportamiento indefinido.
+DOCUMENTA]
+metodo @ContenedorReversible#inicioReversa con yo
+	necesitas FALSO
+finmetodo
+
+[DOCUMENTA
+@brief `@ContenedorReversible#finalReversa` - Obtiene el iterador final \
+reversa.
+
+El iterador devuelto debe implementar
+<gt/iteradorreversa.pseudo#@IteradorReversa>.
+
+@argyo
+
+@dev Una referencia al iterador de final en reversa.
+
+@races ReturnValue.Shared
+La referencia devuelta puede ser compartida entre llamadas a este método.
+Liberar o borrar esta referencia ocasionará un comportamiento indefinido.
+DOCUMENTA]
+metodo @ContenedorReversible#finalReversa con yo
+	necesitas FALSO
+finmetodo

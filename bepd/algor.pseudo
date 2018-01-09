@@ -29,6 +29,16 @@ utilizar cadena.pseudo
 @file Documentación de algor.pseudo.
 Este archivo posee clases dinamicas, que representan objetos comunes, como
 listas, arrays, funciones tipo foreach, arboles binarios, etc.
+
+**Nota**:
+
+A partir de PseudoD 2.2.0, utilizar este archivo es equivalente a utilizar
+el archivo:
+
+* <dt/arreglo.pseudo>
+
+Este archivo se encuentra **obsoleto** desde PseudoD 2.2.0 y será eliminado en
+PseudoD 3.0.0.
 DOCUMENTA]
 
 [DOCUMENTA

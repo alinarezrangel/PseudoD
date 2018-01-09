@@ -1,0 +1,45 @@
+adquirir msg
+adquirir msj
+adquirir refA
+adquirir refB
+puntero ptr NULO#NOMBRE
+
+fijar msg a {Hola}
+fijar msj a {Adios}
+
+fijar refA a msg#NOMBRE
+fijar refB a refA#NOMBRE
+
+redireccionar ptr msj#NOMBRE
+
+escribir <refA>
+nl
+escribir <ptr>
+nl
+escribir <<refB>>
+nl
+
+clase Nodo hereda Objeto
+	atributo refSiguiente
+
+	atributo valor
+
+	metodo estatico imprimirSiguiente
+finclase
+
+metodo estatico Nodo#imprimirSiguiente con nodo
+	escribir <<nodo>#refSiguiente>#valor
+	nl
+finmetodo
+
+instancia Nodo nodoA
+instancia Nodo nodoB
+
+fijar nodoA#valor a {A}
+fijar nodoB#valor a {B}
+
+fijar nodoA#refSiguiente a nodoB
+fijar nodoB#refSiguiente a nodoA
+
+llamar Nodo#imprimirSiguiente nodoA finargs
+llamar Nodo#imprimirSiguiente nodoB finargs

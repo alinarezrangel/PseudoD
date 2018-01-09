@@ -30,6 +30,20 @@ utilizar cl/par.pseudo
 [DOCUMENTA
 @file Documentación de clases.pseudo.
 Aqui se declaran clases comúnes, como <Fraccion> y <Decimal>.
+
+**Nota**:
+
+A partir de PseudoD 2.2.0, utilizar este archivo es equivalente a utilizar
+los archivos:
+
+* <cl/elementoaritmetico.pseudo>
+* <cl/fraccion.pseudo>
+* <cl/numero.pseudo>
+* <cl/decimal.pseudo>
+* <cl/par.pseudo>
+
+Este archivo se encuentra **obsoleto** desde PseudoD 2.2.0 y será eliminado en
+pseudoD 3.0.0.
 DOCUMENTA]
 
 [DOCUMENTA
