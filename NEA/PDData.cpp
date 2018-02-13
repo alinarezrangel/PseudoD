@@ -385,11 +385,9 @@ namespace PDvar
 
 				vl = vl && ex;
 
-				if(in.FinDelFlujo())
+				if(in.FinDelFlujo(true))
 				{
-					throw PDvar::ErrorDeSintaxis(
-						"Error en el parser(expr): EOF inesperado"
-					);
+					break;
 				}
 
 				como = in.ObtenerTokenActual();
@@ -424,11 +422,9 @@ namespace PDvar
 
 				vl = vl || ex;
 
-				if(in.FinDelFlujo())
+				if(in.FinDelFlujo(true))
 				{
-					throw PDvar::ErrorDeSintaxis(
-						"Error en el parser(expr): EOF inesperado"
-					);
+					break;
 				}
 
 				como = in.ObtenerTokenActual();

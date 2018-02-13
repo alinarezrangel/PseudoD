@@ -552,15 +552,6 @@ namespace pseudod
 	}
 	void Tokenizador::ExtraerToken(Token& out)
 	{
-		/*
-		std::cout
-			<< "ExtraerToken a "
-			<< this->tkpos
-			<< " de "
-			<< this->tokens.size()
-			<< std::endl;
-		//*/
-
 		if(this->itertk == this->tokens.end())
 		{
 			this->findelflujo = true;
@@ -580,8 +571,13 @@ namespace pseudod
 		this->findelflujo = true;
 	}
 
-	bool Tokenizador::FinDelFlujo(void)
+	bool Tokenizador::FinDelFlujo(bool forzar)
 	{
+		if(forzar)
+		{
+			this->findelflujo = this->itertk == this->tokens.end();
+		}
+
 		return this->findelflujo;
 	}
 

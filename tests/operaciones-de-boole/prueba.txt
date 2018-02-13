@@ -1,0 +1,3 @@
+Prueba las operaciones de Boole en PseudoD.
+
+Utiliza `necesitas` así que la salida ídeal es nula.

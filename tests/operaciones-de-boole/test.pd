@@ -1,0 +1,46 @@
+adquirir A
+adquirir B
+adquirir C
+adquirir D
+adquirir E
+adquirir F
+adquirir G
+adquirir NA
+adquirir NB
+adquirir NC
+
+fijar A a {Valor 1}
+fijar B a {Valor 1}
+fijar C a {Valor 2}
+fijar D a {Valor 2}
+fijar F a {Valor 3}
+fijar G a {Valor 3}
+
+fijar NA a -568
+fijar NB a 58
+fijar NC a 124
+
+funcion SiempreVerdadero
+	devolver VERDADERO
+finfuncion
+
+funcion SiempreFalso
+	devolver FALSO
+finfuncion
+
+necesitas sean iguales A y B
+necesitas sean iguales C y D
+necesitas sean iguales F y G
+necesitas sean diferentes A y C
+necesitas sean diferentes D y G
+necesitas sean diferentes B y F
+necesitas comparar Importar.Ent.Comparar NA < NB
+necesitas comparar Importar.Ent.Comparar NB < NC
+necesitas comparar Importar.Ent.Comparar NC > NA
+necesitas comparar Importar.Ent.Comparar NA != NB
+necesitas
+	tanto llamar SiempreVerdadero finargs
+	como sean iguales A y B
+necesitas
+	algun llamar SiempreFalso finargs
+	o sean diferentes F y C

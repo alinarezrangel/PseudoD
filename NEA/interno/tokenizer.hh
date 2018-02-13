@@ -90,7 +90,7 @@ namespace pseudod
 
 			void Borrar(void);
 
-			bool FinDelFlujo(void);
+			bool FinDelFlujo(bool forzar = false);
 
 			operator bool(void);
 		private:

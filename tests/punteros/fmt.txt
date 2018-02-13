@@ -1,0 +1,1 @@
+Esta prueba no utiliza algún formato específico para su entrada/salida.
