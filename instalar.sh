@@ -2,10 +2,10 @@
 # coding: utf-8
 
 #################################
-#  Instalador de PseudoD 2.2.0  #
+#  Instalador de PseudoD 2.3.0  #
 # Por Alejandro Linarez Rangel  #
 #################################
-# Copyright 2016 Alejandro Linarez Rangel
+# Copyright 2016-2018 Alejandro Linarez Rangel
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ RUTA_INSTAL_GLOBAL="/opt/pseudod"
 RUTA_INSTAL_LOCAL="$HOME/.pseudod"
 STEPBYSTEP=""
 
-echo "Instalador de PseudoD 2.2.0"
+echo "Instalador de PseudoD 2.3.0-alpha"
 echo
 echo "Ahora se realizarán una serie de preguntas, puede terminar la instalación"
 echo "en cualquier momento ingresando 'q' pero no se garantiza que los cambios"
@@ -271,7 +271,7 @@ echo
 echo "Compilación terminada..."
 echo "Detectando versión de PseudoD..."
 
-PDVERSION=$(./PseudoD --version | sed "s/PseudoD //")
+PDVERSION=$(./pseudod --version | sed "s/PseudoD //")
 
 if [ -z "$STEPBYSTEP" ]; then
 	sleep 1
@@ -284,7 +284,7 @@ echo "Moviendo las librerias..."
 
 LIBPSEUDOD_TG="libpseudod.so"
 LIBPSEUDODSRC_TG="libpseudodsrc.a"
-PSEUDOD_TG="PseudoD"
+PSEUDOD_TG="pseudod"
 BEPD_TG="bepd/"
 
 if [ -e "$RUTA_PSEUDOD_INSTALACION/lib/libpseudod.so" ]; then
@@ -384,8 +384,8 @@ fi
 echo
 echo "Moviendo los binarios..."
 
-if [ -e "$RUTA_PSEUDOD_INSTALACION/bin/PseudoD" ]; then
-	echo "Existe un archivo en bin/PseudoD, este puede ser otra versión de"
+if [ -e "$RUTA_PSEUDOD_INSTALACION/bin/pseudod" ]; then
+	echo "Existe un archivo en bin/pseudod, este puede ser otra versión de"
 	echo "PseudoD. Desea reemplazar este binario por el actual? (perdería"
 	echo "esta versión de PseudoD para siempre, si posee varias versiones de"
 	echo "PseudoD a la vez, esto prohibirá utilizar la versión antigua)"
@@ -406,12 +406,12 @@ if [ -e "$RUTA_PSEUDOD_INSTALACION/bin/PseudoD" ]; then
 			;;
 		s)
 			echo "Reemplazando el binario PseudoD antiguo..."
-			PSEUDOD_TG="PseudoD"
+			PSEUDOD_TG="pseudod"
 			;;
 		*)
 			echo "No se reemplazará el binario antiguo (configurando para"
-			echo " PseudoD$PDVERSION)"
-			PSEUDOD_TG="PseudoD$PDVERSION"
+			echo " pseudod$PDVERSION)"
+			PSEUDOD_TG="pseudod$PDVERSION"
 			;;
 	esac
 fi
@@ -420,7 +420,7 @@ export RUTA_PSEUDOD_BIN="$RUTA_PSEUDOD_INSTALACION/bin/$PSEUDOD_TG"
 
 echo "> PseudoD"
 echo "> RUTA_PSEUDOD_BIN = $RUTA_PSEUDOD_BIN"
-cp ./PseudoD "$RUTA_PSEUDOD_BIN"
+cp ./pseudod "$RUTA_PSEUDOD_BIN"
 
 if [ -z "$STEPBYSTEP" ]; then
 	sleep 1
@@ -517,7 +517,7 @@ echo "La instalación está casi completa, solo falta configurar las variables"
 echo "globales. Debido a que no hay manera estándar para hacer esto,"
 echo "el usuario que desee utilizar PseudoD deberá hacerlo:"
 echo
-echo "Código en BASH:"
+echo "Código para Shell:"
 echo
 echo "export RUTA_PSEUDOD=\"$RUTA_PSEUDOD\""
 echo "export RUTA_PSEUDOD_BIN=\"$RUTA_PSEUDOD_BIN\""
@@ -529,7 +529,7 @@ echo
 echo "Fin del código."
 echo
 echo "Instalación completa, intente con:"
-echo " $ ipdc -f \"\$RUTA_PSEUDOD_INSTALACION/Ejemplos/$PDVERSION/HolaMundo.pd\""
+echo " $ ipdc \"\$RUTA_PSEUDOD_INSTALACION/Ejemplos/$PDVERSION/HolaMundo.pd\""
 echo "Para probar."
 echo
 

@@ -7,7 +7,7 @@
 *****     http://pseudod.sourceforge.net/                              *****
 *****                                                                  *****
 ****************************************************************************
-Copyright 2016 Alejandro Linarez Rangel
+Copyright 2016-2018 Alejandro Linarez Rangel
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -41,7 +41,7 @@ limitations under the License.
 #endif
 
 #ifndef PSEUDOD_VERSION
-# define PSEUDOD_VERSION "2.2.0"
+# define PSEUDOD_VERSION "2.3.0-alpha"
 #endif
 
 typedef long long int PDEntero;

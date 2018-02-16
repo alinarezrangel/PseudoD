@@ -1,11 +1,11 @@
-#!/bin/bash
+#!/bin/sh
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #########################################################
 ########                                         ########
 # ipdc: Intermedio entre PseudoD y la consola           #
 ########                                         ########
-# Copyright 2016 Alejandro Linarez Rangel
+# Copyright 2016-2018 Alejandro Linarez Rangel
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -36,6 +36,11 @@
 # * `$HOME/.profile` (user-only)
 # * `/etc/profile`
 
+# Uso:
+#   ipdc <archivo>
+#   ipdc <archivo> <opciones-de-pseudod>
+#   ipdc --usar <version-de-pseudod> <archivo> <opciones-de-pseudod>
+
 # Existe la variable RUTA_PSEUDOD?
 if [ -z ${RUTA_PSEUDOD+x} ]; then
 	# No existe, pero existe el directorio $HOME/.pseudod/bepd/?
@@ -53,10 +58,10 @@ if [ -z ${RUTA_PSEUDOD_BIN+x} ]; then
 	# No existe, pero existe el directorio $HOME/.pseudod/bin/?
 	if [ -d "$HOME/.pseudod/bin/" ]; then
 		# Si existe, usa la instalación local
-		export RUTA_PSEUDOD_BIN="$HOME/.pseudod/bin/PseudoD"
+		export RUTA_PSEUDOD_BIN="$HOME/.pseudod/bin/pseudod"
 	else
 		# No existe, usa la instalación global
-		export RUTA_PSEUDOD_BIN="/opt/pseudod/bin/PseudoD"
+		export RUTA_PSEUDOD_BIN="/opt/pseudod/bin/pseudod"
 	fi
 fi
 
@@ -84,71 +89,4 @@ if [ -z ${RUTA_PSEUDOD_INSTALACION+x} ]; then
 	fi
 fi
 
-param1=$1
-param2=$2
-param3=$3
-param4=$4
-
-function ayuda {
-	echo "Ayuda del Intermedio entre PseudoD y la Consola"
-	echo "-----------------------------------------------"
-	echo "	$0 -d :Muestra la ruta predeterminada de bepd"
-	echo "	$0 -s (ruta) :Fija la ruta de bepd a (ruta)"
-	echo "	$0 -f (archivo) :Ejecuta archivo con PseudoD"
-	echo "	$0 -i :Inicia el interactivo de PseudoD"
-	echo "Combinaciones:---------------------------------"
-	echo "	$0 -s (ruta) (opciones) (parametros)"
-	echo "	$0 (opciones) -s (ruta) (parametros)"
-	echo "	$0 (opciones) (parametros) -s (ruta)"
-	echo "Donde:-----------------------------------------"
-	echo "	(opciones) -> (-i|-f)"
-	echo "	(parametros) -> parametros de la opcion seleccionada"
-	echo "	(ruta) -> Ruta de bepd"
-	echo "La opcion -s no es obligatorio"
-	exit
-}
-
-if [ "$param1" = "--help" ]; then
-	ayuda
-fi
-if [ "$param1" = "-h" ]; then
-	ayuda
-fi
-if [ "$param1" = "--ayuda" ]; then
-	ayuda
-fi
-
-if [ "$param1" = "-d" ]; then
-	echo "Ruta a la BEPD predeterminada:"
-	echo "$RUTA_PSEUDOD"
-	echo "Ruta al NEA predeterminada:"
-	echo "$RUTA_PSEUDOD_LIB"
-	echo "Ruta a la instalación predeterminada:"
-	echo "$RUTA_PSEUDOD_INSTALACION"
-	echo "Ruta a las librerias de desarrollo (si hay):"
-	echo "$RUTA_PSEUDOD_DEV_LIB"
-	exit
-fi
-
-if [ "$param1" = "-s" ]; then
-	RUTA_PSEUDOD=$param2
-	param1=$param3
-	param2=$param4
-fi
-
-if [ "$param2" = "-s" ]; then
-	RUTA_PSEUDOD=$param3
-	param2=$param4
-fi
-
-if [ "$param3" = "-s" ]; then
-	RUTA_PSEUDOD=$param4
-fi
-
-if [ "$param1" = "-f" ]; then
-	$RUTA_PSEUDOD_BIN "$param2" "$RUTA_PSEUDOD" "$RUTA_PSEUDOD_LIB";
-fi
-
-if [ "$param1" = "-i" ]; then
-	$RUTA_PSEUDOD_BIN -i "$RUTA_PSEUDOD" "$RUTA_PSEUDOD_LIB";
-fi
+$RUTA_PSEUDOD_BIN "$@"

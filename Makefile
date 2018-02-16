@@ -1,5 +1,5 @@
 ## PseudoD fue creado por Alejandro Linarez Rangel
-# Copyright 2016 Alejandro Linarez Rangel
+# Copyright 2016-2018 Alejandro Linarez Rangel
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ ifndef COMP
 COMP =
 endif
 
-all: PseudoD libpseudod.so libpseudodsrc.a
+all: pseudod PseudoD libpseudod.so libpseudodsrc.a
 
 nea_interno_data.o: $(NEAPATH)/interno/data.cpp $(NEAPATH)/interno/data.hh
 	$(CXX) $(COPT) $(DEBUG) $(CPPLANG) $(OPT) $(CFLAGS) $< $(LIBS) -o $@
@@ -58,8 +58,11 @@ libpseudodsrc.a: nea_pddata.o nia_interno_nmemonic.o nia_interprete.o nea_intern
 libpseudod.so: $(NIAPATH)/pseudod.cpp $(NIAPATH)/pseudod.hh $(NIAPATH)/codefile.cpp $(NIAPATH)/definitionfile.cpp $(NIAPATH)/includefile.hh $(NIAPATH)/includefilelib.hh libpseudodsrc.a
 	$(CXX) $(DEBUG) $(CPPLANG) $(OPT) $(SHARED) $(CFLAGS) $< libpseudodsrc.a $(LIBS) -o $@
 
-PseudoD: $(NIAPATH)/Main.cpp libpseudodsrc.a
+pseudod: $(NIAPATH)/Main.cpp libpseudodsrc.a
 	$(CXX) $(DEBUG) $(CPPLANG) $(OPT) $(CFLAGS) $< libpseudodsrc.a $(LIBS) -o $@
+
+PseudoD: pseudod
+	cp pseudod PseudoD
 
 clean:
 	rm nea_interno_data.o nea_pddata.o nia_interno_nmemonic.o nia_interprete.o libpseudodsrc.a libpseudod.so PseudoD nia_interno_token.o nia_interno_tokenizer.o

@@ -7,7 +7,7 @@
 *****     http://pseudod.sourceforge.net/                              *****
 *****                                                                  *****
 ****************************************************************************
-Copyright 2016 Alejandro Linarez Rangel
+Copyright 2016-2018 Alejandro Linarez Rangel
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -38,13 +38,13 @@ namespace pseudod
 	liber_nea liberar_nea;
 	void* coneccion_nea;
 
-	PDCadena iniciar(PDCadena nea, PDCadena bepd, PDCadena main)
+	void iniciar(PDCadena nea, PDCadena bepd, PDCadena main)
 	{
 		coneccion_nea = dlopen(nea.c_str(), RTLD_LAZY);
 
 		if(coneccion_nea == NULL)
 		{
-			return "Error al conectar con el NEA";
+			throw std::runtime_error("Error al conectar con el NEA");
 		}
 
 		*(void**) (&iniciar_nea) = dlsym(coneccion_nea, "PDInicializar");
@@ -55,7 +55,7 @@ namespace pseudod
 		{
 			dlclose(coneccion_nea);
 
-			return "Error al adquirir el NEA";
+			throw std::runtime_error("Error al adquirir el NEA");
 		}
 
 		iniciar_nea(
@@ -77,39 +77,7 @@ namespace pseudod
 		DATOS_INT.PROCESAR = procesar;
 		DATOS_INT.PROCESO = ejecutar_nea;
 
-		try
-		{
-			ejecutar("utilizar " + DATOS_INT.ObtenerVariable("__LIB__") + "builtins.pseudo");
-		}
-		catch(const PDvar::Error& e)
-		{
-			return e.Mensaje();
-		}
-		catch(const std::exception& e)
-		{
-			std::string errStr = "";
-
-			if((e.what() == PDCadena("stoi")) || (e.what() == PDCadena("stoll")))
-			{
-				errStr = "Error al convertir numeros";
-			}
-			else
-			{
-				errStr = e.what();
-			}
-
-			return errStr;
-		}
-		catch(std::string e)
-		{
-			return e;
-		}
-		catch(...)
-		{
-			return "Error no identificado";
-		}
-
-		return "Ok";
+		ejecutar("utilizar " + DATOS_INT.ObtenerVariable("__LIB__") + "builtins.pseudo");
 	}
 
 	int terminar(void)

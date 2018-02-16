@@ -8,6 +8,7 @@
 *.exe
 
 PseudoD
+pseudod
 
 # 2) Ignoramos archivos de las IDEs
 .vscode/
