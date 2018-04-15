@@ -18,7 +18,7 @@
 # Basicamente es ejecutar esto para cada prueba:
 #
 # test-[name]: [name]/espr.txt ...
-#     ipdc -f [name]/test.pd > [name]/salida.txt < [name]/entrada.txt
+#     pseudod [name]/test.pd > [name]/salida.txt < [name]/entrada.txt
 #     diff [name]/salida.txt [name]/espr.txt > [name]/diff.txt
 #     local_diff_cpy=$(wc -l [name]/diff.txt | cut -d " " -f 1)
 #     if [ "$local_diff_cpy" != "0" ]; then
@@ -155,14 +155,16 @@ for i in $folders; do
 	imprimir $CR_MSG "Iniciando prueba [$i]"
 	imprimir $CR_MSG_FL "[$i]>> $brief"
 
-	imprimir $CR_SRC "$ ipdc -f $i/test.pd"
-
 	if [ "$IN_SOURCE" = 1 ]; then
-		../../PseudoD test.pd ../../bepd/ ../../libpseudod.so \
+		imprimir $CR_SRC "$ ../../pseudod $i/test.pd -b ../../bepd -l ../../libpseudod.so"
+
+		../../pseudod test.pd -b ../../bepd/ -l ../../libpseudod.so \
 			< entrada.txt \
 			> salida.txt 2>&1
 	else
-		PseudoD test.pd -d -d \
+		imprimir $CR_SRC "$ pseudod $i/test.pd -d -d"
+
+		pseudod test.pd \
 			< entrada.txt
 			> salida.txt 2>&1
 	fi
