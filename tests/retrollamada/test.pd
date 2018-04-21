@@ -1,0 +1,28 @@
+utilizar entsal.pseudo
+
+clase Simple hereda Objeto
+	atributo desc
+	metodo saludar
+finclase
+
+metodo Simple#saludar con yo y mensaje
+	escribir <yo>#desc
+	escribir {: }
+	escribir mensaje
+	nl
+finmetodo
+
+procedimiento RetroLlamar con proc
+	llamar <proc> {Hola Mundo} finargs
+finprocedimiento
+
+procedimiento RetroLlamarMetodo con ins
+	llamar <ins>#saludar {Hola Mundo} finargs
+finprocedimiento
+
+llamar RetroLlamar EscribirLinea#NOMBRE finargs
+
+instancia Simple var2
+fijar var2#desc a {Soy una instancia}
+
+llamar RetroLlamarMetodo var2 finargs

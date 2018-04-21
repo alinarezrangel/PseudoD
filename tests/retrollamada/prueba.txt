@@ -1,0 +1,5 @@
+Prueba la habilidad de llamar a nombres resueltos.
+
+Los nombres resueltos ("<variable>" y "<puntero>") deben, además de poderse
+utilizar cual variables deben poderse llamar si representan funciones. Esto
+garantiza que las funciones/procedimientos en PseudoD son de primera clase.
