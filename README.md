@@ -2,7 +2,7 @@
 
 [![BuildStatus][BuildStatus]](https://travis-ci.org/alinarezrangel/PseudoD)
 
-PseudoD es un lenguaje de programación interpretado, escrito en C++11 con
+PseudoD es un lenguaje de programación interpretado, escrito en C++14 con
 características de alto y medio nivel. Es orientado a objetos y posee una
 sintaxis en español.
 

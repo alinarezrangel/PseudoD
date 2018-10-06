@@ -27,7 +27,7 @@ LIBS=-ldl
 DEBUG=-g -Wall
 OPT=-O3
 COPT=-c
-CPPLANG=-std=c++11
+CPPLANG=-std=c++14
 ifndef COMP
 COMP =
 endif
