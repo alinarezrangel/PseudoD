@@ -24,8 +24,20 @@ limitations under the License.
 
 #include "NEA/interno/token.hh"
 
+#include <iostream>
+
 namespace pseudod
 {
+	bool Token::ValorLiteral::operator==(const Token::ValorLiteral& x) const
+	{
+		return this->valor == x.valor && this->tipo == x.tipo;
+	}
+
+	bool Token::ValorLiteral::operator!=(const Token::ValorLiteral& x) const
+	{
+		return !((*this) == x);
+	}
+
 	Token::DatosFuente::DatosFuente(int linea)
 		: linea(linea)
 	{}
@@ -96,6 +108,7 @@ namespace pseudod
 
 			this->nmemonico = tok.nmemonico;
 			this->valorliteral = tok.valorliteral;
+			this->fuente = tok.fuente;
 		}
 
 		return *this;
@@ -109,6 +122,7 @@ namespace pseudod
 		tok.tipo = Token::SinTipo;
 		this->nmemonico = std::move(tok.nmemonico);
 		this->valorliteral = std::move(tok.valorliteral);
+		this->fuente = std::move(tok.fuente);
 
 		return *this;
 	}
@@ -202,6 +216,11 @@ namespace pseudod
 			{
 				return (tk.ObtenerTipo() == Token::Literal)
 					&& (tk.ObtenerValorLiteral().tipo == Token::ValorLiteral::Cadena);
+			}
+			bool EsNumero(const Token& tk)
+			{
+				return (tk.ObtenerTipo() == Token::Literal)
+					&& (tk.ObtenerValorLiteral().tipo == Token::ValorLiteral::Numero);
 			}
 			bool EsComentario(const Token& tk)
 			{

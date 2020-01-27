@@ -27,6 +27,8 @@ limitations under the License.
 static std::multimap<PDCadena, pseudod::NMemonico::Palabra> ConversorS2P =
 {
 	{"adquirir", pseudod::NMemonico::PD_ADQUIRIR},
+	{"variable", pseudod::NMemonico::PD_ADQUIRIR},
+	{"variables", pseudod::NMemonico::PD_ADQUIRIR},
 	{"puntero", pseudod::NMemonico::PD_PUNTERO},
 	{"liberar", pseudod::NMemonico::PD_LIBERAR},
 	{"instancia", pseudod::NMemonico::PD_INSTANCIA},
@@ -93,6 +95,7 @@ static std::multimap<PDCadena, pseudod::NMemonico::Palabra> ConversorS2P =
 	{"empujar", pseudod::NMemonico::PD_EMPUJAR},
 	{"devolver", pseudod::NMemonico::PD_EMPUJAR},
 	{"enviar_parametro", pseudod::NMemonico::PD_EMPUJAR},
+	{"devolver", pseudod::NMemonico::PD_DEVOLVER},
 	{"sacar", pseudod::NMemonico::PD_SACAR},
 	{"recibir_parametro", pseudod::NMemonico::PD_SACAR},
 	{"recibir_resultado", pseudod::NMemonico::PD_SACAR},
@@ -111,6 +114,7 @@ static std::multimap<PDCadena, pseudod::NMemonico::Palabra> ConversorS2P =
 	{"atrapar", pseudod::NMemonico::PD_ATRAPA_ERROR},
 	{"finintenta", pseudod::NMemonico::PD_FIN_INTENTA},
 	{"atributo", pseudod::NMemonico::PD_CLASE_ATRIBUTO},
+	{"atributos", pseudod::NMemonico::PD_CLASE_ATRIBUTO},
 	{"puntero", pseudod::NMemonico::PD_CLASE_PUNTERO},
 	{"estatico", pseudod::NMemonico::PD_CLASE_METODO_ESTATICO},
 	{"metodo", pseudod::NMemonico::PD_CLASE_METODO},
@@ -138,7 +142,15 @@ static std::multimap<PDCadena, pseudod::NMemonico::Palabra> ConversorS2P =
 	{"<?", pseudod::NMemonico::PD_COMPARAR_MINIMO},
 	{"?>", pseudod::NMemonico::PD_COMPARAR_MAXIMO},
 	{"es", pseudod::NMemonico::PD_OPERADOR_ES},
-	{"a", pseudod::NMemonico::PD_OPERADOR_REDIRECCIONAR_A}
+	{"a", pseudod::NMemonico::PD_OPERADOR_REDIRECCIONAR_A},
+	{"#", pseudod::NMemonico::PD_ENVIAR_MENSAJE},
+	{":", pseudod::NMemonico::PD_OPERADOR_LLAMAR},
+	{"&", pseudod::NMemonico::PD_REFERENCIA_VARIABLE},
+	{"%", pseudod::NMemonico::PD_AUTOEJECUTA_VARIABLE},
+	{"ref", pseudod::NMemonico::PD_REFERENCIAR},
+	{"desref", pseudod::NMemonico::PD_DESREFERENCIAR},
+	{"(", pseudod::NMemonico::PD_PARENTESIS_IZQUIERDO},
+	{")", pseudod::NMemonico::PD_PARENTESIS_DERECHO}
 };
 
 static std::multimap<pseudod::NMemonico::Palabra, PDCadena> ConversorP2S;
@@ -176,12 +188,11 @@ namespace pseudod
 	}
 	bool NMemonico::operator==(const NMemonico& otro)
 	{
-		// Utilizamos XOR para hacer la comparación más rápida
-		return !(this->valor ^ otro.valor);
+		return this->valor == otro.valor;
 	}
 	bool NMemonico::operator==(NMemonico::Palabra otro)
 	{
-		return !(this->valor ^ otro);
+		return this->valor != otro;
 	}
 	bool NMemonico::operator!=(const NMemonico& otro)
 	{
@@ -195,11 +206,11 @@ namespace pseudod
 	// solo que constantes.
 	bool NMemonico::operator==(const NMemonico& otro) const
 	{
-		return !(this->valor ^ otro.valor);
+		return this->valor == otro.valor;
 	}
 	bool NMemonico::operator==(NMemonico::Palabra otro) const
 	{
-		return !(this->valor ^ otro);
+		return this->valor != otro;
 	}
 	bool NMemonico::operator!=(const NMemonico& otro) const
 	{

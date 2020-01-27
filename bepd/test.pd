@@ -19,36 +19,17 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ****************************************************************************** ]
 
-utilizar entsal.pseudo
-utilizar cadena.pseudo
-utilizar mate.pseudo
-utilizar plugins.pseudo
-utilizar tipos.pseudo
-utilizar clases.pseudo
-utilizar algor.pseudo
+escribir {hola, test.pd}
+nl
 
-clase Padre hereda Objeto
-	metodo foo
-	metodo estatico bar
-finclase
+adquirir Foo
+fijar Foo a 12
 
-metodo Padre#foo con yo y otro
-	escribir yo
-	escribir {: }
-	escribir otro
-	nl
-finmetodo
+adquirir Func
+fijar Func a funcion: X
+    devolver X#sumar: 2
+finfuncion
 
-metodo estatico Padre#bar con otro
-	escribir {Padre#bar: }
-	escribir otro
-	nl
-finmetodo
-
-clase Hijo hereda Padre
-finclase
-
-instancia Padre pp
-instancia Hijo pq
-
-Importar.PseudoD.debug
+funcion Fanc: X
+    devolver X#sumar: 3
+finfuncion

@@ -104,6 +104,7 @@ namespace pseudod
 				PD_FIN_BUCLE, // finbucle
 				PD_FIN_CLASE, // finclase
 				PD_EMPUJAR, // empujar/devolver/enviar_parametro
+				PD_DEVOLVER, // devolver
 				PD_SACAR, // sacar/recibir_parametro/recibir_resultado
 				PD_USAR_PILA, // usar_pila
 				PD_CREAR_PILA, // crear_pila
@@ -135,6 +136,14 @@ namespace pseudod
 				PD_OPERADOR_ES, // es
 				PD_CLASE_ABSTRACTA, // abstracta
 				PD_OPERADOR_REDIRECCIONAR_A, // a
+				PD_ENVIAR_MENSAJE, // #
+				PD_OPERADOR_LLAMAR, // :
+				PD_PARENTESIS_IZQUIERDO, // (
+				PD_PARENTESIS_DERECHO, // )
+				PD_REFERENCIA_VARIABLE, // &
+				PD_AUTOEJECUTA_VARIABLE, // %
+				PD_REFERENCIAR, // ref
+				PD_DESREFERENCIAR, // desref
 				PD_NEA, // Importar.X.Y
 				PD_ALIAS, // Aliases
 				PD_OTRO // ???

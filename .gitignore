@@ -16,3 +16,5 @@ pseudod
 # 3) Ignoramos los resultados de las pruebas
 tests/*/diff.txt
 tests/*/salida.txt
+
+.clang_complete

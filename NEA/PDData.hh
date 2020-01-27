@@ -46,8 +46,11 @@ limitations under the License.
 #include "interno/token.hh"
 #include "interno/tokenizer.hh"
 
-typedef void(*PDFuncionNEA)(pseudod::Token, pseudod::Tokenizador&);
+#ifndef PSEUDOD_CALLBACK_ALIASES
+#define PSEUDOD_CALLBACK_ALIASES
+typedef void (*PDFuncionNEA)(pseudod::Token, pseudod::Tokenizador&);
 typedef void (*PDFuncionNIA)(pseudod::Token, pseudod::Tokenizador&, PDFuncionNEA);
+#endif
 
 /**
 * @brief Espacio de nombres principal de PseudoD.

@@ -29,6 +29,8 @@ limitations under the License.
 #include <list>
 #include <utility>
 #include <locale>
+#include <iterator>
+#include <type_traits>
 
 #include <cctype>
 
@@ -40,7 +42,7 @@ namespace pseudod
 	class Tokenizador : public PDvar::PDObjeto
 	{
 		public:
-			typedef std::list<Token> ListaTokens;
+			typedef std::vector<Token> ListaTokens;
 			typedef typename ListaTokens::iterator IteradorLT;
 			typedef std::size_t Posicion;
 
@@ -50,11 +52,16 @@ namespace pseudod
 				Reemplazar
 			};
 
-			Tokenizador(void);
-			Tokenizador(std::istream& stream);
-			Tokenizador(const ListaTokens& tokens);
-			Tokenizador(const Tokenizador& tk);
-			Tokenizador(Tokenizador&& tk);
+			explicit Tokenizador(void);
+			explicit Tokenizador(
+				std::istream& stream,
+				bool usarCuerpoDeCodigo = true,
+				bool producirNumeros = false
+			);
+			explicit Tokenizador(const ListaTokens& tokens);
+			explicit Tokenizador(ListaTokens&& tokens);
+			explicit Tokenizador(const Tokenizador& tk);
+			explicit Tokenizador(Tokenizador&& tk);
 			virtual ~Tokenizador(void);
 
 			Tokenizador& operator=(const Tokenizador& tk);
@@ -62,6 +69,12 @@ namespace pseudod
 
 			bool TokenizarFlujo(std::istream& stream, TipoTokenizacion tktype);
 			ListaTokens& ObtenerTokens(void);
+
+			void UsarCuerpoDeCodigo(bool usar = true);
+			bool UsandoCuerpoDeCodigo(void) const;
+
+			void ProducirNumeros(bool producir = true);
+			bool ProduciendoNumeros(void) const;
 
 			IteradorLT ObtenerIterador(void);
 			Posicion ObtenerPosicion(void);
@@ -92,15 +105,32 @@ namespace pseudod
 
 			bool FinDelFlujo(bool forzar = false);
 
-			operator bool(void);
+			explicit operator bool(void);
 		private:
 			ListaTokens tokens;
 			IteradorLT itertk;
 			Posicion tkpos;
 			bool findelflujo;
+			bool usarCuerpoDeCodigo;
+			bool producirNumeros;
+			bool separarOperadores;
 	};
 
-	template<class ForwardIterator, class DistanceType>
+	template<
+		class ForwardIterator,
+		class DistanceType,
+		std::enable_if_t<
+			std::is_base_of<
+				std::forward_iterator_tag,
+				typename std::iterator_traits<ForwardIterator>::iterator_category
+			>::value &&
+			!std::is_base_of<
+				std::random_access_iterator_tag,
+				typename std::iterator_traits<ForwardIterator>::iterator_category
+			>::value,
+			int
+		> = 0
+	>
 	ForwardIterator IncrementaIteradorPor(
 		ForwardIterator i,
 		DistanceType n
@@ -114,7 +144,28 @@ namespace pseudod
 		return i;
 	}
 
+	template<
+		class RandomIterator,
+		class DistanceType,
+		std::enable_if_t<
+			std::is_base_of<
+				std::random_access_iterator_tag,
+				typename std::iterator_traits<RandomIterator>::iterator_category
+			>::value,
+			int
+		> = 0
+	>
+	RandomIterator IncrementaIteradorPor(
+		RandomIterator i,
+		DistanceType n
+	)
+	{
+		return i + n;
+	}
+
 	Tokenizador& operator>>(Tokenizador& tk, Token& tok);
+
+	using TokenizadorPtr = std::shared_ptr<Tokenizador>;
 }
 
 #endif /* ~HDR_PSEUDOD_NIA_TOKENIZER_HH */

@@ -49,7 +49,7 @@ namespace pseudod
 		public:
 			/**
 			* @brief Representa un valor que no es un nmemonico.
-			* Básicamente puede ser una cadena ({}), un identificador
+			* Básicamente puede ser una cadena ({}), un número, un identificador
 			* (var1), un comentario ([]) o un cuerpo de código (funcion ... finfun)
 			*/
 			struct ValorLiteral
@@ -57,6 +57,7 @@ namespace pseudod
 				enum TipoValor
 				{
 					Cadena,
+					Numero,
 					Comentario,
 					Identificador,
 					CuerpoDeCodigo
@@ -64,7 +65,9 @@ namespace pseudod
 
 				PDCadena valor;
 				TipoValor tipo;
-				char mdata;
+
+				bool operator==(const ValorLiteral&) const;
+				bool operator!=(const ValorLiteral&) const;
 			};
 
 			/**
@@ -231,6 +234,7 @@ namespace pseudod
 			bool EsLiteral(const Token& tk);
 			bool EsIdentificador(const Token& tk);
 			bool EsCadena(const Token& tk);
+			bool EsNumero(const Token& tk);
 			bool EsCuerpoDeCodigo(const Token& tk);
 			bool EsComentario(const Token& tk);
 

@@ -28,18 +28,26 @@ limitations under the License.
 #include <string>
 #include <map>
 #include <cstdlib>
+#include <tuple>
 
 #include "NEA/interno/data.hh"
 #include "NEA/interno/token.hh"
 #include "NEA/interno/tokenizer.hh"
 
+#include "NEA/interno/memory.hh"
+#include "NEA/interno/memory_types.hh"
+#include "NEA/interno/new_interpreter.hh"
+#include "NEA/interno/new_tokenizer.hh"
+#include "NEA/interno/builtins.hh"
+
 #include "interprete.hh"
 
 struct ContextoCLI
 {
-	PDCadena rutaBEPD;
-	PDCadena rutaNEA;
-	PDCadena texto;
+	PDCadena rutaBEPD = "";
+	PDCadena rutaNEA = "";
+	PDCadena texto = "";
+	bool usarV3 = false;
 };
 
 struct OpcionCLI
@@ -62,6 +70,7 @@ Opciones:
 -b <ruta-BEPD>  : Fija <ruta-BEPD> como la ruta a la BEPD de PseudoD. Si
                   <ruta-BEPD> no termina en barra (`/`) entonces lo agrega.
 -B <ruta-BEPD>  : Fija <ruta-BEPD> como la ruta a la BEPD de PseudoD.
+-X expr         : Activa el experimento expr.
 -v              : Muestra la versión de PseudoD y termina.
 -h              : Muestra esta ayuda y termina (también --help, -a y --ayuda)
 
@@ -76,6 +85,11 @@ el valor de:
   1. La variable de entorno `$RUTA_PSEUDOD`, o si no existe:
   2. La variable de entorno `$RUTA_PSEUDOD_BEPD`, o si no existe:
   3. El directorio `/opt/pseudod/bepd/bepd/`.
+
+El sistema de experimentos te permite probar características experimentales o
+en etapa de prueba. Actualmente están implementados los siguientes experimentos:
+
+-X v3x   : Ejecuta el programa utilizando la siguiente versión del lenguaje.
 )delim";
 
 	std::cout << ayuda << std::flush;
@@ -83,9 +97,17 @@ el valor de:
 	return 2;
 }
 
-int OptHabilitarExperimento(PDCadena arg, ContextoCLI&)
+int OptHabilitarExperimento(PDCadena arg, ContextoCLI& contexto)
 {
-	std::cerr << "Error: experimento \"" << arg << "\" no detectado" << std::endl;
+	if(arg == "v3x")
+	{
+		contexto.usarV3 = true;
+		return 0;
+	}
+	else
+	{
+		std::cerr << "Error: experimento \"" << arg << "\" no detectado" << std::endl;
+	}
 
 	return 1;
 }
@@ -123,18 +145,11 @@ int OptMostrarVersion(PDCadena arg, ContextoCLI& ctx)
 	return 2;
 }
 
-int OptActivarLinter(PDCadena arg, ContextoCLI& ctx)
-{
-	std::cerr << "Error: Linter no implementado aún" << std::endl;
-
-	return 1;
-}
-
 int OptEjecutarTexto(PDCadena arg, ContextoCLI& ctx)
 {
 	ctx.texto = arg;
 
-	return 1;
+	return 0;
 }
 
 PDCadena LeerBloque(std::istream& in, PDCadena prompt)
@@ -152,6 +167,213 @@ PDCadena LeerBloque(std::istream& in, PDCadena prompt)
 	}
 
 	return buffer;
+}
+
+struct EstadoPD3
+{
+	pseudod::AmbitoPtr ambito;
+	std::shared_ptr<pseudod::Interprete> interprete;
+};
+
+EstadoPD3 InicializarPseudoD3(std::string nombreDelArchivo, ContextoCLI contexto)
+{
+	pseudod::ConfInterprete conf;
+	conf.ClaseObjeto = pseudod::CrearClaseObjeto();
+
+	auto ambito = std::make_shared<pseudod::Ambito>();
+	ambito->CrearVariable("Objeto", conf.ClaseObjeto);
+	pseudod::RegistrarBuiltins(ambito);
+
+	return EstadoPD3 {
+		ambito,
+		std::make_shared<pseudod::Interprete>(
+			conf,
+			std::make_shared<pseudod::Ambito>(ambito)
+		)
+	};
+}
+
+void EjecutarConPseudoD3(std::istream& in, EstadoPD3 estado)
+{
+	pseudod::Backtracker tok;
+	tok.TokenizarFlujo(in);
+	estado.interprete->Ejecutar(tok);
+}
+
+void InicializarPseudoD2(std::string nombreDelArchivo, ContextoCLI contexto)
+{
+	try
+	{
+		pseudod::iniciar(
+			contexto.rutaNEA,
+			contexto.rutaBEPD,
+			nombreDelArchivo
+		);
+	}
+	catch(const PDvar::Error& err)
+	{
+		throw PDvar::ErrorDelNucleo(
+			"Error: No se pudo iniciar el intérprete PseudoD: " + err.Mensaje()
+		);
+	}
+	catch(...)
+	{
+		throw PDvar::ErrorDelNucleo(
+			"Error: No se pudo iniciar el intérprete PseudoD"
+		);
+	}
+}
+
+int MainV3(PDCadena archivoPrincipal, bool interactivo, ContextoCLI contexto)
+{
+	try
+	{
+		EstadoPD3 estado = InicializarPseudoD3(archivoPrincipal, contexto);
+
+		if(contexto.texto != "")
+		{
+			std::istringstream in(contexto.texto);
+			EjecutarConPseudoD3(in, estado);
+		}
+		else if(interactivo)
+		{
+			std::cout << "PseudoD versión " PSEUDOD_VERSION R"delim(
+Interprete interactivo de PseudoD v3x. Ingresa el programa para almacenarlo y una
+línea en blanco para ejecutarlo.
+
+NOTA: Estás actualmente ejecutando PseudoD 3.x, una versión experimental de la
+que será la siguiente gran versión del lenguaje.
+)delim";
+
+			while(pseudod::Ejecutar && std::cin)
+			{
+				PDCadena bloque = LeerBloque(std::cin, "v3 @> ");
+				std::istringstream in(bloque);
+
+				try
+				{
+					EjecutarConPseudoD3(in, estado);
+				}
+				catch(const PDvar::Error& err)
+				{
+					std::cerr << "Error:\n\t" << err.Mensaje() << std::endl;
+				}
+			}
+
+			if(!std::cin)
+			{
+				std::cout << std::endl;
+			}
+		}
+		else
+		{
+			std::ifstream in(archivoPrincipal);
+
+			if(!in)
+			{
+				throw PDvar::ErrorDelNucleo(
+					"No se pudo abrir el archivo " + archivoPrincipal
+				);
+			}
+
+			EjecutarConPseudoD3(in, estado);
+		}
+	}
+	catch(const PDvar::Error& err)
+	{
+		std::cerr
+			<< "Error:\n\t"
+			<< err.Mensaje() << std::endl;
+		return 1;
+	}
+	return 0;
+}
+
+int MainV2(PDCadena archivoPrincipal, bool interactivo, ContextoCLI contexto)
+{
+	try
+	{
+		InicializarPseudoD2(archivoPrincipal, contexto);
+
+		if(contexto.texto != "")
+		{
+			pseudod::ejecutar(contexto.texto);
+		}
+		else if(interactivo)
+		{
+			std::cout << "PseudoD versión " PSEUDOD_VERSION R"delim(
+Interprete interactivo de PseudoD. Ingresa el programa para almacenarlo y una
+línea en blanco para ejecutarlo.)delim" << std::endl;
+
+			while(pseudod::Ejecutar && std::cin)
+			{
+				PDCadena bloque = LeerBloque(
+					std::cin,
+					contexto.usarV3? "v3 @> " : "@> "
+				);
+
+				pseudod::ejecutar(bloque);
+			}
+
+			if(!std::cin)
+			{
+				std::cout << std::endl;
+			}
+		}
+		else
+		{
+			std::ifstream in(archivoPrincipal);
+
+			if(!in)
+			{
+				throw PDvar::ErrorDelNucleo(
+					"No se pudo abrir el archivo " + archivoPrincipal
+				);
+			}
+
+			in.imbue(std::locale());
+
+			pseudod::ejecutar(in);
+		}
+	}
+	catch(const PDvar::Error& err)
+	{
+		std::cerr
+			<< "Error en el archivo \""
+			<< pseudod::DATOS_INT.ObtenerVariable("__ARCH__")
+			<< "\":" << std::endl
+			<< err.Mensaje() << std::endl;
+		return 1;
+	}
+	catch(const std::exception& err)
+	{
+		std::cerr
+			<< "Error en el archivo \""
+			<< pseudod::DATOS_INT.ObtenerVariable("__ARCH__")
+			<< "\":" << std::endl
+			<< "(error nativo) " << err.what() << std::endl;
+		return 1;
+	}
+	catch(const std::string& err)
+	{
+		std::cerr
+			<< "Error en el archivo \""
+			<< pseudod::DATOS_INT.ObtenerVariable("__ARCH__")
+			<< "\":" << std::endl
+			<< "(error antiguo) " << err << std::endl;
+		return 1;
+	}
+	catch(...)
+	{
+		std::cerr
+			<< "Error en el archivo \""
+			<< pseudod::DATOS_INT.ObtenerVariable("__ARCH__")
+			<< "\":" << std::endl
+			<< "Error sin detectar!" << std::endl;
+		return 1;
+	}
+
+	return pseudod::terminar();
 }
 
 int main(int argc, char* argv[])
@@ -194,8 +416,8 @@ int main(int argc, char* argv[])
 	opciones["-v"] =
 	opciones["--version"] = OpcionCLI {&OptMostrarVersion, false};
 
-	opciones["-n"] =
-	opciones["--linter"] = OpcionCLI {&OptActivarLinter, false};
+	opciones["-c"] =
+	opciones["--ejecutar"] = OpcionCLI {&OptEjecutarTexto, true};
 
 	PDCadena archivoPrincipal = "";
 
@@ -290,97 +512,12 @@ int main(int argc, char* argv[])
 		archivoPrincipal = "<texto>";
 	}
 
-	try
+	if(contexto.usarV3)
 	{
-		pseudod::iniciar(
-			contexto.rutaNEA,
-			contexto.rutaBEPD,
-			archivoPrincipal
-		);
+		return MainV3(archivoPrincipal, interactivo, contexto);
 	}
-	catch(...)
+	else
 	{
-		std::cerr
-			<< "Error: No se pudo iniciar el intérprete PseudoD"
-			<< std::endl;
-
-		return 1;
+		return MainV2(archivoPrincipal, interactivo, contexto);
 	}
-
-	try
-	{
-		if(contexto.texto != "")
-		{
-			pseudod::ejecutar(contexto.texto);
-		}
-		else if(interactivo)
-		{
-			std::cout << "PseudoD versión " PSEUDOD_VERSION R"delim(
-Interprete interactivo de PseudoD. Ingresa el programa para almacenarlo y una
-línea en blanco para ejecutarlo.)delim" << std::endl;
-
-			while(pseudod::Ejecutar && std::cin)
-			{
-				PDCadena bloque = LeerBloque(std::cin, "@> ");
-
-				pseudod::ejecutar(bloque);
-			}
-
-			if(!std::cin)
-			{
-				std::cout << std::endl;
-			}
-		}
-		else
-		{
-			std::ifstream in(archivoPrincipal);
-
-			if(!in)
-			{
-				std::cerr
-					<< "Error: No se pudo abrir el archivo "
-					<< archivoPrincipal << std::endl;
-
-				return 1;
-			}
-
-			in.imbue(std::locale());
-
-			pseudod::ejecutar(in);
-		}
-	}
-	catch(const PDvar::Error& err)
-	{
-		std::cerr
-			<< "Error en el archivo \""
-			<< pseudod::DATOS_INT.ObtenerVariable("__ARCH__")
-			<< "\":" << std::endl
-			<< err.Mensaje() << std::endl;
-	}
-	catch(const std::exception& err)
-	{
-		std::cerr
-			<< "Error en el archivo \""
-			<< pseudod::DATOS_INT.ObtenerVariable("__ARCH__")
-			<< "\":" << std::endl
-			<< "(error nativo) " << err.what() << std::endl;
-	}
-	catch(const std::string& err)
-	{
-		std::cerr
-			<< "Error en el archivo \""
-			<< pseudod::DATOS_INT.ObtenerVariable("__ARCH__")
-			<< "\":" << std::endl
-			<< "(error antiguo) " << err << std::endl;
-	}
-	catch(...)
-	{
-		std::cerr
-			<< "Error en el archivo \""
-			<< pseudod::DATOS_INT.ObtenerVariable("__ARCH__")
-			<< "\":" << std::endl
-			<< "Error sin detectar!" << std::endl;
-	}
-
-	return pseudod::terminar();
 }

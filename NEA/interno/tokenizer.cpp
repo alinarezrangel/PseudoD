@@ -30,13 +30,21 @@ namespace pseudod
 		: tokens(0),
 			itertk(tokens.begin()),
 			tkpos(0),
-			findelflujo(true)
+			findelflujo(true),
+			usarCuerpoDeCodigo(true),
+			producirNumeros(false)
 	{}
-	Tokenizador::Tokenizador(std::istream& stream)
+	Tokenizador::Tokenizador(
+		std::istream& stream,
+		bool usarCuerpoDeCodigo,
+		bool producirNumeros
+	)
 		: tokens(0),
 			itertk(tokens.begin()),
 			tkpos(0),
-			findelflujo(true)
+			findelflujo(true),
+			usarCuerpoDeCodigo(usarCuerpoDeCodigo),
+			producirNumeros(producirNumeros)
 	{
 		this->TokenizarFlujo(stream, Tokenizador::Reemplazar);
 	}
@@ -44,19 +52,33 @@ namespace pseudod
 		: tokens(tks),
 			itertk(tokens.begin()),
 			tkpos(0),
-			findelflujo(tks.size() == 0)
+			findelflujo(tks.size() == 0),
+			usarCuerpoDeCodigo(true),
+			producirNumeros(false)
+	{}
+	Tokenizador::Tokenizador(ListaTokens&& tks)
+		: tokens(std::move(tks)),
+			itertk(tokens.begin()),
+			tkpos(0),
+			findelflujo(tokens.size() == 0),
+			usarCuerpoDeCodigo(true),
+			producirNumeros(false)
 	{}
 	Tokenizador::Tokenizador(const Tokenizador& tk)
 		: tokens(tk.tokens),
 			itertk(IncrementaIteradorPor(tokens.begin(), tk.tkpos)),
 			tkpos(tk.tkpos),
-			findelflujo(tk.findelflujo)
+			findelflujo(tk.findelflujo),
+			usarCuerpoDeCodigo(true),
+			producirNumeros(false)
 	{}
 	Tokenizador::Tokenizador(Tokenizador&& tk)
 		: tokens(std::move(tk.tokens)),
 			itertk(IncrementaIteradorPor(tokens.begin(), tk.tkpos)),
 			tkpos(tk.tkpos),
-			findelflujo(tk.findelflujo)
+			findelflujo(tk.findelflujo),
+			usarCuerpoDeCodigo(true),
+			producirNumeros(false)
 	{
 		tk.tkpos = 0;
 		tk.itertk = tk.tokens.begin();
@@ -89,6 +111,21 @@ namespace pseudod
 		return *this;
 	}
 
+	namespace
+	{
+		bool SiempreIdentificador(const std::string& buff)
+		{
+			return buff == "#"
+				|| buff == "("
+				|| buff == ")"
+				|| buff == ","
+				|| buff == ":"
+				|| buff == "."
+				|| buff == "\\"
+				|| buff == "|";
+		}
+	}
+
 	bool Tokenizador::TokenizarFlujo(
 		std::istream& stream,
 		Tokenizador::TipoTokenizacion tktype
@@ -99,10 +136,16 @@ namespace pseudod
 		// Selecciona la sintáxis especial para literales
 		// De no ser una literal, crea un token con el NMemonico
 		// De ser una literal, crea un token con el texto (excluyendo delimitadores)
-		// Si se encuentra el token PD_FUNCION, extrae la siguiente sintáxis:
+
+		// Si se encuentra el token PD_FUNCION y usarCuerpoDeCodigo es verdadero,
+		// extrae la siguiente sintáxis:
 		// -- FUNCION "nombre" [ CON "nombre" [ OPERADOR_Y "nombre" ]... ] "cuerpo" FIN_FUNCION
-		// Recuerda que las funciones deben ser almacenadas como un Cuerpo de Código
-		// y no como un flujo de tokens (por ahora).
+		//   Recuerda que las funciones deben ser almacenadas como un Cuerpo de Código
+		//   y no como un flujo de tokens (por ahora).
+
+		// Si producirNumeros es verdadero, literales numéricas serán devueltas
+		// con el tipo de token Numero, si no entonces serán texto (de manera
+		// que "123" es igual a "{123}")
 
 		// [...] comentarios (eliminados, no se tokenizan a menos que esten en su
 		// propia línea y comiencen con "[DOCUMENTA")
@@ -135,10 +178,8 @@ namespace pseudod
 
 				proxy = ConvertirCadenaANMemonico(buffer);
 
-				if(!proxy.matched)
+				if(!proxy.matched || SiempreIdentificador(buffer))
 				{
-					// No existe el nmemonico, puede ser un identificador
-
 					Token::ValorLiteral vl;
 
 					vl.valor = buffer;
@@ -146,7 +187,7 @@ namespace pseudod
 
 					this->tokens.push_back(Token(vl, Token::DatosFuente(lineno)));
 
-					if(funcion)
+					if(funcion && this->usarCuerpoDeCodigo)
 					{
 						funcion = false;
 
@@ -174,6 +215,10 @@ namespace pseudod
 						vl.tipo = Token::ValorLiteral::CuerpoDeCodigo;
 
 						this->tokens.push_back(Token(vl, Token::DatosFuente(lineno)));
+					}
+					else if(funcion)
+					{
+						funcion = false;
 					}
 				}
 				else
@@ -396,7 +441,9 @@ namespace pseudod
 				Token::ValorLiteral vl;
 
 				vl.valor = buffer;
-				vl.tipo = Token::ValorLiteral::Cadena;
+				vl.tipo =
+					this->producirNumeros?
+					Token::ValorLiteral::Numero : Token::ValorLiteral::Cadena;
 
 				this->tokens.push_back(Token(vl, Token::DatosFuente(lineno)));
 
@@ -426,6 +473,26 @@ namespace pseudod
 		return this->tokens;
 	}
 
+	void Tokenizador::UsarCuerpoDeCodigo(bool usar)
+	{
+		this->usarCuerpoDeCodigo = usar;
+	}
+
+	bool Tokenizador::UsandoCuerpoDeCodigo(void) const
+	{
+		return this->usarCuerpoDeCodigo;
+	}
+
+	void Tokenizador::ProducirNumeros(bool producir)
+	{
+		this->producirNumeros = producir;
+	}
+
+	bool Tokenizador::ProduciendoNumeros(void) const
+	{
+		return this->producirNumeros;
+	}
+
 	Tokenizador::IteradorLT Tokenizador::ObtenerIterador(void)
 	{
 		return this->itertk;
@@ -449,7 +516,7 @@ namespace pseudod
 				break;
 		}
 
-		if(mtpos >= this->tokens.size())
+		if(mtpos > this->tokens.size())
 		{
 			return false;
 		}
