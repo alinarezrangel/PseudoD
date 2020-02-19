@@ -32,6 +32,9 @@ namespace pseudod
 		public:
 			explicit NuevoTokenizador(void);
 
+			void ProducirComentarios(bool = true);
+			bool ProduceComentarios(void) const;
+
 			std::pair<std::vector<Token>, bool> LeerToken(std::istream&);
 
 			Token::DatosFuente ObtenerLugarActual(void) const;
@@ -55,6 +58,7 @@ namespace pseudod
 			std::vector<Token> TokenIdentificador(std::istream&, std::string);
 
 			Token::DatosFuente lugar;
+			bool producirComentarios;
 	};
 
 	class Backtracker final

@@ -77,8 +77,18 @@ namespace pseudod
 		}
 	}
 
-	NuevoTokenizador::NuevoTokenizador(void) : lugar()
+	NuevoTokenizador::NuevoTokenizador(void) : lugar(), producirComentarios(false)
 	{}
+
+	void NuevoTokenizador::ProducirComentarios(bool prod)
+	{
+		this->producirComentarios = prod;
+	}
+
+	bool NuevoTokenizador::ProduceComentarios(void) const
+	{
+		return this->producirComentarios;
+	}
 
 	std::pair<std::vector<Token>, bool> NuevoTokenizador::LeerToken(std::istream& in)
 	{
@@ -161,7 +171,7 @@ namespace pseudod
 				resultado += c;
 			}
 		}
-		throw PDvar::ErrorDeSemantica(
+		throw PDvar::ErrorDeSintaxis(
 			"Fin del achivo inesperado."
 		);
 	}
@@ -198,8 +208,16 @@ namespace pseudod
 					)};
 				}
 			case '[':
-				this->LeerHasta(in, ']');
-				return std::vector<Token>();
+				if(this->producirComentarios)
+				{
+					std::string texto = this->LeerHasta(in, ']', false);
+					return std::vector<Token> {this->TokenComentario(texto)};
+				}
+				else
+				{
+					this->LeerHasta(in, ']');
+					return std::vector<Token>();
+				}
 			case '(': case ')': case '#': case '%':
 			case '.': case ':': case ',': case '&':
 				return std::vector<Token> {this->TokenOperador(c)};

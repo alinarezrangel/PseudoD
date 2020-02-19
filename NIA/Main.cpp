@@ -26,8 +26,11 @@ limitations under the License.
 #include <fstream>
 #include <vector>
 #include <string>
+#include <iomanip>
+#include <sstream>
 #include <map>
 #include <cstdlib>
+#include <cassert>
 #include <tuple>
 
 #include "NEA/interno/data.hh"
@@ -42,12 +45,37 @@ limitations under the License.
 
 #include "interprete.hh"
 
+enum class OpcionesDelTokenizador : unsigned int
+{
+	Nada = 0,
+	EscaparComoC = 1,
+	UnaSolaLinea = 2,
+	EmitirComentarios = 4,
+};
+
+OpcionesDelTokenizador operator|(OpcionesDelTokenizador a, OpcionesDelTokenizador b)
+{
+	return static_cast<OpcionesDelTokenizador>(static_cast<unsigned int>(a) | static_cast<unsigned int>(b));
+}
+
+bool operator&(OpcionesDelTokenizador a, OpcionesDelTokenizador b)
+{
+	return static_cast<bool>(static_cast<unsigned int>(a) & static_cast<unsigned int>(b));
+}
+
+OpcionesDelTokenizador& operator|=(OpcionesDelTokenizador& a, OpcionesDelTokenizador b)
+{
+	a = a | b;
+	return a;
+}
+
 struct ContextoCLI
 {
 	PDCadena rutaBEPD = "";
 	PDCadena rutaNEA = "";
 	PDCadena texto = "";
 	bool usarV3 = false;
+	OpcionesDelTokenizador opcionesTokenizador = OpcionesDelTokenizador::Nada;
 };
 
 struct OpcionCLI
@@ -65,14 +93,16 @@ Uso:  pseudod (<archivo>|-c <programa>) [-l <ruta-NEA>] [(-b|-B) <ruta-BEPD>]
 
 Opciones:
 
--c <programa>   : Ejecuta el texto <programa>
--l <ruta-NEA>   : Fija <ruta-NEA> como el NEA de PseudoD
--b <ruta-BEPD>  : Fija <ruta-BEPD> como la ruta a la BEPD de PseudoD. Si
-                  <ruta-BEPD> no termina en barra (`/`) entonces lo agrega.
--B <ruta-BEPD>  : Fija <ruta-BEPD> como la ruta a la BEPD de PseudoD.
--X expr         : Activa el experimento expr.
--v              : Muestra la versión de PseudoD y termina.
--h              : Muestra esta ayuda y termina (también --help, -a y --ayuda)
+-c <programa>             : Ejecuta el texto <programa>
+-l <ruta-NEA>             : Fija <ruta-NEA> como el NEA de PseudoD
+-b <ruta-BEPD>            : Fija <ruta-BEPD> como la ruta a la BEPD de PseudoD. Si
+                            <ruta-BEPD> no termina en barra (`/`) entonces lo agrega.
+-B <ruta-BEPD>            : Fija <ruta-BEPD> como la ruta a la BEPD de PseudoD.
+-X expr                   : Activa el experimento expr.
+--tokenizar-v3 <archivo>  : Tokeniza el archivo <archivo>
+--Mtokenizar-v3 <opt>     : Activa la opción <opt> del tokenizador.
+-v                        : Muestra la versión de PseudoD y termina.
+-h                        : Muestra esta ayuda y termina (también --help, -a y --ayuda)
 
 Si la opción `-l` no es especificada, entonces <ruta-NEA> toma el valor de:
 
@@ -224,6 +254,447 @@ void InicializarPseudoD2(std::string nombreDelArchivo, ContextoCLI contexto)
 	}
 }
 
+void TokenizarFlujoV3(std::istream& in, OpcionesDelTokenizador opciones)
+{
+	auto EscaparS = [opciones](std::string& txt) -> std::string
+	{
+		std::string res;
+		for(char c : txt)
+		{
+			if(std::isprint(c) && c != '\\' && c != '\"' && c != '|')
+			{
+				res += c;
+			}
+			else if(c == '\\' || c == '\"' || c == '|')
+			{
+				res += '\\';
+				res += c;
+			}
+			else if(c == '\n' || c == '\r' || c == '\t')
+			{
+				switch(c)
+				{
+					case '\n':
+						res += "\\n";
+						break;
+					case '\r':
+						res += "\\r";
+						break;
+					case '\t':
+						res += "\\r";
+						break;
+				}
+			}
+			else
+			{
+				std::stringstream hexstream;
+				int byte = static_cast<int>(static_cast<unsigned char>(c));
+				hexstream << "\\x" << std::hex << std::setfill('0') << std::setw(2) << byte;
+				if(!(opciones & OpcionesDelTokenizador::EscaparComoC))
+				{
+					hexstream << ";";
+				}
+				res += hexstream.str();
+			}
+		}
+		return res;
+	};
+
+	auto TextoExprS = [EscaparS](std::string txt) -> std::string
+	{
+		return "\"" + EscaparS(txt) + "\"";
+	};
+
+	auto SimboloExprS = [EscaparS](std::string sym) -> std::string
+	{
+		return "|" + EscaparS(sym) + "|";
+	};
+
+	auto NumeroExprS = [](long long v) -> std::string
+	{
+		std::stringstream stream;
+		stream << std::dec << v;
+		return stream.str();
+	};
+
+	auto PalabraExprS = [NumeroExprS](pseudod::NMemonicoProxy proxy) -> std::string
+	{
+		std::stringstream stream;
+		stream << "(";
+		for(auto iter = proxy.begin; iter != proxy.end; iter++)
+		{
+			pseudod::NMemonico::Palabra pal = iter->second;
+			switch(pal)
+			{
+				case pseudod::NMemonico::PD_ADQUIRIR:
+					stream << "adquirir";
+					break;
+				case pseudod::NMemonico::PD_PUNTERO:
+					stream << "puntero";
+					break;
+				case pseudod::NMemonico::PD_LIBERAR:
+					stream << "liberar";
+					break;
+				case pseudod::NMemonico::PD_INSTANCIA:
+					stream << "instancia";
+					break;
+				case pseudod::NMemonico::PD_CLASE:
+					stream << "clase";
+					break;
+				case pseudod::NMemonico::PD_HEREDAR:
+					stream << "heredar";
+					break;
+				case pseudod::NMemonico::PD_REDIRECCIONAR:
+					stream << "redireccionar";
+					break;
+				case pseudod::NMemonico::PD_MIENTRAS:
+					stream << "mientras";
+					break;
+				case pseudod::NMemonico::PD_INCREMENTAR_PUNTERO:
+					stream << "incrementar_puntero";
+					break;
+				case pseudod::NMemonico::PD_DECREMENTAR_PUNTERO:
+					stream << "decrementar_puntero";
+					break;
+				case pseudod::NMemonico::PD_ESCRIBIR:
+					stream << "escribir";
+					break;
+				case pseudod::NMemonico::PD_EJECUTAR:
+					stream << "ejecutar";
+					break;
+				case pseudod::NMemonico::PD_NUEVALINEA:
+					stream << "nl";
+					break;
+				case pseudod::NMemonico::PD_FIJAR:
+					stream << "fijar";
+					break;
+				case pseudod::NMemonico::PD_OPERADOR_A:
+					stream << "a";
+					break;
+				case pseudod::NMemonico::PD_OPERADOR_IGUAL:
+					stream << "=?";
+					break;
+				case pseudod::NMemonico::PD_OPERADOR_FIJAR:
+					stream << "=*";
+					break;
+				case pseudod::NMemonico::PD_OPERADOR_SON:
+					stream << "son";
+					break;
+				case pseudod::NMemonico::PD_OPERADOR_IGUALES:
+					stream << "iguales";
+					break;
+				case pseudod::NMemonico::PD_OPERADOR_DIFERENTES:
+					stream << "diferentes";
+					break;
+				case pseudod::NMemonico::PD_OPERADOR_Y:
+					stream << "y";
+					break;
+				case pseudod::NMemonico::PD_OPERADOR_COMPARAR:
+					stream << "comparar";
+					break;
+				case pseudod::NMemonico::PD_OPERADOR_NO:
+					stream << "no";
+					break;
+				case pseudod::NMemonico::PD_OPERADOR_EJECUTAR:
+					stream << "ejecutar-op";
+					break;
+				case pseudod::NMemonico::PD_OPERADOR_SON_IGUALES:
+					stream << "¿son_iguales?";
+					break;
+				case pseudod::NMemonico::PD_OPERADOR_TANTO:
+					stream << "tanto";
+					break;
+				case pseudod::NMemonico::PD_OPERADOR_COMO:
+					stream << "como";
+					break;
+				case pseudod::NMemonico::PD_OPERADOR_ALGUN:
+					stream << "algun";
+					break;
+				case pseudod::NMemonico::PD_OPERADOR_O:
+					stream << "o";
+					break;
+				case pseudod::NMemonico::PD_LEER:
+					stream << "leer";
+					break;
+				case pseudod::NMemonico::PD_UTILIZAR:
+					stream << "utilizar";
+					break;
+				case pseudod::NMemonico::PD_LLAMAR:
+					stream << "llamar";
+					break;
+				case pseudod::NMemonico::PD_SEPARADOR_DE_ARGUMENTOS:
+					stream << "|,|";
+					break;
+				case pseudod::NMemonico::PD_CON:
+					stream << "con";
+					break;
+				case pseudod::NMemonico::PD_FUNCION:
+					stream << "funcion";
+					break;
+				case pseudod::NMemonico::PD_FIN_FUNCION:
+					stream << "finfuncion";
+					break;
+				case pseudod::NMemonico::PD_FIN_SI:
+					stream << "finsi";
+					break;
+				case pseudod::NMemonico::PD_FIN_BUCLE:
+					stream << "finmientras";
+					break;
+				case pseudod::NMemonico::PD_FIN_CLASE:
+					stream << "finclase";
+					break;
+				case pseudod::NMemonico::PD_EMPUJAR:
+					stream << "empujar";
+					break;
+				case pseudod::NMemonico::PD_DEVOLVER:
+					stream << "devolver";
+					break;
+				case pseudod::NMemonico::PD_SACAR:
+					stream << "sacar";
+					break;
+				case pseudod::NMemonico::PD_USAR_PILA:
+					stream << "usar_pila";
+					break;
+				case pseudod::NMemonico::PD_CREAR_PILA:
+					stream << "crear_pila";
+					break;
+				case pseudod::NMemonico::PD_NECESITAS:
+					stream << "necesitas";
+					break;
+				case pseudod::NMemonico::PD_SI:
+					stream << "si";
+					break;
+				case pseudod::NMemonico::PD_SINO:
+					stream << "sino";
+					break;
+				case pseudod::NMemonico::PD_SI_NO:
+					stream << "si_no";
+					break;
+				case pseudod::NMemonico::PD_SON_IGUALES:
+					stream << "comparar_i";
+					break;
+				case pseudod::NMemonico::PD_ESCRIBIR_ESPACIO:
+					stream << "escribir_esp";
+					break;
+				case pseudod::NMemonico::PD_SALIR:
+					stream << "salir";
+					break;
+				case pseudod::NMemonico::PD_COMENTARIO:
+					stream << "com";
+					break;
+				case pseudod::NMemonico::PD_INTENTA:
+					stream << "intenta";
+					break;
+				case pseudod::NMemonico::PD_ATRAPA_ERROR:
+					stream << "atrapar";
+					break;
+				case pseudod::NMemonico::PD_FIN_INTENTA:
+					stream << "finintenta";
+					break;
+				case pseudod::NMemonico::PD_IMPLEMENTAR:
+					stream << "implementa";
+					break;
+				case pseudod::NMemonico::PD_CLASE_ATRIBUTO:
+					stream << "atributo-cls";
+					break;
+				case pseudod::NMemonico::PD_CLASE_METODO:
+					stream << "metodo-cls";
+					break;
+				case pseudod::NMemonico::PD_CLASE_PUNTERO:
+					stream << "puntero-cls";
+					break;
+				case pseudod::NMemonico::PD_CLASE_METODO_ESTATICO:
+					stream << "estatico";
+					break;
+				case pseudod::NMemonico::PD_FIN_ARGUMENTOS:
+					stream << "finargs";
+					break;
+				case pseudod::NMemonico::PD_COMPARAR_IGUAL:
+					stream << "=";
+					break;
+				case pseudod::NMemonico::PD_COMPARAR_MENOR:
+					stream << "<";
+					break;
+				case pseudod::NMemonico::PD_COMPARAR_MENOR_O_IGUAL:
+					stream << "<=";
+					break;
+				case pseudod::NMemonico::PD_COMPARAR_MAYOR:
+					stream << ">";
+					break;
+				case pseudod::NMemonico::PD_COMPARAR_MAYOR_O_IGUAL:
+					stream << ">=";
+					break;
+				case pseudod::NMemonico::PD_COMPARAR_DISTINTO:
+					stream << "!=";
+					break;
+				case pseudod::NMemonico::PD_COMPARAR_MINIMO:
+					stream << "<?";
+					break;
+				case pseudod::NMemonico::PD_COMPARAR_MAXIMO:
+					stream << "?>";
+					break;
+				case pseudod::NMemonico::PD_OPERADOR_ES:
+					stream << "es";
+					break;
+				case pseudod::NMemonico::PD_CLASE_ABSTRACTA:
+					stream << "abstracta";
+					break;
+				case pseudod::NMemonico::PD_OPERADOR_REDIRECCIONAR_A:
+					stream << "redireccionar-a";
+					break;
+				case pseudod::NMemonico::PD_ENVIAR_MENSAJE:
+					stream << "|#|";
+					break;
+				case pseudod::NMemonico::PD_OPERADOR_LLAMAR:
+					stream << ":";
+					break;
+				case pseudod::NMemonico::PD_PARENTESIS_IZQUIERDO:
+					stream << "|(|";
+					break;
+				case pseudod::NMemonico::PD_PARENTESIS_DERECHO:
+					stream << "|)|";
+					break;
+				case pseudod::NMemonico::PD_REFERENCIA_VARIABLE:
+					stream << "&";
+					break;
+				case pseudod::NMemonico::PD_AUTOEJECUTA_VARIABLE:
+					stream << "%";
+					break;
+				case pseudod::NMemonico::PD_REFERENCIAR:
+					stream << "ref";
+					break;
+				case pseudod::NMemonico::PD_DESREFERENCIAR:
+					stream << "desref";
+					break;
+				case pseudod::NMemonico::PD_NEA:
+					stream << "NEA";
+					break;
+				case pseudod::NMemonico::PD_ALIAS:
+					stream << "ALIAS";
+					break;
+				case pseudod::NMemonico::PD_OTRO:
+					stream << "OTRO";
+					break;
+			}
+			stream << " ";
+		}
+		stream << ")";
+		return stream.str();
+	};
+
+	auto ComoExpresionS = [=](pseudod::Token tk) -> std::string
+	{
+		std::string valor;
+		switch(tk.ObtenerTipo())
+		{
+			case pseudod::Token::SinTipo:
+				return "(sin-tipo)";
+			case pseudod::Token::NMemonico:
+				return
+					"(nmemonico " +
+					PalabraExprS(tk.ObtenerNMemonico()) +
+					" " +
+					TextoExprS(tk.ObtenerNMemonico().original) +
+					")";
+			case pseudod::Token::Literal:
+				valor = tk.ObtenerValorLiteral().valor;
+				switch(tk.ObtenerValorLiteral().tipo)
+				{
+					case pseudod::Token::ValorLiteral::Cadena:
+						return "(texto " + TextoExprS(valor) + ")";
+					case pseudod::Token::ValorLiteral::Numero:
+						return "(numero " + NumeroExprS(std::stoll(valor)) + ")";
+					case pseudod::Token::ValorLiteral::Identificador:
+						return "(id " + SimboloExprS(valor) + ")";
+					case pseudod::Token::ValorLiteral::Comentario:
+						return "(com " + TextoExprS(valor) + ")";
+					case pseudod::Token::ValorLiteral::CuerpoDeCodigo:
+						assert(0);
+				}
+		}
+		return "(error)";
+	};
+
+	pseudod::NuevoTokenizador tok;
+	if(opciones & OpcionesDelTokenizador::EmitirComentarios)
+	{
+		tok.ProducirComentarios();
+	}
+	std::cout << "(";
+	while(true)
+	{
+		std::pair<std::vector<pseudod::Token>, bool> res;
+		try
+		{
+			res = tok.LeerToken(in);
+		}
+		catch(const PDvar::Error& err)
+		{
+			std::cerr
+				<< "Error:\n\t"
+				<< err.Mensaje() << std::endl;
+			return;
+		}
+		if(res.second)
+		{
+			auto tokens = res.first;
+			for(auto token : tokens)
+			{
+				std::cout << ComoExpresionS(token);
+				if(opciones & OpcionesDelTokenizador::UnaSolaLinea)
+				{
+					std::cout << ' ';
+				}
+				else
+				{
+					std::cout << '\n';
+				}
+			}
+		}
+		else
+		{
+			break;
+		}
+	}
+	std::cout << ")" << std::endl;
+}
+
+int OptTokenizarV3(PDCadena archivo, ContextoCLI& contexto)
+{
+	std::ifstream in(archivo);
+	if(!in)
+	{
+		std::cerr << "No se pudo abrir el archivo" << std::endl;
+		return 1;
+	}
+	TokenizarFlujoV3(in, contexto.opcionesTokenizador);
+	return 2;
+}
+
+int OptOpcionTokenizadorV3(PDCadena opcion, ContextoCLI& contexto)
+{
+	OpcionesDelTokenizador opt = OpcionesDelTokenizador::Nada;
+	if(opcion == "EscaparComoC")
+	{
+		opt = OpcionesDelTokenizador::EscaparComoC;
+	}
+	else if(opcion == "UnaSolaLinea")
+	{
+		opt = OpcionesDelTokenizador::UnaSolaLinea;
+	}
+	else if(opcion == "EmitirComentarios")
+	{
+		opt = OpcionesDelTokenizador::EmitirComentarios;
+	}
+	else
+	{
+		std::cerr << "Opcion del tokenizador no reconocida: " << opcion << std::endl;
+		return 1;
+	}
+	contexto.opcionesTokenizador |= opt;
+	return 0;
+}
+
 int MainV3(PDCadena archivoPrincipal, bool interactivo, ContextoCLI contexto)
 {
 	try
@@ -307,10 +778,7 @@ línea en blanco para ejecutarlo.)delim" << std::endl;
 
 			while(pseudod::Ejecutar && std::cin)
 			{
-				PDCadena bloque = LeerBloque(
-					std::cin,
-					contexto.usarV3? "v3 @> " : "@> "
-				);
+				PDCadena bloque = LeerBloque(std::cin, "@> ");
 
 				pseudod::ejecutar(bloque);
 			}
@@ -418,6 +886,9 @@ int main(int argc, char* argv[])
 
 	opciones["-c"] =
 	opciones["--ejecutar"] = OpcionCLI {&OptEjecutarTexto, true};
+
+	opciones["--tokenizar-v3"] = OpcionCLI {&OptTokenizarV3, true};
+	opciones["--Mtokenizar-v3"] = OpcionCLI {&OptOpcionTokenizadorV3, true};
 
 	PDCadena archivoPrincipal = "";
 
