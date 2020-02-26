@@ -60,7 +60,7 @@ echo "Detectando ruta de instalación..."
 
 RUTA_PSEUDOD_INSTALACION_TG="/opt/pseudod"
 
-if [ -z ${RUTA_PSEUDOD_INSTALACION+x} ]; then
+if [ -z "${RUTA_PSEUDOD_INSTALACION+x}" ]; then
 	echo "No esta configurada"
 	echo
 	echo "Parece que no has configurado la ruta donde deseas instalar PseudoD,"

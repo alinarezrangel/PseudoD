@@ -22,6 +22,7 @@
 #include <string>
 #include <fstream>
 #include <functional>
+#include <map>
 
 #include "memory_types.hh"
 
@@ -218,6 +219,7 @@ namespace pseudod
 		TRY_EXPR(backtracker, this->EvaluarVariable);
 		TRY_EXPR(backtracker, this->EvaluarReferenciaVariable);
 		TRY_EXPR(backtracker, this->EvaluarAutoejecucionForzada);
+		TRY_EXPR(backtracker, this->EvaluarClonar);
 
 		throw PDvar::ErrorDeSintaxis("Se esperaba una expresión.");
 	}
@@ -1165,6 +1167,44 @@ namespace pseudod
 		auto obj = this->ambito->ObtenerVariable(varname);
 		obj = this->LlamaConParametros(tok, obj);
 		return this->LeerYEnviarMensajes(tok, obj);
+	}
+
+	ValorPtr Interprete::EvaluarClonar(Backtracker& tok)
+	{
+		ConReintento([this, &tok]()
+		{
+			this->EsperarIgual(tok, NMemonico::PD_CLONAR);
+		});
+		auto obj = this->EvaluarSiguiente(tok);
+		obj = obj->RecibirMensaje("clonar", std::vector<ValorPtr>{});
+		this->EsperarIgual(tok, NMemonico::PD_CLONAR_CON);
+		std::map<std::string, ValorPtr> cambios;
+		while(true)
+		{
+			if(this->SiguienteTokenEs(tok, NMemonico::PD_FIN_CLONAR))
+			{
+				this->LeerToken(tok);
+				break;
+			}
+
+			PDCadena attrname = TokenUtils::ObtenerValor(this->EsperarIgual(
+				tok,
+				Token::ValorLiteral::Identificador
+			));
+			this->EsperarIgual(tok, NMemonico::PD_OPERADOR_LLAMAR);
+			ValorPtr val = this->EvaluarSiguiente(tok);
+			cambios[attrname] = val;
+		}
+
+		for(auto pares : cambios)
+		{
+			obj->RecibirMensaje(
+				"fijar_" + pares.first,
+				std::vector<ValorPtr> { pares.second }
+			);
+		}
+
+		return obj;
 	}
 
 	ValorPtr Interprete::LlamaConParametros(Backtracker& tok, ValorPtr obj)

@@ -368,6 +368,15 @@ void TokenizarFlujoV3(std::istream& in, OpcionesDelTokenizador opciones)
 				case pseudod::NMemonico::PD_FIJAR:
 					stream << "fijar";
 					break;
+				case pseudod::NMemonico::PD_CLONAR:
+					stream << "clonar";
+					break;
+				case pseudod::NMemonico::PD_CLONAR_CON:
+					stream << "con-clonar";
+					break;
+				case pseudod::NMemonico::PD_FIN_CLONAR:
+					stream << "finclonar";
+					break;
 				case pseudod::NMemonico::PD_OPERADOR_A:
 					stream << "a";
 					break;

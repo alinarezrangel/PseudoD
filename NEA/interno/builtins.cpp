@@ -101,7 +101,7 @@ finmetodo
 ]
 __AgregarMetodo: Objeto, {subclase}, metodo: yo
 	adquirir clon
-	fijar clon a yo#clonar
+	fijar clon a yo#\clonar\
 	__FijarAtributo: clon, {claseBase}, yo
 	__FijarAtributo: clon, {nombreDeClase}, {<clase anónima>}
 	devolver clon

@@ -40,7 +40,6 @@ namespace pseudod
 	struct ParametroProcedimiento
 	{
 		std::string nombre;
-		bool varargs;
 	};
 
 	class ManejadorDeModulos;
@@ -120,6 +119,7 @@ namespace pseudod
 			ValorPtr EvaluarProcedimiento(Backtracker&);
 			ValorPtr EvaluarReferenciaVariable(Backtracker&);
 			ValorPtr EvaluarAutoejecucionForzada(Backtracker&);
+			ValorPtr EvaluarClonar(Backtracker&);
 
 			ValorPtr LlamaConParametros(Backtracker&, ValorPtr);
 

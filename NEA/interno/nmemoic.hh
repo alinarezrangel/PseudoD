@@ -78,6 +78,9 @@ namespace pseudod
 				PD_EJECUTAR, // ejecutar
 				PD_NUEVALINEA, // nl
 				PD_FIJAR, // fijar/oper(ador)?
+				PD_CLONAR, // clonar
+				PD_CLONAR_CON, // clonar <> con
+				PD_FIN_CLONAR, // finclonar
 				PD_OPERADOR_A, // fijar X a Y
 				PD_OPERADOR_IGUAL, // fijar X =?/=¿? Y
 				PD_OPERADOR_FIJAR, // fijar X =* Y
