@@ -92,6 +92,8 @@ namespace pseudod
 			bool SiguienteTokenEs(Backtracker&, Token::ValorLiteral);
 			bool SiguienteTokenEs(Backtracker&, Token::ValorLiteral::TipoValor);
 
+			bool LeerTokenProcedimiento(Backtracker&);
+
 			ValorPtr LeerYEnviarMensajes(Backtracker&, ValorPtr);
 
 			void EjecutarAdquirir(Backtracker&);
@@ -124,7 +126,7 @@ namespace pseudod
 			ValorPtr LlamaConParametros(Backtracker&, ValorPtr);
 
 			std::vector<ParametroProcedimiento>
-			LeerParametrosProcedimiento(Backtracker&);
+			LeerParametrosProcedimiento(Backtracker&, bool);
 
 			std::vector<ValorPtr> LeerArgumentosProcedimiento(Backtracker&);
 

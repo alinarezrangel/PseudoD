@@ -60,19 +60,19 @@ __AgregarAtributo: Objeto, {claseBase}, NULO
 ]
 __AgregarAtributo: Objeto, {nombreDeClase}, {Objeto}
 
-__AgregarMetodo: Objeto, {__agregarAtributo}, metodo: yo, nombre
+__AgregarMetodo: Objeto, {__agregarAtributo}, metodo: nombre
 	(__ObtenerAtributo: yo, {atributosDeInstancia})#agregarAlFinal: nombre
 finmetodo
 
-__AgregarMetodo: Objeto, {agregarMetodo}, metodo: yo, nombre, proc
+__AgregarMetodo: Objeto, {agregarMetodo}, metodo: nombre, proc
 	(__ObtenerAtributo: yo, {metodosDeInstancia})#agregarAlFinal: (__ArregloCon: nombre, proc)
 finmetodo
 
-__AgregarMetodo: Objeto, {fijar_nombre}, metodo: yo, nuevoNombre
+__AgregarMetodo: Objeto, {fijar_nombre}, metodo: nuevoNombre
 	__FijarAtributo: yo, {nombreDeClase}, nuevoNombre
 finmetodo
 
-__AgregarMetodo: Objeto, {nombre}, metodo: yo
+__AgregarMetodo: Objeto, {nombre}, metodo
 	devolver __ObtenerAtributo: yo, {nombreDeClase}
 finmetodo
 
@@ -80,17 +80,17 @@ finmetodo
 	#agregarAtributo no solo agrega un atributo: también agregar dos métodos
 	para obtener y fijar el valor de dicho.
 ]
-__AgregarMetodo: Objeto, {agregarAtributo}, metodo: yo, nombre
+__AgregarMetodo: Objeto, {agregarAtributo}, metodo: nombre
 	yo#__agregarAtributo: nombre
 	yo#agregarMetodo: nombre, metodo: inst
 		devolver __ObtenerAtributo: inst, nombre
 	finmetodo
-	yo#agregarMetodo: ({fijar_}#concatenar: nombre), metodo: inst, val
-		__FijarAtributo: inst, nombre, val
+	yo#agregarMetodo: ({fijar_}#concatenar: nombre), metodo: val
+		__FijarAtributo: yo, nombre, val
 	finmetodo
 finmetodo
 
-__AgregarMetodo: Objeto, {claseBase}, metodo: yo
+__AgregarMetodo: Objeto, {claseBase}, metodo
 	devolver __ObtenerAtributo: yo, {claseBase}
 finmetodo
 
@@ -99,7 +99,7 @@ finmetodo
 	nombreDeClase es fijado a {<clase anónima>} pero puede ser cambiado
 	mediante el método {fijar_nombre} de la subclase.
 ]
-__AgregarMetodo: Objeto, {subclase}, metodo: yo
+__AgregarMetodo: Objeto, {subclase}, metodo
 	adquirir clon
 	fijar clon a yo#\clonar\
 	__FijarAtributo: clon, {claseBase}, yo
@@ -113,11 +113,11 @@ finmetodo
 	haría el método #igualA por defecto que ellas tienen inútil.
 ]
 adquirir MetodoTipo
-fijar MetodoTipo a metodo: yo
+fijar MetodoTipo a metodo
 	devolver __ObtenerAtributo: yo, {tipo}
 finmetodo
 
-__AgregarMetodo: Objeto, {_crear}, metodo: yo
+__AgregarMetodo: Objeto, {_crear}, metodo
 	adquirir inst
 	fijar inst a __CrearObjeto
 
@@ -149,7 +149,7 @@ __AgregarMetodo: Objeto, {_crear}, metodo: yo
 	devolver inst
 finmetodo
 
-__AgregarMetodo: Objeto, {comoTexto}, metodo: yo
+__AgregarMetodo: Objeto, {comoTexto}, metodo
 	devolver {Clase ~T}#formatear: yo#nombre
 finmetodo
 
@@ -236,7 +236,7 @@ finmetodo
 		return ambito->ObtenerVariable("Objeto");
 	}
 
-	void RegistrarBuiltins(AmbitoPtr ambito)
+	void RegistrarBuiltins(AmbitoPtr ambito, ValorPtr claseObjeto)
 	{
 		const std::string programa = R"EOF(
 
@@ -246,15 +246,15 @@ clase Boole
 	metodo estatico falso
 finclase
 
-metodo estatico Boole#crear: yo
+metodo estatico Boole#crear
 	devolver VERDADERO
 finmetodo
 
-metodo estatico Boole#verdadero: yo
+metodo estatico Boole#verdadero
 	devolver VERDADERO
 finmetodo
 
-metodo estatico Boole#falso: yo
+metodo estatico Boole#falso
 	devolver FALSO
 finmetodo
 
@@ -262,7 +262,7 @@ clase EnteroFijo
 	metodo estatico crear
 finclase
 
-metodo estatico EnteroFijo#crear: yo
+metodo estatico EnteroFijo#crear
 	devolver 0
 finmetodo
 
@@ -272,15 +272,15 @@ clase Arreglo
 	metodo estatico crearCon
 finclase
 
-metodo estatico Arreglo#crear: yo
+metodo estatico Arreglo#crear
 	devolver yo#vacio
 finmetodo
 
-metodo estatico Arreglo#vacio: yo
+metodo estatico Arreglo#vacio
 	devolver yo#crearCon
 finmetodo
 
-__AgregarMetodo: Arreglo, {crearCon}, ProcedimientoVarargs: 1, metodo: yo, args
+__AgregarMetodo: Arreglo, {crearCon}, ProcedimientoVarargs: 1, metodo: args
 	devolver Aplicar: &__ArregloCon, args
 finmetodo
 
@@ -288,7 +288,7 @@ clase Procedimiento
 	metodo estatico crear
 finclase
 
-metodo estatico Procedimiento#crear: yo
+metodo estatico Procedimiento#crear
 	__FallarConMensaje: {No se puede crear un procedimiento con #crear.}
 finmetodo
 
@@ -296,7 +296,7 @@ clase Texto
 	metodo estatico crear
 finclase
 
-metodo estatico Texto#crear: yo
+metodo estatico Texto#crear
 	devolver ""
 finmetodo
 
@@ -304,7 +304,7 @@ clase EspacioDeNombres
 	metodo estatico crear
 finclase
 
-metodo estatico EspacioDeNombres#crear: yo
+metodo estatico EspacioDeNombres#crear
 	devolver __CrearEspacioDeNombres
 finmetodo
 
@@ -312,7 +312,7 @@ clase Referencia
 	metodo estatico crear
 finclase
 
-metodo estatico Referencia#crear: yo
+metodo estatico Referencia#crear
 	__FallarConMensaje: {No se puede crear una referencia con #crear.}
 finmetodo
 
@@ -320,7 +320,7 @@ clase TipoNulo
 	metodo estatico crear
 finclase
 
-metodo estatico TipoNulo#crear: yo
+metodo estatico TipoNulo#crear
 	devolver NULO
 finmetodo
 
@@ -434,5 +434,11 @@ finmetodo
 			auto targs = AceptarArgumentos<Texto>(args);
 			throw PDvar::ErrorDelNucleo(std::get<0>(targs)->ObtenerTexto());
 		});
+
+		Interprete interp(ConfInterprete{claseObjeto}, ambito);
+		Backtracker tok;
+		std::istringstream in(programa);
+		tok.TokenizarFlujo(in);
+		interp.Ejecutar(tok);
 	}
 }

@@ -364,6 +364,18 @@ namespace pseudod
 			&& t.ObtenerValorLiteral().tipo == tv;
 	}
 
+	bool Interprete::LeerTokenProcedimiento(Backtracker& tok)
+	{
+		if(!this->SiguienteTokenEs(tok, NMemonico::PD_FUNCION))
+		{
+			throw PDvar::ErrorDeSintaxis(
+				"Se esperaba la palabra clave funcion, procedimiento o metodo"
+			);
+		}
+		auto tk = this->LeerToken(tok);
+		return tk.ObtenerNMemonico() == NMemonico::PD_CLASE_METODO;
+	}
+
 	ValorPtr Interprete::LeerYEnviarMensajes(Backtracker& tok, ValorPtr obj)
 	{
 		while(this->SiguienteTokenEs(tok, NMemonico::PD_ENVIAR_MENSAJE))
@@ -664,9 +676,9 @@ namespace pseudod
 
 	void Interprete::EjecutarProcedimiento(Backtracker& tok)
 	{
-		ConReintento([this, &tok]()
+		bool esMetodo = ConReintento([this, &tok]()
 		{
-			this->EsperarIgual(tok, NMemonico::PD_FUNCION);
+			return this->LeerTokenProcedimiento(tok);
 		});
 
 		bool estatico = this->SiguienteTokenEs(tok, NMemonico::PD_CLASE_METODO_ESTATICO);
@@ -698,7 +710,7 @@ namespace pseudod
 			procname = TokenUtils::ObtenerValor(procnametk);
 		}
 
-		auto params = this->LeerParametrosProcedimiento(tok);
+		auto params = this->LeerParametrosProcedimiento(tok, esMetodo);
 		auto cuerpo = this->LeerCuerpoDeProcedimiento(tok);
 
 		auto proc = CrearValor<Procedimiento>(*this, params, cuerpo);
@@ -880,7 +892,7 @@ namespace pseudod
 					Token::ValorLiteral::Identificador
 				);
 
-				this->LeerParametrosProcedimiento(tok);
+				this->LeerParametrosProcedimiento(tok, false);
 			}
 			else
 			{
@@ -1130,11 +1142,11 @@ namespace pseudod
 
 	ValorPtr Interprete::EvaluarProcedimiento(Backtracker& tok)
 	{
-		ConReintento([this, &tok]()
+		bool esMetodo = ConReintento([this, &tok]()
 		{
-			this->EsperarIgual(tok, NMemonico::PD_FUNCION);
+			return this->LeerTokenProcedimiento(tok);
 		});
-		auto params = this->LeerParametrosProcedimiento(tok);
+		auto params = this->LeerParametrosProcedimiento(tok, esMetodo);
 		auto cuerpo = this->LeerCuerpoDeProcedimiento(tok);
 		auto proc = CrearValor<Procedimiento>(*this, params, cuerpo);
 		return this->LeerYEnviarMensajes(tok, proc);
@@ -1218,16 +1230,21 @@ namespace pseudod
 	}
 
 	std::vector<ParametroProcedimiento>
-	Interprete::LeerParametrosProcedimiento(Backtracker& tok)
+	Interprete::LeerParametrosProcedimiento(Backtracker& tok, bool esMetodo)
 	{
+		std::vector<ParametroProcedimiento> params;
+
+		if(esMetodo)
+		{
+			params.push_back(ParametroProcedimiento { "yo" });
+		}
+
 		if(!this->SiguienteTokenEs(tok, NMemonico::PD_CON)
 			&& !this->SiguienteTokenEs(tok, NMemonico::PD_OPERADOR_LLAMAR))
 		{
-			return std::vector<ParametroProcedimiento>();
+			return params;
 		}
 		this->LeerToken(tok);
-
-		std::vector<ParametroProcedimiento> params;
 
 		while(true)
 		{

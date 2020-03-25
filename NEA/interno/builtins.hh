@@ -25,7 +25,7 @@ namespace pseudod
 {
 	ValorPtr CrearClaseObjeto(void);
 
-	void RegistrarBuiltins(AmbitoPtr);
+	void RegistrarBuiltins(AmbitoPtr, ValorPtr);
 }
 
 #endif /* end of include guard: HDR_PSEUDOD_BUILTINS_HH */
