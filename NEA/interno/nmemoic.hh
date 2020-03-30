@@ -147,6 +147,7 @@ namespace pseudod
 				PD_AUTOEJECUTA_VARIABLE, // %
 				PD_REFERENCIAR, // ref
 				PD_DESREFERENCIAR, // desref
+				PD_OPERADOR_GENERAL,
 				PD_NEA, // Importar.X.Y
 				PD_ALIAS, // Aliases
 				PD_OTRO // ???

@@ -153,7 +153,16 @@ static std::multimap<PDCadena, pseudod::NMemonico::Palabra> ConversorS2P =
 	{"ref", pseudod::NMemonico::PD_REFERENCIAR},
 	{"desref", pseudod::NMemonico::PD_DESREFERENCIAR},
 	{"(", pseudod::NMemonico::PD_PARENTESIS_IZQUIERDO},
-	{")", pseudod::NMemonico::PD_PARENTESIS_DERECHO}
+	{")", pseudod::NMemonico::PD_PARENTESIS_DERECHO},
+	{"+", pseudod::NMemonico::PD_OPERADOR_GENERAL},
+	{"-", pseudod::NMemonico::PD_OPERADOR_GENERAL},
+	{"*", pseudod::NMemonico::PD_OPERADOR_GENERAL},
+	{"/", pseudod::NMemonico::PD_OPERADOR_GENERAL},
+	{">", pseudod::NMemonico::PD_OPERADOR_GENERAL},
+	{"<", pseudod::NMemonico::PD_OPERADOR_GENERAL},
+	{"=", pseudod::NMemonico::PD_OPERADOR_GENERAL},
+	{">=", pseudod::NMemonico::PD_OPERADOR_GENERAL},
+	{"=<", pseudod::NMemonico::PD_OPERADOR_GENERAL}
 };
 
 static std::multimap<pseudod::NMemonico::Palabra, PDCadena> ConversorP2S;

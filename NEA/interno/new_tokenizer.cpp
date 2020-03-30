@@ -40,41 +40,6 @@ namespace pseudod
 				);
 			}
 		}
-
-		void EscribirTokens(const std::vector<Token>& tokens)
-		{
-			namespace TokenUtils = Utilidades::Tokens;
-			std::cout << "TOK : ";
-			for(const auto& tk : tokens)
-			{
-				if(TokenUtils::EsCadena(tk))
-				{
-					std::cout << "Cadena {" << TokenUtils::ObtenerValor(tk) << "}";
-				}
-				if(TokenUtils::EsIdentificador(tk))
-				{
-					std::cout << "Id. " << TokenUtils::ObtenerValor(tk);
-				}
-				if(TokenUtils::EsNumero(tk))
-				{
-					std::cout << "Numero " << TokenUtils::ObtenerValor(tk);
-				}
-				if(TokenUtils::EsCuerpoDeCodigo(tk))
-				{
-					std::cout << "CuerpoDeCodigo [COMIENZA\n" << TokenUtils::ObtenerValor(tk) << "\nTERMINA]";
-				}
-				if(TokenUtils::EsComentario(tk))
-				{
-					std::cout << "Comentario [" << TokenUtils::ObtenerValor(tk) << "]";
-				}
-				if(TokenUtils::EsNMemonico(tk))
-				{
-					std::cout << "NMemonico " << tk.ObtenerNMemonico().original;
-				}
-				std::cout << "    ";
-			}
-			std::cout << std::endl;
-		}
 	}
 
 	NuevoTokenizador::NuevoTokenizador(void) : lugar(), producirComentarios(false)
@@ -222,11 +187,11 @@ namespace pseudod
 			case '.': case ':': case ',': case '&':
 				return std::vector<Token> {this->TokenOperador(c)};
 			case '-':
-				return this->TokenNumero(in, c);
+				return this->TokenNumeroUOperador(in, c);
 			default:
 				if(std::isdigit(c))
 				{
-					return this->TokenNumero(in, c);
+					return this->TokenNumeroUOperador(in, c);
 				}
 				else if(c != '\xC2')
 				{
@@ -304,7 +269,7 @@ namespace pseudod
 		return std::vector<Token> { finalizar(acumulador) };
 	}
 
-	std::vector<Token> NuevoTokenizador::TokenNumero(std::istream& in, char primerCar)
+	std::vector<Token> NuevoTokenizador::TokenNumeroUOperador(std::istream& in, char primerCar)
 	{
 		return LeerMulticaracter(
 			[](char c) -> bool
@@ -323,6 +288,11 @@ namespace pseudod
 			{
 				std::regex patronNumero("-?[0-9]+(\\.[0-9]+)?");
 				std::smatch res;
+
+				if(buff == "-")
+				{
+					return Token(ConvertirCadenaANMemonico(buff), this->lugar);
+				}
 
 				if(!std::regex_match(buff, res, patronNumero))
 				{

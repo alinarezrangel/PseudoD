@@ -59,7 +59,7 @@ namespace pseudod
 			EsperarNingunArgumento(argumentos);
 			return this->shared_from_this();
 		}
-		else if(mensaje == "igualA")
+		else if(mensaje == "igualA" || mensaje == "operador_=")
 		{
 			EsperaNumArgumentos(argumentos, 1);
 			return CrearValor<Boole>(ValorEs<TipoNulo>(argumentos[0]));
@@ -94,7 +94,7 @@ namespace pseudod
 		const std::vector<ValorPtr>& argumentos
 	)
 	{
-		if(mensaje == "igualA")
+		if(mensaje == "igualA" || mensaje == "operador_=")
 		{
 			EsperaNumArgumentos(argumentos, 1);
 			if(!ValorEs<Texto>(argumentos[0])) return CrearValor<Boole>(false);
@@ -198,7 +198,7 @@ namespace pseudod
 		const std::vector<ValorPtr>& argumentos
 	)
 	{
-		if(mensaje == "igualA")
+		if(mensaje == "igualA" || mensaje == "operador_=")
 		{
 			EsperaNumArgumentos(argumentos, 1);
 			if(!ValorEs<Referencia>(argumentos[0])) return CrearValor<Boole>(false);
@@ -261,7 +261,7 @@ namespace pseudod
 		const std::vector<ValorPtr>& args
 	)
 	{
-		if(mensaje == "igualA")
+		if(mensaje == "igualA" || mensaje == "operador_=")
 		{
 			EsperaNumArgumentos(args, 1);
 			if(!ValorEs<Boole>(args[0])) return CrearValor<Boole>(false);
@@ -352,7 +352,7 @@ namespace pseudod
 			EsperarNingunArgumento(argumentos);
 			return CrearValor<EnteroFijo>(-this->valor);
 		}
-		else if(mensaje == "sumar")
+		else if(mensaje == "sumar" || mensaje == "operador_+")
 		{
 			return BinOpEntero<EnteroFijo>(
 				this,
@@ -360,7 +360,7 @@ namespace pseudod
 				[](auto x, auto y) { return x + y; }
 			);
 		}
-		else if(mensaje == "restar")
+		else if(mensaje == "restar" || mensaje == "operador_-")
 		{
 			return BinOpEntero<EnteroFijo>(
 				this,
@@ -368,7 +368,7 @@ namespace pseudod
 				[](auto x, auto y) { return x - y; }
 			);
 		}
-		else if(mensaje == "multiplicar")
+		else if(mensaje == "multiplicar" || mensaje == "operador_*")
 		{
 			return BinOpEntero<EnteroFijo>(
 				this,
@@ -376,7 +376,7 @@ namespace pseudod
 				[](auto x, auto y) { return x * y; }
 			);
 		}
-		else if(mensaje == "dividir")
+		else if(mensaje == "dividir" || mensaje == "operador_/")
 		{
 			return BinOpEntero<EnteroFijo>(
 				this,
@@ -384,7 +384,7 @@ namespace pseudod
 				[](auto x, auto y) { return x / y; }
 			);
 		}
-		else if(mensaje == "menorQue")
+		else if(mensaje == "menorQue" || mensaje == "operador_<")
 		{
 			return BinOpEntero<Boole>(
 				this,
@@ -392,7 +392,31 @@ namespace pseudod
 				[](auto x, auto y) { return x < y; }
 			);
 		}
-		else if(mensaje == "igualA")
+		else if(mensaje == "mayorQue" || mensaje == "operador_>")
+		{
+			return BinOpEntero<Boole>(
+				this,
+				argumentos,
+				[](auto x, auto y) { return x > y; }
+			);
+		}
+		else if(mensaje == "menorOIgualA" || mensaje == "operador_=<")
+		{
+			return BinOpEntero<Boole>(
+				this,
+				argumentos,
+				[](auto x, auto y) { return x <= y; }
+			);
+		}
+		else if(mensaje == "mayorOIgualA" || mensaje == "operador_>=")
+		{
+			return BinOpEntero<Boole>(
+				this,
+				argumentos,
+				[](auto x, auto y) { return x >= y; }
+			);
+		}
+		else if(mensaje == "igualA" || mensaje == "operador_=")
 		{
 			return BinOpEntero<Boole>(
 				this,
@@ -490,7 +514,7 @@ namespace pseudod
 			}
 			return CrearValor<Arreglo>(copia);
 		}
-		else if(mensaje == "igualA")
+		else if(mensaje == "igualA" || mensaje == "operador_=")
 		{
 			auto targs = AceptarArgumentos<Arreglo>(argumentos);
 			auto arr = std::get<0>(targs);
@@ -638,7 +662,7 @@ namespace pseudod
 			EsperarNingunArgumento(argumentos);
 			return this->shared_from_this();
 		}
-		else if(mensaje == "igualA")
+		else if(mensaje == "igualA" || mensaje == "operador_=")
 		{
 			EsperaNumArgumentos(argumentos, 1);
 			return CrearValor<Boole>(this->shared_from_this() == argumentos[0]);
@@ -691,7 +715,7 @@ namespace pseudod
 			EsperarNingunArgumento(argumentos);
 			return this->shared_from_this();
 		}
-		else if(mensaje == "igualA")
+		else if(mensaje == "igualA" || mensaje == "operador_=")
 		{
 			EsperaNumArgumentos(argumentos, 1);
 			return CrearValor<Boole>(this->shared_from_this() == argumentos[0]);
@@ -739,7 +763,7 @@ namespace pseudod
 			{
 				return this->ClonarObjeto();
 			}
-			else if(mensaje == "igualA")
+			else if(mensaje == "igualA" || mensaje == "operador_=")
 			{
 				EsperaNumArgumentos(argumentos, 1);
 				return this->CompararObjeto(argumentos[0]);
@@ -885,6 +909,12 @@ namespace pseudod
 
 	ValorPtr ObjetoEnPseudoD::ObtenerAtributo(std::string nombre) const
 	{
+		if(!this->PoseeAtributo(nombre))
+		{
+			throw PDvar::ErrorDelNucleo(
+				"El atributo " + nombre + " no existe en el objeto"
+			);
+		}
 		return this->atributos.at(nombre);
 	}
 

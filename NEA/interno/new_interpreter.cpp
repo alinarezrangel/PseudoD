@@ -34,43 +34,6 @@ namespace pseudod
 
 	namespace
 	{
-		void DebugRange(Tokenizador::IteradorLT begin, Tokenizador::IteradorLT end)
-		{
-			for(auto i = begin; i != end; i++)
-			{
-				switch(i->ObtenerTipo())
-				{
-					case Token::SinTipo:
-						std::cout << "SinTipo";
-						break;
-					case Token::NMemonico:
-						std::cout << "kw " << i->ObtenerNMemonico().original;
-						break;
-					case Token::Literal:
-						std::cout << "lit ";
-						auto val = i->ObtenerValorLiteral();
-						switch(val.tipo)
-						{
-							case Token::ValorLiteral::Cadena:
-								std::cout << "{" << val.valor << "}";
-								break;
-							case Token::ValorLiteral::Comentario:
-								std::cout << "[" << val.valor << "]";
-								break;
-							case Token::ValorLiteral::Identificador:
-								std::cout << val.valor;
-								break;
-							case Token::ValorLiteral::CuerpoDeCodigo:
-								std::cout << "CODE " << val.valor << " CODE.";
-								break;
-						}
-						break;
-				}
-				std::cout << "  ";
-			}
-			std::cout << std::endl;
-		}
-
 		struct DevolverProcedimiento
 		{
 			ValorPtr valor;
@@ -397,6 +360,20 @@ namespace pseudod
 
 			obj = obj->RecibirMensaje(mensaje, argumentos);
 		}
+
+		while(this->SiguienteTokenEs(tok, NMemonico::PD_OPERADOR_GENERAL))
+		{
+			auto tk = this->LeerToken(tok);
+			std::string op = tk.ObtenerNMemonico().original;
+
+			ValorPtr rhs = this->EvaluarSiguiente(tok);
+
+			obj = obj->RecibirMensaje(
+				"operador_" + op,
+				std::vector<ValorPtr> { rhs }
+			);
+		}
+
 		return obj;
 	}
 
@@ -1352,7 +1329,7 @@ namespace pseudod
 			EsperarNingunArgumento(argumentos);
 			return this->shared_from_this();
 		}
-		else if(mensaje == "igualA")
+		else if(mensaje == "igualA" || mensaje == "operador_=")
 		{
 			EsperaNumArgumentos(argumentos, 1);
 			return CrearValor<Boole>(this->shared_from_this() == argumentos[0]);

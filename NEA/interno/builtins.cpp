@@ -82,8 +82,8 @@ finmetodo
 ]
 __AgregarMetodo: Objeto, {agregarAtributo}, metodo: nombre
 	yo#__agregarAtributo: nombre
-	yo#agregarMetodo: nombre, metodo: inst
-		devolver __ObtenerAtributo: inst, nombre
+	yo#agregarMetodo: nombre, metodo
+		devolver __ObtenerAtributo: yo, nombre
 	finmetodo
 	yo#agregarMetodo: ({fijar_}#concatenar: nombre), metodo: val
 		__FijarAtributo: yo, nombre, val
@@ -114,7 +114,7 @@ finmetodo
 ]
 adquirir MetodoTipo
 fijar MetodoTipo a metodo
-	devolver __ObtenerAtributo: yo, {tipo}
+	devolver __ObtenerAtributo: yo, {__tipo}
 finmetodo
 
 __AgregarMetodo: Objeto, {_crear}, metodo
