@@ -639,10 +639,9 @@ namespace pseudod
 			throw PDvar::ErrorDeSintaxis("Se esperaba finmientras");
 		}
 
-		auto subinterprete = this->CrearSubinterprete();
-
 		while(this->EsVerdadero(condVal))
 		{
+			auto subinterprete = this->CrearSubinterprete();
 			subinterprete.Ejecutar(cuerpoIter, finBucle);
 			tok.IrAIterador(condIter);
 			condVal = this->EvaluarSiguiente(tok);
@@ -734,7 +733,11 @@ namespace pseudod
 			Token::ValorLiteral::Identificador
 		);
 		PDCadena modname = TokenUtils::ObtenerValor(modnametk);
-		AmbitoPtr ambito = this->manejadorDeModulos->ImportarModulo(modname);
+		AmbitoPtr ambito = this->manejadorDeModulos->ImportarModulo(
+			modname,
+			this->conf,
+			this->manejadorDeModulos
+		);
 		if(this->SiguienteTokenEs(tok, NMemonico::PD_OPERADOR_COMO))
 		{
 			this->LeerToken(tok);
@@ -1404,13 +1407,22 @@ namespace pseudod
 		return this->conf;
 	}
 
-	AmbitoPtr ManejadorDeModulos::ImportarModulo(std::string nombre)
+	AmbitoPtr ManejadorDeModulos::ImportarModulo(
+		std::string nombre,
+		ConfInterprete conf,
+		ManejadorDeModulosPtr manejadorDeModulos
+	)
 	{
 		if(this->modulosImportados.count(nombre) > 0)
 		{
 			return this->modulosImportados[nombre].ambito;
 		}
-		Interprete interp {ConfInterprete {}};
+		AmbitoPtr ambito;
+		if(conf.AmbitoBase)
+			ambito = std::make_shared<Ambito>(conf.AmbitoBase);
+		else
+			ambito = std::make_shared<Ambito>();
+		Interprete interp {conf, ambito, manejadorDeModulos};
 		pseudod::Backtracker tok;
 		const std::vector<std::string> extensiones = {
 			".pseudo",

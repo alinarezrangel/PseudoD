@@ -213,6 +213,7 @@ EstadoPD3 InicializarPseudoD3(std::string nombreDelArchivo, ContextoCLI contexto
 	auto ambito = std::make_shared<pseudod::Ambito>();
 	ambito->CrearVariable("Objeto", conf.ClaseObjeto);
 	pseudod::RegistrarBuiltins(ambito, conf.ClaseObjeto);
+	conf.AmbitoBase = ambito;
 
 	return EstadoPD3 {
 		ambito,

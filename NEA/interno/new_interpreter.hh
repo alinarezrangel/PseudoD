@@ -49,6 +49,7 @@ namespace pseudod
 	{
 		ValorPtr ClaseObjeto = nullptr;
 		bool ConvertirTextoABoole = false;
+		AmbitoPtr AmbitoBase = nullptr;
 	};
 
 	class Interprete
@@ -179,7 +180,11 @@ namespace pseudod
 			const ConfManejadorDeModulos& ObtenerConfiguracion(void) const;
 			ConfManejadorDeModulos& ObtenerConfiguracion(void);
 
-			AmbitoPtr ImportarModulo(std::string);
+			AmbitoPtr ImportarModulo(
+				std::string,
+				ConfInterprete,
+				ManejadorDeModulosPtr manejadorDeModulos
+			);
 		private:
 			struct InfoModulo
 			{
