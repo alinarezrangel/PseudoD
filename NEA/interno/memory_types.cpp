@@ -289,6 +289,22 @@ namespace pseudod
 			else
 				return args[1]->RecibirMensaje("llamar", vacio);
 		}
+		else if(mensaje == "y" || mensaje == "operador_&&")
+		{
+			auto targs = AceptarArgumentos<Boole>(args);
+			if(*this)
+				return CrearValor<Boole>(*std::get<0>(targs));
+			else
+				return CrearValor<Boole>(false);
+		}
+		else if(mensaje == "o" || mensaje == "operador_||")
+		{
+			auto targs = AceptarArgumentos<Boole>(args);
+			if(*this)
+				return CrearValor<Boole>(true);
+			else
+				return CrearValor<Boole>(*std::get<0>(targs));
+		}
 
 		throw PDvar::ErrorDelNucleo(
 			"No se encontro el mensaje " + mensaje + " en la instancia de Boole"

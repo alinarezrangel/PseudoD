@@ -283,7 +283,10 @@ namespace pseudod
 		if(sizeof...(Tipos) != argumentos.size())
 		{
 			throw PDvar::ErrorDeSemantica(
-				"Aridad invalida"
+				"Aridad invalida: se esperaban " +
+				std::to_string(sizeof...(Tipos)) +
+				" valores pero se obtubieron " +
+				std::to_string(argumentos.size())
 			);
 		}
 

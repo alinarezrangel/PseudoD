@@ -162,7 +162,9 @@ static std::multimap<PDCadena, pseudod::NMemonico::Palabra> ConversorS2P =
 	{"<", pseudod::NMemonico::PD_OPERADOR_GENERAL},
 	{"=", pseudod::NMemonico::PD_OPERADOR_GENERAL},
 	{">=", pseudod::NMemonico::PD_OPERADOR_GENERAL},
-	{"=<", pseudod::NMemonico::PD_OPERADOR_GENERAL}
+	{"=<", pseudod::NMemonico::PD_OPERADOR_GENERAL},
+	{"&&", pseudod::NMemonico::PD_OPERADOR_GENERAL},
+	{"||", pseudod::NMemonico::PD_OPERADOR_GENERAL}
 };
 
 static std::multimap<pseudod::NMemonico::Palabra, PDCadena> ConversorP2S;

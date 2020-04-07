@@ -53,7 +53,7 @@ namespace pseudod
 			std::vector<Token> TokensParaCaracter(std::istream&, char);
 			Token TokenCadena(const std::string&);
 			Token TokenComentario(const std::string&);
-			Token TokenOperador(char);
+			Token TokenOperador(std::istream& in, char);
 			std::vector<Token> TokenNumeroUOperador(std::istream&, char);
 			std::vector<Token> TokenIdentificador(std::istream&, std::string);
 

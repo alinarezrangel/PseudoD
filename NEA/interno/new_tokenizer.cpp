@@ -185,7 +185,7 @@ namespace pseudod
 				}
 			case '(': case ')': case '#': case '%':
 			case '.': case ':': case ',': case '&':
-				return std::vector<Token> {this->TokenOperador(c)};
+				return std::vector<Token> {this->TokenOperador(in, c)};
 			case '-':
 				return this->TokenNumeroUOperador(in, c);
 			default:
@@ -234,9 +234,15 @@ namespace pseudod
 		);
 	}
 
-	Token NuevoTokenizador::TokenOperador(char op)
+	Token NuevoTokenizador::TokenOperador(std::istream& in, char op)
 	{
-		return Token(ConvertirCadenaANMemonico(std::string(1, op)), this->lugar);
+		std::string kw(1, op);
+		if(op == '&' && in.peek() == '&')
+		{
+			this->LeerCaracter(in);
+			kw = "&&";
+		}
+		return Token(ConvertirCadenaANMemonico(kw), this->lugar);
 	}
 
 	std::vector<Token> NuevoTokenizador::LeerMulticaracter(
