@@ -30,7 +30,7 @@ namespace pseudod
 	class NuevoTokenizador final
 	{
 		public:
-			explicit NuevoTokenizador(void);
+			explicit NuevoTokenizador(Token::DatosFuente = Token::DatosFuente());
 
 			void ProducirComentarios(bool = true);
 			bool ProduceComentarios(void) const;

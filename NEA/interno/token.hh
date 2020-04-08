@@ -75,9 +75,11 @@ namespace pseudod
 			*/
 			struct DatosFuente
 			{
-				DatosFuente(int linea = 0);
+				DatosFuente(int linea = 1, int columna = 1, std::string archivo = "");
 
 				int linea;
+				int columna;
+				std::string nombreDelArchivo;
 			};
 
 			/**

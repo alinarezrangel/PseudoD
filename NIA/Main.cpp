@@ -202,6 +202,7 @@ PDCadena LeerBloque(std::istream& in, PDCadena prompt)
 struct EstadoPD3
 {
 	pseudod::AmbitoPtr ambito;
+	std::string nombreDelArchivo;
 	std::shared_ptr<pseudod::Interprete> interprete;
 };
 
@@ -217,6 +218,7 @@ EstadoPD3 InicializarPseudoD3(std::string nombreDelArchivo, ContextoCLI contexto
 
 	return EstadoPD3 {
 		ambito,
+		nombreDelArchivo,
 		std::make_shared<pseudod::Interprete>(
 			conf,
 			std::make_shared<pseudod::Ambito>(ambito)
@@ -226,7 +228,11 @@ EstadoPD3 InicializarPseudoD3(std::string nombreDelArchivo, ContextoCLI contexto
 
 void EjecutarConPseudoD3(std::istream& in, EstadoPD3 estado)
 {
-	pseudod::Backtracker tok;
+	pseudod::Backtracker tok(
+		pseudod::NuevoTokenizador(
+			pseudod::Token::DatosFuente(1, 1, estado.nombreDelArchivo)
+		)
+	);
 	tok.TokenizarFlujo(in);
 	estado.interprete->Ejecutar(tok);
 }

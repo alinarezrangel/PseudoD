@@ -42,7 +42,8 @@ namespace pseudod
 		}
 	}
 
-	NuevoTokenizador::NuevoTokenizador(void) : lugar(), producirComentarios(false)
+	NuevoTokenizador::NuevoTokenizador(Token::DatosFuente lugar)
+		: lugar(lugar), producirComentarios(false)
 	{}
 
 	void NuevoTokenizador::ProducirComentarios(bool prod)
@@ -79,6 +80,11 @@ namespace pseudod
 		if(c == '\n')
 		{
 			this->lugar.linea++;
+			this->lugar.columna = 1;
+		}
+		else
+		{
+			this->lugar.columna++;
 		}
 		return c;
 	}

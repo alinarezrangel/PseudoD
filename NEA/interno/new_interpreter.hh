@@ -70,18 +70,34 @@ namespace pseudod
 			Interprete CrearSubinterprete(void);
 
 			void Ejecutar(Backtracker&);
-			void Ejecutar(const std::vector<Token>&);
-			void Ejecutar(Backtracker::Iterador, Backtracker::Iterador);
+			void Ejecutar(
+				const std::vector<Token>&,
+				Token::DatosFuente = Token::DatosFuente()
+			);
+			void Ejecutar(
+				Backtracker::Iterador,
+				Backtracker::Iterador,
+				Token::DatosFuente = Token::DatosFuente()
+			);
 
 			ValorPtr Evaluar(Backtracker&);
-			ValorPtr Evaluar(const std::vector<Token>&);
-			ValorPtr Evaluar(Backtracker::Iterador, Backtracker::Iterador);
+			ValorPtr Evaluar(
+				const std::vector<Token>&,
+				Token::DatosFuente = Token::DatosFuente()
+			);
+			ValorPtr Evaluar(
+				Backtracker::Iterador,
+				Backtracker::Iterador,
+				Token::DatosFuente = Token::DatosFuente()
+			);
 
 			bool EsVerdadero(ValorPtr);
 		protected:
 			void EjecutarSiguiente(Backtracker&);
 			ValorPtr EvaluarSiguiente(Backtracker&);
 		private:
+			void LanzaErrorDeSintaxis(Token::DatosFuente, const std::string&);
+			void LanzaErrorDeSintaxis(const Token&, const std::string&);
 			void FallaSiFinDelFlujo(Backtracker&);
 			Token LeerToken(Backtracker&);
 			Token EsperarIgual(Backtracker&, NMemonico::Palabra);

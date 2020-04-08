@@ -168,7 +168,10 @@ namespace pseudod
 		TRY_STMT(backtracker, this->EjecutarAtributo);
 		TRY_STMT(backtracker, this->EvaluarSiguiente);
 
-		throw PDvar::ErrorDeSintaxis("Se esperaba una instrucción.");
+		this->LanzaErrorDeSintaxis(
+			this->SiguienteToken(backtracker),
+			"Se esperaba una instrucción."
+		);
 	}
 
 	ValorPtr Interprete::EvaluarSiguiente(Backtracker& backtracker)
@@ -184,7 +187,10 @@ namespace pseudod
 		TRY_EXPR(backtracker, this->EvaluarAutoejecucionForzada);
 		TRY_EXPR(backtracker, this->EvaluarClonar);
 
-		throw PDvar::ErrorDeSintaxis("Se esperaba una expresión.");
+		this->LanzaErrorDeSintaxis(
+			this->SiguienteToken(backtracker),
+			"Se esperaba una expresión."
+		);
 	}
 
 	void Interprete::Ejecutar(Backtracker& backtracker)
@@ -195,19 +201,23 @@ namespace pseudod
 		}
 	}
 
-	void Interprete::Ejecutar(const std::vector<Token>& tokens)
+	void Interprete::Ejecutar(
+		const std::vector<Token>& tokens,
+		Token::DatosFuente lugar
+	)
 	{
-		Backtracker backtracker(tokens);
+		Backtracker backtracker(tokens, NuevoTokenizador(lugar));
 		this->Ejecutar(backtracker);
 	}
 
 	void Interprete::Ejecutar(
 		Backtracker::Iterador inicio,
-		Backtracker::Iterador final
+		Backtracker::Iterador final,
+		Token::DatosFuente lugar
 	)
 	{
 		std::vector<Token> tokens(inicio, final);
-		this->Ejecutar(tokens);
+		this->Ejecutar(tokens, lugar);
 	}
 
 	ValorPtr Interprete::Evaluar(Backtracker& backtracker)
@@ -215,23 +225,45 @@ namespace pseudod
 		return this->EvaluarSiguiente(backtracker);
 	}
 
-	ValorPtr Interprete::Evaluar(const std::vector<Token>& tokens)
+	ValorPtr Interprete::Evaluar(
+		const std::vector<Token>& tokens,
+		Token::DatosFuente lugar
+	)
 	{
-		Backtracker backtracker(tokens);
+		Backtracker backtracker(tokens, NuevoTokenizador(lugar));
 		return this->Evaluar(backtracker);
 	}
 
 	ValorPtr Interprete::Evaluar(
 		Backtracker::Iterador inicio,
-		Backtracker::Iterador final
+		Backtracker::Iterador final,
+		Token::DatosFuente lugar
 	)
 	{
 		std::vector<Token> tokens(inicio, final);
-		return this->Evaluar(tokens);
+		return this->Evaluar(tokens, lugar);
 	}
 
 #undef TRY_STMT
 #undef TRY_EXPR
+
+	void Interprete::LanzaErrorDeSintaxis(
+		Token::DatosFuente lugar,
+		const std::string& mensaje
+	)
+	{
+		throw PDvar::ErrorDeSintaxis(
+			"En [" + lugar.nombreDelArchivo +
+			"]: linea " + std::to_string(lugar.linea) +
+			" columna " + std::to_string(lugar.columna) +
+			": " + mensaje
+		);
+	}
+
+	void Interprete::LanzaErrorDeSintaxis(const Token& tok, const std::string& mensaje)
+	{
+		this->LanzaErrorDeSintaxis(tok.ObtenerDatosFuente(), mensaje);
+	}
 
 	void Interprete::FallaSiFinDelFlujo(Backtracker& tok)
 	{
@@ -246,7 +278,7 @@ namespace pseudod
 		Token tk = tok.LeerToken();
 		if(tk.ObtenerTipo() == Token::SinTipo && tok.FinDelPrograma())
 		{
-			throw PDvar::ErrorDeSintaxis("Fin del archivo inesperado");
+			this->LanzaErrorDeSintaxis(tk, "Fin del archivo inesperado");
 		}
 		return tk;
 	}
@@ -256,7 +288,7 @@ namespace pseudod
 		Token t = this->LeerToken(tok);
 		if((!TokenUtils::EsNMemonico(t)) || (t.ObtenerNMemonico() != pal))
 		{
-			throw PDvar::ErrorDeSintaxis("Se esperaba una palabra clave.");
+			this->LanzaErrorDeSintaxis(t, "Se esperaba una palabra clave.");
 		}
 		return t;
 	}
@@ -266,7 +298,7 @@ namespace pseudod
 		Token t = this->LeerToken(tok);
 		if((!TokenUtils::EsLiteral(t)) || (t.ObtenerValorLiteral() != val))
 		{
-			throw PDvar::ErrorDeSintaxis("Se esperaba una literal o variable.");
+			this->LanzaErrorDeSintaxis(t, "Se esperaba una literal o variable.");
 		}
 		return t;
 	}
@@ -279,7 +311,7 @@ namespace pseudod
 		Token t = this->LeerToken(tok);
 		if((!TokenUtils::EsLiteral(t)) || (t.ObtenerValorLiteral().tipo != tv))
 		{
-			throw PDvar::ErrorDeSintaxis("Se esperaba una literal o variable.");
+			this->LanzaErrorDeSintaxis(t, "Se esperaba una literal o variable.");
 		}
 		return t;
 	}
@@ -289,7 +321,7 @@ namespace pseudod
 		Token t = this->LeerToken(tok);
 		if(!TokenUtils::EsNMemonico(t))
 		{
-			throw PDvar::ErrorDeSintaxis("Se esperaba una palabra clave.");
+			this->LanzaErrorDeSintaxis(t, "Se esperaba una palabra clave.");
 		}
 		return t;
 	}
@@ -331,7 +363,8 @@ namespace pseudod
 	{
 		if(!this->SiguienteTokenEs(tok, NMemonico::PD_FUNCION))
 		{
-			throw PDvar::ErrorDeSintaxis(
+			this->LanzaErrorDeSintaxis(
+				this->SiguienteToken(tok),
 				"Se esperaba la palabra clave funcion, procedimiento o metodo"
 			);
 		}
@@ -352,7 +385,8 @@ namespace pseudod
 				argumentos = this->LeerArgumentosProcedimiento(tok);
 				if(this->SiguienteTokenEs(tok, NMemonico::PD_ENVIAR_MENSAJE))
 				{
-					throw PDvar::ErrorDeSintaxis(
+					this->LanzaErrorDeSintaxis(
+						this->SiguienteToken(tok),
 						"No se puede enviar otro mensaje luego de llamar a un metodo con argumentos."
 					);
 				}
@@ -531,7 +565,7 @@ namespace pseudod
 		std::string word;
 		if(!(std::cin >> word))
 		{
-			throw PDvar::ErrorDeSintaxis("EOF inesperado");
+			throw PDvar::ErrorDeSemantica("EOF inesperado");
 		}
 		this->ambito->FijarVariable(
 			TokenUtils::ObtenerValor(varname),
@@ -569,7 +603,7 @@ namespace pseudod
 			{
 				if(sino != fin)
 				{
-					throw PDvar::ErrorDeSintaxis("Condicional si con más de un sino.");
+					this->LanzaErrorDeSintaxis(*sino, "Condicional si con más de un sino.");
 				}
 				sino = finsi;
 			}
@@ -584,7 +618,7 @@ namespace pseudod
 
 		if(finsi == fin)
 		{
-			throw PDvar::ErrorDeSintaxis("Se esperaba finsi.");
+			this->LanzaErrorDeSintaxis(*cur, "Se esperaba finsi.");
 		}
 
 		tok.IrAIterador(finsi + 1);
@@ -636,7 +670,7 @@ namespace pseudod
 
 		if(finBucle == fin)
 		{
-			throw PDvar::ErrorDeSintaxis("Se esperaba finmientras");
+			this->LanzaErrorDeSintaxis(*cuerpoIter, "Se esperaba finmientras");
 		}
 
 		while(this->EsVerdadero(condVal))
@@ -968,7 +1002,8 @@ namespace pseudod
 		}
 		else if(this->SiguienteTokenEs(tok, NMemonico::PD_OPERADOR_LLAMAR))
 		{
-			throw PDvar::ErrorDeSintaxis(
+			this->LanzaErrorDeSintaxis(
+				varnametk,
 				"No se puede llamar a una variable que no es autoejecutable."
 			);
 		}
@@ -1024,7 +1059,7 @@ namespace pseudod
 		}
 		else
 		{
-			throw PDvar::ErrorDeSintaxis("Se esperaba iguales/diferentes luego de son/sean.");
+			this->LanzaErrorDeSintaxis(kwtk, "Se esperaba iguales/diferentes luego de son/sean.");
 		}
 
 		ValorPtr left = this->EvaluarSiguiente(tok);
@@ -1295,7 +1330,7 @@ namespace pseudod
 
 		if(finproc == fin)
 		{
-			throw PDvar::ErrorDeSintaxis("Se esperaba finprocedimiento");
+			this->LanzaErrorDeSintaxis(*cur, "Se esperaba finprocedimiento");
 		}
 
 		tok.IrAIterador(finproc + 1);
@@ -1423,21 +1458,23 @@ namespace pseudod
 		else
 			ambito = std::make_shared<Ambito>();
 		Interprete interp {conf, ambito, manejadorDeModulos};
-		pseudod::Backtracker tok;
 		const std::vector<std::string> extensiones = {
 			".pseudo",
 			".pd",
 			".psd"
 		};
 		std::ifstream in;
+		std::string nombreDelArchivo;
 		for(const auto& ext : extensiones)
 		{
-			in = std::ifstream(nombre + ext);
+			nombreDelArchivo = nombre + ext;
+			in = std::ifstream(nombreDelArchivo);
 			if(in)
 			{
 				break;
 			}
 		}
+		Backtracker tok(NuevoTokenizador(Token::DatosFuente(1, 1, nombreDelArchivo)));
 		if(!in)
 		{
 			throw PDvar::ErrorDeSintaxis(

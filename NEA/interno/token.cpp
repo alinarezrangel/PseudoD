@@ -38,8 +38,8 @@ namespace pseudod
 		return !((*this) == x);
 	}
 
-	Token::DatosFuente::DatosFuente(int linea)
-		: linea(linea)
+	Token::DatosFuente::DatosFuente(int linea, int columna, std::string archivo)
+		: linea(linea), columna(columna), nombreDelArchivo(archivo)
 	{}
 
 	Token::Token(Token::DatosFuente fn)
