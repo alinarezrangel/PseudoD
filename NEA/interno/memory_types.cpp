@@ -472,6 +472,24 @@ namespace pseudod
 			auto targs = AceptarArgumentos<EnteroFijo>(argumentos);
 			return this->elementos.at(std::get<0>(targs)->ObtenerEntero());
 		}
+		else if(mensaje == "comoTexto")
+		{
+			EsperarNingunArgumento(argumentos);
+			std::string res = "(Arreglo#crearCon: ";
+			for(auto elem : this->elementos)
+			{
+				auto elemstr = elem->RecibirMensaje("comoTexto", std::vector<ValorPtr> {});
+				if(!ValorEs<Texto>(elemstr))
+				{
+					throw PDvar::ErrorDeSemantica(
+						"Error al convertir un arreglo a texto: un elemento no devolvio texto"
+					);
+				}
+				res += ValorComo<Texto>(elemstr)->ObtenerTexto() + ", ";
+			}
+			res += ")";
+			return CrearValor<Texto>(res);
+		}
 		else if(mensaje == "fijarEn")
 		{
 			auto targs = AceptarArgumentos<EnteroFijo, Valor>(argumentos);
