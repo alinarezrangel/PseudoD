@@ -100,22 +100,55 @@ namespace pseudod
 			bool valor;
 	};
 
-	class EnteroFijo final : public Valor
+	class Numero final : public Valor
 	{
 		public:
-			explicit EnteroFijo(long long int);
-			virtual ~EnteroFijo(void);
+			enum class Tipo { ENTERO, REAL };
+
+			struct MarcaTipoEntero {};
+			struct MarcaTipoReal {};
+			static MarcaTipoEntero MARCA_TIPO_ENTERO;
+			static MarcaTipoReal MARCA_TIPO_REAL;
+
+			using Ptr = std::shared_ptr<Numero>;
+
+			explicit Numero(long long int, MarcaTipoEntero);
+			explicit Numero(long double, MarcaTipoReal);
+			virtual ~Numero(void);
 
 			virtual ValorPtr RecibirMensaje(
 				std::string,
 				const std::vector<ValorPtr>&
 			) override;
 
-			explicit operator long long int(void) const;
-
 			long long int ObtenerEntero(void) const;
+			long double ObtenerReal(void) const;
+
+			Ptr Sumar(Ptr rhs);
+			Ptr Negar(void);
+			Ptr Restar(Ptr rhs);
+			Ptr Multiplicar(Ptr rhs);
+			Ptr Dividir(Ptr rhs);
+
+			bool MenorQue(Ptr rhs);
+			bool MayorQue(Ptr rhs);
+			bool MenorOIgualA(Ptr rhs);
+			bool MayorOIgualA(Ptr rhs);
+			bool IgualA(Ptr rhs);
+			bool DistintoDe(Ptr rhs);
+
+			Tipo ObtenerTipo(void) const;
 		private:
-			long long int valor;
+			void DebeTenerTipo(Tipo) const;
+
+			union Valores
+			{
+				long long int valorEntero;
+				long double valorReal;
+			};
+
+			Valores valor;
+			Tipo tipoValor;
 	};
 
 	class Arreglo final : public Valor

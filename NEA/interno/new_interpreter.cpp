@@ -1032,8 +1032,19 @@ namespace pseudod
 			}
 			else
 			{
-				Token numero = this->EsperarIgual(tok, Token::ValorLiteral::Numero);
-				return CrearValor<EnteroFijo>(std::stoll(TokenUtils::ObtenerValor(numero)));
+				std::string numero =
+					TokenUtils::ObtenerValor(this->EsperarIgual(
+						tok,
+						Token::ValorLiteral::Numero
+					));
+				if(numero.find(".") != std::string::npos)
+				{
+					return CrearValor<Numero>(std::stold(numero), Numero::MARCA_TIPO_REAL);
+				}
+				else
+				{
+					return CrearValor<Numero>(std::stoll(numero), Numero::MARCA_TIPO_ENTERO);
+				}
 			}
 		});
 		return this->LeerYEnviarMensajes(tok, literal);

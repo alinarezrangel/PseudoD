@@ -19,6 +19,8 @@
 #include <algorithm>
 #include <iterator>
 #include <iostream>
+#include <cassert>
+#include <cmath>
 
 #include "memory_types.hh"
 
@@ -108,10 +110,15 @@ namespace pseudod
 			EsperarNingunArgumento(argumentos);
 			return this->shared_from_this();
 		}
-		else if(mensaje == "comoEnteroFijo")
+		else if(mensaje == "comoNumeroEntero")
 		{
 			EsperarNingunArgumento(argumentos);
-			return CrearValor<EnteroFijo>(std::stoll(this->texto));
+			return CrearValor<Numero>(std::stoll(this->texto), Numero::MARCA_TIPO_ENTERO);
+		}
+		else if(mensaje == "comoNumeroReal")
+		{
+			EsperarNingunArgumento(argumentos);
+			return CrearValor<Numero>(std::stold(this->texto), Numero::MARCA_TIPO_REAL);
 		}
 		else if(mensaje == "comoTexto")
 		{
@@ -121,11 +128,11 @@ namespace pseudod
 		else if(mensaje == "longitud")
 		{
 			EsperarNingunArgumento(argumentos);
-			return CrearValor<EnteroFijo>(this->texto.size());
+			return CrearValor<Numero>(this->texto.size(), Numero::MARCA_TIPO_ENTERO);
 		}
 		else if(mensaje == "en")
 		{
-			auto targs = AceptarArgumentos<EnteroFijo>(argumentos);
+			auto targs = AceptarArgumentos<Numero>(argumentos);
 			auto indice = std::get<0>(targs)->ObtenerEntero();
 			return CrearValor<Texto>(std::string(1, this->texto.at(indice)));
 		}
@@ -137,31 +144,37 @@ namespace pseudod
 		}
 		else if(mensaje == "subTexto")
 		{
-			auto targs = AceptarArgumentos<EnteroFijo, EnteroFijo>(argumentos);
+			auto targs = AceptarArgumentos<Numero, Numero>(argumentos);
 			auto inicio = std::get<0>(targs)->ObtenerEntero();
 			auto longitud = std::get<1>(targs)->ObtenerEntero();
 			return CrearValor<Texto>(this->texto.substr(inicio, longitud));
 		}
 		else if(mensaje == "parteDelTexto")
 		{
-			auto targs = AceptarArgumentos<EnteroFijo, EnteroFijo>(argumentos);
+			auto targs = AceptarArgumentos<Numero, Numero>(argumentos);
 			auto inicio = std::get<0>(targs)->ObtenerEntero();
 			auto final = std::get<1>(targs)->ObtenerEntero();
 			return CrearValor<Texto>(this->texto.substr(inicio, final - inicio));
 		}
 		else if(mensaje == "buscar")
 		{
-			auto targs = AceptarArgumentos<EnteroFijo, Texto>(argumentos);
+			auto targs = AceptarArgumentos<Numero, Texto>(argumentos);
 			auto inicio = std::get<0>(targs)->ObtenerEntero();
 			auto aBuscar = std::get<1>(targs)->ObtenerTexto();
-			return CrearValor<EnteroFijo>(this->texto.find(aBuscar, inicio));
+			return CrearValor<Numero>(
+				this->texto.find(aBuscar, inicio),
+				Numero::MARCA_TIPO_ENTERO
+			);
 		}
 		else if(mensaje == "buscarEnReversa")
 		{
-			auto targs = AceptarArgumentos<EnteroFijo, Texto>(argumentos);
+			auto targs = AceptarArgumentos<Numero, Texto>(argumentos);
 			auto inicio = std::get<0>(targs)->ObtenerEntero();
 			auto aBuscar = std::get<1>(targs)->ObtenerTexto();
-			return CrearValor<EnteroFijo>(this->texto.rfind(aBuscar, inicio));
+			return CrearValor<Numero>(
+				this->texto.rfind(aBuscar, inicio),
+				Numero::MARCA_TIPO_ENTERO
+			);
 		}
 		else if(mensaje == "formatear")
 		{
@@ -321,139 +334,357 @@ namespace pseudod
 		return this->valor;
 	}
 
-	EnteroFijo::EnteroFijo(long long int v) : Valor(), valor(v)
-	{}
+	Numero::MarcaTipoEntero Numero::MARCA_TIPO_ENTERO;
+	Numero::MarcaTipoReal Numero::MARCA_TIPO_REAL;
 
-	EnteroFijo::~EnteroFijo(void)
-	{}
-
-	namespace
+	Numero::Numero(long long int ve, Numero::MarcaTipoEntero)
+		: Valor(), tipoValor(Numero::Tipo::ENTERO)
 	{
-		template<typename T, typename Ret, typename C, typename F, typename G>
-		ValorPtr BinOp(C val, std::vector<ValorPtr> args, F op, G conv)
-		{
-			auto targs = AceptarArgumentos<T>(args);
-			return CrearValor<Ret>(op(val, conv(std::get<0>(targs))));
-		}
-
-		template<typename Ret, typename F>
-		ValorPtr BinOpEntero(EnteroFijo* x, std::vector<ValorPtr> args, F op)
-		{
-			return BinOp<EnteroFijo, Ret>(
-				x->ObtenerEntero(),
-				args,
-				op,
-				[](Ptr<EnteroFijo> x) { return x->ObtenerEntero(); }
-			);
-		}
+		this->valor.valorEntero = ve;
 	}
 
-	ValorPtr EnteroFijo::RecibirMensaje(
+	Numero::Numero(long double vr, Numero::MarcaTipoReal)
+		: Valor(), tipoValor(Numero::Tipo::REAL)
+	{
+		this->valor.valorReal = vr;
+	}
+
+	Numero::~Numero(void) {}
+
+	ValorPtr Numero::RecibirMensaje(
 		std::string mensaje,
-		const std::vector<ValorPtr>& argumentos
+		const std::vector<ValorPtr>& args
 	)
 	{
 		if(mensaje == "comoTexto")
 		{
-			EsperarNingunArgumento(argumentos);
-			return CrearValor<Texto>(std::to_string(this->valor));
+			EsperarNingunArgumento(args);
+			if(this->ObtenerTipo() == Numero::Tipo::ENTERO)
+			{
+				return CrearValor<Texto>(std::to_string(this->ObtenerEntero()));
+			}
+			else
+			{
+				return CrearValor<Texto>(std::to_string(this->ObtenerReal()));
+			}
 		}
 		else if(mensaje == "clonar")
 		{
-			EsperarNingunArgumento(argumentos);
+			EsperarNingunArgumento(args);
 			return this->shared_from_this();
-		}
-		else if(mensaje == "negar")
-		{
-			EsperarNingunArgumento(argumentos);
-			return CrearValor<EnteroFijo>(-this->valor);
-		}
-		else if(mensaje == "sumar" || mensaje == "operador_+")
-		{
-			return BinOpEntero<EnteroFijo>(
-				this,
-				argumentos,
-				[](auto x, auto y) { return x + y; }
-			);
-		}
-		else if(mensaje == "restar" || mensaje == "operador_-")
-		{
-			return BinOpEntero<EnteroFijo>(
-				this,
-				argumentos,
-				[](auto x, auto y) { return x - y; }
-			);
-		}
-		else if(mensaje == "multiplicar" || mensaje == "operador_*")
-		{
-			return BinOpEntero<EnteroFijo>(
-				this,
-				argumentos,
-				[](auto x, auto y) { return x * y; }
-			);
-		}
-		else if(mensaje == "dividir" || mensaje == "operador_/")
-		{
-			return BinOpEntero<EnteroFijo>(
-				this,
-				argumentos,
-				[](auto x, auto y) { return x / y; }
-			);
-		}
-		else if(mensaje == "menorQue" || mensaje == "operador_<")
-		{
-			return BinOpEntero<Boole>(
-				this,
-				argumentos,
-				[](auto x, auto y) { return x < y; }
-			);
-		}
-		else if(mensaje == "mayorQue" || mensaje == "operador_>")
-		{
-			return BinOpEntero<Boole>(
-				this,
-				argumentos,
-				[](auto x, auto y) { return x > y; }
-			);
-		}
-		else if(mensaje == "menorOIgualA" || mensaje == "operador_=<")
-		{
-			return BinOpEntero<Boole>(
-				this,
-				argumentos,
-				[](auto x, auto y) { return x <= y; }
-			);
-		}
-		else if(mensaje == "mayorOIgualA" || mensaje == "operador_>=")
-		{
-			return BinOpEntero<Boole>(
-				this,
-				argumentos,
-				[](auto x, auto y) { return x >= y; }
-			);
 		}
 		else if(mensaje == "igualA" || mensaje == "operador_=")
 		{
-			return BinOpEntero<Boole>(
-				this,
-				argumentos,
-				[](auto x, auto y) { return x == y; }
-			);
+			EsperaNumArgumentos(args, 1);
+			if(!ValorEs<Numero>(args[0])) return CrearValor<Boole>(false);
+			auto otro = ValorComo<Numero>(args[0]);
+			return CrearValor<Boole>(this->IgualA(otro));
+		}
+		else if(mensaje == "menorQue" || mensaje == "operador_<")
+		{
+			auto targs = AceptarArgumentos<Numero>(args);
+			return CrearValor<Boole>(this->MenorQue(std::get<0>(targs)));
+		}
+		else if(mensaje == "mayorQue" || mensaje == "operador_>")
+		{
+			auto targs = AceptarArgumentos<Numero>(args);
+			return CrearValor<Boole>(this->MayorQue(std::get<0>(targs)));
+		}
+		else if(mensaje == "menorOIgualA" || mensaje == "operador_=<")
+		{
+			auto targs = AceptarArgumentos<Numero>(args);
+			return CrearValor<Boole>(this->MenorOIgualA(std::get<0>(targs)));
+		}
+		else if(mensaje == "mayorOIgualA" || mensaje == "operador_>=")
+		{
+			auto targs = AceptarArgumentos<Numero>(args);
+			return CrearValor<Boole>(this->MayorOIgualA(std::get<0>(targs)));
+		}
+		else if(mensaje == "sumar" || mensaje == "operador_+")
+		{
+			auto targs = AceptarArgumentos<Numero>(args);
+			return std::dynamic_pointer_cast<Valor>(this->Sumar(std::get<0>(targs)));
+		}
+		else if(mensaje == "restar" || mensaje == "operador_-")
+		{
+			auto targs = AceptarArgumentos<Numero>(args);
+			return std::dynamic_pointer_cast<Valor>(this->Restar(std::get<0>(targs)));
+		}
+		else if(mensaje == "multiplicar" || mensaje == "operador_*")
+		{
+			auto targs = AceptarArgumentos<Numero>(args);
+			return std::dynamic_pointer_cast<Valor>(this->Multiplicar(std::get<0>(targs)));
+		}
+		else if(mensaje == "dividir" || mensaje == "operador_/")
+		{
+			auto targs = AceptarArgumentos<Numero>(args);
+			return std::dynamic_pointer_cast<Valor>(this->Dividir(std::get<0>(targs)));
+		}
+		else if(mensaje == "negar")
+		{
+			EsperarNingunArgumento(args);
+			return std::dynamic_pointer_cast<Valor>(this->Negar());
+		}
+		else if(mensaje == "piso")
+		{
+			EsperarNingunArgumento(args);
+			long double valor;
+			if(this->ObtenerTipo() == Numero::Tipo::ENTERO)
+			{
+				valor = this->ObtenerEntero();
+			}
+			else
+			{
+				valor = this->ObtenerReal();
+			}
+			return CrearValor<Numero>(std::floor(valor), Numero::MARCA_TIPO_ENTERO);
+		}
+		else if(mensaje == "techo")
+		{
+			EsperarNingunArgumento(args);
+			long double valor;
+			if(this->ObtenerTipo() == Numero::Tipo::ENTERO)
+			{
+				valor = this->ObtenerEntero();
+			}
+			else
+			{
+				valor = this->ObtenerReal();
+			}
+			return CrearValor<Numero>(std::ceil(valor), Numero::MARCA_TIPO_ENTERO);
+		}
+		else if(mensaje == "truncar")
+		{
+			EsperarNingunArgumento(args);
+			long double valor;
+			if(this->ObtenerTipo() == Numero::Tipo::ENTERO)
+			{
+				valor = this->ObtenerEntero();
+			}
+			else
+			{
+				valor = this->ObtenerReal();
+			}
+			return CrearValor<Numero>(std::trunc(valor), Numero::MARCA_TIPO_ENTERO);
 		}
 
 		throw PDvar::ErrorDelNucleo(
-			"No se encontro el mensaje " + mensaje + " en la instancia de EnteroFijo"
+			"No se encontro el mensaje " + mensaje + " en la instancia de Numero"
 		);
 	}
 
-	EnteroFijo::operator long long int(void) const
+	long long int Numero::ObtenerEntero(void) const
 	{
-		return this->valor;
+		this->DebeTenerTipo(Numero::Tipo::ENTERO);
+		return this->valor.valorEntero;
 	}
 
-	long long int EnteroFijo::ObtenerEntero(void) const
+	long double Numero::ObtenerReal(void) const
 	{
-		return this->valor;
+		this->DebeTenerTipo(Numero::Tipo::REAL);
+		return this->valor.valorReal;
+	}
+
+	Numero::Ptr Numero::Sumar(Numero::Ptr rhs)
+	{
+		switch(this->ObtenerTipo())
+		{
+			case Numero::Tipo::ENTERO:
+				switch(rhs->ObtenerTipo())
+				{
+					case Numero::Tipo::ENTERO:
+						return std::make_shared<Numero>(
+							this->ObtenerEntero() + rhs->ObtenerEntero(),
+							Numero::MARCA_TIPO_ENTERO
+						);
+					case Numero::Tipo::REAL:
+						return std::make_shared<Numero>(
+							this->ObtenerEntero() + rhs->ObtenerReal(),
+							Numero::MARCA_TIPO_REAL
+						);
+				}
+			case Numero::Tipo::REAL:
+				switch(rhs->ObtenerTipo())
+				{
+					case Numero::Tipo::ENTERO:
+						return std::make_shared<Numero>(
+							this->ObtenerReal() + rhs->ObtenerEntero(),
+							Numero::MARCA_TIPO_REAL
+						);
+					case Numero::Tipo::REAL:
+						return std::make_shared<Numero>(
+							this->ObtenerReal() + rhs->ObtenerReal(),
+							Numero::MARCA_TIPO_REAL
+						);
+				}
+		}
+
+		assert(0);
+	}
+
+	Numero::Ptr Numero::Negar(void)
+	{
+		switch(this->ObtenerTipo())
+		{
+			case Numero::Tipo::ENTERO:
+				return std::make_shared<Numero>(
+					-this->ObtenerEntero(),
+					Numero::MARCA_TIPO_ENTERO
+				);
+			case Numero::Tipo::REAL:
+				return std::make_shared<Numero>(
+					-this->ObtenerReal(),
+					Numero::MARCA_TIPO_REAL
+				);
+		}
+
+		assert(0);
+	}
+
+	Numero::Ptr Numero::Restar(Numero::Ptr rhs)
+	{
+		return this->Sumar(rhs->Negar());
+	}
+
+	Numero::Ptr Numero::Multiplicar(Numero::Ptr rhs)
+	{
+		switch(this->ObtenerTipo())
+		{
+			case Numero::Tipo::ENTERO:
+				switch(rhs->ObtenerTipo())
+				{
+					case Numero::Tipo::ENTERO:
+						return std::make_shared<Numero>(
+							this->ObtenerEntero() * rhs->ObtenerEntero(),
+							Numero::MARCA_TIPO_ENTERO
+						);
+					case Numero::Tipo::REAL:
+						return std::make_shared<Numero>(
+							static_cast<long double>(this->ObtenerEntero()) * rhs->ObtenerReal(),
+							Numero::MARCA_TIPO_REAL
+						);
+				}
+			case Numero::Tipo::REAL:
+				switch(rhs->ObtenerTipo())
+				{
+					case Numero::Tipo::ENTERO:
+						return std::make_shared<Numero>(
+							this->ObtenerReal() * static_cast<long double>(rhs->ObtenerEntero()),
+							Numero::MARCA_TIPO_REAL
+						);
+					case Numero::Tipo::REAL:
+						return std::make_shared<Numero>(
+							this->ObtenerReal() * rhs->ObtenerReal(),
+							Numero::MARCA_TIPO_REAL
+						);
+				}
+		}
+
+		assert(0);
+	}
+
+	Numero::Ptr Numero::Dividir(Numero::Ptr rhs)
+	{
+		long double valorLhs, valorRhs;
+		switch(this->ObtenerTipo())
+		{
+			case Numero::Tipo::ENTERO:
+				valorLhs = static_cast<long double>(this->ObtenerEntero());
+				break;
+			case Numero::Tipo::REAL:
+				valorLhs = this->ObtenerReal();
+				break;
+		}
+		switch(rhs->ObtenerTipo())
+		{
+			case Numero::Tipo::ENTERO:
+				valorRhs = static_cast<long double>(rhs->ObtenerEntero());
+				break;
+			case Numero::Tipo::REAL:
+				valorRhs = rhs->ObtenerReal();
+				break;
+		}
+		return std::make_shared<Numero>(
+			valorLhs / valorRhs,
+			Numero::MARCA_TIPO_REAL
+		);
+	}
+
+	bool Numero::MenorQue(Numero::Ptr rhs)
+	{
+		switch(this->ObtenerTipo())
+		{
+			case Numero::Tipo::ENTERO:
+				switch(rhs->ObtenerTipo())
+				{
+					case Numero::Tipo::ENTERO:
+						return this->ObtenerEntero() < rhs->ObtenerEntero();
+					case Numero::Tipo::REAL:
+						return static_cast<long double>(this->ObtenerEntero()) < rhs->ObtenerReal();
+				}
+			case Numero::Tipo::REAL:
+				switch(rhs->ObtenerTipo())
+				{
+					case Numero::Tipo::ENTERO:
+						return this->ObtenerReal() < static_cast<long double>(rhs->ObtenerEntero());
+					case Numero::Tipo::REAL:
+						return this->ObtenerReal() < rhs->ObtenerReal();
+				}
+		}
+
+		assert(0);
+	}
+
+	bool Numero::MayorQue(Numero::Ptr rhs)
+	{
+		return !this->MenorQue(rhs) && !this->IgualA(rhs);
+	}
+
+	bool Numero::MenorOIgualA(Numero::Ptr rhs)
+	{
+		return !this->MayorQue(rhs);
+	}
+
+	bool Numero::MayorOIgualA(Numero::Ptr rhs)
+	{
+		return !this->MenorQue(rhs);
+	}
+
+	bool Numero::IgualA(Numero::Ptr rhs)
+	{
+		return !this->MenorQue(rhs) && !rhs->MenorQue(ValorComo<Numero>(this->shared_from_this()));
+	}
+
+	bool Numero::DistintoDe(Numero::Ptr rhs)
+	{
+		return !this->IgualA(rhs);
+	}
+
+	Numero::Tipo Numero::ObtenerTipo(void) const
+	{
+		return this->tipoValor;
+	}
+
+	void Numero::DebeTenerTipo(Numero::Tipo tipo) const
+	{
+		auto tipoAString = [](Numero::Tipo tp) -> std::string
+		{
+			if(tp == Numero::Tipo::ENTERO)
+			{
+				return "entero";
+			}
+			else
+			{
+				return "real";
+			}
+		};
+		if(this->tipoValor != tipo)
+		{
+			throw PDvar::ErrorDelNucleo(
+				"Error numerico interno: se esperaba " + tipoAString(tipo) +
+				" pero se obtuvo " + tipoAString(this->tipoValor)
+			);
+		}
 	}
 
 	Arreglo::Arreglo(const std::vector<ValorPtr>& els) : Valor(), elementos(els)
@@ -469,7 +700,7 @@ namespace pseudod
 	{
 		if(mensaje == "en")
 		{
-			auto targs = AceptarArgumentos<EnteroFijo>(argumentos);
+			auto targs = AceptarArgumentos<Numero>(argumentos);
 			return this->elementos.at(std::get<0>(targs)->ObtenerEntero());
 		}
 		else if(mensaje == "comoTexto")
@@ -492,14 +723,14 @@ namespace pseudod
 		}
 		else if(mensaje == "fijarEn")
 		{
-			auto targs = AceptarArgumentos<EnteroFijo, Valor>(argumentos);
+			auto targs = AceptarArgumentos<Numero, Valor>(argumentos);
 			this->elementos.at(std::get<0>(targs)->ObtenerEntero()) =
 				std::get<1>(targs);
 			return CrearNulo();
 		}
 		else if(mensaje == "redimensionar")
 		{
-			auto targs = AceptarArgumentos<EnteroFijo>(argumentos);
+			auto targs = AceptarArgumentos<Numero>(argumentos);
 			this->elementos.resize(
 				std::get<0>(targs)->ObtenerEntero(),
 				CrearNulo()
@@ -536,7 +767,7 @@ namespace pseudod
 		else if(mensaje == "longitud")
 		{
 			EsperarNingunArgumento(argumentos);
-			return CrearValor<EnteroFijo>(this->elementos.size());
+			return CrearValor<Numero>(this->elementos.size(), Numero::MARCA_TIPO_ENTERO);
 		}
 		else if(mensaje == "clonar")
 		{

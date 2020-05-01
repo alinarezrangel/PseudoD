@@ -258,11 +258,11 @@ metodo estatico Boole#falso
 	devolver FALSO
 finmetodo
 
-clase EnteroFijo
+clase Numero
 	metodo estatico crear
 finclase
 
-metodo estatico EnteroFijo#crear
+metodo estatico Numero#crear
 	devolver 0
 finmetodo
 
@@ -343,7 +343,7 @@ finmetodo
 		{
 			using size_type = typename decltype(args)::size_type;
 
-			auto targs = AceptarArgumentos<EnteroFijo, Valor>(args);
+			auto targs = AceptarArgumentos<Numero, Valor>(args);
 			size_type baseArgs = static_cast<size_type>(
 				std::get<0>(targs)->ObtenerEntero()
 			);
@@ -377,9 +377,9 @@ finmetodo
 			{
 				return ambito->ObtenerVariable("Boole");
 			}
-			else if(ValorEs<EnteroFijo>(valor))
+			else if(ValorEs<Numero>(valor))
 			{
-				return ambito->ObtenerVariable("EnteroFijo");
+				return ambito->ObtenerVariable("Numero");
 			}
 			else if(ValorEs<Arreglo>(valor))
 			{
