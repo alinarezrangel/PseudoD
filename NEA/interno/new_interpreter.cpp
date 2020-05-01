@@ -1251,7 +1251,7 @@ namespace pseudod
 
 		if(esMetodo)
 		{
-			params.push_back(ParametroProcedimiento { "yo" });
+			params.push_back(ParametroProcedimiento { "yo", false });
 		}
 
 		if(!this->SiguienteTokenEs(tok, NMemonico::PD_CON)
@@ -1263,12 +1263,28 @@ namespace pseudod
 
 		while(true)
 		{
+			bool variadic = false;
+
+			if(this->SiguienteTokenEs(tok, NMemonico::PD_PUNTO))
+			{
+				this->LeerToken(tok);
+				this->EsperarIgual(tok, NMemonico::PD_PUNTO);
+				this->EsperarIgual(tok, NMemonico::PD_PUNTO);
+				variadic = true;
+			}
+
 			ParametroProcedimiento param;
 			param.nombre = TokenUtils::ObtenerValor(this->EsperarIgual(
 				tok,
 				Token::ValorLiteral::Identificador
 			));
+			param.variadic = variadic;
 			params.push_back(param);
+
+			if(variadic)
+			{
+				break;
+			}
 
 			if(!this->SiguienteTokenEs(tok, NMemonico::PD_SEPARADOR_DE_ARGUMENTOS))
 			{
@@ -1341,9 +1357,47 @@ namespace pseudod
 	Procedimiento::Procedimiento(
 		Interprete interp,
 		const std::vector<ParametroProcedimiento>& params,
-		const std::vector<Token>& body
-	) : Valor(), parametros(params), cuerpo(body), interprete(interp)
+		const std::pair<ParametroProcedimiento, bool> paramVariadic,
+		const std::vector<Token>& cuerpo
+	) :
+		Valor(),
+		parametrosFijos(params),
+		parametroVariadic(paramVariadic.first),
+		tieneParametroVariadic(paramVariadic.second),
+		cuerpo(cuerpo),
+		interprete(interp)
 	{}
+
+	Procedimiento::Procedimiento(
+		Interprete interp,
+		const std::vector<ParametroProcedimiento>& paramsYVariadic,
+		const std::vector<Token>& cuerpo
+	) : Valor(), parametrosFijos(), parametroVariadic(), cuerpo(cuerpo), interprete(interp)
+	{
+		if(!paramsYVariadic.empty())
+		{
+			ParametroProcedimiento ultimo = paramsYVariadic.back();
+			if(ultimo.variadic)
+			{
+				this->tieneParametroVariadic = true;
+				this->parametroVariadic = ultimo;
+				for(auto i = 0; i < (paramsYVariadic.size() - 1); i++)
+				{
+					this->parametrosFijos.push_back(paramsYVariadic[i]);
+				}
+			}
+			else
+			{
+				this->tieneParametroVariadic = false;
+				this->parametrosFijos = paramsYVariadic;
+			}
+		}
+		else
+		{
+			this->tieneParametroVariadic = false;
+			this->parametrosFijos = paramsYVariadic;
+		}
+	}
 
 	Procedimiento::~Procedimiento(void)
 	{}
@@ -1379,9 +1433,15 @@ namespace pseudod
 	}
 
 	const std::vector<ParametroProcedimiento>
-	Procedimiento::ObtenerParametros(void) const
+	Procedimiento::ObtenerParametrosFijos(void) const
 	{
-		return this->parametros;
+		return this->parametrosFijos;
+	}
+
+	const std::pair<ParametroProcedimiento, bool>
+	Procedimiento::ObtenerParametroVariadic(void) const
+	{
+		return std::make_pair(this->parametroVariadic, this->tieneParametroVariadic);
 	}
 
 	const std::vector<Token>& Procedimiento::ObtenerTokens(void) const
@@ -1396,10 +1456,15 @@ namespace pseudod
 
 	ValorPtr Procedimiento::Ejecutar(const std::vector<ValorPtr>& args)
 	{
-		if(this->parametros.size() != args.size())
+		bool esValidoParaVariadic =
+			this->tieneParametroVariadic && args.size() >= this->parametrosFijos.size();
+		bool esValidoSinVariadic =
+			!this->tieneParametroVariadic && args.size() == this->parametrosFijos.size();
+		if(!esValidoParaVariadic && !esValidoSinVariadic)
 		{
 			throw PDvar::ErrorDelNucleo(
-				"Se esperaban " + std::to_string(this->parametros.size()) +
+				"Se esperaban " + std::to_string(this->parametrosFijos.size()) +
+				(this->tieneParametroVariadic? " o mas" : "") +
 				" parametros pero se recibieron " +
 				std::to_string(args.size())
 			);
@@ -1408,12 +1473,25 @@ namespace pseudod
 		auto interp = this->interprete.CrearSubinterprete();
 		auto ambito = interp.ObtenerAmbito();
 
-		for(size_t i = 0; i < this->parametros.size(); i++)
+		for(size_t i = 0; i < this->parametrosFijos.size(); i++)
 		{
-			auto param = this->parametros[i];
+			auto param = this->parametrosFijos[i];
 			auto arg = args[i];
 
 			ambito->CrearVariable(param.nombre, arg);
+		}
+
+		if(this->tieneParametroVariadic)
+		{
+			std::vector<ValorPtr> extraArgs;
+			for(size_t i = this->parametrosFijos.size(); i < args.size(); i++)
+			{
+				extraArgs.push_back(args[i]);
+			}
+			ambito->CrearVariable(
+				this->parametroVariadic.nombre,
+				CrearValor<Arreglo>(extraArgs)
+			);
 		}
 
 		try

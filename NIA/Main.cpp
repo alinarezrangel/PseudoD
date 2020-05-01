@@ -582,6 +582,9 @@ void TokenizarFlujoV3(std::istream& in, OpcionesDelTokenizador opciones)
 				case pseudod::NMemonico::PD_DESREFERENCIAR:
 					stream << "desref";
 					break;
+				case pseudod::NMemonico::PD_PUNTO:
+					stream << ".";
+					break;
 				case pseudod::NMemonico::PD_OPERADOR_GENERAL:
 					stream << "op-gen";
 					break;

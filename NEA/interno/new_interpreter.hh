@@ -39,7 +39,8 @@ namespace pseudod
 	using ProcedimientoPtr = std::shared_ptr<Procedimiento>;
 	struct ParametroProcedimiento
 	{
-		std::string nombre;
+		std::string nombre = "";
+		bool variadic = false;
 	};
 
 	class ManejadorDeModulos;
@@ -160,6 +161,12 @@ namespace pseudod
 			explicit Procedimiento(
 				Interprete,
 				const std::vector<ParametroProcedimiento>&,
+				const std::pair<ParametroProcedimiento, bool>,
+				const std::vector<Token>&
+			);
+			explicit Procedimiento(
+				Interprete,
+				const std::vector<ParametroProcedimiento>&,
 				const std::vector<Token>&
 			);
 			virtual ~Procedimiento(void);
@@ -170,13 +177,17 @@ namespace pseudod
 			) override;
 
 			const std::vector<ParametroProcedimiento>
-			ObtenerParametros(void) const;
+			ObtenerParametrosFijos(void) const;
+			const std::pair<ParametroProcedimiento, bool>
+			ObtenerParametroVariadic(void) const;
 			const std::vector<Token>& ObtenerTokens(void) const;
 			Interprete ObtenerInterprete(void) const;
 
 			virtual ValorPtr Ejecutar(const std::vector<ValorPtr>&);
 		private:
-			std::vector<ParametroProcedimiento> parametros;
+			std::vector<ParametroProcedimiento> parametrosFijos;
+			ParametroProcedimiento parametroVariadic;
+			bool tieneParametroVariadic;
 			std::vector<Token> cuerpo;
 			Interprete interprete;
 	};
