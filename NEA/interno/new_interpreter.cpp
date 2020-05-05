@@ -929,14 +929,22 @@ namespace pseudod
 
 	void Interprete::EjecutarNecesitas(Backtracker& tok)
 	{
-		ConReintento([this, &tok]()
+		auto necesitasKw = ConReintento([this, &tok]()
 		{
+			auto tk = this->SiguienteToken(tok);
 			this->EsperarIgual(tok, NMemonico::PD_NECESITAS);
+			return tk;
 		});
 		auto valor = this->EvaluarSiguiente(tok);
 		if(!ValorEs<Boole>(valor) || !ValorComo<Boole>(valor)->ObtenerBool())
 		{
-			throw PDvar::ErrorDelNucleo("Instrucción \"necesitas\" fallida.");
+			Token::DatosFuente lugar = necesitasKw.ObtenerDatosFuente();
+			throw PDvar::ErrorDelNucleo(
+				"En [" + lugar.nombreDelArchivo +
+				"]: linea " + std::to_string(lugar.linea) +
+				" columna " + std::to_string(lugar.columna) +
+				": Instrucción \"necesitas\" fallida."
+			);
 		}
 	}
 
