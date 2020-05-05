@@ -409,6 +409,15 @@ finmetodo
 			}
 		});
 
+		RegistrarProcedimiento(ambito, "__EnviarMensaje", [](auto args) -> ValorPtr
+		{
+			auto targs = AceptarArgumentos<Valor, Texto, Arreglo>(args);
+			return std::get<0>(targs)->RecibirMensaje(
+				std::get<1>(targs)->ObtenerTexto(),
+				std::get<2>(targs)->ObtenerArreglo()
+			);
+		});
+
 		RegistrarProcedimiento(ambito, "__AgregarMetodo", [](auto args)
 		{
 			auto targs = AceptarArgumentos<ObjetoEnPseudoD, Texto, Valor>(args);
