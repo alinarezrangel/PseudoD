@@ -230,7 +230,7 @@ finmetodo
 		});
 
 		Interprete inter(conf, ambito);
-		Backtracker tok;
+		Backtracker tok(NuevoTokenizador(Token::DatosFuente(1, 1, "<builtins.cpp::CrearClaseObjeto>")));
 		tok.TokenizarFlujo(in);
 		inter.Ejecutar(tok);
 		return ambito->ObtenerVariable("Objeto");
@@ -445,7 +445,7 @@ finmetodo
 		});
 
 		Interprete interp(ConfInterprete{claseObjeto}, ambito);
-		Backtracker tok;
+		Backtracker tok(NuevoTokenizador(Token::DatosFuente(1, 1, "<builtins.cpp::RegistrarBuiltins>")));
 		std::istringstream in(programa);
 		tok.TokenizarFlujo(in);
 		interp.Ejecutar(tok);
