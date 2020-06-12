@@ -488,7 +488,7 @@ namespace pseudod
 		if(this->SiguienteTokenEs(tok, NMemonico::PD_ENVIAR_MENSAJE))
 		{
 			this->LeerToken(tok);
-			obj = this->ambito->ObtenerVariable(varname);
+			obj = this->ObtenerVariable(varname, varnametk.ObtenerDatosFuente());
 			atr = TokenUtils::ObtenerValor(
 				this->EsperarIgual(
 					tok,
@@ -707,7 +707,7 @@ namespace pseudod
 			this->LeerToken(tok);
 			if(!clase)
 			{
-				clase = this->ambito->ObtenerVariable(procname);
+				clase = this->ObtenerVariable(procname, procnametk.ObtenerDatosFuente());
 			}
 			else
 			{
@@ -784,7 +784,7 @@ namespace pseudod
 
 			if(this->ambito->Existe(modvar))
 			{
-				ValorPtr var = this->ambito->ObtenerVariable(modvar);
+				ValorPtr var = this->ObtenerVariable(modvar, modvartk.ObtenerDatosFuente());
 				if(!ValorEs<EspacioDeNombres>(var))
 				{
 					throw PDvar::ErrorDeSemantica(
@@ -957,17 +957,18 @@ namespace pseudod
 
 		auto leerNombreAtributo = [this, &tok]()
 		{
-			std::string nombreClase = TokenUtils::ObtenerValor(this->EsperarIgual(
+			Token nombreClaseTk = this->EsperarIgual(
 				tok,
 				Token::ValorLiteral::Identificador
-			));
+			);
+			std::string nombreClase = TokenUtils::ObtenerValor(nombreClaseTk);
 			this->EsperarIgual(tok, NMemonico::PD_ENVIAR_MENSAJE);
 			std::string nombreAtributo = TokenUtils::ObtenerValor(this->EsperarIgual(
 				tok,
 				Token::ValorLiteral::Identificador
 			));
 			return std::make_pair(
-				this->ambito->ObtenerVariable(nombreClase),
+				this->ObtenerVariable(nombreClase, nombreClaseTk.ObtenerDatosFuente()),
 				nombreAtributo
 			);
 		};
@@ -1003,7 +1004,7 @@ namespace pseudod
 			);
 		});
 		PDCadena varname = TokenUtils::ObtenerValor(varnametk);
-		ValorPtr obj = this->ambito->ObtenerVariable(varname);
+		ValorPtr obj = this->ObtenerVariable(varname, varnametk.ObtenerDatosFuente());
 		if(this->ambito->DebeAutoEjecutarse(varname))
 		{
 			obj = this->LlamaConParametros(tok, obj);
@@ -1126,11 +1127,12 @@ namespace pseudod
 		{
 			this->EsperarIgual(tok, NMemonico::PD_LLAMAR);
 		});
-		PDCadena varname = TokenUtils::ObtenerValor(this->EsperarIgual(
+		Token varnametk = this->EsperarIgual(
 			tok,
 			Token::ValorLiteral::Identificador
-		));
-		ValorPtr obj = this->ambito->ObtenerVariable(varname);
+		);
+		PDCadena varname = TokenUtils::ObtenerValor(varnametk);
+		ValorPtr obj = this->ObtenerVariable(varname, varnametk.ObtenerDatosFuente());
 		std::string mensaje = "llamar";
 
 		if(this->SiguienteTokenEs(tok, NMemonico::PD_ENVIAR_MENSAJE))
@@ -1192,11 +1194,12 @@ namespace pseudod
 		{
 			this->EsperarIgual(tok, NMemonico::PD_REFERENCIA_VARIABLE);
 		});
-		PDCadena varname = TokenUtils::ObtenerValor(this->EsperarIgual(
+		Token varnametk = this->EsperarIgual(
 			tok,
 			Token::ValorLiteral::Identificador
-		));
-		auto obj = this->ambito->ObtenerVariable(varname);
+		);
+		PDCadena varname = TokenUtils::ObtenerValor(varnametk);
+		auto obj = this->ObtenerVariable(varname, varnametk.ObtenerDatosFuente());
 		return this->LeerYEnviarMensajes(tok, obj);
 	}
 
@@ -1206,11 +1209,12 @@ namespace pseudod
 		{
 			this->EsperarIgual(tok, NMemonico::PD_AUTOEJECUTA_VARIABLE);
 		});
-		PDCadena varname = TokenUtils::ObtenerValor(this->EsperarIgual(
+		Token varnametk = this->EsperarIgual(
 			tok,
 			Token::ValorLiteral::Identificador
-		));
-		auto obj = this->ambito->ObtenerVariable(varname);
+		);
+		PDCadena varname = TokenUtils::ObtenerValor(varnametk);
+		auto obj = this->ObtenerVariable(varname, varnametk.ObtenerDatosFuente());
 		obj = this->LlamaConParametros(tok, obj);
 		return this->LeerYEnviarMensajes(tok, obj);
 	}
@@ -1371,6 +1375,18 @@ namespace pseudod
 		tok.IrAIterador(finproc + 1);
 
 		return Tokenizador::ListaTokens(cur, finproc);
+	}
+
+	ValorPtr Interprete::ObtenerVariable(PDCadena nombre, Token::DatosFuente lugar)
+	{
+		if(!this->ambito->Existe(nombre))
+		{
+			this->LanzaErrorDeSintaxis(lugar, "La variable " + nombre + " no existe");
+		}
+		else
+		{
+			return this->ambito->ObtenerVariable(nombre);
+		}
 	}
 
 	Procedimiento::Procedimiento(

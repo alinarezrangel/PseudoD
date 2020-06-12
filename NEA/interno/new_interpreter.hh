@@ -150,6 +150,8 @@ namespace pseudod
 
 			std::vector<Token> LeerCuerpoDeProcedimiento(Backtracker&);
 
+			ValorPtr ObtenerVariable(PDCadena, Token::DatosFuente);
+
 			AmbitoPtr ambito;
 			ConfInterprete conf;
 			ManejadorDeModulosPtr manejadorDeModulos;
