@@ -293,6 +293,11 @@ namespace pseudod
 			EsperaNumArgumentos(args, 2);
 			return (*this)? args[0] : args[1];
 		}
+		else if(mensaje == "comoTexto")
+		{
+			EsperarNingunArgumento(args);
+			return (*this)? CrearValor<Texto>("VERDADERO") : CrearValor<Texto>("FALSO");
+		}
 		else if(mensaje == "llamarSegun")
 		{
 			EsperaNumArgumentos(args, 2);
