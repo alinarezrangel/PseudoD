@@ -732,7 +732,16 @@ namespace pseudod
 		}
 		else if(estatico)
 		{
-			ValorComo<ObjetoEnPseudoD>(clase)->AgregarMetodo(procname, proc);
+			auto objClase = ValorComo<ObjetoEnPseudoD>(clase);
+
+			if(objClase->PoseeMetodo(procname))
+			{
+				objClase->FijarMetodo(procname, proc);
+			}
+			else
+			{
+				objClase->AgregarMetodo(procname, proc);
+			}
 		}
 		else
 		{

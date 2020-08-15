@@ -47,7 +47,9 @@ __AgregarAtributo: Objeto, {atributosDeInstancia}, __ArregloCon
 	elemento es el nombre del método y el segundo elemento es el procedimiento
 	mismo.
 ]
-__AgregarAtributo: Objeto, {metodosDeInstancia}, __ArregloCon
+__AgregarAtributo: Objeto, {metodosDeInstancia}, (__ArregloCon:
+	(__ArregloCon: {inicializar}, metodo finmetodo)
+)
 [
 	La clase base de esta clase. NULO es un valor especial que indica que no
 	posee clase base.
@@ -149,6 +151,44 @@ __AgregarMetodo: Objeto, {_crear}, metodo
 	devolver inst
 finmetodo
 
+__AgregarMetodo: Objeto, {_crearConYo}, metodo: nuevoYo
+	adquirir inst
+	fijar inst a __CrearObjeto
+
+	(__ObtenerAtributo: yo, {metodosDeInstancia})#mapear: procedimiento: met
+		adquirir nombre
+		adquirir proc
+		adquirir oldproc
+		fijar nombre a met#en: 0
+		fijar oldproc a met#en: 1
+		fijar proc a procedimiento: _yo, ...args
+			adquirir nargs
+			fijar nargs a __ArregloCon
+			nargs#agregarAlFinal: nuevoYo
+			args#mapear: procedimiento: x
+				nargs#agregarAlFinal: x
+				devolver x
+			finprocedimiento
+			devolver __Aplicar: oldproc, nargs
+		finprocedimiento
+		si __PoseeMetodo: inst, nombre
+			__FijarMetodo: inst, nombre, proc
+		sino
+			__AgregarMetodo: inst, nombre, proc
+		finsi
+		devolver met
+	finmetodo
+
+	devolver inst
+finmetodo
+
+__AgregarMetodo: Objeto, {crear}, metodo: ...valores
+	adquirir inst
+	fijar inst a yo#_crear
+	__EnviarMensaje: inst, {inicializar}, valores
+	devolver inst
+finmetodo
+
 __AgregarMetodo: Objeto, {comoTexto}, metodo
 	devolver {Clase ~T}#formatear: yo#nombre
 finmetodo
@@ -227,6 +267,24 @@ finmetodo
 				std::get<2>(targs)
 			);
 			return CrearNulo();
+		});
+
+		RegistrarProcedimiento(ambito, "__Aplicar", [](auto args)
+		{
+			auto targs = AceptarArgumentos<Valor, Arreglo>(args);
+			return std::get<0>(targs)->RecibirMensaje(
+				"llamar",
+				std::get<1>(targs)->ObtenerArreglo()
+			);
+		});
+
+		RegistrarProcedimiento(ambito, "__EnviarMensaje", [](auto args) -> ValorPtr
+		{
+			auto targs = AceptarArgumentos<Valor, Texto, Arreglo>(args);
+			return std::get<0>(targs)->RecibirMensaje(
+				std::get<1>(targs)->ObtenerTexto(),
+				std::get<2>(targs)->ObtenerArreglo()
+			);
 		});
 
 		Interprete inter(conf, ambito);
