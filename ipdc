@@ -39,7 +39,6 @@
 # Uso:
 #   ipdc <archivo>
 #   ipdc <archivo> <opciones-de-pseudod>
-#   ipdc --usar <version-de-pseudod> <archivo> <opciones-de-pseudod>
 
 # Existe la variable RUTA_PSEUDOD?
 if [ -z ${RUTA_PSEUDOD+x} ]; then
@@ -89,4 +88,4 @@ if [ -z ${RUTA_PSEUDOD_INSTALACION+x} ]; then
 	fi
 fi
 
-$RUTA_PSEUDOD_BIN "$@"
+"$RUTA_PSEUDOD_BIN" "$@"
