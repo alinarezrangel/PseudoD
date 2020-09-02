@@ -161,20 +161,30 @@ namespace pseudod
 			auto targs = AceptarArgumentos<Numero, Texto>(argumentos);
 			auto inicio = std::get<0>(targs)->ObtenerEntero();
 			auto aBuscar = std::get<1>(targs)->ObtenerTexto();
-			return CrearValor<Numero>(
-				this->texto.find(aBuscar, inicio),
-				Numero::MARCA_TIPO_ENTERO
-			);
+			size_t pos = this->texto.find(aBuscar, inicio);
+			if(pos == std::string::npos)
+			{
+				return CrearNulo();
+			}
+			else
+			{
+				return CrearValor<Numero>(pos, Numero::MARCA_TIPO_ENTERO);
+			}
 		}
 		else if(mensaje == "buscarEnReversa")
 		{
 			auto targs = AceptarArgumentos<Numero, Texto>(argumentos);
 			auto inicio = std::get<0>(targs)->ObtenerEntero();
 			auto aBuscar = std::get<1>(targs)->ObtenerTexto();
-			return CrearValor<Numero>(
-				this->texto.rfind(aBuscar, inicio),
-				Numero::MARCA_TIPO_ENTERO
-			);
+			size_t pos = this->texto.rfind(aBuscar, inicio);
+			if(pos == std::string::npos)
+			{
+				return CrearNulo();
+			}
+			else
+			{
+				return CrearValor<Numero>(pos, Numero::MARCA_TIPO_ENTERO);
+			}
 		}
 		else if(mensaje == "formatear")
 		{
