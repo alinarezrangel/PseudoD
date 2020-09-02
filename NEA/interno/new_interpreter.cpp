@@ -771,11 +771,22 @@ namespace pseudod
 		{
 			this->EsperarIgual(tok, NMemonico::PD_UTILIZAR);
 		});
-		Token modnametk = this->EsperarIgual(
-			tok,
-			Token::ValorLiteral::Identificador
-		);
-		PDCadena modname = TokenUtils::ObtenerValor(modnametk);
+		PDCadena modname;
+		if(this->SiguienteTokenEs(tok, Token::ValorLiteral::Cadena))
+		{
+			modname = TokenUtils::ObtenerValor(this->LeerToken(tok));
+		}
+		else if(this->SiguienteTokenEs(tok, Token::ValorLiteral::Identificador))
+		{
+			modname = TokenUtils::ObtenerValor(this->LeerToken(tok));
+		}
+		else
+		{
+			this->LanzaErrorDeSintaxis(
+				this->LeerToken(tok),
+				"Se esperaba un texto o un identificador despues de la palabra clave utilizar"
+			);
+		}
 		AmbitoPtr ambito = this->manejadorDeModulos->ImportarModulo(
 			modname,
 			this->conf,
@@ -1583,7 +1594,8 @@ namespace pseudod
 		const std::vector<std::string> extensiones = {
 			".pseudo",
 			".pd",
-			".psd"
+			".psd",
+			""
 		};
 		std::ifstream in;
 		std::string nombreDelArchivo;
