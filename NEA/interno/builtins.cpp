@@ -502,6 +502,18 @@ finmetodo
 			throw PDvar::ErrorDelNucleo(std::get<0>(targs)->ObtenerTexto());
 		});
 
+		RegistrarProcedimiento(ambito, "__ClonarObjeto", [](auto args) -> ValorPtr
+		{
+			auto targs = AceptarArgumentos<ObjetoEnPseudoD>(args);
+			return std::get<0>(targs)->ClonarObjeto();
+		});
+
+		RegistrarProcedimiento(ambito, "__CompararObjeto", [](auto args) -> ValorPtr
+		{
+			auto targs = AceptarArgumentos<ObjetoEnPseudoD, ObjetoEnPseudoD>(args);
+			return std::get<0>(targs)->CompararObjeto(std::get<1>(targs));
+		});
+
 		Interprete interp(ConfInterprete{claseObjeto}, ambito);
 		Backtracker tok(NuevoTokenizador(Token::DatosFuente(1, 1, "<builtins.cpp::RegistrarBuiltins>")));
 		std::istringstream in(programa);

@@ -1041,6 +1041,7 @@ namespace pseudod
 			}
 			else if(mensaje == "clonar")
 			{
+				EsperaNumArgumentos(argumentos, 0);
 				return this->ClonarObjeto();
 			}
 			else if(mensaje == "igualA" || mensaje == "operador_=")
