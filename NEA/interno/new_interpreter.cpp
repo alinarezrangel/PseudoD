@@ -1385,6 +1385,35 @@ namespace pseudod
 				if(depth == 0)
 					break;
 			}
+
+			if(nm == NMemonico::PD_CLASE)
+			{
+				bool encontroFinClase = false;
+				auto clase = finproc;
+				for(; finproc != fin; finproc++)
+				{
+					if(!TokenUtils::EsNMemonico(*finproc))
+						continue;
+
+					auto nm = finproc->ObtenerNMemonico();
+
+					if(nm == NMemonico::PD_FIN_FUNCION)
+					{
+						this->LanzaErrorDeSintaxis(*cur, "finprocedimiento inesperado dentro de clase");
+					}
+
+					if(nm == NMemonico::PD_FIN_CLASE)
+					{
+						encontroFinClase = true;
+						break;
+					}
+				}
+
+				if(!encontroFinClase)
+				{
+					this->LanzaErrorDeSintaxis(*clase, "Se esperaba finclase");
+				}
+			}
 		}
 
 		if(finproc == fin)
