@@ -1012,6 +1012,134 @@ namespace pseudod
 		return callback;
 	}
 
+	namespace
+	{
+		std::ios_base::openmode ModoParaCodigo(int mode)
+		{
+			using ios = std::ios_base;
+			ios::openmode res;
+
+			if((mode % 10) == 1)
+				res = ios::out;
+			else
+				res = ios::in;
+
+			mode /= 10;
+			if((mode % 10) == 1)
+				res |= ios::binary;
+
+			mode /= 10;
+			if((mode % 10) == 1)
+				res |= ios::trunc;
+
+			return res;
+		}
+	}
+
+	Archivo::Archivo(
+		std::string filename,
+		int mode
+	) : handle(filename, ModoParaCodigo(mode)), mode(mode), pos(0), filename(filename)
+	{}
+
+	Archivo::~Archivo(void) {}
+
+	std::fstream& Archivo::ObtenerStream(void)
+	{
+		return this->handle;
+	}
+
+	const std::fstream& Archivo::ObtenerStream(void) const
+	{
+		return this->handle;
+	}
+
+	ValorPtr Archivo::RecibirMensaje(
+		std::string mensaje,
+		const std::vector<ValorPtr>& argumentos
+	)
+	{
+		if((mensaje == "clonar") || (mensaje == "igualA") || (mensaje == "operador_="))
+		{
+			throw PDvar::ErrorDelNucleo(
+				"El mensaje " + mensaje + " no esta implementado en archivos"
+			);
+		}
+		else if(mensaje == "cerrar")
+		{
+			EsperarNingunArgumento(argumentos);
+			this->handle.close();
+			return CrearNulo();
+		}
+		else if(mensaje == "estaAbierto")
+		{
+			EsperarNingunArgumento(argumentos);
+			return CrearValor<Boole>(this->handle.is_open());
+		}
+		else if(mensaje == "leerByte")
+		{
+			EsperarNingunArgumento(argumentos);
+			auto int_byte = this->handle.get();
+			if(int_byte != std::char_traits<char>::eof())
+				this->pos++;
+			return CrearValor<Numero>(int_byte, Numero::MARCA_TIPO_ENTERO);
+		}
+		else if(mensaje == "obtenerSiguienteByte")
+		{
+			EsperarNingunArgumento(argumentos);
+			return CrearValor<Numero>(this->handle.peek(), Numero::MARCA_TIPO_ENTERO);
+		}
+		else if(mensaje == "escribirByte")
+		{
+			auto targs = AceptarArgumentos<Numero>(argumentos);
+			this->pos++;
+			this->handle.put(std::get<0>(targs)->ObtenerEntero());
+			return CrearNulo();
+		}
+		else if(mensaje == "posicionActual")
+		{
+			EsperarNingunArgumento(argumentos);
+			return CrearValor<Numero>(this->pos, Numero::MARCA_TIPO_ENTERO);
+		}
+		else if(mensaje == "cambiarPosicion")
+		{
+			auto targs = AceptarArgumentos<Numero>(argumentos);
+			this->pos = std::get<0>(targs)->ObtenerEntero();
+			this->handle.seekg(this->pos, std::ios_base::beg);
+			this->handle.seekp(this->pos, std::ios_base::beg);
+			return CrearNulo();
+		}
+		else if(mensaje == "finDelArchivo")
+		{
+			EsperarNingunArgumento(argumentos);
+			return CrearValor<Boole>(this->handle.eof());
+		}
+		else if(mensaje == "error")
+		{
+			EsperarNingunArgumento(argumentos);
+			return CrearValor<Boole>(this->handle.fail() || this->handle.bad());
+		}
+		else if(mensaje == "nombreDelArchivo")
+		{
+			EsperarNingunArgumento(argumentos);
+			return CrearValor<Texto>(this->filename);
+		}
+		else if(mensaje == "modo")
+		{
+			EsperarNingunArgumento(argumentos);
+			return CrearValor<Numero>(this->mode, Numero::MARCA_TIPO_ENTERO);
+		}
+		else if(mensaje == "comoTexto")
+		{
+			EsperarNingunArgumento(argumentos);
+			return CrearValor<Texto>("<archivo>");
+		}
+
+		throw PDvar::ErrorDelNucleo(
+			"No se encontro el mensaje " + mensaje + " en la instancia de __Archivo"
+		);
+	}
+
 	ObjetoEnPseudoD::ObjetoEnPseudoD(
 		std::map<std::string, ValorPtr> atributos,
 		std::map<std::string, ValorPtr> metodos

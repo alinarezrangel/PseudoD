@@ -23,6 +23,7 @@
 #include <map>
 #include <functional>
 #include <tuple>
+#include <fstream>
 
 #include "data.hh"
 #include "memory.hh"
@@ -251,6 +252,30 @@ namespace pseudod
 			std::function<TipoFuncion> ObtenerFuncion(void) const;
 		private:
 			std::function<TipoFuncion> callback;
+	};
+
+	class Archivo : public Valor
+	{
+		public:
+			explicit Archivo(
+				std::string filename,
+				int mode
+			);
+			virtual ~Archivo(void);
+
+			std::fstream& ObtenerStream(void);
+			const std::fstream& ObtenerStream(void) const;
+
+			virtual ValorPtr RecibirMensaje(
+				std::string,
+				const std::vector<ValorPtr>&
+			) override;
+
+		private:
+			std::fstream handle;
+			int mode;
+			long long int pos;
+			std::string filename;
 	};
 
 	class ObjetoEnPseudoD : public Valor

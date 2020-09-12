@@ -19,17 +19,21 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ****************************************************************************** ]
 
-escribir {hola, test.pd}
-nl
+procedimiento Escribir: X
+    escribir X#comoTexto
+    nl
+finprocedimiento
 
-adquirir Foo
-fijar Foo a 12
+variables arch, res
+fijar arch a __AbrirArchivo: {LEEME.txt}, 10
 
-adquirir Func
-fijar Func a funcion: X
-    devolver X#sumar: 2
-finfuncion
+Escribir: arch#estaAbierto
+Escribir: (__ByteATexto: arch#leerByte)
+Escribir: (__ByteATexto: arch#leerByte)
+Escribir: (__ByteATexto: arch#leerByte)
+Escribir: (__ByteATexto: arch#leerByte)
+Escribir: (__ByteATexto: arch#leerByte)
+Escribir: (__ByteATexto: arch#leerByte)
+Escribir: arch
 
-funcion Fanc: X
-    devolver X#sumar: 3
-finfuncion
+arch#cerrar

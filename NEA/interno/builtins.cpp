@@ -514,6 +514,38 @@ finmetodo
 			return std::get<0>(targs)->CompararObjeto(std::get<1>(targs));
 		});
 
+		RegistrarProcedimiento(ambito, "__AbrirArchivo", [](auto args) -> ValorPtr
+		{
+			auto targs = AceptarArgumentos<Texto, Numero>(args);
+			return CrearValor<Archivo>(
+				std::get<0>(targs)->ObtenerTexto(),
+				std::get<1>(targs)->ObtenerEntero()
+			);
+		});
+
+		RegistrarProcedimiento(ambito, "__ByteATexto", [](auto args) -> ValorPtr
+		{
+			auto targs = AceptarArgumentos<Numero>(args);
+			return CrearValor<Texto>(std::string(1, std::get<0>(targs)->ObtenerEntero()));
+		});
+
+		RegistrarProcedimiento(ambito, "__TextoAByte", [](auto args) -> ValorPtr
+		{
+			auto targs = AceptarArgumentos<Texto>(args);
+			return CrearValor<Numero>(
+				std::get<0>(targs)->ObtenerTexto()[0],
+				Numero::MARCA_TIPO_ENTERO
+			);
+		});
+
+		RegistrarProcedimiento(ambito, "__ByteEof", [](auto args) -> ValorPtr
+		{
+			return CrearValor<Numero>(
+				std::char_traits<char>::eof(),
+				Numero::MARCA_TIPO_ENTERO
+			);
+		});
+
 		Interprete interp(ConfInterprete{claseObjeto}, ambito);
 		Backtracker tok(NuevoTokenizador(Token::DatosFuente(1, 1, "<builtins.cpp::RegistrarBuiltins>")));
 		std::istringstream in(programa);
