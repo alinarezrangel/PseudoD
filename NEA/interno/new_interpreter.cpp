@@ -121,52 +121,60 @@ namespace pseudod
 		}
 	}
 
-#define TRY_STMT(backtracker, nombre) \
+#define TRY_STMT(backtracker, nmemonico, nombre) \
 	do { \
 		auto& nbacktracker = (backtracker); \
-		auto iter = nbacktracker.ObtenerIteradorActual(); \
-		try \
+		auto nm = (nmemonico); \
+		if(this->SiguienteTokenEs(nbacktracker, nm)) \
 		{ \
 			nombre(nbacktracker); \
 			return; \
 		} \
-		catch(ErrorDeSintaxisConReintento n) \
-		{ \
-			nbacktracker.IrAIterador(iter); \
-		} \
 	} while(0)
-#define TRY_EXPR(backtracker, nombre) \
+#define TRY_EXPR(backtracker, nmemonico, nombre) \
 	do { \
 		auto& nbacktracker = (backtracker); \
-		auto iter = nbacktracker.ObtenerIteradorActual(); \
-		try \
+		auto nm = (nmemonico); \
+		if(this->SiguienteTokenEs(nbacktracker, nm)) \
 		{ \
 			return nombre(nbacktracker); \
-		} \
-		catch(ErrorDeSintaxisConReintento n) \
-		{ \
-			nbacktracker.IrAIterador(iter); \
 		} \
 	} while(0)
 
 	void Interprete::EjecutarSiguiente(Backtracker& backtracker)
 	{
-		TRY_STMT(backtracker, this->EjecutarAdquirir);
-		TRY_STMT(backtracker, this->EjecutarInstancia);
-		TRY_STMT(backtracker, this->EjecutarLiberar);
-		TRY_STMT(backtracker, this->EjecutarFijar);
-		TRY_STMT(backtracker, this->EjecutarEscribir);
-		TRY_STMT(backtracker, this->EjecutarNl);
-		TRY_STMT(backtracker, this->EjecutarLeer);
-		TRY_STMT(backtracker, this->EjecutarSi);
-		TRY_STMT(backtracker, this->EjecutarMientras);
-		TRY_STMT(backtracker, this->EjecutarProcedimiento);
-		TRY_STMT(backtracker, this->EjecutarDevolver);
-		TRY_STMT(backtracker, this->EjecutarUtilizar);
-		TRY_STMT(backtracker, this->EjecutarClase);
-		TRY_STMT(backtracker, this->EjecutarNecesitas);
-		TRY_STMT(backtracker, this->EjecutarAtributo);
-		TRY_STMT(backtracker, this->EvaluarSiguiente);
+		TRY_STMT(backtracker, NMemonico::PD_ADQUIRIR, this->EjecutarAdquirir);
+		TRY_STMT(backtracker, NMemonico::PD_INSTANCIA, this->EjecutarInstancia);
+		TRY_STMT(backtracker, NMemonico::PD_LIBERAR, this->EjecutarLiberar);
+		TRY_STMT(backtracker, NMemonico::PD_FIJAR, this->EjecutarFijar);
+		TRY_STMT(backtracker, NMemonico::PD_ESCRIBIR, this->EjecutarEscribir);
+		TRY_STMT(backtracker, NMemonico::PD_NUEVALINEA, this->EjecutarNl);
+		TRY_STMT(backtracker, NMemonico::PD_LEER, this->EjecutarLeer);
+		TRY_STMT(backtracker, NMemonico::PD_SI, this->EjecutarSi);
+		TRY_STMT(backtracker, NMemonico::PD_MIENTRAS, this->EjecutarMientras);
+		TRY_STMT(backtracker, NMemonico::PD_DEVOLVER, this->EjecutarDevolver);
+		TRY_STMT(backtracker, NMemonico::PD_UTILIZAR, this->EjecutarUtilizar);
+		TRY_STMT(backtracker, NMemonico::PD_CLASE, this->EjecutarClase);
+		TRY_STMT(backtracker, NMemonico::PD_NECESITAS, this->EjecutarNecesitas);
+		TRY_STMT(backtracker, NMemonico::PD_CLASE_ATRIBUTO, this->EjecutarAtributo);
+
+		if(this->SiguienteTokenEs(backtracker, NMemonico::PD_CLASE_METODO)
+			|| this->SiguienteTokenEs(backtracker, NMemonico::PD_FUNCION))
+		{
+			this->EjecutarProcedimiento(backtracker);
+			return;
+		}
+
+		auto iter = backtracker.ObtenerIteradorActual();
+		try
+		{
+			this->EvaluarSiguiente(backtracker);
+			return;
+		}
+		catch(ErrorDeSintaxisConReintento n)
+		{
+			backtracker.IrAIterador(iter);
+		}
 
 		this->LanzaErrorDeSintaxis(
 			this->SiguienteToken(backtracker),
@@ -176,16 +184,30 @@ namespace pseudod
 
 	ValorPtr Interprete::EvaluarSiguiente(Backtracker& backtracker)
 	{
-		TRY_EXPR(backtracker, this->EvaluarParentesis);
-		TRY_EXPR(backtracker, this->EvaluarLiteral);
-		TRY_EXPR(backtracker, this->EvaluarSon);
-		TRY_EXPR(backtracker, this->EvaluarNo);
-		TRY_EXPR(backtracker, this->EvaluarLlamar);
-		TRY_EXPR(backtracker, this->EvaluarProcedimiento);
-		TRY_EXPR(backtracker, this->EvaluarVariable);
-		TRY_EXPR(backtracker, this->EvaluarReferenciaVariable);
-		TRY_EXPR(backtracker, this->EvaluarAutoejecucionForzada);
-		TRY_EXPR(backtracker, this->EvaluarClonar);
+		auto iter = backtracker.ObtenerIteradorActual();
+		try
+		{
+			return this->EvaluarLiteral(backtracker);
+		}
+		catch(ErrorDeSintaxisConReintento n)
+		{
+			backtracker.IrAIterador(iter);
+		}
+
+		TRY_EXPR(backtracker, Token::ValorLiteral::Identificador, this->EvaluarVariable);
+		TRY_EXPR(backtracker, NMemonico::PD_PARENTESIS_IZQUIERDO, this->EvaluarParentesis);
+		TRY_EXPR(backtracker, NMemonico::PD_OPERADOR_SON, this->EvaluarSon);
+		TRY_EXPR(backtracker, NMemonico::PD_OPERADOR_NO, this->EvaluarNo);
+		TRY_EXPR(backtracker, NMemonico::PD_LLAMAR, this->EvaluarLlamar);
+		TRY_EXPR(backtracker, NMemonico::PD_REFERENCIA_VARIABLE, this->EvaluarReferenciaVariable);
+		TRY_EXPR(backtracker, NMemonico::PD_AUTOEJECUTA_VARIABLE, this->EvaluarAutoejecucionForzada);
+		TRY_EXPR(backtracker, NMemonico::PD_CLONAR, this->EvaluarClonar);
+
+		if(this->SiguienteTokenEs(backtracker, NMemonico::PD_CLASE_METODO)
+			|| this->SiguienteTokenEs(backtracker, NMemonico::PD_FUNCION))
+		{
+			return this->EvaluarProcedimiento(backtracker);
+		}
 
 		this->LanzaErrorDeSintaxis(
 			this->SiguienteToken(backtracker),
@@ -413,10 +435,7 @@ namespace pseudod
 
 	void Interprete::EjecutarAdquirir(Backtracker& tok)
 	{
-		ConReintento([this, &tok]()
-		{
-			this->EsperarIgual(tok, NMemonico::PD_ADQUIRIR);
-		});
+		this->EsperarIgual(tok, NMemonico::PD_ADQUIRIR);
 		std::vector<std::string> nombres;
 		std::string varname = TokenUtils::ObtenerValor(this->EsperarIgual(
 			tok,
@@ -443,10 +462,7 @@ namespace pseudod
 
 	void Interprete::EjecutarInstancia(Backtracker& tok)
 	{
-		ConReintento([this, &tok]()
-		{
-			this->EsperarIgual(tok, NMemonico::PD_INSTANCIA);
-		});
+		this->EsperarIgual(tok, NMemonico::PD_INSTANCIA);
 		ValorPtr type = this->EvaluarSiguiente(tok);
 		Token varname = this->EsperarIgual(
 			tok,
@@ -460,10 +476,7 @@ namespace pseudod
 
 	void Interprete::EjecutarLiberar(Backtracker& tok)
 	{
-		ConReintento([this, &tok]()
-		{
-			this->EsperarIgual(tok, NMemonico::PD_LIBERAR);
-		});
+		this->EsperarIgual(tok, NMemonico::PD_LIBERAR);
 		Token varname = this->EsperarIgual(
 			tok,
 			Token::ValorLiteral::Identificador
@@ -473,10 +486,7 @@ namespace pseudod
 
 	void Interprete::EjecutarFijar(Backtracker& tok)
 	{
-		ConReintento([this, &tok]()
-		{
-			this->EsperarIgual(tok, NMemonico::PD_FIJAR);
-		});
+		this->EsperarIgual(tok, NMemonico::PD_FIJAR);
 		Token varnametk = this->EsperarIgual(
 			tok,
 			Token::ValorLiteral::Identificador
@@ -526,10 +536,7 @@ namespace pseudod
 
 	void Interprete::EjecutarEscribir(Backtracker& tok)
 	{
-		ConReintento([this, &tok]()
-		{
-			this->EsperarIgual(tok, NMemonico::PD_ESCRIBIR);
-		});
+		this->EsperarIgual(tok, NMemonico::PD_ESCRIBIR);
 		ValorPtr val = this->EvaluarSiguiente(tok);
 
 		auto texto = std::dynamic_pointer_cast<Texto>(val);
@@ -545,19 +552,13 @@ namespace pseudod
 
 	void Interprete::EjecutarNl(Backtracker& tok)
 	{
-		ConReintento([this, &tok]()
-		{
-			this->EsperarIgual(tok, NMemonico::PD_NUEVALINEA);
-		});
+		this->EsperarIgual(tok, NMemonico::PD_NUEVALINEA);
 		std::cout << std::endl;
 	}
 
 	void Interprete::EjecutarLeer(Backtracker& tok)
 	{
-		ConReintento([this, &tok]()
-		{
-			this->EsperarIgual(tok, NMemonico::PD_LEER);
-		});
+		this->EsperarIgual(tok, NMemonico::PD_LEER);
 		Token varname = this->EsperarIgual(
 			tok,
 			Token::ValorLiteral::Identificador
@@ -575,10 +576,7 @@ namespace pseudod
 
 	void Interprete::EjecutarSi(Backtracker& tok)
 	{
-		ConReintento([this, &tok]()
-		{
-			this->EsperarIgual(tok, NMemonico::PD_SI);
-		});
+		this->EsperarIgual(tok, NMemonico::PD_SI);
 		ValorPtr cond = this->EvaluarSiguiente(tok);
 
 		auto cur = tok.ObtenerIteradorActual();
@@ -637,10 +635,7 @@ namespace pseudod
 
 	void Interprete::EjecutarMientras(Backtracker& tok)
 	{
-		ConReintento([this, &tok]()
-		{
-			this->EsperarIgual(tok, NMemonico::PD_MIENTRAS);
-		});
+		this->EsperarIgual(tok, NMemonico::PD_MIENTRAS);
 		auto condIter = tok.ObtenerIteradorActual();
 		ValorPtr condVal = this->EvaluarSiguiente(tok);
 
@@ -686,10 +681,7 @@ namespace pseudod
 
 	void Interprete::EjecutarProcedimiento(Backtracker& tok)
 	{
-		bool esMetodo = ConReintento([this, &tok]()
-		{
-			return this->LeerTokenProcedimiento(tok);
-		});
+		bool esMetodo = this->LeerTokenProcedimiento(tok);
 
 		bool estatico = this->SiguienteTokenEs(tok, NMemonico::PD_CLASE_METODO_ESTATICO);
 		if(estatico)
@@ -757,20 +749,14 @@ namespace pseudod
 
 	void Interprete::EjecutarDevolver(Backtracker& tok)
 	{
-		ConReintento([this, &tok]()
-		{
-			this->EsperarIgual(tok, NMemonico::PD_DEVOLVER);
-		});
+		this->EsperarIgual(tok, NMemonico::PD_DEVOLVER);
 		ValorPtr valor = this->EvaluarSiguiente(tok);
 		throw DevolverProcedimiento {valor};
 	}
 
 	void Interprete::EjecutarUtilizar(Backtracker& tok)
 	{
-		ConReintento([this, &tok]()
-		{
-			this->EsperarIgual(tok, NMemonico::PD_UTILIZAR);
-		});
+		this->EsperarIgual(tok, NMemonico::PD_UTILIZAR);
 		PDCadena modname;
 		if(this->SiguienteTokenEs(tok, Token::ValorLiteral::Cadena))
 		{
@@ -839,10 +825,7 @@ namespace pseudod
 
 	void Interprete::EjecutarClase(Backtracker& tok)
 	{
-		ConReintento([this, &tok]()
-		{
-			this->EsperarIgual(tok, NMemonico::PD_CLASE);
-		});
+		this->EsperarIgual(tok, NMemonico::PD_CLASE);
 		Token nombreClaseTk = this->EsperarIgual(
 			tok,
 			Token::ValorLiteral::Identificador
@@ -949,12 +932,7 @@ namespace pseudod
 
 	void Interprete::EjecutarNecesitas(Backtracker& tok)
 	{
-		auto necesitasKw = ConReintento([this, &tok]()
-		{
-			auto tk = this->SiguienteToken(tok);
-			this->EsperarIgual(tok, NMemonico::PD_NECESITAS);
-			return tk;
-		});
+		auto necesitasKw = this->EsperarIgual(tok, NMemonico::PD_NECESITAS);
 		auto valor = this->EvaluarSiguiente(tok);
 		if(!ValorEs<Boole>(valor) || !ValorComo<Boole>(valor)->ObtenerBool())
 		{
@@ -970,10 +948,7 @@ namespace pseudod
 
 	void Interprete::EjecutarAtributo(Backtracker& tok)
 	{
-		ConReintento([this, &tok]()
-		{
-			this->EsperarIgual(tok, NMemonico::PD_CLASE_ATRIBUTO);
-		});
+		this->EsperarIgual(tok, NMemonico::PD_CLASE_ATRIBUTO);
 
 		auto leerNombreAtributo = [this, &tok]()
 		{
@@ -1016,13 +991,10 @@ namespace pseudod
 
 	ValorPtr Interprete::EvaluarVariable(Backtracker& tok)
 	{
-		Token varnametk = ConReintento([this, &tok]()
-		{
-			return this->EsperarIgual(
-				tok,
-				Token::ValorLiteral::Identificador
-			);
-		});
+		Token varnametk = this->EsperarIgual(
+			tok,
+			Token::ValorLiteral::Identificador
+		);
 		PDCadena varname = TokenUtils::ObtenerValor(varnametk);
 		ValorPtr obj = this->ObtenerVariable(varname, varnametk.ObtenerDatosFuente());
 		if(this->ambito->DebeAutoEjecutarse(varname))
@@ -1041,10 +1013,7 @@ namespace pseudod
 
 	ValorPtr Interprete::EvaluarParentesis(Backtracker& tok)
 	{
-		ConReintento([this, &tok]()
-		{
-			this->EsperarIgual(tok, NMemonico::PD_PARENTESIS_IZQUIERDO);
-		});
+		this->EsperarIgual(tok, NMemonico::PD_PARENTESIS_IZQUIERDO);
 		auto val = this->EvaluarSiguiente(tok);
 		this->EsperarIgual(tok, NMemonico::PD_PARENTESIS_DERECHO);
 		return this->LeerYEnviarMensajes(tok, val);
@@ -1081,10 +1050,7 @@ namespace pseudod
 
 	ValorPtr Interprete::EvaluarSon(Backtracker& tok)
 	{
-		ConReintento([this, &tok]()
-		{
-			this->EsperarIgual(tok, NMemonico::PD_OPERADOR_SON);
-		});
+		this->EsperarIgual(tok, NMemonico::PD_OPERADOR_SON);
 		Token kwtk = this->LeerNMemonico(tok);
 		auto kw = kwtk.ObtenerNMemonico();
 
@@ -1127,10 +1093,7 @@ namespace pseudod
 
 	ValorPtr Interprete::EvaluarNo(Backtracker& tok)
 	{
-		ConReintento([this, &tok]()
-		{
-			this->EsperarIgual(tok, NMemonico::PD_OPERADOR_NO);
-		});
+		this->EsperarIgual(tok, NMemonico::PD_OPERADOR_NO);
 		auto val = this->EvaluarSiguiente(tok);
 		if(!ValorEs<Boole>(val))
 		{
@@ -1143,10 +1106,7 @@ namespace pseudod
 
 	ValorPtr Interprete::EvaluarLlamar(Backtracker& tok)
 	{
-		ConReintento([this, &tok]()
-		{
-			this->EsperarIgual(tok, NMemonico::PD_LLAMAR);
-		});
+		this->EsperarIgual(tok, NMemonico::PD_LLAMAR);
 		Token varnametk = this->EsperarIgual(
 			tok,
 			Token::ValorLiteral::Identificador
@@ -1198,10 +1158,7 @@ namespace pseudod
 
 	ValorPtr Interprete::EvaluarProcedimiento(Backtracker& tok)
 	{
-		bool esMetodo = ConReintento([this, &tok]()
-		{
-			return this->LeerTokenProcedimiento(tok);
-		});
+		bool esMetodo =  this->LeerTokenProcedimiento(tok);
 		auto params = this->LeerParametrosProcedimiento(tok, esMetodo);
 		auto cuerpo = this->LeerCuerpoDeProcedimiento(tok);
 		auto proc = CrearValor<Procedimiento>(*this, params, cuerpo);
@@ -1210,10 +1167,7 @@ namespace pseudod
 
 	ValorPtr Interprete::EvaluarReferenciaVariable(Backtracker& tok)
 	{
-		ConReintento([this, &tok]()
-		{
-			this->EsperarIgual(tok, NMemonico::PD_REFERENCIA_VARIABLE);
-		});
+		this->EsperarIgual(tok, NMemonico::PD_REFERENCIA_VARIABLE);
 		Token varnametk = this->EsperarIgual(
 			tok,
 			Token::ValorLiteral::Identificador
@@ -1225,10 +1179,7 @@ namespace pseudod
 
 	ValorPtr Interprete::EvaluarAutoejecucionForzada(Backtracker& tok)
 	{
-		ConReintento([this, &tok]()
-		{
-			this->EsperarIgual(tok, NMemonico::PD_AUTOEJECUTA_VARIABLE);
-		});
+		this->EsperarIgual(tok, NMemonico::PD_AUTOEJECUTA_VARIABLE);
 		Token varnametk = this->EsperarIgual(
 			tok,
 			Token::ValorLiteral::Identificador
@@ -1241,10 +1192,7 @@ namespace pseudod
 
 	ValorPtr Interprete::EvaluarClonar(Backtracker& tok)
 	{
-		ConReintento([this, &tok]()
-		{
-			this->EsperarIgual(tok, NMemonico::PD_CLONAR);
-		});
+		this->EsperarIgual(tok, NMemonico::PD_CLONAR);
 		auto obj = this->EvaluarSiguiente(tok);
 		obj = obj->RecibirMensaje("clonar", std::vector<ValorPtr>{});
 		this->EsperarIgual(tok, NMemonico::PD_CLONAR_CON);
