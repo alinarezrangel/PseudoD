@@ -16,6 +16,7 @@
  */
 
 #include <sstream>
+#include <memory>
 
 #include "memory_types.hh"
 #include "nmemoic.hh"
@@ -294,7 +295,11 @@ finmetodo
 		return ambito->ObtenerVariable("Objeto");
 	}
 
-	void RegistrarBuiltins(AmbitoPtr ambito, ValorPtr claseObjeto)
+	void RegistrarBuiltins(
+		AmbitoPtr ambito,
+		ValorPtr claseObjeto,
+		std::vector<PDCadena>& argumentosDelCLI
+	)
 	{
 		const std::string programa = R"EOF(
 
@@ -545,6 +550,15 @@ finmetodo
 				Numero::MARCA_TIPO_ENTERO
 			);
 		});
+
+		auto arr = std::make_shared<pseudod::Arreglo>();
+		for(const auto& argumento : argumentosDelCLI)
+		{
+			arr->ObtenerArreglo().push_back(
+				pseudod::CrearValor<pseudod::Texto>(argumento)
+			);
+		}
+		ambito->CrearVariable("__Argv", arr);
 
 		Interprete interp(ConfInterprete{claseObjeto}, ambito);
 		Backtracker tok(NuevoTokenizador(Token::DatosFuente(1, 1, "<builtins.cpp::RegistrarBuiltins>")));

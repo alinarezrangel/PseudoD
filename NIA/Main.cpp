@@ -76,6 +76,7 @@ struct ContextoCLI
 	PDCadena texto = "";
 	bool usarV3 = false;
 	OpcionesDelTokenizador opcionesTokenizador = OpcionesDelTokenizador::Nada;
+	std::vector<PDCadena> argumentosDelCLI = {};
 };
 
 struct OpcionCLI
@@ -213,7 +214,12 @@ EstadoPD3 InicializarPseudoD3(std::string nombreDelArchivo, ContextoCLI contexto
 
 	auto ambito = std::make_shared<pseudod::Ambito>();
 	ambito->CrearVariable("Objeto", conf.ClaseObjeto);
-	pseudod::RegistrarBuiltins(ambito, conf.ClaseObjeto);
+	pseudod::RegistrarBuiltins(
+		ambito,
+		conf.ClaseObjeto,
+		contexto.argumentosDelCLI
+	);
+
 	conf.AmbitoBase = ambito;
 
 	return EstadoPD3 {
@@ -981,6 +987,26 @@ int main(int argc, char* argv[])
 			{
 				return 0;
 			}
+		}
+		else if(arg == "--")
+		{
+			for(int j = i + 1; j < argc; j++)
+				contexto.argumentosDelCLI.push_back(PDCadena(argv[j]));
+			break;
+		}
+		else if(arg == "-f")
+		{
+			if((i + 1) >= argc)
+			{
+				std::cerr
+					<< "Error: se esperaba un argumento para "
+					<< arg
+					<< std::endl;
+
+				return 1;
+			}
+			PDCadena sigArg = argv[++i];
+			archivoPrincipal = sigArg;
 		}
 		else if(archivoPrincipal == "")
 		{
