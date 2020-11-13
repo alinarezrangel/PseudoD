@@ -28,6 +28,37 @@
 
 namespace pseudod
 {
+	namespace
+	{
+		class ErrorParaCapturar : public PDvar::Error
+		{
+		public:
+			ErrorParaCapturar(void) noexcept
+				: Error("ErrorParaCapturar", ""), idDeCaptura(nullptr)
+			{}
+			ErrorParaCapturar(PDCadena message) noexcept
+				: Error("ErrorParaCapturar", message), idDeCaptura(nullptr)
+			{}
+			ErrorParaCapturar(const Error& other) noexcept
+				: Error(other), idDeCaptura(nullptr)
+			{}
+			virtual ~ErrorParaCapturar(void) noexcept
+			{}
+
+			void FijarIDDeCaptura(std::shared_ptr<bool> cap)
+			{
+				this->idDeCaptura = cap;
+			}
+
+			std::shared_ptr<bool> ObtenerIDDeCaptura() const
+			{
+				return this->idDeCaptura;
+			}
+		private:
+			std::shared_ptr<bool> idDeCaptura;
+		};
+	}
+
 	ValorPtr CrearClaseObjeto(void)
 	{
 		/* Crear una clase desde cero para PseudoD es más fácil en PseudoD que
@@ -549,6 +580,49 @@ finmetodo
 				std::char_traits<char>::eof(),
 				Numero::MARCA_TIPO_ENTERO
 			);
+		});
+
+		RegistrarProcedimiento(ambito, "__Capturar", [](auto args) -> ValorPtr
+		{
+			auto targs = AceptarArgumentos<Valor>(args);
+			auto proc = std::get<0>(targs);
+
+			auto inScope = std::make_shared<bool>(true);
+			std::function<EnvolturaDeFuncion::TipoFuncion> f = [inScope](auto args) -> ValorPtr
+			{
+			    EsperarNingunArgumento(args);
+				if(*inScope)
+				{
+					ErrorParaCapturar err("Para Capturar");
+					err.FijarIDDeCaptura(inScope);
+					throw err;
+				}
+				else
+				{
+					throw PDvar::ErrorDelNucleo("No se puede escapar fuera de un bloque __Capturar");
+				}
+			};
+			auto escape = CrearValor<EnvolturaDeFuncion>(f);
+
+			std::vector<ValorPtr> cargs { escape };
+			try
+			{
+				proc->RecibirMensaje("llamar", cargs);
+				*inScope = false;
+				return CrearValor<Boole>(true);
+			}
+			catch(const ErrorParaCapturar& err)
+			{
+				*inScope = false;
+				if(err.ObtenerIDDeCaptura() == inScope)
+				{
+					return CrearValor<Boole>(false);
+				}
+				else
+				{
+					throw err;
+				}
+			}
 		});
 
 		auto arr = std::make_shared<pseudod::Arreglo>();
