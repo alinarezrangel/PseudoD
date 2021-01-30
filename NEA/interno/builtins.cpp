@@ -16,6 +16,7 @@
  */
 
 #include <sstream>
+#include <iostream>
 #include <memory>
 
 #include "memory_types.hh"
@@ -582,6 +583,15 @@ finmetodo
 			);
 		});
 
+		RegistrarProcedimiento(ambito, "__LeerCaracter", [](auto args) -> ValorPtr
+		{
+			EsperarNingunArgumento(args);
+			return CrearValor<Numero>(
+				std::cin.get(),
+				Numero::MARCA_TIPO_ENTERO
+			);
+		});
+
 		RegistrarProcedimiento(ambito, "__Capturar", [](auto args) -> ValorPtr
 		{
 			auto targs = AceptarArgumentos<Valor>(args);
@@ -590,7 +600,7 @@ finmetodo
 			auto inScope = std::make_shared<bool>(true);
 			std::function<EnvolturaDeFuncion::TipoFuncion> f = [inScope](auto args) -> ValorPtr
 			{
-			    EsperarNingunArgumento(args);
+				EsperarNingunArgumento(args);
 				if(*inScope)
 				{
 					ErrorParaCapturar err("Para Capturar");
@@ -633,6 +643,8 @@ finmetodo
 			);
 		}
 		ambito->CrearVariable("__Argv", arr);
+
+		ambito->CrearVariable("__Impl", CrearValor<pseudod::Texto>("C++ Original"));
 
 		Interprete interp(ConfInterprete{claseObjeto}, ambito);
 		Backtracker tok(NuevoTokenizador(Token::DatosFuente(1, 1, "<builtins.cpp::RegistrarBuiltins>")));

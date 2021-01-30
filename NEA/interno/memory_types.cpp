@@ -796,6 +796,9 @@ namespace pseudod
 		}
 		else if(mensaje == "igualA" || mensaje == "operador_=")
 		{
+			EsperaNumArgumentos(argumentos, 1);
+			if(!ValorEs<Arreglo>(argumentos[0]))
+				return CrearValor<Boole>(false);
 			auto targs = AceptarArgumentos<Arreglo>(argumentos);
 			auto arr = std::get<0>(targs);
 			if(this->elementos.size() != arr->elementos.size())
