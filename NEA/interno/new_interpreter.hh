@@ -130,6 +130,7 @@ namespace pseudod
 			void EjecutarNecesitas(Backtracker&);
 			void EjecutarAtributo(Backtracker&);
 
+			ValorPtr EvaluarVariableSimple(Backtracker&);
 			ValorPtr EvaluarVariable(Backtracker&);
 			ValorPtr EvaluarParentesis(Backtracker&);
 			ValorPtr EvaluarLiteral(Backtracker&);

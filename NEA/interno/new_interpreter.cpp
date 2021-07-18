@@ -989,6 +989,28 @@ namespace pseudod
 		}
 	}
 
+	ValorPtr Interprete::EvaluarVariableSimple(Backtracker& tok)
+	{
+		Token varnametk = this->EsperarIgual(
+			tok,
+			Token::ValorLiteral::Identificador
+		);
+		PDCadena varname = TokenUtils::ObtenerValor(varnametk);
+		ValorPtr obj = this->ObtenerVariable(varname, varnametk.ObtenerDatosFuente());
+		if(this->SiguienteTokenEs(tok, NMemonico::PD_OPERADOR_LLAMAR))
+		{
+			this->LanzaErrorDeSintaxis(
+				varnametk,
+				"No se puede llamar a una variable que no es autoejecutable."
+			);
+		}
+		if(this->ambito->DebeAutoEjecutarse(varname))
+		{
+			obj = obj->RecibirMensaje("llamar", std::vector<ValorPtr>());
+		}
+		return obj;
+	}
+
 	ValorPtr Interprete::EvaluarVariable(Backtracker& tok)
 	{
 		Token varnametk = this->EsperarIgual(
@@ -1294,7 +1316,45 @@ namespace pseudod
 		std::vector<ValorPtr> argumentos;
 		while(true)
 		{
-			argumentos.push_back(this->EvaluarSiguiente(tok));
+			if(this->SiguienteTokenEs(tok, NMemonico::PD_PUNTO))
+			{
+				Token tk = this->LeerToken(tok);
+				this->EsperarIgual(tok, NMemonico::PD_PUNTO);
+				this->EsperarIgual(tok, NMemonico::PD_PUNTO);
+				ValorPtr val = nullptr;
+				if(this->SiguienteTokenEs(tok, NMemonico::PD_PARENTESIS_IZQUIERDO))
+				{
+					val = this->EvaluarParentesis(tok);
+				}
+				else if(this->SiguienteTokenEs(tok, Token::ValorLiteral::Identificador))
+				{
+					val = this->EvaluarVariableSimple(tok);
+				}
+				else
+				{
+					this->LanzaErrorDeSintaxis(
+						this->LeerToken(tok),
+						"Se esperaban parentesis o un identificador en `...` de argumentos"
+					);
+				}
+				if(!ValorEs<Arreglo>(val))
+				{
+					this->LanzaErrorDeSintaxis(
+						tk,
+						"Se esperaba un arreglo"
+					);
+				}
+				auto arr = ValorComo<Arreglo>(val);
+				for(auto ptr : arr->ObtenerArreglo())
+				{
+					argumentos.push_back(ptr);
+				}
+			}
+			else
+			{
+				argumentos.push_back(this->EvaluarSiguiente(tok));
+			}
+
 			if(this->SiguienteTokenEs(tok, NMemonico::PD_SEPARADOR_DE_ARGUMENTOS))
 			{
 				this->LeerToken(tok);
